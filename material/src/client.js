@@ -29,10 +29,8 @@ const rootRoute = {
       require('./routes/500'),
       require('./routes/confirmEmail'),
       require('./routes/forgotPassword'),
-      require('./routes/lockScreen'),
       require('./routes/login'),
       require('./routes/signUp'),
-      require('./routes/fullscreen'),
       {
         path: '*',
         indexRoute: { onEnter: (nextState, replace) => replace('/404') },

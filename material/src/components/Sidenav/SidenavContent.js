@@ -144,7 +144,7 @@ class SidebarContent extends React.Component {
         <li className="nav-divider" />
         <li className="nav-header"><span>Menu de aplicación</span></li>
         <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Catalogos</span></FlatButton></li>
-        <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
+        <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton>
           <ul>
             <li><FlatButton className="prepend-icon" href="#/login"><span>Agregar usuarios</span></FlatButton></li>

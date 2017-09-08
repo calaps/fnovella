@@ -3,14 +3,11 @@ module.exports = {
   getChildRoutes(partialNextState, cb) {
     require.ensure([], (require) => {
       cb(null, [
-        require('./routes/charts'),
-        require('./routes/dashboard'),
-        require('./routes/ecommerce'),
-        require('./routes/forms'),
-        require('./routes/pageLayouts'),
-        require('./routes/pages'),
-        require('./routes/tables'),
-        require('./routes/ui'),
+        require('./routes/dashboard'), // main app dashboard
+        require('./routes/forms'), //  sample forms
+        require('./routes/pageLayouts'), // simple page Layout
+        require('./routes/pages'), // App core pages
+        require('./routes/catalog'), // App catalog
       ]);
     });
   },

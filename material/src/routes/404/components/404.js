@@ -12,7 +12,7 @@ const Error404 = () => (
       <a href="#/" className="btn btn-raised btn-lg btn-default">
           Regresar a inicio
         <br/><br/>
-        <img src="assets/images/logo_white.png"/>
+        <img className="bottom" src="assets/images/logo_white.png"/>
       </a>
     </div>
   </div>
