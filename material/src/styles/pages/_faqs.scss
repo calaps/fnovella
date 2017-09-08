@@ -1,0 +1,18 @@
+.page-faq {
+  .hero {
+    &.hero-bg-img {
+      background-size: cover;
+      padding: 0;
+      background-position: center center;
+    }
+    .hero-inner {
+      background-color: rgba(#000, .15);
+      padding: 90px 0;
+    }
+    .hero-title,
+    .hero-tagline {
+      color: #fff;
+    }
+  }
+
+}
