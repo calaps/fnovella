@@ -143,9 +143,9 @@ class SidebarContent extends React.Component {
         <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Agregar usuarios</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Editar usuarios</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Eliminar usuarios</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/users"><span>Agregar usuarios</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/users"><span>Editar usuarios</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/users"><span>Eliminar usuarios</span></FlatButton></li>
           </ul>
         </li>
 

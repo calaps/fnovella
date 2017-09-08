@@ -7,7 +7,8 @@ module.exports = {
         require('./routes/forms'), //  sample forms
         require('./routes/pageLayouts'), // simple page Layout
         require('./routes/pages'), // App core pages
-        require('./routes/catalog'), // App catalog
+        require('./routes/catalog'), // Calaps App catalog
+        require('./routes/users'), // Calaps App Users
       ]);
     });
   },
