@@ -5,7 +5,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Aplicacion para sementos progreso</Text>
+        <Text>Aplicacion para Fundación Novella</Text>
         <Text>Modifique el codigo App.js y guardelo ctr+s </Text>
         <Text>Automaticamente se modificara en el dispositovo mobil</Text>
       </View>
