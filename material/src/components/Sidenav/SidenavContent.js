@@ -96,48 +96,44 @@ class SidebarContent extends React.Component {
         <li>
           <FlatButton href="#/app/ui"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programa</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/buttons"><span>Crear programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/cards"><span>Eliminar programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/cards"><span>Editar programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/program/create"><span>Crear programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/program/delete"><span>Eliminar programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/program/edit"><span>Editar programa</span></FlatButton></li>
           </ul>
         </li>
         <li>
           <FlatButton href="#/app/form"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activaciones</span></FlatButton>
-          <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/form/components"><span>Form Components</span><span className="badge badge-pill badge-info">12</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/form/steppers"><span>Steppers</span></FlatButton></li>
-          </ul>
         </li>
         <li>
           <FlatButton href="#/app/table"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Alumnos</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/buttons"><span>Crear programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/cards"><span>Eliminar programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/cards"><span>Editar programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Crear programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Eliminar programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Editar programa</span></FlatButton></li>
           </ul>
         </li>
         <li>
           <FlatButton href="#/app/page"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/buttons"><span>Crear programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/cards"><span>Eliminar programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ui/cards"><span>Editar programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Crear programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Eliminar programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Editar programa</span></FlatButton></li>
           </ul>
         </li>
         <li>
           <FlatButton href="#/app/ecommerce"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/ecommerce/products"><span>Products</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ecommerce/horizontal-products"><span>Products (Honrizonal)</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/ecommerce/invoice"><span>Invoice</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Products</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Products (Honrizonal)</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Invoice</span></FlatButton></li>
           </ul>
         </li>
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">remove_red_eye</i><span className="nav-text">Visualización</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/login"><span>Programas</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/sign-up"><span>Educadores</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/sign-up"><span>Alumnos</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/sign-up"><span>Catalogos</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Programas</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Educadores</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Alumnos</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Catalogos</span></FlatButton></li>
           </ul>
         </li>
 
@@ -147,9 +143,9 @@ class SidebarContent extends React.Component {
         <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/login"><span>Agregar usuarios</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/sign-up"><span>Editar usuarios</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/sign-up"><span>Eliminar usuarios</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Agregar usuarios</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Editar usuarios</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Eliminar usuarios</span></FlatButton></li>
           </ul>
         </li>
 

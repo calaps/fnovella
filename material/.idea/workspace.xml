@@ -14,17 +14,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SidenavContent.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SidenavContent.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/Sidenav/SidenavContent.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8">
-              <caret line="12" column="13" lean-forward="true" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+            <state relative-caret-position="313">
+              <caret line="153" column="51" lean-forward="true" selection-start-line="153" selection-start-column="51" selection-end-line="153" selection-end-column="66" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Catalog.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Catalog.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/routes/app/routes/catalog/components/Catalog.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="321">
@@ -90,8 +90,8 @@
         <option value="$PROJECT_DIR$/src/routes/app/routes/catalog/components/Dashboard.js" />
         <option value="$PROJECT_DIR$/src/routes/app/routes/catalog/index.js" />
         <option value="$PROJECT_DIR$/src/routes/app/index.js" />
-        <option value="$PROJECT_DIR$/src/components/Sidenav/SidenavContent.js" />
         <option value="$PROJECT_DIR$/src/routes/app/routes/catalog/components/Catalog.js" />
+        <option value="$PROJECT_DIR$/src/components/Sidenav/SidenavContent.js" />
       </list>
     </option>
   </component>
@@ -271,12 +271,12 @@
       <option name="presentableId" value="Default" />
       <updated>1504674942391</updated>
       <workItem from="1504674944349" duration="19749000" />
-      <workItem from="1504836802694" duration="4972000" />
+      <workItem from="1504836802694" duration="5529000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24721000" />
+    <option name="totallyTimeSpent" value="25278000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -673,14 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Sidenav/SidenavContent.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8">
-          <caret line="12" column="13" lean-forward="true" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/app/routes/catalog/components/Catalog.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="321">
@@ -689,6 +681,14 @@
             <element signature="e#0#26#0" expanded="true" />
             <element signature="e#198#2375#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Sidenav/SidenavContent.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="153" column="51" lean-forward="true" selection-start-line="153" selection-start-column="51" selection-end-line="153" selection-end-column="66" />
+          <folding />
         </state>
       </provider>
     </entry>
