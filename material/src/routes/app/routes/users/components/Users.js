@@ -78,41 +78,67 @@ const EditOption = () => (
 
           <div className="box box-default">
             <div className="box-body padding-md">
+              <h5 className="text-info">Agregar usuario: </h5>
               <p className="text-info">Ingresa la siguiente información: </p>
               <form role="form">
                 <div className="form-group row">
-                  <label htmlFor="inputEmail3" className="col-md-2 control-label">Primer nombre</label>
-                  <div className="col-md-10">
-                    <input type="email" className="form-control" id="inputEmail3" placeholder="Ingrese..." />
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" name="first_name" placeholder="Primer nombre..." />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="inputEmail3" className="col-md-2 control-label">Segundo nombre</label>
-                  <div className="col-md-10">
-                    <input type="email" className="form-control" id="inputEmail3" placeholder="Segundo nombre" />
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" name="sencond_name" placeholder="Segundo nombre..." />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="inputEmail3" className="col-md-2 control-label">Tipo de campo</label>
-                  <div className="col-md-10">
-                    <input type="email" className="form-control" id="inputEmail3" placeholder="Primer apellido" />
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" name="first_lastname" placeholder="Primer apellido..." />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="inputEmail3" className="col-md-2 control-label">Tipo de campo</label>
-                  <div className="col-md-10">
-                    <input type="email" className="form-control" id="inputEmail3" placeholder="Segundo apellido" />
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Segundo apellido..." />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="inputEmail3" className="col-md-2 control-label">Categoria de campo</label>
-                  <div className="col-md-10">
-                    <input type="email" className="form-control" id="inputEmail3" placeholder="Privilegio" />
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Prilegio..." />
                   </div>
                 </div>
                 <div className="form-group row">
-                  <div className="offset-md-2 col-md-10">
-                    <RaisedButton label="Agregar" secondary className="btn-w-md" />
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Fecha de nacimiento..." />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Tipo de coumento de identificación..." />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Numero de documento de identificación..." />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Nacionalidad..." />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Departamento..." />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Profesión..." />
+                  </div>
+                </div>
+                <div className="form-group row">
+                  <div className="col-md-12">
+                    <input type="text" className="form-control" id="inputEmail3" placeholder="Dirección..." />
                   </div>
                 </div>
               </form>
