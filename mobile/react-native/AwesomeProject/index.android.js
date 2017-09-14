@@ -9,26 +9,35 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Image
 } from 'react-native';
+import { Button } from 'react-native-elements'
 
 export default class AwesomeProject extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          HATE THIS SHIITTTTTT
-        </Text>
-      </View>
-    );
+
+
+      <View style={{
+        backgroundColor: '#FFFFFF',
+        flexDirection: 'row',
+        width: 300,
+        height: 100}}>
+
+        <Image source={require('./img/logo.png')}
+        style={{
+          scaleY:0.7,
+          scaleX:0.7}}/>
+
+
+        </View>
+
+        </View>
+      );
+    }
   }
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -36,16 +45,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
