@@ -3,9 +3,10 @@ import {AppRegistry,StyleSheet,Text,View,Image} from 'react-native';
 import { Card, Button } from 'react-native-material-design';
 import { TextInput } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import  ChatScreen  from "./src/ChatScreen";
+import  pass_recover  from './src/pass_recover';
+import  main_menu  from './main_menu';
 
-class AwesomeProject extends React.Component {
+export default class AwesomeProject extends React.Component {
   constructor(props) {
      super(props);
      this.state = { correo: 'Correo electronico' ,contrasena: 'Contrasena'   };
@@ -14,22 +15,20 @@ class AwesomeProject extends React.Component {
    }
 
   static navigationOptions = {
-    title: 'Welcome',
+    //title: `Loggin`,
+    header: null,
   };
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-
-
       <View
         style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'}}>
 
-
-                <View
+        <View
                   style={{
                    flexDirection :'column-reverse',
                     position:'absolute',
@@ -45,17 +44,14 @@ class AwesomeProject extends React.Component {
                       position:'relative',
                       backgroundColor:'#66BB6A',
                       width:300,
-                      height:200}}
-                    >
-
+                      height:200}}>
                     <Button
+                    onPress={() => navigate('recover', { user: 'Lucy' })}
                       overrides={this.boton_abajo}
                      text='Ha olvidado su contrasena?'  />
                     </View>
 
                   </View>
-
-
         <Card
           elevation={7}
           style={{
@@ -107,16 +103,14 @@ class AwesomeProject extends React.Component {
                }}>
                <Button
                  overrides={this.object}
-                text='INICIAR SEISION' onPress={() => navigate('Chat', { user: 'Lucy' })} />
+                text='INICIAR SEISION' onPress={() => navigate('menu', { user: 'Lucy' })} />
                </View>
                </Card.Body>
         </Card>
-
-
+        </View>
         </View>
 
 
-        </View>
       );
     }
   }
@@ -131,8 +125,9 @@ class AwesomeProject extends React.Component {
 
 
 const SimpleApp = StackNavigator({
-  Home: { screen: AwesomeProject },
-  Chat: { screen: ChatScreen },
+  Home   : {screen:AwesomeProject},
+  recover: {screen: pass_recover },
+  menu   : {screen: main_menu},
 })
 
 AppRegistry.registerComponent('AwesomeProject', () => SimpleApp);
