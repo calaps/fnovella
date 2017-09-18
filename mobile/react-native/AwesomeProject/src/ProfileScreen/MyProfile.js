@@ -7,7 +7,7 @@ import {Root} from 'native-base'
 
 const Item = Picker.Item;
 
-export default class HomeScreen extends React.Component {
+export default class MyProfile extends React.Component {
   constructor(props) {
      super(props);
      this.values = { titulo: ' Fundacion F. Novella ',
@@ -22,11 +22,7 @@ export default class HomeScreen extends React.Component {
        this.setState({
           selected1: value
         });
-       if (value == 'key1') {
-          this.props.navigation.navigate("Profile");
-        } else if (value == 'key2') {
-          this.props.navigation.navigate("Chat");
-        }
+           this.props.navigation.navigate(value);
      }
 
   render() {
@@ -39,7 +35,7 @@ export default class HomeScreen extends React.Component {
               onPress={() => this.props.navigation.navigate("DrawerOpen")}
             >
               <Icon name="menu" />
-              <Title style={{marginLeft:15}}>Inicio</Title>
+              <Title style={{marginLeft:15}}>Perfil</Title>
             </Button>
           </Left>
           <View  style={{flex: 1,flexDirection: 'row',justifyContent: 'flex-end',alignItems:'center', marginRight:0,paddingRight:0}} >
@@ -54,9 +50,9 @@ export default class HomeScreen extends React.Component {
                 selectedValue={this.state.selected1}
                 onValueChange={this.onValueChange.bind(this)}
               >
-                <Item label="Inicio" value="key0"/>
+                <Item label="Inicio" value="Home"/>
                 <Item label="Mi Perfil" value="key1" />
-                <Item label="Cerrar Cesion" value="key2" />
+                <Item label="Cerrar Cesion" value="Chat" />
               </Picker>
             </Form>
           </View>
