@@ -18,16 +18,21 @@ export default class HomeScreen extends React.Component {
                     };
     }
 
-     onValueChange(value: string) {
-       this.setState({
-          selected1: value
-        });
-       if (value == 'key1') {
-          this.props.navigation.navigate("Profile");
-        } else if (value == 'key2') {
-          this.props.navigation.navigate("Chat");
-        }
-     }
+    onValueChange(value: string) {
+      console.log("value "+value);
+      this.setState({
+           selected1: value
+         });
+         if(value == 'key0'){
+           this.props.navigation.navigate("Home");
+         }
+         if(value == 'key1'){
+           this.props.navigation.navigate("Profile");
+         }
+         if(value == 'key2'){
+           this.props.navigation.navigate("Chat");
+         }
+    }
 
   render() {
     return (
@@ -142,22 +147,7 @@ export default class HomeScreen extends React.Component {
 
               </View></Card>
 
-          <Button
-            onPress={() =>
-            ActionSheet.show(
-              {
-                options: BUTTONS,
-                cancelButtonIndex: CANCEL_INDEX,
-                destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                title: "Testing ActionSheet"
-              },
-              buttonIndex => {
-                this.setState({ clicked: BUTTONS[buttonIndex] });
-              }
-            )}
-          >
-            <Text>Actionsheet</Text>
-          </Button>
+    
         </Content>
       </Container>
     );

@@ -9,16 +9,23 @@ export default class LucyChat  extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected1: "key1"
+      selected1: "key2"
     };
   }
   onValueChange(value: string) {
+    console.log("value "+value);
     this.setState({
-      selected1: value
-    });
-    if(this.state.selected1 == 'key0'){
-    this.props.navigation.navigate("Home");
-  }
+         selected1: value
+       });
+       if(value == 'key0'){
+         this.props.navigation.navigate("Home");
+       }
+       if(value == 'key1'){
+         this.props.navigation.navigate("Profile");
+       }
+       if(value == 'key2'){
+         this.props.navigation.navigate("Chat");
+       }
   }
 
 
@@ -40,11 +47,6 @@ export default class LucyChat  extends Component {
         onClose={() => this.closeDrawer()} >
       </Drawer>
 
-      <Button onPress={() => this.props.navigation.navigate('Home')}>
-        <Text>Actionsheet</Text>
-      </Button>
-
-
       <Container>
         <Header style={{backgroundColor:'#66BB6A',margin:0,padding:0,}} >
           <Left>
@@ -64,6 +66,7 @@ export default class LucyChat  extends Component {
                 iosHeader="Select one"
                 mode="dropdown"
                 note={false}
+                selectedValue={this.state.selected1}
                 onValueChange={this.onValueChange.bind(this)}
               >
                 <Item label="Inicio" value="key0"/>
@@ -75,26 +78,6 @@ export default class LucyChat  extends Component {
         </Header>
 
         <Content padder>
-
-
-
-
-          <Button
-            onPress={() =>
-            ActionSheet.show(
-              {
-                options: BUTTONS,
-                cancelButtonIndex: CANCEL_INDEX,
-                destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                title: "Testing ActionSheet"
-              },
-              buttonIndex => {
-                this.setState({ clicked: BUTTONS[buttonIndex] });
-              }
-            )}
-          >
-            <Text>Actionsheet</Text>
-          </Button>
         </Content>
       </Container>
       </View>

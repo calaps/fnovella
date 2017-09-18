@@ -14,16 +14,25 @@ export default class MyProfile extends React.Component {
                     nombre: ' Panel de control ',
                     programas: ' PROGRAMAS ACTIVOS '   };
                     this.state = {
-                      selected1: "key0"
+                      selected1: "key1"
                     };
     }
 
-     onValueChange(value: string) {
-       this.setState({
-          selected1: value
-        });
-           this.props.navigation.navigate(value);
-     }
+    onValueChange(value: string) {
+      console.log("value "+value);
+      this.setState({
+           selected1: value
+         });
+         if(value == 'key0'){
+           this.props.navigation.navigate("Home");
+         }
+         if(value == 'key1'){
+           this.props.navigation.navigate("Profile");
+         }
+         if(value == 'key2'){
+           this.props.navigation.navigate("Chat");
+         }
+    }
 
   render() {
     return (
@@ -50,9 +59,9 @@ export default class MyProfile extends React.Component {
                 selectedValue={this.state.selected1}
                 onValueChange={this.onValueChange.bind(this)}
               >
-                <Item label="Inicio" value="Home"/>
+                <Item label="Inicio" value="key0"/>
                 <Item label="Mi Perfil" value="key1" />
-                <Item label="Cerrar Cesion" value="Chat" />
+                <Item label="Cerrar Cesion" value="key2" />
               </Picker>
             </Form>
           </View>
@@ -138,22 +147,7 @@ export default class MyProfile extends React.Component {
 
               </View></Card>
 
-          <Button
-            onPress={() =>
-            ActionSheet.show(
-              {
-                options: BUTTONS,
-                cancelButtonIndex: CANCEL_INDEX,
-                destructiveButtonIndex: DESTRUCTIVE_INDEX,
-                title: "Testing ActionSheet"
-              },
-              buttonIndex => {
-                this.setState({ clicked: BUTTONS[buttonIndex] });
-              }
-            )}
-          >
-            <Text>Actionsheet</Text>
-          </Button>
+      
         </Content>
       </Container>
     );
