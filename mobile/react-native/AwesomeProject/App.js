@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {AppRegistry,StyleSheet,Text,View,Image} from 'react-native';
+import {AppRegistry,StyleSheet,Text,View,Image, StatusBar } from 'react-native';
 import { Card, Button } from 'react-native-material-design';
 import { TextInput } from 'react-native';
 import { StackNavigator } from 'react-navigation';
@@ -22,6 +22,10 @@ export default class AwesomeProject extends React.Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
+      <StatusBar
+          backgroundColor="black"
+          barStyle="light-content"
+          />
       <View
         style={{
         flex: 1,

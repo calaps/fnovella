@@ -4,10 +4,15 @@ import {Button,Container,CardItem, Body,Content,Header,Title,Left,Icon,Right, Pi
 import { Card } from 'react-native-material-design';
 import {View} from 'react-native';
 import {Root} from 'native-base'
+import {NativeModules, processColor } from 'react-native';
 
 const Item = Picker.Item;
+const { StatusBarManager } = NativeModules;
 
 export default class HomeScreen extends React.Component {
+  componentDidMount() {
+  StatusBarManager.setColor(processColor('#000000'), false);
+}
   constructor(props) {
      super(props);
      this.values = { titulo: ' Fundacion F. Novella ',
@@ -37,7 +42,7 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <Container>
-        <Header style={{backgroundColor:'#66BB6A',margin:0,padding:0,}} >
+        <Header androidStatusBarColor='#000' style={{backgroundColor:'#66BB6A',margin:0,padding:0,}} >
           <Left>
             <Button
               transparent
@@ -147,7 +152,7 @@ export default class HomeScreen extends React.Component {
 
               </View></Card>
 
-    
+
         </Content>
       </Container>
     );

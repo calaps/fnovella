@@ -37,117 +37,100 @@ export default class MyProfile extends React.Component {
   render() {
     return (
       <Container>
-        <Header style={{backgroundColor:'#66BB6A',margin:0,padding:0,}} >
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+      <Header androidStatusBarColor='#000' style={{backgroundColor:'#66BB6A',margin:0,padding:0,}} >
+        <Left>
+          <Button
+            transparent
+            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+          >
+            <Icon name="menu" />
+            <Title style={{marginLeft:15}}>Perfil</Title>
+          </Button>
+        </Left>
+        <View  style={{flex: 1,flexDirection: 'row',justifyContent: 'flex-end',alignItems:'center', marginRight:0,paddingRight:0}} >
+          <Text style={{color:'white', fontWeight: 'bold',marginRight:5}}>Sergio Andres Ramirez </Text>
+          <Image source={require('../../img/g1.jpg')} style={{borderRadius: 70,margin:0,padding:0, width:40,height:40, resizeMode: 'contain'}} />
+          <Form style={{position:'absolute', width:50,height:50}}>
+            <Picker
+              style={{ backgroundColor:"#00000000" }}
+              iosHeader="Select one"
+              mode="dropdown"
+              note={false}
+              selectedValue={this.state.selected1}
+              onValueChange={this.onValueChange.bind(this)}
             >
-              <Icon name="menu" />
-              <Title style={{marginLeft:15}}>Perfil</Title>
-            </Button>
-          </Left>
-          <View  style={{flex: 1,flexDirection: 'row',justifyContent: 'flex-end',alignItems:'center', marginRight:0,paddingRight:0}} >
-            <Text style={{color:'white', fontWeight: 'bold',marginRight:5}}>Sergio Andres Ramirez </Text>
-            <Image source={require('../../img/g1.jpg')} style={{borderRadius: 70,margin:0,padding:0, width:40,height:40, resizeMode: 'contain'}} />
-            <Form style={{position:'absolute', width:50,height:50}}>
-              <Picker
-                style={{ backgroundColor:"#00000000" }}
-                iosHeader="Select one"
-                mode="dropdown"
-                note={false}
-                selectedValue={this.state.selected1}
-                onValueChange={this.onValueChange.bind(this)}
-              >
-                <Item label="Inicio" value="key0"/>
-                <Item label="Mi Perfil" value="key1" />
-                <Item label="Cerrar Cesion" value="key2" />
-              </Picker>
-            </Form>
-          </View>
-        </Header>
+              <Item label="Inicio" value="key0"/>
+              <Item label="Mi Perfil" value="key1" />
+              <Item label="Cerrar Cesion" value="key2" />
+            </Picker>
+          </Form>
+        </View>
+      </Header>
 
         <Content padder>
 
+          <View style={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'center',
+            paddingTop:5,
+            alignItems: 'center',
+          }}>
 
+          <Image source={require('../../img/g1.jpg')} style={{borderRadius: 70,margin:0,padding:0, width:150,height:150, resizeMode: 'contain'}} />
+          <Text style={{marginTop:5, color:"grey",  fontWeight: 'bold', fontSize: 25}} >Sergio Ramirez</Text>
+          <Text style={{ color:"grey", fontSize: 15, textAlign: 'center'}} >Instructor de resistencia de materiales. En funacion Carlos F.Novella</Text>
 
-        <Card
-          elevation={7}
-          style={{
-            paddingLeft:0,
-            paddingRight:0,
-            height:500
-            }}
-          >
-
-          <View style={{flex: 1}}>
-             <View style={{flex: .65, }}>
-               <Image source={require('../../img/dashboard.jpg')} style={{position:'absolute', paddingBottom: 370*.30, resizeMode: 'cover' }} />
-               <View style={{
-                 flex: 1,
-                 flexDirection: 'column',
-                 justifyContent: 'center',
-                 alignItems: 'center',
-               }}>
-               <Text style={{textAlign: 'center', fontSize: 35, color:'white'}}>{this.values.titulo}</Text>
-               <Text style={{textAlign: 'center', fontSize: 20, color:'white'}}>{this.values.nombre}</Text>
+            <View style={{
+              height:50,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+                <View style={{marginTop:10,position:'absolute',width:900,height:1,top:25, backgroundColor: 'grey'}} />
+                <Text style={{ color:"grey", borderColor:'grey',backgroundColor:'white', borderRadius: 5,padding:5, marginTop:20, borderWidth: 1, fontSize: 10, textAlign: 'center'}} >CURSOS COMPLETADOS</Text>
               </View>
-             </View>
 
-             <View style={{flex:.35, backgroundColor:'white', justifyContent: 'center',}}>
+          </View>
 
-             <View style={{position:'absolute',width:900,height:1, backgroundColor: 'grey'}} />
-
-             <View style={{flex: 1, backgroundColor:'#00000000',flexDirection: 'column',justifyContent: 'space-between',alignItems: 'center',}}>
-               <Text style={{flex: 1 , fontSize: 40, marginTop:5,marginBottom:15 }} >11</Text>
-               <Text style={{textAlign: 'center', fontSize: 10, height:25, backgroundColor:'white', borderRadius: 10, paddingLeft:5,paddingTop:5, paddingRight:5,  borderWidth:1,borderColor:'grey'}} >{this.values.programas}</Text>
-               <Icon style={{flex: 1, marginTop:20,color:'#12B9C9'}} name="calendar"/>
-             </View>
-
-         </View>
-
-           </View></Card>
-
-           <Card
-             elevation={7}
-             style={{
-               paddingLeft:0,
-               paddingRight:0,
-               height:500
-               }}
-             >
-
-
-
-             <View style={{flex: 1}}>
-                <View style={{flex: .65, }}>
-                  <Image source={require('../../img/dashboard.jpg')} style={{position:'absolute', paddingBottom: 370*.30, resizeMode: 'cover' }} />
-                  <View style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text style={{textAlign: 'center', fontSize: 35, color:'white'}}>{this.values.titulo}</Text>
-                  <Text style={{textAlign: 'center', fontSize: 20, color:'white'}}>{this.values.nombre}</Text>
-                 </View>
-                </View>
-
-                <View style={{flex:.35, backgroundColor:'white', justifyContent: 'center',}}>
-
-                <View style={{position:'absolute',width:900,height:1, backgroundColor: 'grey'}} />
-
-                <View style={{flex: 1, backgroundColor:'#00000000',flexDirection: 'column',justifyContent: 'space-between',alignItems: 'center',}}>
-                  <Text style={{flex: 1 , fontSize: 40, marginTop:5,marginBottom:15 }} >11</Text>
-                  <Text style={{textAlign: 'center', fontSize: 10, height:25, backgroundColor:'white', borderRadius: 10, paddingLeft:5,paddingTop:5, paddingRight:5,  borderWidth:1,borderColor:'grey'}} >{this.values.programas}</Text>
-                  <Icon style={{flex: 1, marginTop:20,color:'#12B9C9'}} name="calendar"/>
-                </View>
-
+          <View style={{
+              marginTop:10,
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+            <Text style={{ height: 20, marginBottom:5}}> Calculo de esfuerzos </Text>
+            <View style={{alignItems: 'center',flexDirection: 'column',justifyContent: 'center',height: 20, borderColor:'grey',marginLeft:10,marginRight:10,borderRadius: 40,borderWidth: 1, backgroundColor: 'skyblue'}} >
+              <Text style={{ height: 20, fontWeight: 'bold',color:"black"}}> 100 % </Text>
             </View>
+          </View>
 
-              </View></Card>
+          <View style={{
+              marginTop:10,
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+            <Text style={{ height: 20, marginBottom:5}}> Análisis resistente </Text>
+            <View style={{alignItems: 'center',flexDirection: 'column',justifyContent: 'center',height: 20, borderColor:'grey',marginLeft:10,marginRight:10,borderRadius: 40,borderWidth: 1, backgroundColor: 'skyblue'}} >
+              <Text style={{ height: 20, fontWeight: 'bold',color:"black"}}> 100 % </Text>
+            </View>
+          </View>
 
-      
+          <View style={{
+              marginTop:10,
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}>
+            <Text style={{ height: 20, marginBottom:5}}> Análisis de rigidez </Text>
+            <View style={{alignItems: 'center',flexDirection: 'column',justifyContent: 'center',height: 20, borderColor:'grey',marginLeft:10,marginRight:10,borderRadius: 40,borderWidth: 1, backgroundColor: 'skyblue'}} >
+              <Text style={{ height: 20, fontWeight: 'bold',color:"black"}}> 100 % </Text>
+            </View>
+          </View>
+
+
+
         </Content>
       </Container>
     );
