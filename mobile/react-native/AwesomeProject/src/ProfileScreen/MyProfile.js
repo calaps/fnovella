@@ -97,7 +97,7 @@ export default class MyProfile extends React.Component {
               marginTop:10,
               flex: 1,
               flexDirection: 'column',
-              justifyContent: 'center',
+              justifyContent: 'center', 
             }}>
             <Text style={{ height: 20, marginBottom:5}}> Calculo de esfuerzos </Text>
             <View style={{alignItems: 'center',flexDirection: 'column',justifyContent: 'center',height: 20, borderColor:'grey',marginLeft:10,marginRight:10,borderRadius: 40,borderWidth: 1, backgroundColor: 'skyblue'}} >
