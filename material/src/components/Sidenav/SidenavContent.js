@@ -93,33 +93,14 @@ class SidebarContent extends React.Component {
       <ul className="nav" ref={(c) => { this.nav = c; }}>
         <li className="nav-header"><span>Menu de Programa: </span></li>
         <li><FlatButton href="#/app/dashboard"><i className="nav-icon material-icons">home</i><span className="nav-text">Panel de control</span></FlatButton></li>
-        <li>
-          <FlatButton href="#/app/ui"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programa</span></FlatButton>
-          <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/program/create"><span>Crear programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/program/delete"><span>Eliminar programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/program/edit"><span>Editar programa</span></FlatButton></li>
-          </ul>
-        </li>
+        <li><FlatButton href="#/app/program"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programas</span></FlatButton></li>
+
         <li>
           <FlatButton href="#/app/form"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activaciones</span></FlatButton>
         </li>
-        <li>
-          <FlatButton href="#/app/table"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Alumnos</span></FlatButton>
-          <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Crear programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Eliminar programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Editar programa</span></FlatButton></li>
-          </ul>
-        </li>
-        <li>
-          <FlatButton href="#/app/page"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton>
-          <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Crear programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Eliminar programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Editar programa</span></FlatButton></li>
-          </ul>
-        </li>
+        <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
+        <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>
+
         <li>
           <FlatButton href="#/app/ecommerce"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
           <ul>
@@ -141,13 +122,7 @@ class SidebarContent extends React.Component {
         <li className="nav-header"><span>Menu de aplicación</span></li>
         <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Catalogos</span></FlatButton></li>
         <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
-        <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton>
-          <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/users"><span>Agregar usuarios</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/users"><span>Editar usuarios</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/users"><span>Eliminar usuarios</span></FlatButton></li>
-          </ul>
-        </li>
+        <li><FlatButton href="#/app/users"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton></li>
 
         <li className="nav-divider" />
         <li className="nav-header"><span>Menu de apoyo</span></li>

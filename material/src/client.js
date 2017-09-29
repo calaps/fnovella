@@ -5,11 +5,12 @@ import { Provider } from 'react-redux';
 import { applyRouterMiddleware, Router, Route, hashHistory, IndexRedirect, Redirect } from 'react-router';
 import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import reducers from './reducers';
+import thunk from "redux-thunk";
 
 const middleware = routerMiddleware(hashHistory);
 const store = createStore(
   reducers,
-  applyMiddleware(middleware)
+  applyMiddleware(thunk)
 );
 
 const history = syncHistoryWithStore(hashHistory, store);
@@ -18,11 +19,15 @@ function scrollToTop() {
   window.scrollTo(0, 0);
 }
 
+{/* Check for user intial #session */}
+function checKuser() {
+  return('/login');
+}
 const rootRoute = {
   childRoutes: [{
     path: '/',
     component: require('./containers/App'),
-    indexRoute: { onEnter: (nextState, replace) => replace('/app/dashboard') },
+    indexRoute: { onEnter: (nextState, replace) => replace(checKuser()) },
     childRoutes: [
       require('./routes/app'),
       require('./routes/404'),
