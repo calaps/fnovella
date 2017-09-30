@@ -27,3 +27,6 @@ documentation/*.html
 
 # misc
 .env
+
+#IDE files
+.idea
