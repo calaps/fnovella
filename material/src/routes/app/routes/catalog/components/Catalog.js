@@ -78,6 +78,9 @@ class MainOptions extends React.Component {
   };
 }
 
+
+
+
 class Catalog extends React.Component {
   constructor(props) {
     super(props);
@@ -96,7 +99,7 @@ class Catalog extends React.Component {
       case 'ADD_ELEMENT':
         return <EditForm />;
       case "VIEW_ELEMENT":
-        return <ListElements />;
+        return <ViewElements />;
       default:
         return null;
     }

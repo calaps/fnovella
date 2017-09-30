@@ -5,9 +5,54 @@ import map from "Lodash/map"; //to use map in a object
 
 
 class EditForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+      errors: {},
+      isLoading: false
+    };
+    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    this.onChange = this.onChange.bind(this);
   }
+
+  isValid(){
+    //local validation
+    const { errors, isValid } = validateinput(this.state)
+    if(!isValid){
+      this.setState({ errors });
+    }
+    return isValid;
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    if(this.isValid()){
+      //reset errros object and disable submit button
+      this.setState({ errors: {}, isLoading: true });
+
+      //we store  a function in the props
+      this.props.userSignUpRequest(this.state).then(
+        (response) => {
+          //Save the default object as a provider
+          this.context.router.history.push('/');
+        },
+        (error) => {
+          console.log("An Error occur with the Rest API");
+          this.setState({ errors: error.response.data, isLoading: false });
+        });
+
+    } else {
+      console.log(this.state.errors);
+    }
+
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
     const options = map(data_types, (val, key) =>
       <option key={val} value={val}>{key}</option>
