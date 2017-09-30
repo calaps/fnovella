@@ -73,6 +73,7 @@ export function signUpRequest(data) {
       resolve(true);
       return;
 
+      // API
       HTTP('post', '/signup', data)
         .then(function (response) {
           dispatch({
@@ -95,6 +96,21 @@ export function signUpRequest(data) {
 export function getUserDetails(token){
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
+
+      // will be removed once API is ready
+      dispatch({
+        type: GETUSER_SUCCESS,
+        data: {
+          firstName: 'Foo',
+          lastName: 'Bar',
+          username: 'foobar',
+          email: 'foo@bar.com'
+        }
+      });
+      resolve(true);
+      return;
+
+      // API
       HTTP('get', '/getUser', null, {authorization: "Bearer "+token})
         .then(function (response) {
           dispatch({
