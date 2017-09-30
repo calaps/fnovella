@@ -21,3 +21,6 @@ export function changeColorOption(colorOption) {
 export function changeTheme(themeOption) {
   return { type: types.CHANGE_THEME, theme: themeOption };
 }
+
+/* Custom Actions */
+export * from './auth';

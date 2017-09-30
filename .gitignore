@@ -27,6 +27,3 @@ documentation/*.html
 
 # misc
 .env
-
-#IDE
-.idea

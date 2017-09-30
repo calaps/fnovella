@@ -5,11 +5,13 @@ import TextField from 'material-ui/TextField'; //For use text
 import QueueAnim from 'rc-queue-anim'; // admin use
 import validateinput from '../../../actions/userLogin'; //First user validator
 import { connect } from 'react-redux'; //to pass functions
-import { userSignUpRequest } from '../../../actions/loginAxios'; //for use the Rest_API
+import {bindActionCreators} from 'redux';
+import { loginRequest } from '../../../actions'; //for use the Rest_API
 
+let self;
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       brand: APPCONFIG.brand,
       email: '',
@@ -19,6 +21,9 @@ class Login extends React.Component {
     };
     this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onChange = this.onChange.bind(this);
+
+    self = this;
+
   }
 
   isValid(){
@@ -35,16 +40,23 @@ class Login extends React.Component {
     if(this.isValid()){
       //reset errros object and disable submit button
       this.setState({ errors: {}, isLoading: true });
+      // this.context.router.history.push('/');
 
+      let data = {
+        email: this.state.email,
+        password: this.state.password
+      };
       //we store  a function in the props
-        this.props.userSignUpRequest(this.state).then(
+      this.props.loginRequest(data).then(
         (response) => {
           //Save the default object as a provider
-          this.context.router.history.push('/');
+          if(response){
+            self.context.router.push('/app/dashboard');
+          }
         },
         (error) => {
           console.log("An Error occur with the Rest API");
-          this.setState({ errors: error.response.data, isLoading: false });
+          self.setState({ errors: error.response.data, isLoading: false });
         });
 
     } else {
@@ -91,7 +103,7 @@ class Login extends React.Component {
                     value={this.state.password}
                     type="password"
                     fullWidth
-                    />
+                  />
                   {errors.password && <span className="help-block text-danger">{errors.password}</span>}
                 </div>
               </fieldset>
@@ -116,13 +128,12 @@ class Page extends React.Component {
     super();
   }
   render() {
-    const {userSignUpRequest} = this.props;
     return(
       <div className="page-login">
       <div className="main-body">
         <QueueAnim type="bottom" className="ui-animate">
           <div key="1">
-            <Login userSignUpRequest={userSignUpRequest} />
+            <Login loginRequest={this.props.actions.loginRequest} />
           </div>
         </QueueAnim>
       </div>
@@ -138,16 +149,25 @@ Login.contextTypes = {
 }
 
 Login.propTypes = {
-  userSignUpRequest: PropTypes.func.isRequired
+  loginRequest: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   //pass the providers
   return {
-
+    auth: state.auth
   }
 }
 
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      loginRequest
+    }, dispatch)
+  };
+}
+
 module.exports = connect(
-  mapStateToProps, { userSignUpRequest }
-  )(Page);
+  mapStateToProps, mapDispatchToProps
+)(Page);

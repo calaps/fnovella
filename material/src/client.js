@@ -21,13 +21,21 @@ function scrollToTop() {
 
 {/* Check for user intial #session */}
 function checKuser() {
+  console.log("-*-*-*-*-*-*-*-* CHECKING USER *-*-*-*-*-*-*-*-");
   return('/login');
 }
 const rootRoute = {
   childRoutes: [{
     path: '/',
+    onEnter: (nextState, replace) => {
+      // replace(checKuser());
+    },
     component: require('./containers/App'),
-    indexRoute: { onEnter: (nextState, replace) => replace(checKuser()) },
+    indexRoute: {
+      onEnter: (nextState, replace) => {
+        replace(checKuser());
+      }
+    },
     childRoutes: [
       require('./routes/app'),
       require('./routes/404'),

@@ -1,5 +1,11 @@
 module.exports = {
   path: 'app',
+  onEnter: (nextState, replace) => {
+    console.log("-*-*-*-*-*-*-*-* CHECKING USER FROM APP *-*-*-*-*-*-*-*-");
+  },
+  indexRoute: { onEnter: (nextState, replace) => {
+    console.log("called on enter");
+  }},
   getChildRoutes(partialNextState, cb) {
     require.ensure([], (require) => {
       cb(null, [
