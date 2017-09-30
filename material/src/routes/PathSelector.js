@@ -21,48 +21,6 @@ class PathSelector extends React.Component {
     this.onRouteUpdate = this.onRouteUpdate.bind(this);
   }
 
-  async componentWillMount(){
-
-    console.log("-*-*-*-*-* RUNNING COMPONENT WILL MOUNT *-*-*-*-");
-
-    const token = localStorage.getItem('@fnovella:token')
-
-    if(token && !this.props.auth.user){
-      console.log("TOKEN IN STORAGE: ",token );
-      let response = await this.props.actions.getUserDetails(token);
-      console.log("GOT REPSONSE");
-      if(response){
-        // navigate to dashboard
-        console.log("going to dashboard");
-        this.props.history.push('/app/dashboard');
-      }
-      else{
-        console.log("TOKEN EXPIRED OR INCORRECT");
-        localStorage.removeItem('@fnovella:token')
-        // navigate to login
-        console.log("going to login");
-        this.props.history.push('/login');
-      }
-    }
-    else if(token && this.props.auth.user){
-      // do nothing, let him go
-    }
-    else{
-      console.log("NO TOKEN IN STORAGE: ", this.props.history.getCurrentLocation());
-      // check if going to public state
-      if(this.state.publicRoutes.indexOf(this.props.history.getCurrentLocation().pathname) >= 0){
-        // let him go
-        console.log("going to public, letting go");
-      }
-      else{
-        // navigate to login
-        console.log("going to login");
-        this.props.history.push('/login');
-      }
-    }
-
-  }
-
   // async componentDidMount() {
   //   this.setState({ isLoaded: true });
   // }
@@ -74,38 +32,52 @@ class PathSelector extends React.Component {
   async onRouteUpdate() {
     console.log("-*-*-*-*-* RUNNING ONUPDATE *-*-*-*-");
 
-    const token = localStorage.getItem('@fnovella:token')
+    const token = localStorage.getItem('@fnovella:token');
 
     if(token && !this.props.auth.user){
-      console.log("TOKEN IN STORAGE: ",token );
+      console.log("Router: TOKEN IN STORAGE & USER IS NOT PRESENT");
       let response = await this.props.actions.getUserDetails(token);
-      console.log("GOT REPSONSE");
       if(response){
-        // navigate to dashboard
-        console.log("going to dashboard");
-        this.props.history.push('/app/dashboard');
+        if(this.state.publicRoutes.indexOf(this.props.history.getCurrentLocation().pathname) >= 0){
+          console.log("Router: going to public, redirect to dashboard");
+          // navigate to dashboard
+          this.props.history.push('/app/dashboard');
+        }
+        else{
+          // let him go
+          console.log("Router: going to private, allowed and letting go")
+        }
       }
       else{
-        console.log("TOKEN EXPIRED OR INCORRECT");
+        console.log("Router: TOKEN EXPIRED OR INCORRECT");
         localStorage.removeItem('@fnovella:token')
         // navigate to login
-        console.log("going to login");
+        console.log("Router: going to login");
         this.props.history.push('/login');
       }
     }
     else if(token && this.props.auth.user){
-      // do nothing, let him go
+      console.log("Router: TOKEN IN STORAGE & USER IS PRESENT");
+      if(this.state.publicRoutes.indexOf(this.props.history.getCurrentLocation().pathname) >= 0){
+        console.log("Router: going to public, redirect to dashboard");
+        // navigate to dashboard
+        this.props.history.push('/app/dashboard');
+      }
+      else{
+        // do nothing, let him go
+        console.log("Router: going to private, allowed and letting go")
+      }
     }
     else{
-      console.log("NO TOKEN IN STORAGE: ", this.props.history.getCurrentLocation());
+      console.log("Router: NO TOKEN IN STORAGE ");
       // check if going to public state
       if(this.state.publicRoutes.indexOf(this.props.history.getCurrentLocation().pathname) >= 0){
         // let him go
-        console.log("going to public, letting go");
+        console.log("Router: going to public, letting go");
       }
       else{
         // navigate to login
-        console.log("going to login");
+        console.log("Router: going to private state, redirect to login");
         this.props.history.push('/login');
       }
     }
