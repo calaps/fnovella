@@ -7,7 +7,8 @@ import {
   SIGNUP_FAIL,
   GETUSER_SUCCESS,
   GETUSER_FAIL,
-  SET_USER_TYPE
+  SET_USER_TYPE,
+  LOG_OUT
 } from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
@@ -56,8 +57,16 @@ const auth_reducer = (state = initialState.auth, action) => {
       return Object.assign(
         {},
         state,
+        {}
+      );
+    case LOG_OUT:
+      console.log(LOG_OUT)
+      localStorage.removeItem('@fnovella:token');
+      return Object.assign(
+        {},
+        state,
         {
-          isOwner: action.data.isOwner
+          user: null
         }
       );
     default:

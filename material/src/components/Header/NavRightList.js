@@ -4,6 +4,12 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton/IconButton';
 import { hashHistory } from 'react-router';
 
+import { connect } from  'react-redux';
+import {bindActionCreators} from 'redux';
+
+/* Actions */
+import { logOut } from './../../actions';
+
 const ImgIconButtonStyle = {
   width: '60px',
   height: '60px'
@@ -15,8 +21,25 @@ const listItemStyle = {
 
 class NavRightList extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.onLogOut = this.onLogOut.bind(this);
+  }
+
   handleChange = (event, value) => {
-    hashHistory.push(value);
+    if(value === '/login'){
+      this.onLogOut();
+    }
+    else{
+      hashHistory.push(value);
+    }
+  };
+
+  async onLogOut(){
+    let response = await this.props.actions.logOut()
+    if(response){
+      this.props.router.push('/login');
+    }
   }
 
   render() {
@@ -58,4 +81,23 @@ class NavRightList extends React.Component {
   }
 }
 
-module.exports = NavRightList;
+
+/* Map state to props */
+function mapStateToProps(state){
+  return {
+    auth: state.auth,
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+
+  return {
+    actions: bindActionCreators({
+      logOut
+    }, dispatch)
+  };
+}
+
+/* Connect Component with Redux */
+export default connect(mapStateToProps, mapDispatchToProps)(NavRightList)

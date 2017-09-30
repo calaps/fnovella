@@ -9,7 +9,8 @@ import {
   SIGNUP_FAIL,
   GETUSER_SUCCESS,
   GETUSER_FAIL,
-  SET_USER_TYPE
+  SET_USER_TYPE,
+  LOG_OUT
 } from './../constants/ActionTypes';
 
 // example action
@@ -129,6 +130,39 @@ export function getUserDetails(token){
     }})
   }
 }
+
+export function logOut(){
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+
+      // will be removed once API is ready
+      dispatch({
+        type: LOG_OUT,
+        data: {}
+      });
+      resolve(true);
+      return;
+
+      // API - in case we have Logout API
+      HTTP('get', '/logout', null, {authorization: "Bearer "+token})
+        .then(function (response) {
+          dispatch({
+            type: LOG_OUT,
+            data: response.data.data
+          });
+          resolve(true);
+        })
+        .catch(error => {
+          dispatch({
+            type: GETUSER_FAIL,
+            error: error
+          });
+          reject(false);
+        })
+    }})
+  }
+}
+
 
 export function setUserType(isOwner){
   return function (dispatch) {

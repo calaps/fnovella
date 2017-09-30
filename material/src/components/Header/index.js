@@ -14,6 +14,11 @@ import NavRightList from './NavRightList';
 
  **/
 class Header extends React.Component {
+
+  constructor(props){
+    super(props);
+  }
+
   componentDidMount() {
     const sidebarToggler = this.sidebarBtn;
     const $sidebarToggler = $(sidebarToggler);
@@ -51,7 +56,7 @@ class Header extends React.Component {
           </div>
 
           <div className="top-nav-right">
-            <NavRightList />
+            <NavRightList router={this.props.router}/>
             <p className="nav_user_name float-right">Bienvenido, <strong>Sergio Andres Ramirez</strong></p>
           </div>
         </div>
