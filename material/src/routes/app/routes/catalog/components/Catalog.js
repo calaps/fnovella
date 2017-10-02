@@ -99,7 +99,7 @@ class Catalog extends React.Component {
       case 'ADD_ELEMENT':
         return <EditForm />;
       case "VIEW_ELEMENT":
-        return <ViewElements />;
+        return <ListElements />;
       default:
         return null;
     }
