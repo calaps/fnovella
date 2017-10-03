@@ -10,6 +10,12 @@ export var data_types = {
   "Telefono": "tel"
 };
 
+export var privileges = {
+  "Admin": 2,
+  "Teacher": 1,
+  "No Privilege": 0,
+};
+
 export var personal_documents = {
   "dpi": "dpi",
   "pasaporte": "passport",
