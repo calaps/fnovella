@@ -2,7 +2,8 @@ let initialState = {
 
     auth: {
         user: null,
-    }
+    },
+    programs: []
 
 };
 

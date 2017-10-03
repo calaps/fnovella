@@ -57,7 +57,8 @@ class Header extends React.Component {
 
           <div className="top-nav-right">
             <NavRightList router={this.props.router}/>
-            <p className="nav_user_name float-right">Bienvenido, <strong>Sergio Andres Ramirez</strong></p>
+            <p className="nav_user_name float-right">{(this.props.auth.user)?(this.props.auth.user.firstName + ' ' + this.props.auth.user.firstLastName):'First name'}
+            </p>
           </div>
         </div>
       </section>
@@ -65,13 +66,14 @@ class Header extends React.Component {
   }
 }
 
+/* Map state to props */
+function mapStateToProps(state){
+  return {
+    auth: state.auth,
+    colorOption: state.settings.colorOption,
+    isFixedHeader: state.settings.isFixedHeader
+  }
+}
 
-const mapStateToProps = state => ({
-  colorOption: state.settings.colorOption,
-  isFixedHeader: state.settings.isFixedHeader
-});
-
-module.exports = connect(
-  mapStateToProps
-)(Header);
-
+/* Connect Component with Redux */
+export default connect(mapStateToProps, null)(Header)

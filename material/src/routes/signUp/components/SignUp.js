@@ -3,7 +3,7 @@ import APPCONFIG from 'constants/Config';
 import TextField from 'material-ui/TextField';
 import QueueAnim from 'rc-queue-anim';
 import PropTypes from 'prop-types'; //for user prop-types
-import { connect } from 'react-redux'; //to pass functions
+import { connect } from 'react-redux'; 
 import {bindActionCreators} from 'redux';
 import { signUpRequest } from '../../../actions'; //for use the Rest_API
 

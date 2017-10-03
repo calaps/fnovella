@@ -1,8 +1,8 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import { data_types } from '../../../../../constants/data_types';
+import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import { validateCatalog } from "../../../../../actions/formValidations"; //form validations
 
 
 class EditForm extends React.Component {
@@ -21,7 +21,7 @@ class EditForm extends React.Component {
 
   isValid(){
     //local validation
-    const { errors, isValid } = emptyValidator(this.state)
+    const { errors, isValid } = validateCatalog(this.state)
     if(!isValid){
       this.setState({ errors });
     }

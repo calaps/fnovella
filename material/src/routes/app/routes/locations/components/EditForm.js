@@ -1,6 +1,6 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import { data_types } from '../../../../../constants/data_types';
+import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
 
@@ -10,8 +10,8 @@ class EditForm extends React.Component {
     super();
     this.state = {
       name: '',
-      dataType: '',
-      category: '',
+      address: '',
+      alias: '',
       errors: {},
       isLoading: false
     };
@@ -66,7 +66,7 @@ class EditForm extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de campo</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de sede</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -75,37 +75,36 @@ class EditForm extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: altura" />
+                          placeholder="eje: El Progreso" />
                           {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresa la categoria</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Dirección</label>
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="category"
-                          name="category"
-                          value={this.state.category}
+                          id="address"
+                          name="address"
+                          value={this.state.address}
                           onChange={this.onChange}
-                          placeholder="eje: fisico" />
-                        {errors.category && <span className="help-block text-danger">{errors.category}</span>}
+                          placeholder="eje: km 18.5 carretera a progreso" />
+                        {errors.address && <span className="help-block text-danger">{errors.address}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Alias</label>
                       <div className="col-md-9">
-                        <select
-                          name="dataType"
-                          onChange={this.onChange}
-                          value={this.state.dataType}
+                        <input
+                          type="text"
                           className="form-control"
-                        >
-                          <option value="" disabled>Selecciona el tipo de dato</option>
-                          {options}
-                        </select>
-                        {errors.dataType && <span className="help-block text-danger">{errors.dataType}</span>}
+                          id="alias"
+                          name="alias"
+                          value={this.state.alias}
+                          onChange={this.onChange}
+                          placeholder="eje: ELP" />
+                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
                       </div>
                     </div>
 

@@ -78,6 +78,9 @@ class MainOptions extends React.Component {
   };
 }
 
+
+
+
 class Catalog extends React.Component {
   constructor(props) {
     super(props);
