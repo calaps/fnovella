@@ -56,7 +56,7 @@ class Login extends React.Component {
         },
         (error) => {
           console.log("An Error occur with the Rest API");
-          self.setState({ errors: error.response.data, isLoading: false });
+          self.setState({ errors: { ...this.state.errors, apiErrors: error.error }, isLoading: false });
         });
 
     } else {

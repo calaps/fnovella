@@ -13,7 +13,6 @@ import {
   LOG_OUT
 } from './../constants/ActionTypes';
 
-// example action
 export function loginRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
@@ -22,13 +21,31 @@ export function loginRequest(data) {
       dispatch({
         type: LOGIN_SUCCESS,
         data: {
-          user: {
-            firstName: 'Foo',
-            lastName: 'Bar',
-            username: 'foobar',
-            email: 'foo@bar.com'
+          user:  {
+            "id": 24,
+            "firstName": "Shahnawaz",
+            "secondName": "abc",
+            "firstLastName": "Ali",
+            "secondLastName": "Kausar",
+            "privilege": 1,
+            "documentType": "abc",
+            "documentValue": "abc",
+            "nationality": "abc",
+            "department": "abc",
+            "profession": "abc",
+            "address": "abc",
+            "email": "mr_shah@live.com",
+            "password": "123",
+            "municipality": "abc",
+            "comunity": "abc",
+            "cellphone": 0,
+            "cemproCode": "abc",
+            "appCode": "abc",
+            "gender": "male",
+            "bornDate": "2017-10-01",
+            "phon": 1
           },
-          token: 'SomeEncryptedJWT'
+          token: 't4DUgxbSbKs1NGEB4WbsB'
         }
       });
       resolve(true);
@@ -37,18 +54,25 @@ export function loginRequest(data) {
       // API
       HTTP('post', '/login', data)
         .then(function (response) {
-          dispatch({
-            type: LOGIN_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          console.log("response: ",response);
+          if(!response.data.errors){
+            dispatch({
+              type: LOGIN_SUCCESS,
+              data: response.data
+            });
+            resolve(response.data);
+          }
+          else{
+            reject(response.data);
+          }
         })
         .catch(error => {
+          console.log("error: ",error);
           dispatch({
             type: LOGIN_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
@@ -102,30 +126,55 @@ export function getUserDetails(token){
       dispatch({
         type: GETUSER_SUCCESS,
         data: {
-          firstName: 'Foo',
-          lastName: 'Bar',
-          username: 'foobar',
-          email: 'foo@bar.com'
+          "id": 24,
+          "firstName": "Shahnawaz",
+          "secondName": "abc",
+          "firstLastName": "Ali",
+          "secondLastName": "Kausar",
+          "privilege": 1,
+          "documentType": "abc",
+          "documentValue": "abc",
+          "nationality": "abc",
+          "department": "abc",
+          "profession": "abc",
+          "address": "abc",
+          "email": "mr_shah@live.com",
+          "password": "",
+          "municipality": "abc",
+          "comunity": "abc",
+          "cellphone": 0,
+          "cemproCode": "abc",
+          "appCode": "abc",
+          "gender": "male",
+          "bornDate": "2017-10-01",
+          "phon": 1
         }
       });
       resolve(true);
       return;
 
       // API
-      HTTP('get', '/getUser', null, {authorization: "Bearer "+token})
+      HTTP('get', '/userDetails', null, {authorization: token})
         .then(function (response) {
-          dispatch({
-            type: GETUSER_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          console.log("response: ",response);
+          if(!response.data.errors){
+            dispatch({
+              type: GETUSER_SUCCESS,
+              data: response.data
+            });
+            resolve(response.data);
+          }
+          else{
+            reject(response.data);
+          }
         })
         .catch(error => {
+          console.log("error: ",error);
           dispatch({
             type: GETUSER_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
@@ -144,20 +193,27 @@ export function logOut(){
       return;
 
       // API - in case we have Logout API
-      HTTP('get', '/logout', null, {authorization: "Bearer "+token})
+      HTTP('get', '/logout', null, {authorization: token})
         .then(function (response) {
-          dispatch({
-            type: LOG_OUT,
-            data: response.data.data
-          });
-          resolve(true);
+          console.log("response: ",response);
+          if(!response.data.errors){
+            dispatch({
+              type: LOGIN_SUCCESS,
+              data: response.data
+            });
+            resolve(response.data);
+          }
+          else{
+            reject(response.data);
+          }
         })
         .catch(error => {
+          console.log("error: ",error);
           dispatch({
-            type: GETUSER_FAIL,
+            type: LOGIN_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }

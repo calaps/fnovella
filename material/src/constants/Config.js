@@ -5,7 +5,7 @@ const APPCONFIG = {
   brand: 'Carlos F. Novella',
   user: 'Lisa',
   year,
-  API_URL: 'http://something.com/api',
+  API_URL: 'http://apicementos.centralus.cloudapp.azure.com/api',
   productLink: 'http://calaps.com',
   developerLink: 'http://calaps.com',
   helpLink: 'http://fundacioncarlosfnovella.org/',

@@ -9,11 +9,11 @@ export async function HTTP(method, uri, data, headers = null, params = null) {
         url: url
     };
 
-    if (headers != null) {
+    if (headers !== null) {
         query.headers = headers;
     }
 
-    if(params != null){
+    if(params !== null){
         query.params = params;
     }
 
