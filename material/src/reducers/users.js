@@ -1,39 +1,39 @@
 
 /* Actions */
 import {
-  PROGRAM_ADD_REQUEST,
-  PROGRAM_ADD_SUCCESS,
-  PROGRAM_ADD_FAIL,
-  PROGRAM_DELETE_FAIL,
-  PROGRAM_DELETE_REQUEST,
-  PROGRAM_DELETE_SUCCESS,
-  PROGRAM_GET_FAIL,
-  PROGRAM_GET_REQUEST,
-  PROGRAM_GET_SUCCESS,
-  PROGRAM_UPDATE_FAIL,
-  PROGRAM_UPDATE_REQUEST,
-  PROGRAM_UPDATE_SUCCESS
+  USERS_ADD_REQUEST,
+  USERS_ADD_SUCCESS,
+  USERS_ADD_FAIL,
+  USERS_DELETE_FAIL,
+  USERS_DELETE_REQUEST,
+  USERS_DELETE_SUCCESS,
+  USERS_GET_FAIL,
+  USERS_GET_REQUEST,
+  USERS_GET_SUCCESS,
+  USERS_UPDATE_FAIL,
+  USERS_UPDATE_REQUEST,
+  USERS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
 
-const programs_reducer = (state = initialState.programs, action) => {
+const users_reducer = (state = initialState.users, action) => {
   let newState;
   switch(action.type){
-    case PROGRAM_ADD_SUCCESS:
-      console.log(PROGRAM_ADD_SUCCESS)
+    case USERS_ADD_SUCCESS:
+      console.log(USERS_ADD_SUCCESS)
       return [...state, action.data];
-    case PROGRAM_ADD_FAIL:
+    case USERS_ADD_FAIL:
       // TODO: some alert may be
       return state;
-    case PROGRAM_GET_SUCCESS:
-      console.log(PROGRAM_GET_SUCCESS)
+    case USERS_GET_SUCCESS:
+      console.log(USERS_GET_SUCCESS)
       return [action.data];
-    case PROGRAM_GET_FAIL:
+    case USERS_GET_FAIL:
       // TODO: some alert may be
       return state;
-    case PROGRAM_DELETE_SUCCESS:
-      console.log(PROGRAM_DELETE_SUCCESS);
+    case USERS_DELETE_SUCCESS:
+      console.log(USERS_DELETE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
         if(newState[i]._id === action.id){
@@ -41,11 +41,11 @@ const programs_reducer = (state = initialState.programs, action) => {
         }
       }
       return newState;
-    case PROGRAM_DELETE_FAIL:
+    case USERS_DELETE_FAIL:
       // TODO: some alert may be
       return state;
-    case PROGRAM_UPDATE_SUCCESS:
-      console.log(PROGRAM_UPDATE_SUCCESS)
+    case USERS_UPDATE_SUCCESS:
+      console.log(USERS_UPDATE_SUCCESS)
       newState = [...state];
       for(let i=0; i<newState.length; i++){
         if(newState[i]._id === action.id){
@@ -53,7 +53,7 @@ const programs_reducer = (state = initialState.programs, action) => {
         }
       }
       return newState;
-    case PROGRAM_UPDATE_FAIL:
+    case USERS_UPDATE_FAIL:
       // TODO: some alert may be
       return state;
     default:
@@ -61,4 +61,4 @@ const programs_reducer = (state = initialState.programs, action) => {
   }
 }
 
-export default programs_reducer;
+export default users_reducer;

@@ -1,27 +1,27 @@
 import {HTTP} from './../utils/HTTP';
 
 import {
-  PROGRAM_ADD_REQUEST,
-  PROGRAM_ADD_SUCCESS,
-  PROGRAM_ADD_FAIL,
-  PROGRAM_DELETE_FAIL,
-  PROGRAM_DELETE_REQUEST,
-  PROGRAM_DELETE_SUCCESS,
-  PROGRAM_GET_FAIL,
-  PROGRAM_GET_REQUEST,
-  PROGRAM_GET_SUCCESS,
-  PROGRAM_UPDATE_FAIL,
-  PROGRAM_UPDATE_REQUEST,
-  PROGRAM_UPDATE_SUCCESS
+  EDUCATORS_ADD_REQUEST,
+  EDUCATORS_ADD_SUCCESS,
+  EDUCATORS_ADD_FAIL,
+  EDUCATORS_DELETE_FAIL,
+  EDUCATORS_DELETE_REQUEST,
+  EDUCATORS_DELETE_SUCCESS,
+  EDUCATORS_GET_FAIL,
+  EDUCATORS_GET_REQUEST,
+  EDUCATORS_GET_SUCCESS,
+  EDUCATORS_UPDATE_FAIL,
+  EDUCATORS_UPDATE_REQUEST,
+  EDUCATORS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programGetRequest(data) {
+export function educatorsGetRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       dispatch({
-        type: PROGRAM_GET_REQUEST,
+        type: EDUCATORS_GET_REQUEST,
         data: {
         }
       });
@@ -29,17 +29,17 @@ export function programGetRequest(data) {
       return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('get', '/educators', data)
         .then(function (response) {
           dispatch({
-            type: PROGRAM_GET_SUCCESS,
+            type: EDUCATORS_GET_SUCCESS,
             data: response.data.data
           });
           resolve(true);
         })
         .catch(error => {
           dispatch({
-            type: PROGRAM_GET_FAIL,
+            type: EDUCATORS_GET_FAIL,
             error: error
           });
           reject(false);
@@ -48,13 +48,13 @@ export function programGetRequest(data) {
   }
 }
 
-export function programAddRequest(data) {
+export function educatorsAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       dispatch({
-        type: PROGRAM_ADD_SUCCESS,
+        type: EDUCATORS_ADD_SUCCESS,
         data: {
         }
       });
@@ -62,17 +62,17 @@ export function programAddRequest(data) {
       return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('post', '/educators', data)
         .then(function (response) {
           dispatch({
-            type: PROGRAM_ADD_SUCCESS,
+            type: EDUCATORS_ADD_SUCCESS,
             data: response.data.data
           });
           resolve(true);
         })
         .catch(error => {
           dispatch({
-            type: PROGRAM_ADD_FAIL,
+            type: EDUCATORS_ADD_FAIL,
             error: error
           });
           reject(false);
@@ -81,13 +81,13 @@ export function programAddRequest(data) {
   }
 }
 
-export function programUpdateRequest(data) {
+export function educatorsUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       dispatch({
-        type: PROGRAM_UPDATE_SUCCESS,
+        type: EDUCATORS_UPDATE_SUCCESS,
         data: {
         }
       });
@@ -95,17 +95,17 @@ export function programUpdateRequest(data) {
       return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('put', '/educators', data)
         .then(function (response) {
           dispatch({
-            type: PROGRAM_UPDATE_SUCCESS,
+            type: EDUCATORS_UPDATE_SUCCESS,
             data: response.data.data
           });
           resolve(true);
         })
         .catch(error => {
           dispatch({
-            type: PROGRAM_UPDATE_FAIL,
+            type: EDUCATORS_UPDATE_FAIL,
             error: error
           });
           reject(false);
@@ -114,13 +114,13 @@ export function programUpdateRequest(data) {
   }
 }
 
-export function programDeleteRequest(data) {
+export function educatorsDeleteRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       dispatch({
-        type: PROGRAM_DELETE_SUCCESS,
+        type: EDUCATORS_DELETE_SUCCESS,
         data: {
         }
       });
@@ -128,17 +128,17 @@ export function programDeleteRequest(data) {
       return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('delete', '/educators', data)
         .then(function (response) {
           dispatch({
-            type: PROGRAM_DELETE_SUCCESS,
+            type: EDUCATORS_DELETE_SUCCESS,
             data: response.data.data
           });
           resolve(true);
         })
         .catch(error => {
           dispatch({
-            type: PROGRAM_DELETE_FAIL,
+            type: EDUCATORS_DELETE_FAIL,
             error: error
           });
           reject(false);

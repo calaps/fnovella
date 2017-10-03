@@ -25,3 +25,8 @@ export function changeTheme(themeOption) {
 /* Custom Actions */
 export * from './auth';
 export * from './programs';
+export * from './users';
+export * from './sedes';
+export * from './privileges';
+export * from './educators';
+export * from './catalogs';
