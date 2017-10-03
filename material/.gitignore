@@ -30,3 +30,5 @@ documentation/*.html
 
 #IDE
 .idea
+/.idea/
+.idea/workspace.xml
