@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Programas";
+const optionsName = "Privilegios";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class MainOptions extends React.Component {
               <div className="box-body">
                 <div className="icon-box ibox-plain ibox-center">
                   <div className="ibox-icon">
-                    <a href="javascript:;"><i className="material-icons">assignment</i></a>
+                    <a href="javascript:;"><i className="material-icons">pan_tool</i></a>
                   </div>
                   <h5>{optionsName}s</h5>
                 </div>
@@ -79,9 +79,7 @@ class MainOptions extends React.Component {
 }
 
 
-
-
-class Program extends React.Component {
+class Privileges extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -105,18 +103,18 @@ class Program extends React.Component {
     }
   }
   render() {
-    return (
-      <div className="container-fluid no-breadcrumbs page-dashboard">
+      return (
+        <div className="container-fluid no-breadcrumbs page-dashboard">
 
-        <QueueAnim type="bottom" className="ui-animate">
-          <div key="1"><MainOptions changeView={ this.changeView } /></div>
-          <hr/>
-          <div key="2">{ this.activeView() }</div>
-        </QueueAnim>
+          <QueueAnim type="bottom" className="ui-animate">
+            <div key="1"><MainOptions changeView={ this.changeView } /></div>
+            <hr/>
+            <div key="2">{ this.activeView() }</div>
+          </QueueAnim>
 
-      </div>
-    );
+        </div>
+      );
   }
 }
 
-module.exports = Program;
+module.exports = Privileges;
