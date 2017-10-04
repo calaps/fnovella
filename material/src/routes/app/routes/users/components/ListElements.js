@@ -1,5 +1,6 @@
 import React from "react";
-
+import ListItem from "./ListItem";
+import {connect} from 'react-redux';
 /** *
  * Fake element list render....
  * */
@@ -7,14 +8,42 @@ import React from "react";
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      usersData:[
+        {
+          id:1,
+          firstName: 'abc',
+          email:'abc@co.uk',
+          firstLastName:'cde',
+          cellphone: 123456,
+          gender: 'Male',
+          bornDate:'01/01/1990'
+        },{
+          id:2,
+          firstName: 'abc',
+          email:'abc@co.uk',
+          firstLastName:'cde',
+          cellphone: 123456,
+          gender: 'Male',
+          bornDate:'01/01/1990'
+        },{
+          id:3,
+          firstName: 'abc',
+          email:'abc@co.uk',
+          firstLastName:'cde',
+          cellphone: 123456,
+          gender: 'Male',
+          bornDate:'01/01/1990'
+        },
+      ]
+    }
   }
   render() {
-
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
         <div className="row">
-          <div className="col-xl-6">
+          <div className="col-xl-12">
             <div className="box box-transparent">
               <div className="box-header no-padding-h">Basic table</div>
               <div className="box-body no-padding-h">
@@ -23,77 +52,27 @@ class ListElements extends React.Component {
                   <table className="mdl-data-table">
                     <thead>
                     <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
+                      <th className="mdl-data-table__cell--non-numeric">FirstName</th>
+                      <th className="mdl-data-table__cell--non-numeric">LastName</th>
+                      <th className="mdl-data-table__cell--non-numeric">Email</th>
+                      <th className="mdl-data-table__cell--non-numeric">CellPhone</th>
+                      <th className="mdl-data-table__cell--non-numeric">Gender</th>
+                      <th className="mdl-data-table__cell--non-numeric">Date of Birth</th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
+
+
+                    {
+                      this.state.usersData.map((userData) => {
+                        return <ListItem key={userData.id} {...userData}/>
+                      })
+                    }
                     </tbody>
                   </table>
+
                 </div>
-
-              </div>
-            </div>
-          </div>
-
-          <div className="col-xl-6">
-            <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
-              <div className="box-body no-padding-h">
-
-                <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
-                    <thead>
-                    <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-
               </div>
             </div>
           </div>
@@ -105,6 +84,7 @@ class ListElements extends React.Component {
       </article>
     );
   }
+
 }
 
-module.exports = ListElements;
+module.exports = connect()(ListElements);

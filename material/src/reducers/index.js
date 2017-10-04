@@ -8,7 +8,6 @@ import educators from './educators';
 import privileges from './privileges';
 import sedes from './sedes';
 import users from './users';
-
 const reducers = {
   routing: routerReducer,
   settings,
@@ -18,7 +17,7 @@ const reducers = {
   educators,
   privileges,
   sedes,
-  users
+  users,
 };
 
 module.exports = combineReducers(reducers);

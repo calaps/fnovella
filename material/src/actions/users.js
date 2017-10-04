@@ -31,11 +31,13 @@ export function usersGetRequest(data) {
       // API
       HTTP('get', '/users', data)
         .then(function (response) {
-          dispatch({
-            type: USERS_GET_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+             dispatch({
+              type: USERS_GET_SUCCESS,
+              data: response.data.data
+            });
+          }
+          resolve(response.data);
         })
         .catch(error => {
           dispatch({
@@ -64,20 +66,22 @@ export function usersAddRequest(data) {
       // API
       HTTP('post', '/users', data)
         .then(function (response) {
-          dispatch({
-            type: USERS_ADD_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: USERS_ADD_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }
         })
         .catch(error => {
-          dispatch({
-            type: USERS_ADD_FAIL,
-            error: error
+          dispatch ({
+            type: USERS_ADD_FAIL ,
+            error: error,
           });
-          reject(false);
-        })
-    }})
+          reject(response.data);
+        });
+    }});
   }
 }
 
@@ -95,21 +99,23 @@ export function usersUpdateRequest(data) {
       return;
 
       // API
-      HTTP('put', '/users', data)
+      HTTP('patch', '/users', data)
         .then(function (response) {
-          dispatch({
-            type: USERS_UPDATE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!respone.data.errors){
+            dispatch({
+              type: USERS_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: USERS_UPDATE_FAIL,
             error: error
           });
-          reject(false);
-        })
+          reject(response.data);
+        });
     }})
   }
 }
@@ -130,19 +136,21 @@ export function usersDeleteRequest(data) {
       // API
       HTTP('delete', '/users', data)
         .then(function (response) {
-          dispatch({
-            type: USERS_DELETE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: USERS_DELETE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: USERS_DELETE_FAIL,
             error: error
           });
-          reject(false);
-        })
+          reject(response.data);
+        });
     }})
   }
 }
