@@ -36,7 +36,7 @@ const users_reducer = (state = initialState.users, action) => {
       console.log(USERS_DELETE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.data.id){
           newState.splice(i, 1);
         }
       }

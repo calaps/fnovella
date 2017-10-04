@@ -18,12 +18,12 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
+      firstName: this.props.userData.firstName || '' ,
       secondName: '',
-      firstLastName: '',
+      firstLastName: this.props.userData.firstLastName || '',
       secondLastName: '',
       privilege: '',
-      bornDate: '',
+      bornDate: this.props.userData.bornDate || '',
       documentType: '',
       documentValue: '',
       nationality: '',
@@ -34,11 +34,11 @@ class EditForm extends React.Component {
       address: '',
       phone: '',
       cellphone: '',
-      email: '',
+      email: this.props.userData.email ||  '',
       password: '',
       confirm_password: '',
       cemproCode: '',
-      gender: '',
+      gender: this.props.userData.gender || '',
       errors: {},
       isLoading: false
     };
