@@ -47,7 +47,7 @@ export function usersGetRequest() {
             type: USERS_GET_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
@@ -85,7 +85,7 @@ export function usersAddRequest(data) {
             type: USERS_ADD_FAIL ,
             error: error,
           });
-          reject(response.data);
+          reject(error);
         });
     }});
   }
@@ -96,16 +96,16 @@ export function usersUpdateRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_UPDATE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_UPDATE_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('patch', '/users', data)
+      HTTP('patch', '/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!respone.data.errors){
             dispatch({
@@ -123,7 +123,7 @@ export function usersUpdateRequest(data) {
             type: USERS_UPDATE_FAIL,
             error: error
           });
-          reject(response.data);
+          reject(error);
         });
     }})
   }
@@ -134,22 +134,22 @@ export function usersDeleteRequest(id) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_DELETE_SUCCESS,
-        data: {
-          id: id
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_DELETE_SUCCESS,
+      //   data: {
+      //     id: id
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('delete', '/users', data)
+      HTTP('delete', '/delete/'+id, null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
               type: USERS_DELETE_SUCCESS,
-              data: response.data.data
+              data: id
             });
             resolve(response.data);
           }
@@ -162,7 +162,7 @@ export function usersDeleteRequest(id) {
             type: USERS_DELETE_FAIL,
             error: error
           });
-          reject(response.data);
+          reject(error);
         });
     }})
   }

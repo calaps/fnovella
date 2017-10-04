@@ -22,26 +22,27 @@ class EditForm extends React.Component {
     this.state = {
       isEditing: (this.props.userData.id)?true:false,
       firstName: this.props.userData.firstName || '' ,
-      secondName: '',
+      secondName: this.props.userData.secondName || '' ,
       firstLastName: this.props.userData.firstLastName || '',
-      secondLastName: '',
-      privilege: '',
+      secondLastName: this.props.userData.secondLastName || '' ,
+      privilege: this.props.userData.privilege || '' ,
       bornDate: this.props.userData.bornDate || '',
-      documentType: '',
-      documentValue: '',
-      nationality: '',
-      department : '',
-      municipality: '',
-      community: '',
-      profession: '',
-      address: '',
-      phone: '',
-      cellphone: '',
+      documentType: this.props.userData.documentType || '' ,
+      documentValue: this.props.userData.documentValue || '' ,
+      nationality: this.props.userData.nationality || '' ,
+      department : this.props.userData.department || '' ,
+      municipality: this.props.userData.municipality || '' ,
+      community: this.props.userData.community || '' ,
+      profession: this.props.userData.profession || '' ,
+      address: this.props.userData.address || '' ,
+      phone: this.props.userData.phone || '' ,
+      cellphone: this.props.userData.cellphone || '' ,
       email: this.props.userData.email ||  '',
-      password: '',
-      confirm_password: '',
-      cemproCode: '',
+      password: this.props.userData.password || '' ,
+      confirm_password: this.props.userData.confirm_password || '' ,
+      cemproCode: this.props.userData.cemproCode || '' ,
       gender: this.props.userData.gender || '',
+      id: this.props.userData.id || '',
       errors: {},
       isLoading: false
     };
@@ -100,8 +101,10 @@ class EditForm extends React.Component {
         // remaining items
         appCode: '1',
         phon: 1
-
       };
+      if(this.state.isEditing){
+        data.id = this.state.id;
+      }
 
       console.log("data: ", data);
       console.log(this.state.isEditing);

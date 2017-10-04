@@ -35,11 +35,13 @@ const users_reducer = (state = initialState.users, action) => {
     case USERS_DELETE_SUCCESS:
       console.log(USERS_DELETE_SUCCESS);
       newState = [...state];
+      console.log("new State: ", newState);
       for(let i=0; i<newState.length; i++){
         if(newState[i].id === action.data.id){
           newState.splice(i, 1);
         }
       }
+      console.log("new State: ", newState);
       return newState;
     case USERS_DELETE_FAIL:
       // TODO: some alert may be
@@ -47,11 +49,13 @@ const users_reducer = (state = initialState.users, action) => {
     case USERS_UPDATE_SUCCESS:
       console.log(USERS_UPDATE_SUCCESS)
       newState = [...state];
+      console.log("new State: ", newState);
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.id){
           newState[i] = action.data;
         }
       }
+      console.log("new State: ", newState);
       return newState;
     case USERS_UPDATE_FAIL:
       // TODO: some alert may be

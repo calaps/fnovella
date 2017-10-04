@@ -48,7 +48,7 @@ export function validateCreateUserForm(data){
   if(data.appCode && !Validator.isAlphanumeric(data.appCode.toString())){
     errors.appCode = "Invalid data";
   }
-  if(data.cellphone && !Validator.isNumeric(data.cellphone)){
+  if(data.cellphone && !Validator.isNumeric(data.cellphone.toString())){
     errors.cellphone = "Invalid data";
   }
   if(data.bornDate && !isDate(data.bornDate)){
@@ -93,7 +93,7 @@ export function validateCreateUserForm(data){
   if(data.phon && !Validator.isNumeric(data.phon)){
     errors.phon = "Invalid data";
   }
-  if(data.privilege && !Validator.isNumeric(data.privilege)){
+  if(data.privilege && !Validator.isNumeric(data.privilege.toString())){
     errors.privilege = "Invalid data";
   }
   if(data.profession && !Validator.isAlphanumeric(data.profession)){
