@@ -120,7 +120,7 @@ export function usersUpdateRequest(data) {
   }
 }
 
-export function usersDeleteRequest(data) {
+export function usersDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
@@ -128,6 +128,7 @@ export function usersDeleteRequest(data) {
       dispatch({
         type: USERS_DELETE_SUCCESS,
         data: {
+          id: id
         }
       });
       resolve(true);
