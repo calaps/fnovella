@@ -17,6 +17,7 @@ class ListElements extends React.Component {
     }
 
   componentWillMount(){
+    console.log("running component will mount");
     // API action
     this.props.actions.usersGetRequest();
   }

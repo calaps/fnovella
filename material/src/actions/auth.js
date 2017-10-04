@@ -57,7 +57,7 @@ export function loginRequest(data) {
       HTTP('post', '/login', data)
         .then(function (response) {
           console.log("response: ",response);
-          if(response.data.error === null){
+          if(response.data.errors === null){
             dispatch({
               type: LOGIN_SUCCESS,
               data: response.data

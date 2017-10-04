@@ -27,8 +27,8 @@ const users_reducer = (state = initialState.users, action) => {
       // TODO: some alert may be
       return state;
     case USERS_GET_SUCCESS:
-      console.log(USERS_GET_SUCCESS)
-      return [action.data];
+      console.log(USERS_GET_SUCCESS, [...state, action.data])
+      return action.data;
     case USERS_GET_FAIL:
       // TODO: some alert may be
       return state;

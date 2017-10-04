@@ -15,23 +15,23 @@ import {
   USERS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function usersGetRequest(data) {
+export function usersGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_GET_REQUEST,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_GET_REQUEST,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('get', '/users', data)
+      HTTP('get', '/users', null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
              dispatch({
               type: USERS_GET_SUCCESS,
               data: response.data.data
