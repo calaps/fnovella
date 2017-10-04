@@ -36,8 +36,11 @@ export function usersGetRequest() {
               type: USERS_GET_SUCCESS,
               data: response.data.data
             });
+            resolve(response.data);
           }
-          resolve(response.data);
+          else{
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
@@ -55,23 +58,26 @@ export function usersAddRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_ADD_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_ADD_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('post', '/users', data)
+      HTTP('post', '/signup', data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: USERS_ADD_SUCCESS,
-              data: response.data.data
+              data: response.data.user
             });
             resolve(response.data);
+          }
+          else{
+            reject(response.data);
           }
         })
         .catch(error => {
@@ -108,6 +114,9 @@ export function usersUpdateRequest(data) {
             });
             resolve(response.data);
           }
+          else{
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
@@ -143,6 +152,9 @@ export function usersDeleteRequest(id) {
               data: response.data.data
             });
             resolve(response.data);
+          }
+          else{
+            reject(response.data);
           }
         })
         .catch(error => {

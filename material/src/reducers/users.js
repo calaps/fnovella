@@ -21,13 +21,13 @@ const users_reducer = (state = initialState.users, action) => {
   let newState;
   switch(action.type){
     case USERS_ADD_SUCCESS:
-      console.log(USERS_ADD_SUCCESS)
+      console.log(USERS_ADD_SUCCESS, [...state, action.data])
       return [...state, action.data];
     case USERS_ADD_FAIL:
       // TODO: some alert may be
       return state;
     case USERS_GET_SUCCESS:
-      console.log(USERS_GET_SUCCESS, [...state, action.data])
+      console.log(USERS_GET_SUCCESS)
       return action.data;
     case USERS_GET_FAIL:
       // TODO: some alert may be

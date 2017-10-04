@@ -15,6 +15,7 @@ import ListElements from './ListElements'
 /* Validators */
 import { validateCreateUserForm } from './../../../../../utils/validators';
 
+let self;
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
@@ -46,6 +47,8 @@ class EditForm extends React.Component {
     };
     this.onAddSumbit=this.onAddSumbit.bind(this);
     this.onChange = this.onChange.bind(this);
+
+    self = this;
   }
 
   isValid(){
@@ -73,33 +76,63 @@ class EditForm extends React.Component {
       // this.context.router.history.push('/');
 
       let data = {
+        firstName: this.state.firstName,
+        secondName: this.state.secondName,
+        firstLastName: this.state.firstLastName,
+        secondLastName: this.state.secondLastName,
+        privilege: this.state.privilege,
+        bornDate: this.state.bornDate,
+        documentType: this.state.documentType || 'sometype',
+        documentValue: this.state.documentValue,
+        nationality: this.state.nationality,
+        department : this.state.department,
+        municipality: this.state.municipality,
+        comunity: this.state.community,
+        profession: this.state.profession,
+        address: this.state.address,
+        phone: this.state.phone,
+        cellphone: this.state.cellphone,
+        email: this.state.email,
+        password: this.state.password,
+        confirm_password: this.state.confirm_password,
+        cemproCode: this.state.cemproCode,
+        gender: this.state.gender,
+        // remaining items
+        appCode: '1',
+        phon: 1
+
       };
+
+      console.log("data: ", data);
+      console.log(this.state.isEditing);
+
+
       //we store  a function in the props
       this.state.isEditing ?
         this.props.actions.usersUpdateRequest(data).then(
         (response) => {
           //Save the default object as a provider
           if(response){
-            this.props.changeView('VIEW_ELEMENT');
+            self.props.changeView('VIEW_ELEMENT');
           }
         },
         (error) => {
           alert('fail');
           console.log("An Error occur with the Rest API");
-          self.setState({ errors: { ...this.state.errors, apiErrors: error.error }, isLoading: false });
+          self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
         })
       :
       this.props.actions.usersAddRequest(data).then(
         (response) => {
           //Save the default object as a provider
           if(response){
-            this.props.changeView('VIEW_ELEMENT');
+            self.props.changeView('VIEW_ELEMENT');
           }
         },
         (error) => {
           alert('fail');
           console.log("An Error occur with the Rest API");
-          self.setState({ errors: { ...this.state.errors, apiErrors: error.error }, isLoading: false });
+          self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
         });
 
     } else {
@@ -463,9 +496,10 @@ class EditForm extends React.Component {
 
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
-                          <RaisedButton disabled={this.state.isLoading} type="submit" label={this.state.isEditing?'Edit':'Add'} secondary
-                                        className="btn-w-md"/> <RaisedButton disabled={this.state.isLoading} type="submit" label={this.props.buttonLabel} secondary
-                                                                             className="btn-w-md"/>
+                          <RaisedButton disabled={this.state.isLoading}
+                                        type="submit"
+                                        label={this.state.isEditing?'Edit':'Add'} secondary
+                                        className="btn-w-md"> </RaisedButton>
                         </div>
                       </div>
                     </form>
