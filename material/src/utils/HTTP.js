@@ -17,7 +17,7 @@ export async function HTTP(method, uri, data, headers = null, params = null) {
         query.params = params;
     }
 
-    if (method === 'post' || method === 'put' || method === 'delete') {
+    if (method === 'post' || method === 'put' || method === 'delete' || method=='patch') {
         query.data = data;
     }
 

@@ -29,20 +29,22 @@ export function programGetRequest(data) {
       return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('get', '/program', data)
         .then(function (response) {
-          dispatch({
-            type: PROGRAM_GET_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: PROGRAM_GET_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: PROGRAM_GET_FAIL,
             error: error
           });
-          reject(false);
+          reject(response.data);
         })
     }})
   }
@@ -62,20 +64,22 @@ export function programAddRequest(data) {
       return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('post', '/program', data)
         .then(function (response) {
-          dispatch({
-            type: PROGRAM_ADD_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: PROGRAM_ADD_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: PROGRAM_ADD_FAIL,
             error: error
           });
-          reject(false);
+          reject(response.data);
         })
     }})
   }
