@@ -9,6 +9,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   usersAddRequest,
+  usersUpdateRequest
 } from '../../../../../actions';
 import ListElements from './ListElements'
 /* Validators */
@@ -18,6 +19,7 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isEditing: (this.props.userData.id)?true:false,
       firstName: this.props.userData.firstName || '' ,
       secondName: '',
       firstLastName: this.props.userData.firstLastName || '',
@@ -73,6 +75,20 @@ class EditForm extends React.Component {
       let data = {
       };
       //we store  a function in the props
+      this.state.isEditing ?
+        this.props.actions.usersUpdateRequest(data).then(
+        (response) => {
+          //Save the default object as a provider
+          if(response){
+            this.props.changeView('VIEW_ELEMENT');
+          }
+        },
+        (error) => {
+          alert('fail');
+          console.log("An Error occur with the Rest API");
+          self.setState({ errors: { ...this.state.errors, apiErrors: error.error }, isLoading: false });
+        })
+      :
       this.props.actions.usersAddRequest(data).then(
         (response) => {
           //Save the default object as a provider
@@ -447,8 +463,9 @@ class EditForm extends React.Component {
 
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
-                          <RaisedButton disabled={this.state.isLoading} type="submit" label="Agregar" secondary
-                                        className="btn-w-md"/>
+                          <RaisedButton disabled={this.state.isLoading} type="submit" label={this.state.isEditing?'Edit':'Add'} secondary
+                                        className="btn-w-md"/> <RaisedButton disabled={this.state.isLoading} type="submit" label={this.props.buttonLabel} secondary
+                                                                             className="btn-w-md"/>
                         </div>
                       </div>
                     </form>
@@ -493,6 +510,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
   //    signUpRequest
         usersAddRequest,
+        usersUpdateRequest,
     }, dispatch)
   };
 }
