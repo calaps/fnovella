@@ -96,7 +96,7 @@ class SidebarContent extends React.Component {
         <li><FlatButton href="#/app/program"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programas</span></FlatButton></li>
 
         <li>
-          <FlatButton href="#/app/form"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activaciones</span></FlatButton>
+          <FlatButton href="#/app/activation"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activaciones</span></FlatButton>
         </li>
         <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
         <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>

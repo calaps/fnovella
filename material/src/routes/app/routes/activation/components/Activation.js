@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import HorizontalLinearStepper from './HorizontalLinearStepper';
 import TableList from './TableList';
 
-const optionsName = "Estudiantes";
+const optionsName = "Activacion";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class MainOptions extends React.Component {
               <div className="box-body">
                 <div className="icon-box ibox-plain ibox-center">
                   <div className="ibox-icon">
-                    <a href="javascript:;"><i className="material-icons">supervisor_account</i></a>
+                    <a href="javascript:;"><i className="material-icons">check_circle</i></a>
                   </div>
                   <h5>{optionsName}es</h5>
                 </div>

@@ -456,13 +456,10 @@ class EditForm extends React.Component {
 
             </div>
 
-            <div className="col-xl-3 col-lg-6">
-              <div className="card bg-color-white">
-                <div className="card-content">
-                  <span className="card-title">Acerca</span>
-                  <p>Los privilegios son los permisos que cada usuario tiene para realizar funciones dentro de la aplicación</p>
-                </div>
-
+            <div className="col-xl-3">
+              <div className="callout callout-info">
+                <h6>Descripción:</h6>
+                <p>Los privilegios sirven para deterimnar los permisos que tiene cada usuario dentro de la aplicación.</p>
               </div>
             </div>
 

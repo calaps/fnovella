@@ -121,6 +121,13 @@ class EditForm extends React.Component {
 
             </div>
 
+            <div className="col-xl-3">
+              <div className="callout callout-info">
+                <h6>Descripción:</h6>
+                <p>Los catalogos son una de la parte mas importante del programa que sirve para llenar los formuarios con información predeterminadas.</p>
+              </div>
+            </div>
+
           </div>
 
         </div>

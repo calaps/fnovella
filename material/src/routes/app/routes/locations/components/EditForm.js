@@ -120,9 +120,18 @@ class EditForm extends React.Component {
 
             </div>
 
+            <div className="col-xl-3">
+              <div className="callout callout-info">
+                <h6>Informacion:</h6>
+                <p>Ubivaciones necesarias para crear y activar los programas. Son las sedes que general el correlativo</p>
+              </div>
+            </div>
+
           </div>
 
-        </div>
+
+          </div>
+
       </article>
     );
   }
