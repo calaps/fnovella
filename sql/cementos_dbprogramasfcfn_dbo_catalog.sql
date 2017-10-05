@@ -1,0 +1,12 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('escoba', 'text', 'limpieza');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('trapeador', 'text', 'limpieza');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('pala', 'text', 'limpieza');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('cloro', 'text', 'limpieza');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Guateamala', 'text', 'municipalidad');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Mixco', 'text', 'municipalidad');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Guatemala', 'text', 'departamento');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('El Progreso', 'text', 'departamento');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Zacapa', 'text', 'departamento');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('El Pajon', 'text', 'comunidad');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('La Naranaja', 'text', 'comunidad');
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('El Rancho', 'text', 'comunidad');

@@ -1,0 +1,1 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.course (name, program, location, description, open_course, grade) VALUES ('jose', 'program', 123, 'hola', 1, null);

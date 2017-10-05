@@ -1,0 +1,1 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, program, location, description) VALUES ('jose', 'program', 123, 'testing ');
