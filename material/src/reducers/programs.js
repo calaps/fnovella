@@ -36,7 +36,8 @@ const programs_reducer = (state = initialState.programs, action) => {
       console.log(PROGRAM_DELETE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.id){
+          console.log('id',newState[i].id,action.id)
           newState.splice(i, 1);
         }
       }
@@ -48,7 +49,7 @@ const programs_reducer = (state = initialState.programs, action) => {
       console.log(PROGRAM_UPDATE_SUCCESS)
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.id){
           newState[i] = action.data;
         }
       }

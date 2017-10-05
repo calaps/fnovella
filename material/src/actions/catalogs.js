@@ -28,120 +28,132 @@ export function catalogsGetRequest(data) {
       resolve(true);
       return;
 
-      // API
-      HTTP('get', '/catalogs', data)
-        .then(function (response) {
-          dispatch({
-            type: CATALOGS_GET_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
-        })
-        .catch(error => {
-          dispatch({
-            type: CATALOGS_GET_FAIL,
-            error: error
-          });
-          reject(false);
-        })
     }})
   }
+  // API
+  HTTP('get', '/catalog', null,{authorization: localStorage.getItem('@fnovella:token') })
+    .then(function (response) {
+      if(response.data.error===null){
+        dispatch({
+          type: CATALOGS_GET_SUCCESS,
+          data: response.data.data
+        });
+        resolve(response.data);
+      }else {
+        reject(response.data)
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: CATALOGS_GET_FAIL,
+        error: error
+      });
+      reject(error);
+    })
 }
 
 export function catalogsAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
       // will be removed once API is ready
       dispatch({
         type: CATALOGS_ADD_SUCCESS,
-        data: {
-        }
+        data
       });
       resolve(true);
       return;
 
       // API
-      HTTP('post', '/catalogs', data)
+      HTTP('post', '/catalog', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: CATALOGS_ADD_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: CATALOGS_ADD_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else{
+            reject(response.data)
+          }
         })
         .catch(error => {
           dispatch({
             type: CATALOGS_ADD_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
 }
 
-export function catalogsUpdateRequest(data) {
+export function catalogsUpdateRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       dispatch({
         type: CATALOGS_UPDATE_SUCCESS,
-        data: {
-        }
+        id
       });
       resolve(true);
       return;
 
       // API
-      HTTP('put', '/catalogs', data)
+      HTTP('patch', '/catalog/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: CATALOGS_UPDATE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
-        })
+          if(!response.data.errors){
+            dispatch({
+              type: CATALOGS_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else{
+            reject(response.data)
+          }
+          })
         .catch(error => {
           dispatch({
             type: CATALOGS_UPDATE_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
 }
 
-export function catalogsDeleteRequest(data) {
+export function catalogsDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       dispatch({
         type: CATALOGS_DELETE_SUCCESS,
-        data: {
-        }
+        id
       });
       resolve(true);
       return;
 
       // API
-      HTTP('delete', '/catalogs', data)
+      HTTP('delete', '/catalogs/'+id,null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: CATALOGS_DELETE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
-        })
+          if(response.data.errors===null){
+            dispatch({
+              type: CATALOGS_DELETE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else{
+            reject(response.data);
+          }
+          })
         .catch(error => {
           dispatch({
             type: CATALOGS_DELETE_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }

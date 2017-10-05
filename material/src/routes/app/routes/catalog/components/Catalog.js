@@ -85,9 +85,16 @@ class Catalog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      catalogData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
+    this.onEditCatalog = this.onEditCatalog.bind(this);
+  }
+  onEditCatalog (catalogData){
+    this.setState({catalogData});
+
+    this.changeView('ADD_ELEMENT');
   }
 
   changeView(data){
@@ -97,9 +104,9 @@ class Catalog extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm />;
+        return <EditForm changeView={this.changeView} catalogData={this.state.catalogData} />;
       case "VIEW_ELEMENT":
-        return <ListElements />;
+        return <ListElements onEdit={this.onEditCatalog}  />;
       default:
         return null;
     }

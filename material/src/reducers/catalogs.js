@@ -13,12 +13,13 @@ import {
   CATALOGS_UPDATE_FAIL,
   CATALOGS_UPDATE_REQUEST,
   CATALOGS_UPDATE_SUCCESS
-} from './../actions';
+} from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
 
 const catalogs_reducer = (state = initialState.catalogs, action) => {
   let newState;
+  console.log(CATALOGS_ADD_SUCCESS);
   switch(action.type){
     case CATALOGS_ADD_SUCCESS:
       console.log(CATALOGS_ADD_SUCCESS)
@@ -36,7 +37,7 @@ const catalogs_reducer = (state = initialState.catalogs, action) => {
       console.log(CATALOGS_DELETE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.id){
           newState.splice(i, 1);
         }
       }
@@ -48,7 +49,7 @@ const catalogs_reducer = (state = initialState.catalogs, action) => {
       console.log(CATALOGS_UPDATE_SUCCESS)
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.id){
           newState[i] = action.data;
         }
       }

@@ -120,7 +120,6 @@ class EditForm extends React.Component {
           }
         },
         (error) => {
-          alert('fail');
           console.log("An Error occur with the Rest API");
           self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
         })
@@ -501,7 +500,7 @@ class EditForm extends React.Component {
                         <div className="offset-md-3 col-md-10">
                           <RaisedButton disabled={this.state.isLoading}
                                         type="submit"
-                                        label={this.state.isEditing?'Edit':'Add'} secondary
+                                        label={this.state.isEditing?'Update':'Add'} secondary
                                         className="btn-w-md"> </RaisedButton>
                         </div>
                       </div>
