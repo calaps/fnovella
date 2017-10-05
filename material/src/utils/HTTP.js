@@ -5,7 +5,7 @@ export async function HTTP(method, uri, data, headers = null, params = null) {
 
     let url = (config.API_URL+uri);
 
-    if(url.indexOf('/program')>=0){
+    if(url.indexOf('/program')>=0 || url.indexOf('/catalog')>=0){
       url = url.replace("api/","");
     }
 

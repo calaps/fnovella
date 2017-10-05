@@ -18,8 +18,9 @@ class EditForm extends React.Component {
     this.state = {
       isEditing: (this.props.catalogData.id)?true:false,
       name: this.props.catalogData.name || '',
-      dataType: this.props.catalogData.type|| '',
+      type: this.props.catalogData.type|| '',
       category: this.props.catalogData.category|| '',
+      id: this.props.catalogData.id || '',
       errors: {},
       isLoading: false
     };
@@ -46,9 +47,12 @@ class EditForm extends React.Component {
       this.setState({ errors: {}, isLoading: true });
       let data = {
         name:this.state.name,
-        type: this.state.dataType,
+        type: this.state.type,
         category:this.state.category
       };
+      if(this.state.isEditing){
+        data.id = this.state.id;
+      }
 
       // ON SUCCESSS API
       this.state.isEditing ?
@@ -138,15 +142,15 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                       <div className="col-md-9">
                         <select
-                          name="dataType"
+                          name="type"
                           onChange={this.onChange}
-                          value={this.state.dataType}
+                          value={this.state.type}
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el tipo de dato</option>
                           {options}
                         </select>
-                        {errors.dataType && <span className="help-block text-danger">{errors.dataType}</span>}
+                        {errors.type && <span className="help-block text-danger">{errors.type}</span>}
                       </div>
                     </div>
 

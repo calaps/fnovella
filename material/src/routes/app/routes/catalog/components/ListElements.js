@@ -23,10 +23,6 @@ class ListElements extends React.Component {
 
   onDeleteButton(id) {
     console.log("id: ", id);
-    this.props.actions.programDeleteRequest(id);
-  }
-  onDeleteButton(id) {
-    console.log("id: ", id);
     this.props.actions.catalogsDeleteRequest(id);
   }
 
