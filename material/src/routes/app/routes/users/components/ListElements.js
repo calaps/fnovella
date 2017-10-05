@@ -1,6 +1,11 @@
 import React from "react";
 import ListItem from "./ListItem";
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  usersGetRequest,
+  usersDeleteRequest
+} from '../../../../../actions';
 /** *
  * Fake element list render....
  * */
@@ -8,36 +13,20 @@ import {connect} from 'react-redux';
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      usersData:[
-        {
-          id:1,
-          firstName: 'abc',
-          email:'abc@co.uk',
-          firstLastName:'cde',
-          cellphone: 123456,
-          gender: 'Male',
-          bornDate:'01/01/1990'
-        },{
-          id:2,
-          firstName: 'abc',
-          email:'abc@co.uk',
-          firstLastName:'cde',
-          cellphone: 123456,
-          gender: 'Male',
-          bornDate:'01/01/1990'
-        },{
-          id:3,
-          firstName: 'abc',
-          email:'abc@co.uk',
-          firstLastName:'cde',
-          cellphone: 123456,
-          gender: 'Male',
-          bornDate:'01/01/1990'
-        },
-      ]
+    this.onDeleteButton=this.onDeleteButton.bind(this)
     }
+
+  componentWillMount(){
+    console.log("running component will mount");
+    // API action
+    this.props.actions.usersGetRequest();
   }
+
+  onDeleteButton(id) {
+    console.log("id: ", id);
+    this.props.actions.usersDeleteRequest(id);
+  }
+
   render() {
     return (
       <article className="article">
@@ -65,8 +54,10 @@ class ListElements extends React.Component {
 
 
                     {
-                      this.state.usersData.map((userData) => {
-                        return <ListItem key={userData.id} {...userData}/>
+                      this.props.users.map((user) => {
+                        return <ListItem key={user.id} onDelete={this.onDeleteButton}
+                                         onEdit={this.props.onEdit}
+                                         userData={user}/>
                       })
                     }
                     </tbody>
@@ -86,5 +77,24 @@ class ListElements extends React.Component {
   }
 
 }
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    users: state.users
+  }
+}
 
-module.exports = connect()(ListElements);
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      usersGetRequest,
+      usersDeleteRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  mapStateToProps, mapDispatchToProps
+)(ListElements);
+

@@ -3,8 +3,11 @@ let initialState = {
     auth: {
         user: null,
     },
-    programs: [],
-    catalogs: [],
+    programs: [
+    ],
+    catalogs: [
+
+    ],
     educators: [],
     privileges: [],
     sedes: [],

@@ -15,28 +15,29 @@ import {
   PROGRAM_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programGetRequest(data) {
+export function programGetRequest(data, params) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
       // will be removed once API is ready
-      dispatch({
-        type: PROGRAM_GET_REQUEST,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PROGRAM_GET_REQUEST,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('get', '/program', data)
+      HTTP('get', '/program/',null,{authorization: localStorage.getItem('@fnovella:token') }, params)
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: PROGRAM_GET_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
+          }else{
+            reject(response.data);
           }
         })
         .catch(error => {
@@ -44,27 +45,27 @@ export function programGetRequest(data) {
             type: PROGRAM_GET_FAIL,
             error: error
           });
-          reject(response.data);
+          reject(error);
         })
     }})
   }
 }
 
 export function programAddRequest(data) {
-  return function (dispatch) {
-    return new Promise(function(resolve, reject){{
+      return function (dispatch) {
+        return new Promise(function(resolve, reject){{
 
-      // will be removed once API is ready
-      dispatch({
-        type: PROGRAM_ADD_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+          // will be removed once API is ready
+          // dispatch({
+          //   type: PROGRAM_ADD_SUCCESS,
+          //   data
+          // });
+          // resolve(true);
+          // return;
+
 
       // API
-      HTTP('post', '/program', data)
+      HTTP('post', '/program/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
@@ -72,6 +73,8 @@ export function programAddRequest(data) {
               data: response.data.data
             });
             resolve(response.data);
+          }else{
+            reject(response.data);
           }
         })
         .catch(error => {
@@ -79,7 +82,7 @@ export function programAddRequest(data) {
             type: PROGRAM_ADD_FAIL,
             error: error
           });
-          reject(response.data);
+          reject(error);
         })
     }})
   }
@@ -90,62 +93,71 @@ export function programUpdateRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PROGRAM_UPDATE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PROGRAM_UPDATE_SUCCESS,
+      //   data
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('patch', '/program/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: PROGRAM_UPDATE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: PROGRAM_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data);
+          }
+
         })
         .catch(error => {
           dispatch({
             type: PROGRAM_UPDATE_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
 }
 
-export function programDeleteRequest(data) {
+export function programDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PROGRAM_DELETE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PROGRAM_DELETE_SUCCESS,
+      //   id: id
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('post', '/', data)
+      HTTP('delete', '/program/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: PROGRAM_DELETE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: PROGRAM_DELETE_SUCCESS,
+              data: {
+                id
+              }
+            });
+            resolve(response.data);
+          }else{
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: PROGRAM_DELETE_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }

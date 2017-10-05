@@ -8,7 +8,9 @@ import {
   GETUSER_SUCCESS,
   GETUSER_FAIL,
   SET_USER_TYPE,
-  LOG_OUT
+  LOG_OUT,
+  LOG_OUT_SUCCESS,
+  LOG_OUT_FAIL
 } from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
@@ -52,6 +54,7 @@ const auth_reducer = (state = initialState.auth, action) => {
         }
       );
     case GETUSER_FAIL:
+      localStorage.removeItem('@fnovella:token');
       return state;
     case SET_USER_TYPE:
       return Object.assign(
@@ -59,7 +62,7 @@ const auth_reducer = (state = initialState.auth, action) => {
         state,
         {}
       );
-    case LOG_OUT:
+    case LOG_OUT_SUCCESS:
       console.log(LOG_OUT)
       localStorage.removeItem('@fnovella:token');
       return Object.assign(
@@ -69,6 +72,8 @@ const auth_reducer = (state = initialState.auth, action) => {
           user: null
         }
       );
+    case LOG_OUT_FAIL:
+      return state;
     default:
       return state;
   }

@@ -1,0 +1,28 @@
+import React from 'react';
+
+class ListItem extends React.Component {
+  render () {
+    return (
+          <tr>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.programData.name}</td>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.programData.audience}</td>
+            <td className="mdl-data-table__cell--non-numeric" >{this.props.programData.description}</td>
+            <td className="mdl-data-table__cell--non-numeric" >{this.props.programData.clasification}</td>
+            <td className="mdl-data-table__cell--non-numeric" >
+              <button
+                onClick={()=>{this.props.onDelete(this.props.programData.id)}}
+
+                type="submit" className="btn btn-primary">Delete</button>
+            </td>
+            <td>
+              <button
+                onClick={()=>{this.props.onEdit(this.props.programData)}}
+
+                type="submit" className="btn btn-primary">Edit</button>
+            </td>
+          </tr>
+          );
+  }
+}
+
+export default ListItem;

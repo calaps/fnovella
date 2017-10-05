@@ -28,7 +28,7 @@ const programs_reducer = (state = initialState.programs, action) => {
       return state;
     case PROGRAM_GET_SUCCESS:
       console.log(PROGRAM_GET_SUCCESS)
-      return [action.data];
+      return action.data;
     case PROGRAM_GET_FAIL:
       // TODO: some alert may be
       return state;
@@ -36,7 +36,7 @@ const programs_reducer = (state = initialState.programs, action) => {
       console.log(PROGRAM_DELETE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.data.id){
           newState.splice(i, 1);
         }
       }
@@ -48,7 +48,7 @@ const programs_reducer = (state = initialState.programs, action) => {
       console.log(PROGRAM_UPDATE_SUCCESS)
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.data.id){
           newState[i] = action.data;
         }
       }

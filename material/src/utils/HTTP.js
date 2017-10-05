@@ -3,8 +3,13 @@ import config from './../constants/Config';
 
 export async function HTTP(method, uri, data, headers = null, params = null) {
 
-    const url = `${config.API_URL}${uri}`.trim();
-    const query = {
+    let url = (config.API_URL+uri);
+
+    if(url.indexOf('/program')>=0 || url.indexOf('/catalog')>=0){
+      url = url.replace("api/","");
+    }
+
+    let query = {
         method: method,
         url: url
     };

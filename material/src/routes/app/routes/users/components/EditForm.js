@@ -9,41 +9,47 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   usersAddRequest,
+  usersUpdateRequest
 } from '../../../../../actions';
 import ListElements from './ListElements'
 /* Validators */
 import { validateCreateUserForm } from './../../../../../utils/validators';
 
+let self;
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      secondName: '',
-      firstLastName: '',
-      secondLastName: '',
-      privilege: '',
-      bornDate: '',
-      documentType: '',
-      documentValue: '',
-      nationality: '',
-      department : '',
-      municipality: '',
-      community: '',
-      profession: '',
-      address: '',
-      phone: '',
-      cellphone: '',
-      email: '',
-      password: '',
-      confirm_password: '',
-      cemproCode: '',
-      gender: '',
+      isEditing: (this.props.userData.id)?true:false,
+      firstName: this.props.userData.firstName || '' ,
+      secondName: this.props.userData.secondName || '' ,
+      firstLastName: this.props.userData.firstLastName || '',
+      secondLastName: this.props.userData.secondLastName || '' ,
+      privilege: this.props.userData.privilege || '' ,
+      bornDate: this.props.userData.bornDate || '',
+      documentType: this.props.userData.documentType || '' ,
+      documentValue: this.props.userData.documentValue || '' ,
+      nationality: this.props.userData.nationality || '' ,
+      department : this.props.userData.department || '' ,
+      municipality: this.props.userData.municipality || '' ,
+      community: this.props.userData.community || '' ,
+      profession: this.props.userData.profession || '' ,
+      address: this.props.userData.address || '' ,
+      phone: this.props.userData.phone || '' ,
+      cellphone: this.props.userData.cellphone || '' ,
+      email: this.props.userData.email ||  '',
+      password: this.props.userData.password || '' ,
+      confirm_password: this.props.userData.confirm_password || '' ,
+      cemproCode: this.props.userData.cemproCode || '' ,
+      gender: this.props.userData.gender || '',
+      id: this.props.userData.id || '',
       errors: {},
       isLoading: false
     };
     this.onAddSumbit=this.onAddSumbit.bind(this);
     this.onChange = this.onChange.bind(this);
+
+    self = this;
   }
 
   isValid(){
@@ -71,19 +77,64 @@ class EditForm extends React.Component {
       // this.context.router.history.push('/');
 
       let data = {
+        firstName: this.state.firstName,
+        secondName: this.state.secondName,
+        firstLastName: this.state.firstLastName,
+        secondLastName: this.state.secondLastName,
+        privilege: this.state.privilege,
+        bornDate: this.state.bornDate,
+        documentType: this.state.documentType || 'sometype',
+        documentValue: this.state.documentValue,
+        nationality: this.state.nationality,
+        department : this.state.department,
+        municipality: this.state.municipality,
+        comunity: this.state.community,
+        profession: this.state.profession,
+        address: this.state.address,
+        phone: this.state.phone,
+        cellphone: this.state.cellphone,
+        email: this.state.email,
+        password: this.state.password,
+        confirm_password: this.state.confirm_password,
+        cemproCode: this.state.cemproCode,
+        gender: this.state.gender,
+        // remaining items
+        appCode: '1',
+        phon: 1
       };
+      if(this.state.isEditing){
+        data.id = this.state.id;
+      }
+
+      console.log("data: ", data);
+      console.log(this.state.isEditing);
+
+
       //we store  a function in the props
+      this.state.isEditing ?
+        this.props.actions.usersUpdateRequest(data).then(
+        (response) => {
+          //Save the default object as a provider
+          if(response){
+            self.props.changeView('VIEW_ELEMENT');
+          }
+        },
+        (error) => {
+          console.log("An Error occur with the Rest API");
+          self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+        })
+      :
       this.props.actions.usersAddRequest(data).then(
         (response) => {
           //Save the default object as a provider
           if(response){
-            this.props.changeView('VIEW_ELEMENT');
+            self.props.changeView('VIEW_ELEMENT');
           }
         },
         (error) => {
           alert('fail');
           console.log("An Error occur with the Rest API");
-          self.setState({ errors: { ...this.state.errors, apiErrors: error.error }, isLoading: false });
+          self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
         });
 
     } else {
@@ -447,8 +498,10 @@ class EditForm extends React.Component {
 
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
-                          <RaisedButton disabled={this.state.isLoading} type="submit" label="Agregar" secondary
-                                        className="btn-w-md"/>
+                          <RaisedButton disabled={this.state.isLoading}
+                                        type="submit"
+                                        label={this.state.isEditing?'Update':'Add'} secondary
+                                        className="btn-w-md"> </RaisedButton>
                         </div>
                       </div>
                     </form>
@@ -493,6 +546,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
   //    signUpRequest
         usersAddRequest,
+        usersUpdateRequest,
     }, dispatch)
   };
 }

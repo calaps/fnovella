@@ -15,36 +15,39 @@ import {
   USERS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function usersGetRequest(data) {
+export function usersGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_GET_REQUEST,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_GET_REQUEST,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('get', '/users', data)
+      HTTP('get', '/users', null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
              dispatch({
               type: USERS_GET_SUCCESS,
               data: response.data.data
             });
+            resolve(response.data);
           }
-          resolve(response.data);
+          else{
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: USERS_GET_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
@@ -55,23 +58,26 @@ export function usersAddRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_ADD_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_ADD_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('post', '/users', data)
+      HTTP('post', '/signup', data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: USERS_ADD_SUCCESS,
-              data: response.data.data
+              data: response.data.user
             });
             resolve(response.data);
+          }
+          else{
+            reject(response.data);
           }
         })
         .catch(error => {
@@ -79,7 +85,7 @@ export function usersAddRequest(data) {
             type: USERS_ADD_FAIL ,
             error: error,
           });
-          reject(response.data);
+          reject(error);
         });
     }});
   }
@@ -90,23 +96,26 @@ export function usersUpdateRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_UPDATE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_UPDATE_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('patch', '/users', data)
+      HTTP('patch', '/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!respone.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: USERS_UPDATE_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
+          }
+          else{
+            reject(response.data);
           }
         })
         .catch(error => {
@@ -114,34 +123,40 @@ export function usersUpdateRequest(data) {
             type: USERS_UPDATE_FAIL,
             error: error
           });
-          reject(response.data);
+          reject(error);
         });
     }})
   }
 }
 
-export function usersDeleteRequest(data) {
+export function usersDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: USERS_DELETE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: USERS_DELETE_SUCCESS,
+      //   data: {
+      //     id: id
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('delete', '/users', data)
+      HTTP('delete', '/delete/'+id, null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
               type: USERS_DELETE_SUCCESS,
-              data: response.data.data
+              data: {
+                id
+              }
             });
             resolve(response.data);
+          }
+          else{
+            reject(response.data);
           }
         })
         .catch(error => {
@@ -149,7 +164,7 @@ export function usersDeleteRequest(data) {
             type: USERS_DELETE_FAIL,
             error: error
           });
-          reject(response.data);
+          reject(error);
         });
     }})
   }

@@ -57,7 +57,7 @@ class Header extends React.Component {
 
           <div className="top-nav-right">
             <NavRightList router={this.props.router}/>
-            <p className="nav_user_name float-right">{(this.props.auth.user)?(this.props.auth.user.firstName + ' ' + this.props.auth.user.firstLastName):'First name'}
+            <p className="nav_user_name float-right">{(this.props.auth.user)?(this.props.auth.user.firstName + ' ' + this.props.auth.user.firstLastName):' '}
             </p>
           </div>
         </div>

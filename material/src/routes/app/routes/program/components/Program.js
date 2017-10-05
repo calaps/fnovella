@@ -9,6 +9,8 @@ class MainOptions extends React.Component {
   constructor(props) {
     super(props);
   }
+
+
   render() {
     return(
       <article className="article padding-lg-v article-bordered">
@@ -85,9 +87,17 @@ class Program extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      programData:{}
     };
     this.changeView = this.changeView.bind(this); //bind this element
+    this.onEditProgram=this.onEditProgram.bind(this);
+  }
+
+  onEditProgram (programData){
+    this.setState({programData})
+
+    this.changeView('ADD_ELEMENT');
   }
 
   changeView(data){
@@ -97,9 +107,9 @@ class Program extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm />;
+        return <EditForm changeView={this.changeView} programData={this.state.programData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements />;
+        return <ListElements onEdit={this.onEditProgram}  />;
       default:
         return null;
     }

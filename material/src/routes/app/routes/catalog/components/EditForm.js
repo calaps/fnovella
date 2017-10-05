@@ -3,29 +3,41 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import { data_types } from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  catalogsAddRequest,
+  catalogsUpdateRequest
+} from '../../../../../actions';
 
+let self;
 
 class EditForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      name: '',
-      dataType: '',
-      category: '',
+      isEditing: (this.props.catalogData.id)?true:false,
+      name: this.props.catalogData.name || '',
+      type: this.props.catalogData.type|| '',
+      category: this.props.catalogData.category|| '',
+      id: this.props.catalogData.id || '',
       errors: {},
       isLoading: false
     };
     this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onChange = this.onChange.bind(this);
+    self= this;
   }
 
   isValid(){
+    // TODO:Commented bacause of invalid validation
     //local validation
-    const { errors, isValid } = emptyValidator(this.state)
-    if(!isValid){
-      this.setState({ errors });
-    }
-    return isValid;
+    // const { errors, isValid } = emptyValidator(this.state)
+    // if(!isValid){
+    //   this.setState({ errors });
+    // }
+    // return isValid;
+    return true;
   }
 
   onSubmit(e) {
@@ -33,8 +45,41 @@ class EditForm extends React.Component {
     if(this.isValid()){
       //reset errros object and disable submit button
       this.setState({ errors: {}, isLoading: true });
+      let data = {
+        name:this.state.name,
+        type: this.state.type,
+        category:this.state.category
+      };
+      if(this.state.isEditing){
+        data.id = this.state.id;
+      }
 
       // ON SUCCESSS API
+      this.state.isEditing ?
+        this.props.actions.catalogsUpdateRequest(data).then(
+          (response) => {
+            //Save the default object as a provider
+            if(response){
+              self.props.changeView('VIEW_ELEMENT');
+            }
+          },
+          (error) => {
+            alert('fail');
+            console.log("An Error occur with the Rest API");
+            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+          })
+        :
+        this.props.actions.catalogsAddRequest(data).then(
+          (response) => {
+            //Save the default object as a provider
+            if(response){
+              self.props.changeView('VIEW_ELEMENT');
+            }
+          },(error) => {
+            alert('fail');
+            console.log("An Error occur with the Rest API");
+            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+          });
 
     } else {
 
@@ -97,21 +142,23 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                       <div className="col-md-9">
                         <select
-                          name="dataType"
+                          name="type"
                           onChange={this.onChange}
-                          value={this.state.dataType}
+                          value={this.state.type}
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el tipo de dato</option>
                           {options}
                         </select>
-                        {errors.dataType && <span className="help-block text-danger">{errors.dataType}</span>}
+                        {errors.type && <span className="help-block text-danger">{errors.type}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <RaisedButton disabled={this.state.isLoading} type="submit" label="Agregar" secondary className="btn-w-md" />
+                        <RaisedButton disabled={this.state.isLoading} type="submit"
+                                      label={this.state.isEditing?'Update':'Add'}
+                                      secondary className="btn-w-md" />
                       </div>
                     </div>
                   </form>
@@ -136,4 +183,25 @@ class EditForm extends React.Component {
   }
 }
 
-module.exports = EditForm;
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    // auth: state.auth
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      //    signUpRequest
+      catalogsAddRequest,
+      catalogsUpdateRequest,
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditForm);

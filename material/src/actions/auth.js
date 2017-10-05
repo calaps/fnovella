@@ -10,7 +10,9 @@ import {
   GETUSER_SUCCESS,
   GETUSER_FAIL,
   SET_USER_TYPE,
-  LOG_OUT
+  LOG_OUT,
+  LOG_OUT_SUCCESS,
+  LOG_OUT_FAIL
 } from './../constants/ActionTypes';
 
 export function loginRequest(data) {
@@ -18,44 +20,44 @@ export function loginRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: LOGIN_SUCCESS,
-        data: {
-          user:  {
-            "id": 24,
-            "firstName": "Shahnawaz",
-            "secondName": "abc",
-            "firstLastName": "Ali",
-            "secondLastName": "Kausar",
-            "privilege": 1,
-            "documentType": "abc",
-            "documentValue": "abc",
-            "nationality": "abc",
-            "department": "abc",
-            "profession": "abc",
-            "address": "abc",
-            "email": "mr_shah@live.com",
-            "password": "123",
-            "municipality": "abc",
-            "comunity": "abc",
-            "cellphone": 0,
-            "cemproCode": "abc",
-            "appCode": "abc",
-            "gender": "male",
-            "bornDate": "2017-10-01",
-            "phon": 1
-          },
-          token: 't4DUgxbSbKs1NGEB4WbsB'
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: LOGIN_SUCCESS,
+      //   data: {
+      //     user:  {
+      //       "id": 24,
+      //       "firstName": "Shahnawaz",
+      //       "secondName": "abc",
+      //       "firstLastName": "Ali",
+      //       "secondLastName": "Kausar",
+      //       "privilege": 1,
+      //       "documentType": "abc",
+      //       "documentValue": "abc",
+      //       "nationality": "abc",
+      //       "department": "abc",
+      //       "profession": "abc",
+      //       "address": "abc",
+      //       "email": "mr_shah@live.com",
+      //       "password": "123",
+      //       "municipality": "abc",
+      //       "comunity": "abc",
+      //       "cellphone": 0,
+      //       "cemproCode": "abc",
+      //       "appCode": "abc",
+      //       "gender": "male",
+      //       "bornDate": "2017-10-01",
+      //       "phon": 1
+      //     },
+      //     token: 't4DUgxbSbKs1NGEB4WbsB'
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
       HTTP('post', '/login', data)
         .then(function (response) {
           console.log("response: ",response);
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: LOGIN_SUCCESS,
               data: response.data
@@ -123,44 +125,44 @@ export function getUserDetails(token){
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: GETUSER_SUCCESS,
-        data: {
-          "id": 24,
-          "firstName": "Shahnawaz",
-          "secondName": "abc",
-          "firstLastName": "Ali",
-          "secondLastName": "Kausar",
-          "privilege": 1,
-          "documentType": "abc",
-          "documentValue": "abc",
-          "nationality": "abc",
-          "department": "abc",
-          "profession": "abc",
-          "address": "abc",
-          "email": "mr_shah@live.com",
-          "password": "",
-          "municipality": "abc",
-          "comunity": "abc",
-          "cellphone": 0,
-          "cemproCode": "abc",
-          "appCode": "abc",
-          "gender": "male",
-          "bornDate": "2017-10-01",
-          "phon": 1
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: GETUSER_SUCCESS,
+      //   data: {
+      //     "id": 24,
+      //     "firstName": "Shahnawaz",
+      //     "secondName": "abc",
+      //     "firstLastName": "Ali",
+      //     "secondLastName": "Kausar",
+      //     "privilege": 1,
+      //     "documentType": "abc",
+      //     "documentValue": "abc",
+      //     "nationality": "abc",
+      //     "department": "abc",
+      //     "profession": "abc",
+      //     "address": "abc",
+      //     "email": "mr_shah@live.com",
+      //     "password": "",
+      //     "municipality": "abc",
+      //     "comunity": "abc",
+      //     "cellphone": 0,
+      //     "cemproCode": "abc",
+      //     "appCode": "abc",
+      //     "gender": "male",
+      //     "bornDate": "2017-10-01",
+      //     "phon": 1
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
       HTTP('get', '/userDetails', null, {authorization: token})
         .then(function (response) {
           console.log("response: ",response);
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: GETUSER_SUCCESS,
-              data: response.data
+              data: response.data.data
             });
             resolve(response.data);
           }
@@ -185,20 +187,20 @@ export function logOut(){
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: LOG_OUT,
-        data: {}
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: LOG_OUT,
+      //   data: {}
+      // });
+      // resolve(true);
+      // return;
 
       // API - in case we have Logout API
-      HTTP('get', '/logout', null, {authorization: token})
+      HTTP('get', '/logout', null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           console.log("response: ",response);
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
-              type: LOGIN_SUCCESS,
+              type: LOG_OUT_SUCCESS,
               data: response.data
             });
             resolve(response.data);
@@ -210,7 +212,7 @@ export function logOut(){
         .catch(error => {
           console.log("error: ",error);
           dispatch({
-            type: LOGIN_FAIL,
+            type: LOG_OUT_FAIL,
             error: error
           });
           reject(error);
