@@ -19,9 +19,11 @@ class EditForm extends React.Component {
       name: this.props.programData.name ||'',
       audience: this.props.programData.audience || '',
       description: this.props.programData.description || '',
-      provider: this.props.programData.provider || '',
-      classification: this.props.programData.clasification || '',
-      freeCourses: this.props.programData.freeCourses || '',
+      provider: typeof this.props.programData.provider==="boolean"?this.props.programData.provider:true,
+      clasification: this.props.programData.clasification || '',
+      freeCourses: typeof this.props.programData.freeCourses==="boolean"?this.props.programData.freeCourses:true,
+      type: typeof this.props.programData.type==="boolean"?this.props.programData.type:true,
+      id: this.props.programData.id || '',
       errors: {},
       isLoading: false
     };
@@ -53,12 +55,15 @@ class EditForm extends React.Component {
         audience: this.state.audience,
         description: this.state.description,
         provider: this.state.provider,
-        classification: this.state.classification,
+        clasification: this.state.clasification,
         freeCourses: this.state.freeCourses
       };
+      if(this.state.isEditing){
+        data.id = this.state.id;
+      }
       // ON SUCCESSS API
       this.state.isEditing ?
-        this.props.actions.programUpdateRequest(data,this.props.programData.id).then(
+        this.props.actions.programUpdateRequest(data).then(
           (response) => {
             //Save the default object as a provider
             if(response){
@@ -165,8 +170,8 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona...</option>
-                          <option value="0">No</option>
-                          <option value="1">Si</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
                         </select>
                         {errors.provider && <span className="help-block text-danger">{errors.provider}</span>}
                       </div>
@@ -189,17 +194,17 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tiene cursos libres?</label>
                       <div className="col-md-9">
                         <select
-                          name="free_courses"
-                          id="free_courses"
+                          name="freeCourses"
+                          id="freeCourses"
                           onChange={this.onChange}
-                          value={this.state.free_courses}
+                          value={this.state.freeCourses}
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona...</option>
-                          <option value="0">No</option>
-                          <option value="1">Si</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
                         </select>
-                        {errors.free_courses && <span className="help-block text-danger">{errors.free_courses}</span>}
+                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
                       </div>
                     </div>
 

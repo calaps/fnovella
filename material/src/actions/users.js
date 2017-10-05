@@ -107,7 +107,7 @@ export function usersUpdateRequest(data) {
       // API
       HTTP('patch', '/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!respone.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: USERS_UPDATE_SUCCESS,
               data: response.data.data
@@ -149,7 +149,9 @@ export function usersDeleteRequest(id) {
           if(!response.data.errors){
             dispatch({
               type: USERS_DELETE_SUCCESS,
-              data: id
+              data: {
+                id
+              }
             });
             resolve(response.data);
           }

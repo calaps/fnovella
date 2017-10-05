@@ -51,7 +51,7 @@ const users_reducer = (state = initialState.users, action) => {
       newState = [...state];
       console.log("new State: ", newState);
       for(let i=0; i<newState.length; i++){
-        if(newState[i].id === action.id){
+        if(newState[i].id === action.data.id){
           newState[i] = action.data;
         }
       }

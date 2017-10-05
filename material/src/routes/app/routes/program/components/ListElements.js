@@ -16,7 +16,8 @@ class ListElements extends React.Component {
     this.onDeleteButton=this.onDeleteButton.bind(this);
   }
   componentWillMount() {
-    this.props.actions.programGetRequest();
+    // type: 2 reflects all programs
+    this.props.actions.programGetRequest(null, {type: 2});
   }
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -41,7 +42,7 @@ class ListElements extends React.Component {
                       <th className="mdl-data-table__cell--non-numeric">Name</th>
                       <th className="mdl-data-table__cell--non-numeric">Audience</th>
                       <th className="mdl-data-table__cell--non-numeric">Decription</th>
-                      <th className="mdl-data-table__cell--non-numeric">Classification</th>
+                      <th className="mdl-data-table__cell--non-numeric">Clasification</th>
                     </tr>
                     </thead>
 

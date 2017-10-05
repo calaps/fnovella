@@ -15,20 +15,20 @@ import {
   PROGRAM_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programGetRequest(data) {
+export function programGetRequest(data, params) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready
-      dispatch({
-        type: PROGRAM_GET_REQUEST,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PROGRAM_GET_REQUEST,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('get', '/program',null,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('get', '/program/',null,{authorization: localStorage.getItem('@fnovella:token') }, params)
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
@@ -56,16 +56,16 @@ export function programAddRequest(data) {
         return new Promise(function(resolve, reject){{
 
           // will be removed once API is ready
-          dispatch({
-            type: PROGRAM_ADD_SUCCESS,
-            data
-          });
-          resolve(true);
-          return;
+          // dispatch({
+          //   type: PROGRAM_ADD_SUCCESS,
+          //   data
+          // });
+          // resolve(true);
+          // return;
 
 
       // API
-      HTTP('post', '/program', data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('post', '/program/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
@@ -88,18 +88,17 @@ export function programAddRequest(data) {
   }
 }
 
-export function programUpdateRequest(id,data) {
+export function programUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PROGRAM_UPDATE_SUCCESS,
-        id,
-        data
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PROGRAM_UPDATE_SUCCESS,
+      //   data
+      // });
+      // resolve(true);
+      // return;
 
       // API
       HTTP('patch', '/program/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
@@ -131,20 +130,22 @@ export function programDeleteRequest(id) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PROGRAM_DELETE_SUCCESS,
-        id: id
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PROGRAM_DELETE_SUCCESS,
+      //   id: id
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('delete', '/program/'+id, data)
+      HTTP('delete', '/program/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
               type: PROGRAM_DELETE_SUCCESS,
-              data: response.data.data
+              data: {
+                id
+              }
             });
             resolve(response.data);
           }else{
