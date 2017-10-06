@@ -54,7 +54,7 @@ export function loginRequest(data) {
       // return;
 
       // API
-      HTTP('post', '/login', data)
+      HTTP('post', '/user/login', data)
         .then(function (response) {
           console.log("response: ",response);
           if(response.data.errors === null){
@@ -101,7 +101,7 @@ export function signUpRequest(data) {
       return;
 
       // API
-      HTTP('post', '/signup', data)
+      HTTP('post', '/user/signup', data)
         .then(function (response) {
           dispatch({
             type: SIGNUP_SUCCESS,
@@ -156,7 +156,7 @@ export function getUserDetails(token){
       // return;
 
       // API
-      HTTP('get', '/userDetails', null, {authorization: token})
+      HTTP('get', '/user/userDetails', null, {authorization: token})
         .then(function (response) {
           console.log("response: ",response);
           if(response.data.errors === null){
@@ -195,7 +195,7 @@ export function logOut(){
       // return;
 
       // API - in case we have Logout API
-      HTTP('get', '/logout', null, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('get', '/user/logout', null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           console.log("response: ",response);
           if(response.data.errors === null){

@@ -20,29 +20,33 @@ export function educatorsGetRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: EDUCATORS_GET_REQUEST,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: EDUCATORS_GET_REQUEST,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('get', '/educators', data)
+      HTTP('get', '/instructor/', null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: EDUCATORS_GET_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(response.data.errors===null){
+            dispatch({
+              type: EDUCATORS_GET_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: EDUCATORS_GET_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
@@ -53,29 +57,33 @@ export function educatorsAddRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: EDUCATORS_ADD_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: EDUCATORS_ADD_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('post', '/educators', data)
+      HTTP('post', '/instructor/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: EDUCATORS_ADD_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.error){
+            dispatch({
+              type: EDUCATORS_ADD_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data)
+          }
         })
         .catch(error => {
           dispatch({
             type: EDUCATORS_ADD_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
@@ -86,62 +94,72 @@ export function educatorsUpdateRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: EDUCATORS_UPDATE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: EDUCATORS_UPDATE_SUCCESS,
+      //   data
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('put', '/educators', data)
+      HTTP('put', '/instructor/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: EDUCATORS_UPDATE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: EDUCATORS_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data)
+          }
         })
         .catch(error => {
           dispatch({
             type: EDUCATORS_UPDATE_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
 }
 
-export function educatorsDeleteRequest(data) {
+export function educatorsDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: EDUCATORS_DELETE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: EDUCATORS_DELETE_SUCCESS,
+      //   data: {
+      //     id
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('delete', '/educators', data)
+      HTTP('delete', '/instructor/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: EDUCATORS_DELETE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: EDUCATORS_DELETE_SUCCESS,
+              data: {
+                id
+              }
+            });
+            resolve(response.data);
+          }else{
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: EDUCATORS_DELETE_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }

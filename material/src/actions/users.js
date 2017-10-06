@@ -29,7 +29,7 @@ export function usersGetRequest() {
       // return;
 
       // API
-      HTTP('get', '/users', null, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('get', '/user/users', null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(response.data.errors === null){
              dispatch({
@@ -67,7 +67,7 @@ export function usersAddRequest(data) {
       // return;
 
       // API
-      HTTP('post', '/signup', data, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('post', '/user/signup', data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
@@ -105,7 +105,7 @@ export function usersUpdateRequest(data) {
       // return;
 
       // API
-      HTTP('patch', '/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('patch', '/user/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
@@ -144,7 +144,7 @@ export function usersDeleteRequest(id) {
       // return;
 
       // API
-      HTTP('delete', '/delete/'+id, null, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('delete', '/user/delete/'+id, null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({

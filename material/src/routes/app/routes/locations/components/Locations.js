@@ -85,9 +85,17 @@ class Locations extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      locationData: {},
     };
+    this.onEditLocation=this.onEditLocation.bind(this);
     this.changeView = this.changeView.bind(this); //bind this element
+  }
+
+  onEditLocation(locationData){
+    this.setState({locationData})
+
+    this.changeView('ADD_ELEMENT');
   }
 
   changeView(data){
@@ -97,9 +105,9 @@ class Locations extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm />;
+        return <EditForm changeView={this.changeView} locationData={this.state.locationData} />;
       case "VIEW_ELEMENT":
-        return <ViewElements />;
+        return <ListElements onEdit={this.onEditLocation}   />;
       default:
         return null;
     }

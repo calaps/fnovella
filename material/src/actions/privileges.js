@@ -29,20 +29,24 @@ export function privilegesGetRequest(data) {
       return;
 
       // API
-      HTTP('get', '/privileges', data)
+      HTTP('get', '/privilege/', null,{authorization: localStorage.getItem('@fnovella:token') }, params)
         .then(function (response) {
-          dispatch({
-            type: PRIVILEGES_GET_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(response.data.errors===null)  {
+            dispatch({
+              type: PRIVILEGES_GET_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: PRIVILEGES_GET_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }
@@ -62,20 +66,24 @@ export function privilegesAddRequest(data) {
       return;
 
       // API
-      HTTP('post', '/privileges', data)
+      HTTP('post', '/privilege/', data,data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: PRIVILEGES_ADD_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
+          if(!response.data.errors){
+            dispatch({
+              type: PRIVILEGES_ADD_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else{
+            reject(response.data);
+          }
         })
         .catch(error => {
           dispatch({
             type: PRIVILEGES_ADD_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }

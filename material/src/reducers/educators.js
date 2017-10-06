@@ -13,7 +13,7 @@ import {
   EDUCATORS_UPDATE_FAIL,
   EDUCATORS_UPDATE_REQUEST,
   EDUCATORS_UPDATE_SUCCESS
-} from './../actions';
+} from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
 
@@ -28,7 +28,7 @@ const educators_reducer = (state = initialState.educators, action) => {
       return state;
     case EDUCATORS_GET_SUCCESS:
       console.log(EDUCATORS_GET_SUCCESS)
-      return [action.data];
+      return action.data;
     case EDUCATORS_GET_FAIL:
       // TODO: some alert may be
       return state;
@@ -36,7 +36,7 @@ const educators_reducer = (state = initialState.educators, action) => {
       console.log(EDUCATORS_DELETE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.data.id){
           newState.splice(i, 1);
         }
       }
@@ -48,7 +48,7 @@ const educators_reducer = (state = initialState.educators, action) => {
       console.log(EDUCATORS_UPDATE_SUCCESS)
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.data.id){
           newState[i] = action.data;
         }
       }

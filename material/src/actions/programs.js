@@ -28,7 +28,7 @@ export function programGetRequest(data, params) {
       // return;
 
       // API
-      HTTP('get', '/program/',null,{authorization: localStorage.getItem('@fnovella:token') }, params)
+        HTTP('get', '/program/',null,{authorization: localStorage.getItem('@fnovella:token')}, params)
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
