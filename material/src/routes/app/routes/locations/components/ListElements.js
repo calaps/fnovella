@@ -25,7 +25,7 @@ class ListElements extends React.Component {
   }
 
   render() {
-
+    let i =0;
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
@@ -40,9 +40,10 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
+                      <th className="mdl-data-table__cell--non-numeric">Id</th>
+                      <th className="mdl-data-table__cell--non-numeric">Name</th>
+                      <th className="mdl-data-table__cell--non-numeric">Address</th>
+                      <th className="mdl-data-table__cell--non-numeric">Alias</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,6 +51,7 @@ class ListElements extends React.Component {
                     {
                       this.props.locations.map((location) => {
                         return <ListItem key={location.id} onDelete={this.onDeleteButton}
+                                         number={i++}
                                          onEdit={this.props.onEdit}
                                          locationData={location}/>
                       })

@@ -15,7 +15,7 @@ import {
   PROGRAM_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programGetRequest(data, params) {
+export function programGetRequest(params) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready

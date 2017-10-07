@@ -15,7 +15,7 @@ import {
   EDUCATORS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function educatorsGetRequest(data) {
+export function educatorsGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
@@ -102,7 +102,7 @@ export function educatorsUpdateRequest(data) {
       // return;
 
       // API
-      HTTP('put', '/instructor/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('patch', '/instructor/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({

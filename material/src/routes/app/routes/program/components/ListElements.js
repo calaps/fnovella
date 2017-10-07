@@ -17,7 +17,7 @@ class ListElements extends React.Component {
   }
   componentWillMount() {
     // type: 2 reflects all programs
-    this.props.actions.programGetRequest(null, {type: 2});
+    this.props.actions.programGetRequest({type: 2});
   }
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -25,7 +25,7 @@ class ListElements extends React.Component {
   }
 
   render() {
-
+    let i = 0;
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
@@ -39,6 +39,8 @@ class ListElements extends React.Component {
                   <table className="mdl-data-table">
                     <thead>
                     <tr>
+                      <th className="mdl-data-table__cell--non-numeric">#</th>
+                      <th className="mdl-data-table__cell--non-numeric">Id</th>
                       <th className="mdl-data-table__cell--non-numeric">Name</th>
                       <th className="mdl-data-table__cell--non-numeric">Audience</th>
                       <th className="mdl-data-table__cell--non-numeric">Decription</th>
@@ -51,6 +53,7 @@ class ListElements extends React.Component {
                     {
                       this.props.programs.map((program) => {
                         return <ListItem key={program.id} onDelete={this.onDeleteButton}
+                                         number={i++}
                                          onEdit={this.props.onEdit}
                                          programData={program}/>
                       })

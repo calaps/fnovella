@@ -27,7 +27,7 @@ class ListElements extends React.Component {
   }
 
   render() {
-
+    let i =0;
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
@@ -41,6 +41,8 @@ class ListElements extends React.Component {
                   <table className="mdl-data-table">
                     <thead>
                     <tr>
+                      <th className="mdl-data-table__cell--non-numeric">#</th>
+                      <th className="mdl-data-table__cell--non-numeric">id</th>
                       <th className="mdl-data-table__cell--non-numeric">Name</th>
                       <th className="mdl-data-table__cell--non-numeric">Type</th>
                       <th className="mdl-data-table__cell--non-numeric">Category</th>
@@ -50,6 +52,7 @@ class ListElements extends React.Component {
                     {
                       this.props.catalogs.map((catalog) => {
                         return <ListItem key={catalog.id} onDelete={this.onDeleteButton}
+                                         number={i++}
                                          onEdit={this.props.onEdit}
                                          catalogData={catalog}/>
                       })

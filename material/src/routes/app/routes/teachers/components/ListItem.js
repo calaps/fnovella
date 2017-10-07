@@ -4,8 +4,9 @@ class ListItem extends React.Component {
   render () {
     return (
           <tr>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.teacherData.id}</td>
             <td className="mdl-data-table__cell--non-numeric">{this.props.teacherData.firstName}</td>
-            <td className="mdl-data-table__cell--non-numeric">{this.props.teacherData.bornDate}</td>
             <td className="mdl-data-table__cell--non-numeric" >{this.props.teacherData.email}</td>
             <td className="mdl-data-table__cell--non-numeric" >{this.props.teacherData.gender}</td>
             <td className="mdl-data-table__cell--non-numeric" >{this.props.teacherData.department}</td>
@@ -16,8 +17,8 @@ class ListItem extends React.Component {
                 onClick={()=>{this.props.onDelete(this.props.teacherData.id)}}
 
                 type="submit" className="btn btn-primary">Delete</button>
-            </td>
-            <td>
+            &nbsp;
+              &nbsp;
               <button
                 onClick={()=>{this.props.onEdit(this.props.teacherData)}}
 

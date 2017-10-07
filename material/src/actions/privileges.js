@@ -10,6 +10,7 @@ import {
   PRIVILEGES_GET_FAIL,
   PRIVILEGES_GET_REQUEST,
   PRIVILEGES_GET_SUCCESS,
+  PRIVILEGES_GET_ALL_SUCCESS,
   PRIVILEGES_UPDATE_FAIL,
   PRIVILEGES_UPDATE_REQUEST,
   PRIVILEGES_UPDATE_SUCCESS
@@ -21,19 +22,54 @@ export function privilegesGetRequest(data) {
 
       // will be removed once API is ready
       dispatch({
-        type: PRIVILEGES_GET_REQUEST,
-        data: {
-        }
+        type: PRIVILEGES_GET_SUCCESS,
+        data
       });
       resolve(true);
       return;
 
       // API
-      HTTP('get', '/privilege/', null,{authorization: localStorage.getItem('@fnovella:token') }, params)
+      HTTP('get', '/privilege/', null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(response.data.errors===null)  {
             dispatch({
               type: PRIVILEGES_GET_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: PRIVILEGES_GET_FAIL,
+            error: error
+          });
+          reject(error);
+        })
+    }})
+  }
+}
+
+export function privilegesGetAllRequest() {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+
+      // will be removed once API is ready
+      // dispatch({
+      //   type: PRIVILEGES_GET_ALL_SUCCESS,
+      //   data
+      // });
+      // resolve(true);
+      // return;
+
+      // API
+      HTTP('get', '/privilege/all', null,{authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(response.data.errors===null)  {
+            dispatch({
+              type: PRIVILEGES_GET_ALL_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
@@ -57,16 +93,15 @@ export function privilegesAddRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PRIVILEGES_ADD_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PRIVILEGES_ADD_SUCCESS,
+      //   data
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('post', '/privilege/', data,data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('post', '/privilege/',data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
@@ -91,65 +126,76 @@ export function privilegesAddRequest(data) {
 
 export function privilegesUpdateRequest(data) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){{
+    return new Promise(function (resolve, reject) {
+      {
 
-      // will be removed once API is ready
+        // will be removed once API is ready
+        // dispatch({
+        //   type: PRIVILEGES_UPDATE_SUCCESS,
+        //   data
+        // });
+        // resolve(true);
+        // return;
+
+// API
+  HTTP('patch', '/privilege/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
+    .then(function (response) {
+      if (!response.data.errors) {
+        dispatch({
+          type: PRIVILEGES_UPDATE_SUCCESS,
+          data: response.data.data
+        });
+        resolve(response.data);
+      } else {
+        reject(response.data);
+      }
+    })
+    .catch(error => {
       dispatch({
-        type: PRIVILEGES_UPDATE_SUCCESS,
-        data: {
-        }
+        type: PRIVILEGES_UPDATE_FAIL,
+        error: error
       });
-      resolve(true);
-      return;
-
-      // API
-      HTTP('put', '/privileges', data)
-        .then(function (response) {
-          dispatch({
-            type: PRIVILEGES_UPDATE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
-        })
-        .catch(error => {
-          dispatch({
-            type: PRIVILEGES_UPDATE_FAIL,
-            error: error
-          });
-          reject(false);
-        })
-    }})
-  }
+      reject(error);
+    })
+    } })
+}
 }
 
-export function privilegesDeleteRequest(data) {
+export function privilegesDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PRIVILEGES_DELETE_SUCCESS,
-        data: {
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PRIVILEGES_DELETE_SUCCESS,
+      //   data: {
+      //     id
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
-      HTTP('delete', '/privileges', data)
+      HTTP('delete', '/privilege/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          dispatch({
-            type: PRIVILEGES_DELETE_SUCCESS,
-            data: response.data.data
-          });
-          resolve(true);
-        })
+            if (!response.data.errors) {
+              dispatch({
+                type: PRIVILEGES_DELETE_SUCCESS,
+                data: {
+                  id
+                }
+              });
+              resolve(response.data);
+            }else{
+              reject(response.data);
+            }
+          })
         .catch(error => {
           dispatch({
             type: PRIVILEGES_DELETE_FAIL,
             error: error
           });
-          reject(false);
+          reject(error);
         })
     }})
   }

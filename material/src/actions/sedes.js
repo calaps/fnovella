@@ -15,7 +15,7 @@ import {
   SEDES_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function sedesGetRequest(data) {
+export function sedesGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
@@ -102,7 +102,7 @@ export function sedesUpdateRequest(data) {
       // return;
 
       // API
-      HTTP('put', '/location/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token')})
+      HTTP('patch', '/location/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
           if(!response.data.errors){
             dispatch({

@@ -15,7 +15,7 @@ import {
   CATALOGS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function catalogsGetRequest(data) {
+export function catalogsGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready

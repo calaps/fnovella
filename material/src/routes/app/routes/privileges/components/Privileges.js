@@ -83,9 +83,17 @@ class Privileges extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      privilegeData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
+    this.onEditPrivilege=this.onEditPrivilege.bind(this);
+  }
+
+  onEditPrivilege(privilegeData){
+    this.setState({privilegeData})
+
+    this.changeView('ADD_ELEMENT');
   }
 
   changeView(data){
@@ -95,9 +103,9 @@ class Privileges extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm />;
+        return <EditForm changeView={this.changeView} privilegeData={this.state.privilegeData} />;
       case "VIEW_ELEMENT":
-        return <ListElements />;
+        return <ListElements onEdit={this.onEditPrivilege}  />;
       default:
         return null;
     }

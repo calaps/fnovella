@@ -10,10 +10,11 @@ import {
   PRIVILEGES_GET_FAIL,
   PRIVILEGES_GET_REQUEST,
   PRIVILEGES_GET_SUCCESS,
+  PRIVILEGES_GET_ALL_SUCCESS,
   PRIVILEGES_UPDATE_FAIL,
   PRIVILEGES_UPDATE_REQUEST,
   PRIVILEGES_UPDATE_SUCCESS
-} from './../actions';
+} from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
 
@@ -28,7 +29,10 @@ const privileges_reducer = (state = initialState.privileges, action) => {
       return state;
     case PRIVILEGES_GET_SUCCESS:
       console.log(PRIVILEGES_GET_SUCCESS)
-      return [action.data];
+      return action.data;
+    case PRIVILEGES_GET_ALL_SUCCESS:
+      console.log(PRIVILEGES_GET_ALL_SUCCESS)
+      return action.data;
     case PRIVILEGES_GET_FAIL:
       // TODO: some alert may be
       return state;
@@ -36,7 +40,7 @@ const privileges_reducer = (state = initialState.privileges, action) => {
       console.log(PRIVILEGES_DELETE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+          if(newState[i].id === action.data.id){
           newState.splice(i, 1);
         }
       }
@@ -48,7 +52,7 @@ const privileges_reducer = (state = initialState.privileges, action) => {
       console.log(PRIVILEGES_UPDATE_SUCCESS)
       newState = [...state];
       for(let i=0; i<newState.length; i++){
-        if(newState[i]._id === action.id){
+        if(newState[i].id === action.data.id){
           newState[i] = action.data;
         }
       }

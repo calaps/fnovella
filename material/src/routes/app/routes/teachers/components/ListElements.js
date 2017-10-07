@@ -23,6 +23,7 @@ class ListElements extends React.Component {
     this.props.actions.educatorsDeleteRequest(id);
   }
   render() {
+    let i=0;
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
@@ -36,8 +37,9 @@ class ListElements extends React.Component {
                   <table className="mdl-data-table">
                     <thead>
                     <tr>
+                      <th className="mdl-data-table__cell--non-numeric">#</th>
+                      <th className="mdl-data-table__cell--non-numeric">id</th>
                       <th className="mdl-data-table__cell--non-numeric">Name</th>
-                      <th className="mdl-data-table__cell--non-numeric">Date of Birth</th>
                       <th className="mdl-data-table__cell--non-numeric">Email</th>
                       <th className="mdl-data-table__cell--non-numeric">Gender</th>
                       <th className="mdl-data-table__cell--non-numeric">Department</th>
@@ -52,6 +54,7 @@ class ListElements extends React.Component {
                         return <ListItem
                            key={teacher.id}
                           onDelete={this.onDeleteButton}
+                                          number={i++}
                                          onEdit={this.props.onEdit}
                                          teacherData={teacher}/>
                       })
