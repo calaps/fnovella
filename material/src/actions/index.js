@@ -30,3 +30,4 @@ export * from './sedes';
 export * from './privileges';
 export * from './educators';
 export * from './catalogs';
+export * from './participants';

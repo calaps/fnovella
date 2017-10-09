@@ -18,8 +18,20 @@ class HorizontalLinearStepper extends React.Component {
     stepIndex: 0,
     program_id: 0,
     program_name: "",
+    formData: {}
   };
+  constructor(props){
+    super(props);
+    this.handleCancel=this.handleCancel.bind(this);
+    // this.onChangeForm=this.onChangeForm.bind(this);
+  }
 
+  // onChangeForm (data) {
+  //   this.setState({
+  //     formData:data
+  //   });
+  //   console.log(this.state.formData);
+  // }
   handlePrev = () => {
     const {stepIndex} = this.state;
     if (stepIndex > 0) {
@@ -30,9 +42,9 @@ class HorizontalLinearStepper extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <EditForm />;
+        return <EditForm formData={this.state.formData} />;
       case 1:
-        return <EmergencyContact />;
+        return <EmergencyContact formData={this.state.formData} />;
       case 2:
         return 'Resumen de activación';
       default:
@@ -47,6 +59,10 @@ class HorizontalLinearStepper extends React.Component {
       finished: stepIndex >= 2,
     });
   };
+
+  handleCancel () {
+    this.props.changeView("VIEW_ELEMENT")
+  }
 
   render() {
     const {finished, stepIndex} = this.state;
@@ -97,6 +113,13 @@ class HorizontalLinearStepper extends React.Component {
                         label={stepIndex === 2 ? 'Activar' : 'Siguiente'}
                         primary
                         onTouchTap={this.handleNext}
+                      />
+                      &nbsp;
+                      &nbsp;
+                      <RaisedButton
+                        label='Cancel'
+                        primary
+                        onTouchTap={this.handleCancel}
                       />
                     </div>
                   </div>
