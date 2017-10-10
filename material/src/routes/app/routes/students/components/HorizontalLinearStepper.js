@@ -23,15 +23,8 @@ class HorizontalLinearStepper extends React.Component {
   constructor(props){
     super(props);
     this.handleCancel=this.handleCancel.bind(this);
-    // this.onChangeForm=this.onChangeForm.bind(this);
   }
 
-  // onChangeForm (data) {
-  //   this.setState({
-  //     formData:data
-  //   });
-  //   console.log(this.state.formData);
-  // }
   handlePrev = () => {
     const {stepIndex} = this.state;
     if (stepIndex > 0) {
@@ -42,9 +35,16 @@ class HorizontalLinearStepper extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <EditForm formData={this.state.formData} />;
+        return <EditForm
+          handlePrev={this.handlePrev}
+          handleNext={this.handleNext}
+        />;
       case 1:
-        return <EmergencyContact formData={this.state.formData} />;
+        return <EmergencyContact
+          handlePrev={this.handlePrev}
+          handleNext={this.handleNext}
+          formData={this.state.formData}
+        />;
       case 2:
         return 'Resumen de activación';
       default:
@@ -57,11 +57,15 @@ class HorizontalLinearStepper extends React.Component {
     this.setState({
       stepIndex: stepIndex + 1,
       finished: stepIndex >= 2,
+      // formData
     });
   };
 
   handleCancel () {
-    this.props.changeView("VIEW_ELEMENT")
+    this.props.changeView("VIEW_ELEMENT");
+    this.setState({
+      formData: {}
+    });
   }
 
   render() {
@@ -103,19 +107,19 @@ class HorizontalLinearStepper extends React.Component {
                   <div>
                     <div>{this.getStepContent(stepIndex)}</div>
                     <div style={{marginTop: 12}}>
-                      <FlatButton
-                        label="Atras"
-                        disabled={stepIndex === 0}
-                        onTouchTap={this.handlePrev}
-                        style={{marginRight: 12}}
-                      />
-                      <RaisedButton
-                        label={stepIndex === 2 ? 'Activar' : 'Siguiente'}
-                        primary
-                        onTouchTap={this.handleNext}
-                      />
-                      &nbsp;
-                      &nbsp;
+                      {/*<FlatButton*/}
+                        {/*label="Atras"*/}
+                        {/*disabled={stepIndex === 0}*/}
+                        {/*onTouchTap={this.handlePrev}*/}
+                        {/*style={{marginRight: 12}}*/}
+                      {/*/>*/}
+                      {/*<RaisedButton*/}
+                        {/*label={stepIndex === 2 ? 'Activar' : 'Siguiente'}*/}
+                        {/*primary*/}
+                        {/*onTouchTap={this.handleNext}*/}
+                      {/*/>*/}
+                      {/*&nbsp;*/}
+                      {/*&nbsp;*/}
                       <RaisedButton
                         label='Cancel'
                         primary

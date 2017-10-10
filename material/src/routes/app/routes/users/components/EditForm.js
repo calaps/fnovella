@@ -55,15 +55,15 @@ class EditForm extends React.Component {
   isValid(){
     //local validation
 
-    console.log("this.state: ", this.state);
-
-    const { errors, isValid } = validateCreateUserForm(this.state)
-    if(!isValid){
-      this.setState({ errors });
-      return false;
-    }
-
-    console.log("this.state: ", validateCreateUserForm(this.state));
+    // console.log("this.state: ", this.state);
+    //
+    // const { errors, isValid } = validateCreateUserForm(this.state)
+    // if(!isValid){
+    //   this.setState({ errors });
+    //   return false;
+    // }
+    //
+    // console.log("this.state: ", validateCreateUserForm(this.state));
 
     return true;
   }
@@ -322,7 +322,7 @@ class EditForm extends React.Component {
                         <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                         <div className="col-md-9">
                           <select
-                            name="dataType"
+                            name="documentType"
                             onChange={this.onChange}
                             value={this.state.documentType}
                             className="form-control"

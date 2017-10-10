@@ -28,7 +28,7 @@ class ListElements extends React.Component {
     let i =0;
     return (
       <article className="article">
-        <h2 className="article-title">Lista de catalogos</h2>
+        <h2 className="article-title">Lista de sedes</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">

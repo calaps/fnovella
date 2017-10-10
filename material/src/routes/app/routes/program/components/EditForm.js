@@ -231,25 +231,25 @@ class EditForm extends React.Component {
 }
 
 
-function mapStateToProps(state) {
-  //pass the providers
-  return {
-    // auth: state.auth
+  function mapStateToProps(state) {
+    //pass the providers
+    return {
+      // auth: state.auth
+    }
   }
-}
 
-/* Map Actions to Props */
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators({
-      //    signUpRequest
-      programAddRequest,
-      programUpdateRequest,
-    }, dispatch)
-  };
-}
+  /* Map Actions to Props */
+  function mapDispatchToProps(dispatch) {
+    return {
+      actions: bindActionCreators({
+        //    signUpRequest
+        programAddRequest,
+        programUpdateRequest,
+      }, dispatch)
+    };
+  }
 
-module.exports = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EditForm);
+  module.exports = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(EditForm);

@@ -4,8 +4,15 @@ import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import map from "Lodash/map"; //to use map in a object
 import { personal_documents, gender, countries }  from '../../../../../constants/data_types';
 import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import FlatButton from 'material-ui/FlatButton';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  participantAddRequest,
+  participantUpdateRequest
+} from '../../../../../actions';
 
-
+let self;
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
@@ -30,16 +37,55 @@ class EditForm extends React.Component {
       confirm_password: '',
       cellPhone: '',
       email: '',
+      appCode:'code',
       cempro_code: '',
       gender: '',
       errors: {},
       isLoading: false
     };
-    console.log('state is',this.state);
-    // this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    // console.log('state is',this.state);
+    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onChange = this.onChange.bind(this);
+    self = this;
   }
+  onSubmit(e) {
+    e.preventDefault();
+    let data = {
+      firstName: this.state.firstName,
+      secondName: this.state.secondName,
+      firstLastname: this.state.firstLastname,
+      secondLastname: this.state.secondLastname,
+      bornDate: this.state.bornDate,
+      documentType: this.state.documentType,
+      documentValue: this.state.documentValue,
+      nacionality: this.state.nacionality,
+      department: this.state.department,
+      municipality: this.state.municipality,
+      community: this.state.community,
+      profession: this.state.profession,
+      address: this.state.address,
+      phone: this.state.phone,
+      cellPhone: this.state.cellPhone,
+      email: this.state.email,
+      appCode: this.state.appCode,
+      gender: this.state.gender
+    }
 
+    //on Success Api
+    this.props.actions.participantAddRequest(data).then(
+      (response) => {
+        //Save the default object as a provider
+        if(response){
+          self.props.handleNext();
+        }
+      },(error) => {
+        alert('fail');
+        console.log("An Error occur with the Rest API");
+        self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+      });
+
+    // console.log('editform data is', data);
+  }
   isValid(){
     //local validation
     const { errors, isValid } = emptyValidator(this.state)
@@ -204,7 +250,7 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                       <div className="col-md-9">
                         <select
-                          name="dataType"
+                          name="documentType"
                           onChange={this.onChange}
                           value={this.state.documentType}
                           className="form-control"
@@ -375,6 +421,17 @@ class EditForm extends React.Component {
                         {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
                       </div>
                     </div>
+                    <FlatButton
+                      label="Atras"
+                      disabled={true}
+                      onTouchTap={() => this.props.handlePrev()}
+                      style={{marginRight: 12}}
+                    />
+                    <RaisedButton
+                      type='submit'
+                      label='Siguiente'
+                      primary
+                    />
 
                   </form>
 
@@ -391,4 +448,25 @@ class EditForm extends React.Component {
   }
 }
 
-module.exports = EditForm;
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    // auth: state.auth
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      //    signUpRequest
+      participantAddRequest,
+      participantUpdateRequest,
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditForm);
