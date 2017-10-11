@@ -9,7 +9,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   usersAddRequest,
-  usersUpdateRequest
+  usersUpdateRequest,
+  catalogsGetRequest
 } from '../../../../../actions';
 import ListElements from './ListElements'
 /* Validators */
@@ -50,6 +51,9 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
 
     self = this;
+  }
+  componentWillMount () {
+    this.props.actions.catalogsGetRequest();
   }
 
   isValid(){
@@ -146,7 +150,6 @@ class EditForm extends React.Component {
   }
 
   render() {
-
     const { errors } = this.state;
     // privileges types
     const privilegeTypes = map(privileges, (val, key) =>
@@ -156,6 +159,16 @@ class EditForm extends React.Component {
     const documentType = map(personal_documents, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
+
+    //Department options
+    var categoryOpt  = (category) => {
+      var {catalogs} = this.props;
+      return catalogs.map((catalog)=>{
+        if(catalog.category===category){
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    }
     //Defaul gender
     const genders = map(gender, (val, key) =>
       <option key={val} value={val}>{key}</option>
@@ -378,7 +391,7 @@ class EditForm extends React.Component {
                             className="form-control"
                           >
                             <option value="" disabled>Selecciona el departamento</option>
-                            {documentType}
+                            {categoryOpt('departamento')}
                           </select>
                           {errors.department && <span className="help-block text-danger">{errors.department}</span>}
                         </div>
@@ -395,7 +408,7 @@ class EditForm extends React.Component {
                             className="form-control"
                           >
                             <option value="" disabled>Selecciona la municipalidad</option>
-                            {documentType}
+                            {categoryOpt('municipalidad')}
                           </select>
                           {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                         </div>
@@ -412,7 +425,7 @@ class EditForm extends React.Component {
                             className="form-control"
                           >
                             <option value="" disabled>Selecciona el tipo de documento</option>
-                            {documentType}
+                            {categoryOpt('comunidad')}
                           </select>
                           {errors.community && <span className="help-block text-danger">{errors.community}</span>}
                         </div>
@@ -537,6 +550,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
+    catalogs: state.catalogs
   }
 }
 
@@ -547,6 +561,7 @@ function mapDispatchToProps(dispatch) {
   //    signUpRequest
         usersAddRequest,
         usersUpdateRequest,
+        catalogsGetRequest
     }, dispatch)
   };
 }
