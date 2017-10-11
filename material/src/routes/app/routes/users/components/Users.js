@@ -91,20 +91,23 @@ class Users extends React.Component {
     super(props);
     this.state = {
       active: "VIEW_ELEMENT",
-      userData: {}
+      userData: {},
     };
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditUser=this.onEditUser.bind(this);
   }
 
-  changeView(data){
+  changeView(data,reset=true){
+    if(reset){
+      this.setState({userData: {}})
+    }      
     this.setState({ active: data });
   }
 
 onEditUser (userData){
   this.setState({userData})
 
-  this.changeView('ADD_ELEMENT');
+  this.changeView('ADD_ELEMENT',false);
 }
 
   activeView() {

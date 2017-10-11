@@ -94,10 +94,13 @@ class Catalog extends React.Component {
   onEditCatalog (catalogData){
     this.setState({catalogData});
 
-    this.changeView('ADD_ELEMENT');
+    this.changeView('ADD_ELEMENT',false);
   }
 
-  changeView(data){
+  changeView(data,reset=true){
+    if(reset){
+      this.setState({ catalogData: {} })
+    }
     this.setState({ active: data });
   }
 

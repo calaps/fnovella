@@ -97,10 +97,11 @@ class Program extends React.Component {
   onEditProgram (programData){
     this.setState({programData})
 
-    this.changeView('ADD_ELEMENT');
+    this.changeView('ADD_ELEMENT',false);
   }
 
-  changeView(data){
+  changeView(data,reset=true){
+    if(reset){this.setState({programData: {}})}
     this.setState({ active: data });
   }
 

@@ -55,6 +55,36 @@ class EditForm extends React.Component {
   componentWillMount () {
     this.props.actions.catalogsGetRequest();
   }
+  componentWillReceiveProps(nextProps){
+    if(this.props.userData!==nextProps.userData){
+      this.setState({
+        isEditing:false,        
+        firstName: '' ,
+        secondName: '' ,
+        firstLastName: '',
+        secondLastName:  '' ,
+        privilege: '' ,
+        bornDate: '',
+        documentType: '' ,
+        documentValue: '' ,
+        nationality: '' ,
+        department : '' ,
+        municipality: '' ,
+        community: '' ,
+        profession: '' ,
+        address: '' ,
+        phone: '' ,
+        cellphone: '' ,
+        email:  '',
+        password: '' ,
+        confirm_password: '' ,
+        cemproCode: '' ,
+        gender: '',
+        id: '',
+      });  
+    }
+  }
+
 
   isValid(){
     //local validation

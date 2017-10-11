@@ -31,6 +31,22 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
    self=this;
   }
+  
+  componentWillReceiveProps(nextProps){
+    if(this.props.programData!==nextProps.programData){
+      this.setState({
+        isEditing:false,        
+        name: '',
+        audience: '',
+        description: '',
+        provider: true,
+        clasification: '',
+        freeCourses: true,
+        type: true,
+        id: '',
+      });  
+    }
+  }
 
   isValid(){
     // TODO:Temporary commented bcz validation is not valid
@@ -49,6 +65,7 @@ class EditForm extends React.Component {
     if(this.isValid()){
       //reset errros object and disable submit button
       this.setState({ errors: {}, isLoading: true });
+
       let data = {
         name: this.state.name,
         type: this.state.type,

@@ -2,10 +2,10 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import map from "Lodash/map"; //to use map in a object
-import { personal_documents, gender, countries }  from '../../../../../constants/data_types';
+import { personal_documents, gender, countries } from '../../../../../constants/data_types';
 import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   educatorsAddRequest,
   educatorsUpdateRequest
@@ -17,39 +17,70 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: (this.props.teacherData.id)?true:false,
-      id:this.props.teacherData.id || '',
-      firstName:this.props.teacherData.firstName || '',
-      secondName :this.props.teacherData.secondName || '',
+      isEditing: (this.props.teacherData.id) ? true : false,
+      id: this.props.teacherData.id || '',
+      firstName: this.props.teacherData.firstName || '',
+      secondName: this.props.teacherData.secondName || '',
       firstLastname: this.props.teacherData.firstLastname || '',
       secondLastname: this.props.teacherData.secondLastname || '',
       bornDate: this.props.teacherData.bornDate || '',
       documentType: this.props.teacherData.documentType || '',
       documentValue: this.props.teacherData.documentValue || '',
       nacionality: this.props.teacherData.nacionality || '',
-      department : this.props.teacherData.department || '',
+      department: this.props.teacherData.department || '',
       municipality: this.props.teacherData.municipality || '',
       community: this.props.teacherData.community || '',
       profession: this.props.teacherData.profession || '',
       address: this.props.teacherData.address || '',
-      phone:  this.props.teacherData.phone||  '',
+      phone: this.props.teacherData.phone || '',
       privilege: 'instructor',
       password: '',
       confirmPassword: '',
       cellphone: this.props.teacherData.cellphone || '',
-      email: this.props.teacherData.email||  '',
+      email: this.props.teacherData.email || '',
       cemproCode: '',
-      appCode:  this.props.teacherData.appCode || '',
-      gender:this.props.teacherData.gender ||   '',
+      appCode: this.props.teacherData.appCode || '',
+      gender: this.props.teacherData.gender || '',
       errors: {},
       isLoading: false
     };
-    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    this.onSubmit = this.onSubmit.bind(this); {/* Makes a Bind of the actions, onChange, onSummit */ }
     this.onChange = this.onChange.bind(this);
     self = this;
   }
 
-  isValid(){
+  componentWillReceiveProps(nextProps) {
+    if (this.props.teacherData !== nextProps.teacherData) {
+      this.setState({
+        isEditing:false,        
+        id: '',
+        firstName: '',
+        secondName: '',
+        firstLastname: '',
+        secondLastname: '',
+        bornDate: '',
+        documentType: '',
+        documentValue: '',
+        nacionality: '',
+        department: '',
+        municipality: '',
+        community: '',
+        profession: '',
+        address: '',
+        phone: '',
+        privilege: 'instructor',
+        password: '',
+        confirmPassword: '',
+        cellphone: '',
+        email: '',
+        cemproCode: '',
+        appCode: '',
+        gender: '',
+      })
+    }
+  }
+
+  isValid() {
     // TODO: Commented beacause validation was not valid
     //local validation
     // const { errors, isValid } = emptyValidator(this.state)
@@ -62,33 +93,33 @@ class EditForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.isValid()){
+    if (this.isValid()) {
       //reset errros object and disable submit button
       this.setState({ errors: {}, isLoading: true });
       let data = {
-        firstName:this.state.firstName,
-        secondName :this.state.secondName,
+        firstName: this.state.firstName,
+        secondName: this.state.secondName,
         firstLastname: this.state.firstLastname,
         secondLastname: this.state.secondLastname,
         bornDate: this.state.bornDate,
         documentType: this.state.documentType || 'ABC',
         documentValue: this.state.documentValue,
         nacionality: this.state.nacionality,
-        department : this.state.department,
+        department: this.state.department,
         municipality: this.state.municipality,
         community: this.state.community,
         profession: this.state.profession,
         address: this.state.address,
-        phone:  this.state.phone,
+        phone: this.state.phone,
         privilege: 'instructor',
         password: '',
         confirmPassword: '',
         cellphone: this.state.cellphone,
         email: this.state.email,
-        appCode:  this.state.appCode || 'abc',
-        gender:this.state.gender,
+        appCode: this.state.appCode || 'abc',
+        gender: this.state.gender,
       }
-      if(this.state.isEditing){
+      if (this.state.isEditing) {
         data.id = this.state.id;
       }
       // ON SUCCESSS API
@@ -96,7 +127,7 @@ class EditForm extends React.Component {
         this.props.actions.educatorsUpdateRequest(data).then(
           (response) => {
             //Save the default object as a provider
-            if(response){
+            if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
           },
@@ -109,10 +140,10 @@ class EditForm extends React.Component {
         this.props.actions.educatorsAddRequest(data).then(
           (response) => {
             //Save the default object as a provider
-            if(response){
+            if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
-          },(error) => {
+          }, (error) => {
             alert('fail');
             console.log("An Error occur with the Rest API");
             self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
@@ -457,7 +488,7 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing?'Update':'Add'} secondary className="btn-w-md" />
+                          label={this.state.isEditing ? 'Update' : 'Add'} secondary className="btn-w-md" />
                       </div>
                     </div>
                   </form>

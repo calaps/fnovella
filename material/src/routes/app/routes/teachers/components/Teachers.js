@@ -96,10 +96,13 @@ class Teachers extends React.Component {
   onEditTeacher (teacherData){
     this.setState({teacherData})
 
-    this.changeView('ADD_ELEMENT');
+    this.changeView('ADD_ELEMENT',false);
   }
 
-  changeView(data){
+  changeView(data,reset=true){
+    if(reset){
+      this.setState({teacherData: {}})
+    }      
     this.setState({ active: data });
   }
 
