@@ -1,13 +1,14 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import FlatButton from 'material-ui/FlatButton';
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
 
 
 class EmergencyContact extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       address: '',
@@ -30,17 +31,21 @@ class EmergencyContact extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.isValid()){
+    // if(this.isValid()){
       //reset errros object and disable submit button
-      this.setState({ errors: {}, isLoading: true });
+      // this.setState({ errors: {}, isLoading: true });
 
       // ON SUCCESSS API
-
-    } else {
+      let data = {
+        ...this.props.formData,
+      }
+      console.log('emergency data is',data);
+    // this.props.handleNext(data);
+    // } else {
 
       // FORM WITH ERRORS
 
-    }
+    // }
 
   }
 
@@ -243,6 +248,18 @@ class EmergencyContact extends React.Component {
                         {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
                       </div>
                     </div>
+
+                    <FlatButton
+                      label="Atras"
+                      disabled={false}
+                      onTouchTap={() => this.props.handlePrev()}
+                      style={{marginRight: 12}}
+                    />
+                    <RaisedButton
+                      type='submit'
+                      label='Activar'
+                      primary
+                    />
 
                   </form>
 

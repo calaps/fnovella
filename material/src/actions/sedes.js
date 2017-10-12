@@ -15,7 +15,7 @@ import {
   SEDES_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function sedesGetRequest() {
+export function sedesGetRequest(params) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
@@ -28,13 +28,14 @@ export function sedesGetRequest() {
       // return;
 
       // API
-      HTTP('get', '/location/', null,{authorization: localStorage.getItem('@fnovella:token')})
+      HTTP('get', '/location/', null,{authorization: localStorage.getItem('@fnovella:token'),params})
         .then(function (response) {
         if(response.data.errors===null){
           dispatch({
             type: SEDES_GET_SUCCESS,
-            data: response.data.data
+            data: response.data.data.content
           });
+          console.log(response.data)
           resolve(response.data);
         }else{
           reject(response.data)
@@ -69,7 +70,7 @@ export function sedesAddRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: SEDES_ADD_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{
@@ -107,7 +108,7 @@ export function sedesUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: SEDES_UPDATE_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{

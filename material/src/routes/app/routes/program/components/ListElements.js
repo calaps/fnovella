@@ -6,18 +6,38 @@ import {
   programDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 /** *
  * Fake element list render....
  * */
-
+let size = 1; //limit
+let number = 0; //skip
+let currentPage = 0; 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.getNext=this.getNext.bind(this);
+  }
+  
+  getPrev(){
+    if(currentPage > 0){
+      this.props.actions.programGetRequest(currentPage,number - 1,size);
+      currentPage--;
+    }
+  }
+  getNext(){
+    if(currentPage === this.props.programs.totalElements){
+      //do nothing
+    }
+    else if(currentPage < this.props.programs.totalElements){
+      this.props.actions.programGetRequest(currentPage,number + 1,size);
+      currentPage++;
+    }
   }
   componentWillMount() {
     // type: 2 reflects all programs
-    this.props.actions.programGetRequest({type: 2});
+    this.props.actions.programGetRequest(currentPage,number,size);
   }
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -26,9 +46,10 @@ class ListElements extends React.Component {
 
   render() {
     let i = 0;
+    console.log('programs',this.props.programs);
     return (
       <article className="article">
-        <h2 className="article-title">Lista de catalogos</h2>
+        <h2 className="article-title">Lista de programas</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
@@ -50,17 +71,23 @@ class ListElements extends React.Component {
 
                     <tbody>
 
-                    {
-                      this.props.programs.map((program) => {
+                     { 
+                      this.props.programs.content?this.props.programs.content.map((program) => {
                         return <ListItem key={program.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
                                          programData={program}/>
-                      })
-                    }
+                      }):null
+                     }
+                    
 
                     </tbody>
                   </table>
+                  <Pagination
+                    range={this.props.programs.totalPages}
+                    onClickNext={this.getNext}
+                    onClickPrev={this.getPrev}
+                  />
                 </div>
 
               </div>

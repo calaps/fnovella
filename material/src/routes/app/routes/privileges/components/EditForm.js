@@ -60,6 +60,42 @@ class EditForm extends React.Component {
     self= this;
   }
 
+  componentWillReceiveProps(nextProps){
+    if(this.props.privilegeData!==nextProps.privilegeData){
+      this.setState({
+        isEditing:false,        
+        id: '',
+        name: '',
+        pstudentInscription: false,
+        pstudentApproval: false,
+        pnotesEntry: false,
+        pnotesVisualization: false,
+        passitanceEntry: false,
+        passitanceVisualization: false,
+        pevaluationEntry: false,
+        pevaluationVisualization: false,
+        pmonitoringEntry:  false,
+        pmonitoringVisualization: false,
+        pindicatorsVisualization: false,
+        pindicatorsPVisualization: false,
+        pinformationVisualization: false,
+        pinformationEntry: false,
+        pprogramsVisualization: false,
+        pindicatrosRVisualization: false,
+        pindicatrosDVisualization: false,
+        pindicatrosGVisualization: false,
+        pstructureEntry: false,
+        pcatalogsEntry: false,
+        ppersonalEntry: false,
+        ppersonalEvaluationEntry: false,
+        ppersonalPassEntry: false,
+        ppersonalDataEntry: false,
+        pprogramActivation: false,
+        pstudentsEntry: false,          
+      });
+    }
+  }
+
   isValid(){
     // TODO: Commented because not working on addRequest method
     //local validation
@@ -539,7 +575,9 @@ class EditForm extends React.Component {
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <RaisedButton disabled={this.state.isLoading} type="submit" label="Agregar" secondary className="btn-w-md" />
+                        <RaisedButton disabled={this.state.isLoading} type="submit" 
+                          label={this.state.isEditing ?'Update':'Add'}
+                          secondary className="btn-w-md" />
                       </div>
                     </div>
                   </form>

@@ -95,10 +95,15 @@ class Locations extends React.Component {
   onEditLocation(locationData){
     this.setState({locationData})
 
-    this.changeView('ADD_ELEMENT');
+    this.changeView('ADD_ELEMENT',false);
   }
 
-  changeView(data){
+  changeView(data,reset=true){
+    if(reset){
+      this.setState({
+        locationData:{}
+      })
+    }
     this.setState({ active: data });
   }
 

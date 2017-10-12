@@ -93,10 +93,13 @@ class Privileges extends React.Component {
   onEditPrivilege(privilegeData){
     this.setState({privilegeData})
 
-    this.changeView('ADD_ELEMENT');
+    this.changeView('ADD_ELEMENT',false);
   }
 
-  changeView(data){
+  changeView(data,reset=true){
+    if(reset){
+      this.setState({ privilegeData: {} })
+    }
     this.setState({ active: data });
   }
 

@@ -9,7 +9,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   usersAddRequest,
-  usersUpdateRequest
+  usersUpdateRequest,
+  catalogsGetRequest
 } from '../../../../../actions';
 import ListElements from './ListElements'
 /* Validators */
@@ -51,19 +52,52 @@ class EditForm extends React.Component {
 
     self = this;
   }
+  componentWillMount () {
+    this.props.actions.catalogsGetRequest();
+  }
+  componentWillReceiveProps(nextProps){
+    if(this.props.userData!==nextProps.userData){
+      this.setState({
+        isEditing:false,        
+        firstName: '' ,
+        secondName: '' ,
+        firstLastName: '',
+        secondLastName:  '' ,
+        privilege: '' ,
+        bornDate: '',
+        documentType: '' ,
+        documentValue: '' ,
+        nationality: '' ,
+        department : '' ,
+        municipality: '' ,
+        community: '' ,
+        profession: '' ,
+        address: '' ,
+        phone: '' ,
+        cellphone: '' ,
+        email:  '',
+        password: '' ,
+        confirm_password: '' ,
+        cemproCode: '' ,
+        gender: '',
+        id: '',
+      });  
+    }
+  }
+
 
   isValid(){
     //local validation
 
-    console.log("this.state: ", this.state);
-
-    const { errors, isValid } = validateCreateUserForm(this.state)
-    if(!isValid){
-      this.setState({ errors });
-      return false;
-    }
-
-    console.log("this.state: ", validateCreateUserForm(this.state));
+    // console.log("this.state: ", this.state);
+    //
+    // const { errors, isValid } = validateCreateUserForm(this.state)
+    // if(!isValid){
+    //   this.setState({ errors });
+    //   return false;
+    // }
+    //
+    // console.log("this.state: ", validateCreateUserForm(this.state));
 
     return true;
   }
@@ -146,7 +180,6 @@ class EditForm extends React.Component {
   }
 
   render() {
-
     const { errors } = this.state;
     // privileges types
     const privilegeTypes = map(privileges, (val, key) =>
@@ -156,6 +189,16 @@ class EditForm extends React.Component {
     const documentType = map(personal_documents, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
+
+    //Department options
+    var categoryOpt  = (category) => {
+      var {catalogs} = this.props;
+      return catalogs.map((catalog)=>{
+        if(catalog.category===category){
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    }
     //Defaul gender
     const genders = map(gender, (val, key) =>
       <option key={val} value={val}>{key}</option>
@@ -322,7 +365,7 @@ class EditForm extends React.Component {
                         <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                         <div className="col-md-9">
                           <select
-                            name="dataType"
+                            name="documentType"
                             onChange={this.onChange}
                             value={this.state.documentType}
                             className="form-control"
@@ -378,7 +421,7 @@ class EditForm extends React.Component {
                             className="form-control"
                           >
                             <option value="" disabled>Selecciona el departamento</option>
-                            {documentType}
+                            {categoryOpt('departamento')}
                           </select>
                           {errors.department && <span className="help-block text-danger">{errors.department}</span>}
                         </div>
@@ -395,7 +438,7 @@ class EditForm extends React.Component {
                             className="form-control"
                           >
                             <option value="" disabled>Selecciona la municipalidad</option>
-                            {documentType}
+                            {categoryOpt('municipalidad')}
                           </select>
                           {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                         </div>
@@ -412,7 +455,7 @@ class EditForm extends React.Component {
                             className="form-control"
                           >
                             <option value="" disabled>Selecciona el tipo de documento</option>
-                            {documentType}
+                            {categoryOpt('comunidad')}
                           </select>
                           {errors.community && <span className="help-block text-danger">{errors.community}</span>}
                         </div>
@@ -537,6 +580,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
+    catalogs: state.catalogs
   }
 }
 
@@ -547,6 +591,7 @@ function mapDispatchToProps(dispatch) {
   //    signUpRequest
         usersAddRequest,
         usersUpdateRequest,
+        catalogsGetRequest
     }, dispatch)
   };
 }

@@ -15,7 +15,14 @@ import {
   PROGRAM_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programGetRequest(params) {
+export function programGetRequest(currentPage,number,size) {
+  currentPage = number;
+  let params = {};
+  params.number = number * size;
+  params.size = size;
+  params.type = 2;
+  
+
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready
@@ -35,6 +42,7 @@ export function programGetRequest(params) {
               type: PROGRAM_GET_SUCCESS,
               data: response.data.data
             });
+            console.log(response.data.data);
             resolve(response.data);
           }else{
             reject(response.data);
@@ -70,7 +78,7 @@ export function programAddRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PROGRAM_ADD_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{
@@ -106,7 +114,7 @@ export function programUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PROGRAM_UPDATE_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else {

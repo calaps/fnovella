@@ -18,12 +18,12 @@ export function participantGetRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready
-      dispatch({
-        type: PARTICIPANT_GET_REQUEST,
-        data
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PARTICIPANT_GET_REQUEST,
+      //   data
+      // });
+      // resolve(true);
+      // return;
 
       // API
       HTTP('get', '/participant/',null,{authorization: localStorage.getItem('@fnovella:token')})
@@ -31,7 +31,7 @@ export function participantGetRequest(data) {
           if(response.data.errors === null){
             dispatch({
               type: PARTICIPANT_GET_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{
@@ -49,25 +49,17 @@ export function participantGetRequest(data) {
   }
 }
 
-export function addEditFormData(data) {
-  return {
-    type: 'ADD_EDIT_FORM_DATA',
-    data
-  }
-}
-
-
 export function participantAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PARTICIPANT_ADD_SUCCESS,
-        data
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PARTICIPANT_ADD_SUCCESS,
+      //   data
+      // });
+      // resolve(true);
+      // return;
 
 
       // API
@@ -76,7 +68,7 @@ export function participantAddRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PARTICIPANT_ADD_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{
@@ -93,7 +85,6 @@ export function participantAddRequest(data) {
     }})
   }
 }
-
 
 export function participantUpdateRequest(data) {
   return function (dispatch) {
@@ -113,7 +104,7 @@ export function participantUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PARTICIPANT_UPDATE_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else {
@@ -138,14 +129,14 @@ export function participantDeleteRequest(id) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
-        type: PARTICIPANT_DELETE_SUCCESS,
-        data : {
-          id
-        }
-      });
-      resolve(true);
-      return;
+      // dispatch({
+      //   type: PARTICIPANT_DELETE_SUCCESS,
+      //   data : {
+      //     id
+      //   }
+      // });
+      // resolve(true);
+      // return;
 
       // API
       HTTP('delete', '/particpant/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })

@@ -28,7 +28,17 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     self= this;
   }
-
+  componentWillReceiveProps(nextProps){
+    if(this.props.catalogData!==nextProps.catalogData){
+      this.setState({
+        isEditing: false,
+        name: '',
+        type: '',
+        category: '',
+        id: '',
+      })
+    }
+  }
   isValid(){
     // TODO:Commented bacause of invalid validation
     //local validation

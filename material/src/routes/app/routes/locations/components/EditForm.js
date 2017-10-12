@@ -27,6 +27,16 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     self=this;
   }
+  componentWillReceiveProps(nextProps){
+    if(this.props.locationData!==nextProps.locationData){
+      this.setState({
+        isEditing:false,
+        name: '',
+        address: '',
+        alias: '',      
+      });
+    }
+  }
 
   isValid(){
     //local validation

@@ -67,8 +67,6 @@ class ListElements extends React.Component {
 
 
         </div>
-
-
       </article>
     );
   }
