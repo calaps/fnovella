@@ -15,7 +15,14 @@ import {
   PROGRAM_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programGetRequest(params) {
+export function programGetRequest(currentPage,number,size) {
+  currentPage = number;
+  let params = {};
+  params.number = number * size;
+  params.size = size;
+  params.type = 2;
+  
+
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready
@@ -33,9 +40,9 @@ export function programGetRequest(params) {
           if(response.data.errors === null){
             dispatch({
               type: PROGRAM_GET_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
-            console.log(response.data);
+            console.log(response.data.data);
             resolve(response.data);
           }else{
             reject(response.data);

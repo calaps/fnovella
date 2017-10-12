@@ -3,7 +3,7 @@ let initialState = {
     auth: {
         user: null,
     },
-    programs: [],
+    programs: {},
     catalogs: [],
     educators: [],
     privileges: [],

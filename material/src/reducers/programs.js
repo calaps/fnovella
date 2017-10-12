@@ -28,7 +28,10 @@ const programs_reducer = (state = initialState.programs, action) => {
       return state;
     case PROGRAM_GET_SUCCESS:
       console.log(PROGRAM_GET_SUCCESS)
-      return action.data;
+      return {
+          ...state,
+          ...action.data
+      }
     case PROGRAM_GET_FAIL:
       // TODO: some alert may be
       return state;
