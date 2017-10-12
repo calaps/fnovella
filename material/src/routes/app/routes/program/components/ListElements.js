@@ -6,6 +6,7 @@ import {
   programDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 /** *
  * Fake element list render....
  * */
@@ -17,7 +18,9 @@ class ListElements extends React.Component {
   }
   componentWillMount() {
     // type: 2 reflects all programs
+    // this.props.actions.programGetRequest({type: 2});
     this.props.actions.programGetRequest({type: 2});
+    console.log(this.props)
   }
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -51,6 +54,7 @@ class ListElements extends React.Component {
                     <tbody>
 
                     {
+                      
                       this.props.programs.map((program) => {
                         return <ListItem key={program.id} onDelete={this.onDeleteButton}
                                          number={i++}
@@ -61,6 +65,7 @@ class ListElements extends React.Component {
 
                     </tbody>
                   </table>
+                  <Pagination />
                 </div>
 
               </div>

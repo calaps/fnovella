@@ -31,7 +31,7 @@ export function participantGetRequest(data) {
           if(response.data.errors === null){
             dispatch({
               type: PARTICIPANT_GET_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{
@@ -68,7 +68,7 @@ export function participantAddRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PARTICIPANT_ADD_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{
@@ -104,7 +104,7 @@ export function participantUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PARTICIPANT_UPDATE_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else {

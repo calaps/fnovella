@@ -34,7 +34,7 @@ export function usersGetRequest() {
           if(response.data.errors === null){
              dispatch({
               type: USERS_GET_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }
@@ -110,7 +110,7 @@ export function usersUpdateRequest(data) {
           if(response.data.errors === null){
             dispatch({
               type: USERS_UPDATE_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }

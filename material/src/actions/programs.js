@@ -33,8 +33,9 @@ export function programGetRequest(params) {
           if(response.data.errors === null){
             dispatch({
               type: PROGRAM_GET_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
+            console.log(response.data);
             resolve(response.data);
           }else{
             reject(response.data);
@@ -70,7 +71,7 @@ export function programAddRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PROGRAM_ADD_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else{
@@ -106,7 +107,7 @@ export function programUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PROGRAM_UPDATE_SUCCESS,
-              data: response.data.data
+              data: response.data.data.content
             });
             resolve(response.data);
           }else {
