@@ -368,7 +368,7 @@ class EditForm extends React.Component {
                       </div>
 
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Departamento</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label text-success">Departamento</label>
                         <div className="col-md-9">
                           <select
                             name="department"
@@ -385,7 +385,7 @@ class EditForm extends React.Component {
                       </div>
 
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Municipalidad</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label text-success">Municipalidad</label>
                         <div className="col-md-9">
                           <select
                             name="municipality"
@@ -402,7 +402,7 @@ class EditForm extends React.Component {
                       </div>
 
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Comunidad</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label text-success">Comunidad</label>
                         <div className="col-md-9">
                           <select
                             name="community"
