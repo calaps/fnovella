@@ -13,28 +13,30 @@ import Pagination from '../../../../../components/Pagination'
 let size = 1; //limit
 let number = 0; //skip
 let currentPage = 0; 
+
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteButton=this.onDeleteButton.bind(this);
-    this.getNext=this.getNext.bind(this);
+    // this.getNext=this.getNext.bind(this);
+    // this.getPrev=this.getPrev.bind(this);
   }
   
-  getPrev(){
-    if(currentPage > 0){
-      this.props.actions.programGetRequest(currentPage,number - 1,size);
-      currentPage--;
-    }
-  }
-  getNext(){
-    if(currentPage === this.props.programs.totalElements){
-      //do nothing
-    }
-    else if(currentPage < this.props.programs.totalElements){
-      this.props.actions.programGetRequest(currentPage,number + 1,size);
-      currentPage++;
-    }
-  }
+  // getPrev(){
+  //   if(currentPage > 0){
+  //     this.props.actions.programGetRequest(currentPage,number - 1,size);
+  //     currentPage--;
+  //   }
+  // }
+  // getNext(){
+  //   if(currentPage === this.props.programs.totalElements){
+  //     //do nothing
+  //   }
+  //   else if(currentPage < this.props.programs.totalElements){
+  //     this.props.actions.programGetRequest(currentPage,number + 1,size);
+  //     currentPage++;
+  //   }
+  // }
   componentWillMount() {
     // type: 2 reflects all programs
     this.props.actions.programGetRequest(currentPage,number,size);
@@ -84,9 +86,14 @@ class ListElements extends React.Component {
                     </tbody>
                   </table>
                   <Pagination
+                    //size={size}
+                    //number={number}
+                    //currentPage={currentPage}
+                    totalElements={this.props.programs.totalElements}
                     range={this.props.programs.totalPages}
-                    onClickNext={this.getNext}
-                    onClickPrev={this.getPrev}
+                    getRequest={this.props.actions.programGetRequest}
+                  //  onClickNext={this.getNext}
+                  // onClickPrev={this.getPrev}
                   />
                 </div>
 
