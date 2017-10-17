@@ -33,7 +33,15 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.program.controller.ProgramController.*(..)) "
 			+ "|| execution(* org.fnovella.project.location.controller.LocationController.*(..)) "
 			+ "|| execution(* org.fnovella.project.course.controller.CourseController.*(..)) "
-			+ "|| execution(* org.fnovella.project.grade.controller.GradeController.*(..))")
+			+ "|| execution(* org.fnovella.project.grade.controller.GradeController.*(..)) "
+			+ "|| execution(* org.fnovella.project.evaluation.controller.EvaluationController.*(..)) "
+			+ "|| execution(* org.fnovella.project.workshop.controller.WorkshopController.*(..)) "
+			+ "|| execution(* org.fnovella.project.inscriptions_inst_course.controller.InscriptionsInstCourseController.*(..))"
+			+ "|| execution(* org.fnovella.project.inscriptions_inst_grade.controller.InscriptionsInstGradeController.*(..))"
+			+ "|| execution(* org.fnovella.project.inscriptions_inst_workshop.controller.InscriptionsInstWorkshopController.*(..)) "
+			+ "|| execution(* org.fnovella.project.inscriptions_part_course.controller.InscriptionsPartCourseController.*(..))"
+			+ "|| execution(* org.fnovella.project.inscriptions_part_grade.controller.InscriptionsPartGradeController.*(..))"
+			+ "|| execution(* org.fnovella.project.inscriptions_part_workshop.controller.InscriptionsPartWorkshopController.*(..))")
 	public void authorizeUser(JoinPoint joinPoint) throws NotAuthorizedException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		if (request != null) {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.fnovella.project.catalog.model.Catalog;
 import org.fnovella.project.catalog.repository.CatalogRepository;
+import org.fnovella.project.catalog_relation.repository.CatalogRelationRepository;
+import org.fnovella.project.catalog_relation_student.repository.CatalogRelationStudentRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +21,14 @@ public class CatalogController {
 
 	@Autowired
 	private CatalogRepository catalogRepository;
-
+	@Autowired
+	private CatalogRelationRepository catalogRelationRepository;
+	@Autowired
+	private CatalogRelationStudentRepository catalogRelationStudentRepository;
+	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization) {
 		return new APIResponse(this.catalogRepository.findAll(), null);
-		//return this.catalogRepository.findAll();
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -39,15 +44,15 @@ public class CatalogController {
 		}
 		return new APIResponse(null, errors);
 	}
-
+	
 	@RequestMapping(value = "{id}", method = RequestMethod.PATCH)
-	public APIResponse update(@PathVariable("id") Integer id, @RequestBody Catalog catalog, @RequestHeader("authorization") String authorization) {
-		ArrayList<String> errors = catalog.validate();
+	public APIResponse update(@RequestBody Catalog catalog, @RequestHeader("authorization") String authorization,
+			@PathVariable("id") Integer id) {
+		ArrayList<String> errors = new ArrayList<String>();
 		Catalog toUpdate = this.catalogRepository.findOne(id);
 		if (toUpdate != null) {
 			toUpdate.setUpdateFields(catalog);
-			toUpdate = this.catalogRepository.save(catalog);
-			return new APIResponse(toUpdate, null);
+			return new APIResponse(this.catalogRepository.saveAndFlush(toUpdate), null);
 		}
 		errors.add("Catalog doesn't exist");
 		return new APIResponse(null, errors);
@@ -58,6 +63,8 @@ public class CatalogController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Catalog toDelete = this.catalogRepository.findOne(id);
 		if (toDelete != null) {
+			this.catalogRelationStudentRepository.deleteByIdCatalog(id);
+			this.catalogRelationRepository.deleteByIdCatalog(id);
 			this.catalogRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}

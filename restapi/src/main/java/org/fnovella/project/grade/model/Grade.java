@@ -65,7 +65,13 @@ public class Grade {
 		if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Name is required");
 		if (!APIUtility.isNotNullOrEmpty(this.level)) errors.add("Level is required");
 		if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Description is required");
-		if (this.location <= 0) errors.add("Location is required");
+		if (this.location == null || this.location <= 0) errors.add("Location is required");
 		return errors;
+	}
+	public void setUpdateFields(Grade grade) {
+		if (APIUtility.isNotNullOrEmpty(grade.name)) this.name = grade.name;
+		if (APIUtility.isNotNullOrEmpty(grade.level)) this.level = grade.level;
+		if (APIUtility.isNotNullOrEmpty(grade.description)) this.description = grade.description;
+		if (grade.location != null && grade.location > 0) this.location = grade.location;
 	}
 }
