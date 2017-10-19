@@ -7,7 +7,7 @@ import {
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import EditForm from './EditForm';
-import TableList from './TableList';
+import ListElements from './ListElements';
 
 
 class HorizontalLinearStepper extends React.Component {
@@ -29,9 +29,16 @@ class HorizontalLinearStepper extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <TableList /> ;
+        return <ListElements
+          handlePrev={this.handlePrev}
+          handleNext={this.handleNext}
+        /> ;
       case 1:
-        return <EditForm />;
+        return <EditForm
+          handlePrev={this.handlePrev}
+          handleNext={this.handleNext}
+          formData={this.state.formData}
+        />;
       case 2:
         return 'Resumen de activación';
       default:

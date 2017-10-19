@@ -31,3 +31,4 @@ export * from './privileges';
 export * from './educators';
 export * from './catalogs';
 export * from './participants';
+export * from './programActivations';

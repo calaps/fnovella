@@ -55,6 +55,44 @@ export function emptyValidator(data){
 
 }
 
+export function programActivationValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.audience)) {
+    errors.audience = required;
+    if(!Validator.isEmpty(data.audience) && !Validator.isAlphanumeric(data.audience)){
+      errors.audience = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.clasification)) {
+    errors.clasification = required;
+    if(!Validator.isEmpty(data.clasification) && !Validator.isAlphanumeric(data.clasification)){
+      errors.clasification = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.description)) {
+    errors.description = required;
+    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
+      errors.description = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.name)) {
+    errors.name = required;
+    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
+      errors.name = invalidData;
+    }
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}
+
 export function programValidator(data){
   // console.log(data);
 

@@ -9,6 +9,7 @@ import privileges from './privileges';
 import sedes from './sedes';
 import users from './users';
 import participants from './participants';
+import programActivations from './programActivations';
 const reducers = {
   routing: routerReducer,
   settings,
@@ -18,6 +19,7 @@ const reducers = {
   educators,
   privileges,
   participants,
+  programActivations,
   sedes,
   users,
 };
