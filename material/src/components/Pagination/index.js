@@ -91,7 +91,7 @@ class Pagination extends React.Component {
 
 
     render() {
-        console.log('range: ', this.props.range);
+        console.log('range || pages: ', this.props.range);
         var numbers = [];
         for (var i = 1; i <= this.props.range; i++) {
             numbers.push(

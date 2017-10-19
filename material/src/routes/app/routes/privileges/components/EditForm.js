@@ -1,7 +1,7 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import Toggle from 'material-ui/Toggle'; // Toogle UI
-import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import { privilegeValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
@@ -63,7 +63,7 @@ class EditForm extends React.Component {
   componentWillReceiveProps(nextProps){
     if(this.props.privilegeData!==nextProps.privilegeData){
       this.setState({
-        isEditing:false,        
+        isEditing:false,
         id: '',
         name: '',
         pstudentInscription: false,
@@ -91,7 +91,7 @@ class EditForm extends React.Component {
         ppersonalPassEntry: false,
         ppersonalDataEntry: false,
         pprogramActivation: false,
-        pstudentsEntry: false,          
+        pstudentsEntry: false,
       });
     }
   }
@@ -99,11 +99,11 @@ class EditForm extends React.Component {
   isValid(){
     // TODO: Commented because not working on addRequest method
     //local validation
-    // const { errors, isValid } = emptyValidator(this.state)
-    // if(!isValid){
-    //   this.setState({ errors });
-    // }
-    // return isValid;
+    const { errors, isValid } = privilegeValidator(this.state)
+    if(!isValid){
+      this.setState({ errors });
+      return false;
+    }
     return true;
   }
 
@@ -163,6 +163,7 @@ class EditForm extends React.Component {
           (response) => {
             //Save the default object as a provider
             if(response){
+              // console.log(response);
               self.props.changeView('VIEW_ELEMENT');
             }
           },(error) => {
@@ -575,7 +576,7 @@ class EditForm extends React.Component {
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <RaisedButton disabled={this.state.isLoading} type="submit" 
+                        <RaisedButton disabled={this.state.isLoading} type="submit"
                           label={this.state.isEditing ?'Update':'Add'}
                           secondary className="btn-w-md" />
                       </div>

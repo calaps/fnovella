@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import map from "Lodash/map"; //to use map in a object
 import { personal_documents, gender, countries } from '../../../../../constants/data_types';
-import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import { tutorValidator } from "../../../../../actions/formValidations"; //form validations
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -52,7 +52,7 @@ class EditForm extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.teacherData !== nextProps.teacherData) {
       this.setState({
-        isEditing:false,        
+        isEditing:false,
         id: '',
         firstName: '',
         secondName: '',
@@ -83,11 +83,11 @@ class EditForm extends React.Component {
   isValid() {
     // TODO: Commented beacause validation was not valid
     //local validation
-    // const { errors, isValid } = emptyValidator(this.state)
-    // if(!isValid){
-    //   this.setState({ errors });
-    // }
-    // return isValid;
+    const { errors, isValid } = tutorValidator(this.state)
+    if(!isValid){
+      this.setState({ errors });
+      return false;
+    }
     return true;
   }
 
@@ -288,7 +288,7 @@ class EditForm extends React.Component {
                           value={this.state.confirmPassword}
                           onChange={this.onChange}
                           placeholder="******" />
-                        {errors.confirmPassword && <span className="help-block text-danger">{errors.confirm_password}</span>}
+                        {errors.confirmPassword && <span className="help-block text-danger">{errors.confirmPassword}</span>}
                       </div>
                     </div>
 
