@@ -43,13 +43,13 @@ public class CatalogRelation {
 	}
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
-		if (this.idCatalog <= 0) errors.add("Catalog is required");
-		if (this.idProgram <= 0) errors.add("Program is required");
+		if (this.idCatalog == null || this.idCatalog <= 0) errors.add("Catalog is required");
+		if (this.idProgram == null || this.idProgram <= 0) errors.add("Program is required");
 		return errors;
 	}
 	public void setUpdateFields(CatalogRelation catalog) {
-		this.idCatalog = catalog.idCatalog;
-		this.idProgram = catalog.idProgram;
+		if (catalog.idCatalog != null && catalog.idCatalog > 0) this.idCatalog = catalog.idCatalog;
+		if (catalog.idProgram != null && catalog.idProgram > 0) this.idProgram = catalog.idProgram;
 	}
 	
 }

@@ -67,7 +67,7 @@ public class InscriptionsPartWorkshop {
 		this.groupId = groupId;
 	}
 	public InscriptionsPartWorkshop(Integer participantId, String status, Integer period, Integer year, Integer workshopId,
-			String groupId) {
+		String groupId) {
 		super();
 		this.participantId = participantId;
 		this.status = status;
@@ -83,18 +83,18 @@ public class InscriptionsPartWorkshop {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.groupId)) errors.add("Group is required");
 		if (!APIUtility.isNotNullOrEmpty(this.status)) errors.add("Status is required");
-		if (this.participantId <= 0) errors.add("Participant is required");
-		if (this.period <= 0) errors.add("Period is required");
-		if (this.year <= 0) errors.add("Year is required");
-		if (this.workshopId <= 0) errors.add("Workshop is required");
+		if (this.participantId != null && this.participantId <= 0) errors.add("Participant is required");
+		if (this.period != null && this.period <= 0) errors.add("Period is required");
+		if (this.year != null && this.year <= 0) errors.add("Year is required");
+		if (this.workshopId != null && this.workshopId <= 0) errors.add("Workshop is required");
 		return errors;
 	}
 	public void setUpdateFields(InscriptionsPartWorkshop inscriptionsPartWorkshop) {
 		if (!APIUtility.isNotNullOrEmpty(inscriptionsPartWorkshop.groupId)) this.groupId = inscriptionsPartWorkshop.groupId;
 		if (!APIUtility.isNotNullOrEmpty(inscriptionsPartWorkshop.status)) this.status = inscriptionsPartWorkshop.status;
-		if (inscriptionsPartWorkshop.participantId > 0) this.participantId = inscriptionsPartWorkshop.participantId;
-		if (inscriptionsPartWorkshop.period > 0) this.period = inscriptionsPartWorkshop.period;
-		if (inscriptionsPartWorkshop.year > 0) this.year = inscriptionsPartWorkshop.year;
-		if (inscriptionsPartWorkshop.workshopId > 0) this.workshopId = inscriptionsPartWorkshop.workshopId;
+		if (inscriptionsPartWorkshop.participantId != null && inscriptionsPartWorkshop.participantId > 0) this.participantId = inscriptionsPartWorkshop.participantId;
+		if (inscriptionsPartWorkshop.period != null && inscriptionsPartWorkshop.period > 0) this.period = inscriptionsPartWorkshop.period;
+		if (inscriptionsPartWorkshop.year != null && inscriptionsPartWorkshop.year > 0) this.year = inscriptionsPartWorkshop.year;
+		if (inscriptionsPartWorkshop.workshopId != null && inscriptionsPartWorkshop.workshopId > 0) this.workshopId = inscriptionsPartWorkshop.workshopId;
 	}
 }

@@ -70,19 +70,19 @@ public class InscriptionsInstWorkshop {
 		super();
 	}
 	public ArrayList<String> validate() {
-		ArrayList<String> errors = new ArrayList<String>();
-		if (!APIUtility.isNotNullOrEmpty(this.status)) errors.add("Status is required");
-		if (this.instructorId <= 0) errors.add("Instructor is required");
-		if (this.period <= 0) errors.add("Period is required");
-		if (this.year <= 0) errors.add("Year is required");
-		if (this.workshopId <= 0) errors.add("Workshop is required");
-		return errors;
+	    ArrayList<String> errors = new ArrayList<String>();
+	    if (!APIUtility.isNotNullOrEmpty(this.status)) errors.add("Status is required");
+	    if (this.instructorId != null && this.instructorId <= 0) errors.add("Instructor is required");
+	    if (this.period != null && this.period <= 0) errors.add("Period is required");
+	    if (this.year != null && this.year <= 0) errors.add("Year is required");
+	    if (this.workshopId != null && this.workshopId <= 0) errors.add("Workshop is required");
+	    return errors;
 	}
 	public void setUpdateFields(InscriptionsInstWorkshop inscriptionsInstWorkshop) {
-		if (APIUtility.isNotNullOrEmpty(inscriptionsInstWorkshop.status)) this.status = inscriptionsInstWorkshop.status;
-		if (inscriptionsInstWorkshop.instructorId > 0) this.instructorId = inscriptionsInstWorkshop.instructorId;
-		if (inscriptionsInstWorkshop.period > 0) this.period = inscriptionsInstWorkshop.period;
-		if (inscriptionsInstWorkshop.year > 0) this.year = inscriptionsInstWorkshop.year;
-		if (inscriptionsInstWorkshop.workshopId > 0) this.workshopId = inscriptionsInstWorkshop.workshopId;
+	    if (APIUtility.isNotNullOrEmpty(inscriptionsInstWorkshop.status)) this.status = inscriptionsInstWorkshop.status;
+	    if (inscriptionsInstWorkshop.instructorId != null && inscriptionsInstWorkshop.instructorId > 0) this.instructorId = inscriptionsInstWorkshop.instructorId;
+	    if (inscriptionsInstWorkshop.period != null && inscriptionsInstWorkshop.period > 0) this.period = inscriptionsInstWorkshop.period;
+	    if (inscriptionsInstWorkshop.year != null && inscriptionsInstWorkshop.year > 0) this.year = inscriptionsInstWorkshop.year;
+	    if (inscriptionsInstWorkshop.workshopId != null && inscriptionsInstWorkshop.workshopId > 0) this.workshopId = inscriptionsInstWorkshop.workshopId;
 	}
 }

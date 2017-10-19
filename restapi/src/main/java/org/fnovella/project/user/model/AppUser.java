@@ -30,7 +30,7 @@ public class AppUser {
 	@Column(name = "second_lastname")
 	private String secondLastName;
 	@Column(nullable = true)
-	private int privilege;
+	private Integer privilege;
 	@Length(max = 20)
 	private String documentType;
 	@Length(max = 40)
@@ -51,8 +51,8 @@ public class AppUser {
 	private String municipality;
 	@Length(max = 20)
 	private String comunity;
-	private int phone;
-	private int cellphone;
+	private Integer phone;
+	private Integer cellphone;
 	@Length(max = 40)
 	private String cemproCode;
 	@Length(max = 60)
@@ -101,11 +101,11 @@ public class AppUser {
 		this.secondLastName = secondLastName;
 	}
 
-	public int getPrivilege() {
+	public Integer getPrivilege() {
 		return privilege;
 	}
 
-	public void setPrivilege(int privilege) {
+	public void setPrivilege(Integer privilege) {
 		this.privilege = privilege;
 	}
 
@@ -189,19 +189,19 @@ public class AppUser {
 		this.comunity = comunity;
 	}
 
-	public int getPhon() {
+	public Integer getPhon() {
 		return phone;
 	}
 
-	public void setPhon(int phon) {
+	public void setPhon(Integer phon) {
 		this.phone = phon;
 	}
 
-	public int getCellphone() {
+	public Integer getCellphone() {
 		return cellphone;
 	}
 
-	public void setCellphone(int cellphone) {
+	public void setCellphone(Integer cellphone) {
 		this.cellphone = cellphone;
 	}
 
@@ -237,10 +237,10 @@ public class AppUser {
 		this.bornDate = bornDate;
 	}
 
-	public AppUser(String firstName, String secondName, String firstLastName, String secondLastName, int privilege,
+	public AppUser(String firstName, String secondName, String firstLastName, String secondLastName, Integer privilege,
 			String documentType, String documentValue, String nationality, String department, String profession,
-			String address, String email, String password, String municipality, String comunity, int phon,
-			int cellphone, String cemproCode, String appCode, String gender, Date bornDate) {
+			String address, String email, String password, String municipality, String comunity, Integer phon,
+			Integer cellphone, String cemproCode, String appCode, String gender, Date bornDate) {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
@@ -279,7 +279,7 @@ public class AppUser {
 			errors.add("Last name is required");
 		if (!APIUtility.isNotNullOrEmpty(this.secondLastName))
 			errors.add("Second last name is required");
-		if (this.privilege <= 0)
+		if (this.privilege == null || this.privilege <= 0)
 			errors.add("Privilege is required");
 		if (!APIUtility.isNotNullOrEmpty(this.documentType))
 			errors.add("Document type is required");
@@ -301,7 +301,7 @@ public class AppUser {
 			errors.add("Municipality is required");
 		if (!APIUtility.isNotNullOrEmpty(this.comunity))
 			errors.add("Comunity is required");
-		if (this.phone <= 0)
+		if (this.phone == null || this.phone <= 0)
 			errors.add("Phon is required");
 		if (!APIUtility.isNotNullOrEmpty(this.appCode))
 			errors.add("App Code is required");
@@ -319,7 +319,7 @@ public class AppUser {
 			this.firstLastName = appUser.firstLastName; 
 		if (APIUtility.isNotNullOrEmpty(appUser.secondLastName))
 			this.secondLastName = appUser.secondLastName;
-		if (this.privilege <= 0)
+		if (this.privilege != null && this.privilege <= 0)
 			this.privilege = appUser.privilege;
 		if (APIUtility.isNotNullOrEmpty(appUser.documentType))
 			this.documentType = appUser.documentType;
@@ -341,7 +341,7 @@ public class AppUser {
 			this.municipality = appUser.municipality;
 		if (APIUtility.isNotNullOrEmpty(appUser.comunity))
 			this.comunity = appUser.comunity;
-		if (this.phone <= 0)
+		if (this.phone != null && this.phone <= 0)
 			this.phone= appUser.phone;
 		if (APIUtility.isNotNullOrEmpty(appUser.appCode))
 			this.appCode= appUser.appCode;

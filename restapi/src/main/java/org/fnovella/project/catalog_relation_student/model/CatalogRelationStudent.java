@@ -54,12 +54,12 @@ public class CatalogRelationStudent {
 	}
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
-		if (this.idCatalog <= 0) errors.add("Catalog is required");
-		if (this.idParticipant <= 0) errors.add("Participant is required");
+		if (this.idCatalog == null || this.idCatalog <= 0) errors.add("Catalog is required");
+		if (this.idParticipant == null || this.idParticipant <= 0) errors.add("Participant is required");
 		return errors;
 	}
 	public void setUpdateFields(CatalogRelationStudent relation) {
-		this.idCatalog = relation.idCatalog;
-		this.idParticipant = relation.idParticipant;
+		if (relation.idCatalog != null && relation.idCatalog > 0) this.idCatalog = relation.idCatalog;
+		if (relation.idParticipant != null && relation.idParticipant > 0) this.idParticipant = relation.idParticipant;
 	}
 }

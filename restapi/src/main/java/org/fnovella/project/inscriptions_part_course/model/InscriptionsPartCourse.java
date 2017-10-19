@@ -66,7 +66,7 @@ public class InscriptionsPartCourse {
 		this.groupId = groupId;
 	}
 	public InscriptionsPartCourse(Integer participantId, Integer status, Integer period, Integer year, Integer courseId,
-			String groupId) {
+		String groupId) {
 		super();
 		this.participantId = participantId;
 		this.status = status;
@@ -81,19 +81,19 @@ public class InscriptionsPartCourse {
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.groupId)) errors.add("Group is required");
-		if (this.participantId <= 0) errors.add("Participant is required");
-		if (this.status <= 0) errors.add("Status is required");
-		if (this.period <= 0) errors.add("Period is required");
-		if (this.year <= 0) errors.add("Year is required");
-		if (this.courseId <= 0) errors.add("Course is required");
+		if (this.participantId != null && this.participantId <= 0) errors.add("Participant is required");
+		if (this.status != null && this.status <= 0) errors.add("Status is required");
+		if (this.period != null && this.period <= 0) errors.add("Period is required");
+		if (this.year != null && this.year <= 0) errors.add("Year is required");
+		if (this.courseId != null && this.courseId <= 0) errors.add("Course is required");
 		return errors;
 	}
 	public void setUpdateFields(InscriptionsPartCourse inscriptionsPartCourse) {
 		if (!APIUtility.isNotNullOrEmpty(inscriptionsPartCourse.groupId)) this.groupId = inscriptionsPartCourse.groupId;
-		if (inscriptionsPartCourse.participantId > 0) this.participantId = inscriptionsPartCourse.participantId;
-		if (inscriptionsPartCourse.status > 0) this.status = inscriptionsPartCourse.status;
-		if (inscriptionsPartCourse.period > 0) this.period = inscriptionsPartCourse.period;
-		if (inscriptionsPartCourse.year > 0) this.year = inscriptionsPartCourse.year;
-		if (inscriptionsPartCourse.courseId > 0) this.courseId = inscriptionsPartCourse.courseId;
+		if (inscriptionsPartCourse.participantId != null && inscriptionsPartCourse.participantId > 0) this.participantId = inscriptionsPartCourse.participantId;
+		if (inscriptionsPartCourse.status != null && inscriptionsPartCourse.status > 0) this.status = inscriptionsPartCourse.status;
+		if (inscriptionsPartCourse.period != null && inscriptionsPartCourse.period > 0) this.period = inscriptionsPartCourse.period;
+		if (inscriptionsPartCourse.year != null && inscriptionsPartCourse.year > 0) this.year = inscriptionsPartCourse.year;
+		if (inscriptionsPartCourse.courseId != null && inscriptionsPartCourse.courseId > 0) this.courseId = inscriptionsPartCourse.courseId;
 	}
 }

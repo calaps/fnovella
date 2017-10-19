@@ -66,7 +66,7 @@ public class InscriptionsPartGrade {
 		this.groupId = groupId;
 	}
 	public InscriptionsPartGrade(Integer participantId, Integer status, Integer period, Integer year, Integer gradeId,
-			String groupId) {
+		String groupId) {
 		super();
 		this.participantId = participantId;
 		this.status = status;
@@ -81,19 +81,19 @@ public class InscriptionsPartGrade {
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.groupId)) errors.add("Group is required");
-		if (this.participantId <= 0) errors.add("Participant is required");
-		if (this.status <= 0) errors.add("Status is required");
-		if (this.period <= 0) errors.add("Period is required");
-		if (this.year <= 0) errors.add("Year is required");
-		if (this.gradeId <= 0) errors.add("Grade is required");
+		if (this.participantId != null && this.participantId <= 0) errors.add("Participant is required");
+		if (this.status != null && this.status <= 0) errors.add("Status is required");
+		if (this.period != null && this.period <= 0) errors.add("Period is required");
+		if (this.year != null && this.year <= 0) errors.add("Year is required");
+		if (this.gradeId != null && this.gradeId <= 0) errors.add("Grade is required");
 		return errors;
 	}
 	public void setUpdateFields(InscriptionsPartGrade inscriptionsPartGrade) {
 		if (!APIUtility.isNotNullOrEmpty(inscriptionsPartGrade.groupId)) this.groupId = inscriptionsPartGrade.groupId;
-		if (inscriptionsPartGrade.participantId > 0) this.participantId = inscriptionsPartGrade.participantId;
-		if (inscriptionsPartGrade.status > 0) this.status = inscriptionsPartGrade.status;
-		if (inscriptionsPartGrade.period > 0) this.period = inscriptionsPartGrade.period;
-		if (inscriptionsPartGrade.year > 0) this.year = inscriptionsPartGrade.year;
-		if (inscriptionsPartGrade.gradeId > 0) this.gradeId = inscriptionsPartGrade.gradeId;
+		if (inscriptionsPartGrade.participantId != null && inscriptionsPartGrade.participantId > 0) this.participantId = inscriptionsPartGrade.participantId;
+		if (inscriptionsPartGrade.status != null && inscriptionsPartGrade.status > 0) this.status = inscriptionsPartGrade.status;
+		if (inscriptionsPartGrade.period != null && inscriptionsPartGrade.period > 0) this.period = inscriptionsPartGrade.period;
+		if (inscriptionsPartGrade.year != null && inscriptionsPartGrade.year > 0) this.year = inscriptionsPartGrade.year;
+		if (inscriptionsPartGrade.gradeId != null && inscriptionsPartGrade.gradeId > 0) this.gradeId = inscriptionsPartGrade.gradeId;
 	}
 }

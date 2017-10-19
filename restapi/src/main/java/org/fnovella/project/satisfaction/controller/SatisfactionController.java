@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/satisfaction/")
+/*@RestController
+@RequestMapping("/satisfaction/")*/
 public class SatisfactionController {
 
-	@Autowired
+/*	@Autowired
 	private SatisfactionRepository satisfactionRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -69,5 +69,5 @@ public class SatisfactionController {
 		}
 		errors.add("Satisfcation doesn't exist");
 		return new APIResponse(null, errors);
-	}
+	}*/
 }

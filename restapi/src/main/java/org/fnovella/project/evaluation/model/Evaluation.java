@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
 
-@Entity
+//@Entity
 public class Evaluation {
 
 	@Id
@@ -76,6 +76,6 @@ public class Evaluation {
 		if (APIUtility.isNotNullOrEmpty(evaluation.item)) this.item = evaluation.item;
 		if (APIUtility.isNotNullOrEmpty(evaluation.subject)) this.subject = evaluation.subject;
 		if (APIUtility.isNotNullOrEmpty(evaluation.practice)) this.practice = evaluation.practice;
-		this.column5 = evaluation.column5;
+		if (evaluation.column5 != null && evaluation.column5 > 0) this.column5 = evaluation.column5;
 	}
 }

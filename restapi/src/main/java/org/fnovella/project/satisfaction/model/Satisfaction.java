@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
 
-@Entity
+//@Entity
 public class Satisfaction {
 
 	@Id

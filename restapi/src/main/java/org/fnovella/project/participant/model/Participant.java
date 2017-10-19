@@ -42,8 +42,8 @@ public class Participant {
 	private String profession;
 	@Length(max=50)
 	private String address;
-	private int phone;
-	private int cellPhone;
+	private Integer phone;
+	private Integer cellPhone;
 	@Length(max=50)
 	private String email;
 	@Length(max=50)
@@ -134,16 +134,16 @@ public class Participant {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getPhone() {
+	public Integer getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(Integer phone) {
 		this.phone = phone;
 	}
-	public int getCellPhone() {
+	public Integer getCellPhone() {
 		return cellPhone;
 	}
-	public void setCellPhone(int cellPhone) {
+	public void setCellPhone(Integer cellPhone) {
 		this.cellPhone = cellPhone;
 	}
 	public String getEmail() {
@@ -166,8 +166,8 @@ public class Participant {
 	}
 	public Participant(String firstName, String secondName, String firstLastname, String secondLastname,
 			GregorianCalendar bornDate, String documentType, String documentValue, String nacionality,
-			String department, String municipality, String community, String profession, String address, int phone,
-			int cellPhone, String email, String appCode, String gender) {
+			String department, String municipality, String community, String profession, String address, Integer phone,
+			Integer cellPhone, String email, String appCode, String gender) {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
@@ -227,7 +227,7 @@ public class Participant {
 		if (APIUtility.isNotNullOrEmpty(participant.email)) this.email = participant.email;
 		if (APIUtility.isNotNullOrEmpty(participant.appCode)) this.appCode = participant.appCode;
 		if (APIUtility.isNotNullOrEmpty(participant.gender)) this.gender = participant.gender;
-		if (participant.phone > 0) this.phone = participant.phone;
-		if (participant.cellPhone > 0) this.cellPhone = participant.cellPhone;
+		if (participant.phone != null && participant.phone > 0) this.phone = participant.phone;
+		if (participant.cellPhone != null && participant.cellPhone > 0) this.cellPhone = participant.cellPhone;
 	}
 }

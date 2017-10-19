@@ -166,18 +166,18 @@ public class ProgramActivation {
 		return errors;
 	}
 	public void setUpdateFields(ProgramActivation programActivation) {
-		if (programActivation.programId > 0) this.programId = programActivation.programId;
+		if (programActivation.programId != null && programActivation.programId > 0) this.programId = programActivation.programId;
 		if (APIUtility.isNotNullOrEmpty(programActivation.calPeriodsGrade)) this.calPeriodsGrade = programActivation.calPeriodsGrade;
 		if (APIUtility.isNotNullOrEmpty(programActivation.calPeriodsCourse)) this.calPeriodsCourse = programActivation.calPeriodsCourse;
 		if (APIUtility.isNotNullOrEmpty(programActivation.calPeriodsWorkshop)) this.calPeriodsWorkshop = programActivation.calPeriodsWorkshop;
-		if (programActivation.responsable > 0) this.responsable = programActivation.responsable;
+		if (programActivation.responsable != null && programActivation.responsable > 0) this.responsable = programActivation.responsable;
 		if (APIUtility.isNotNullOrEmpty(programActivation.evaluationStructure)) this.evaluationStructure = programActivation.evaluationStructure;
 		if (APIUtility.isNotNullOrEmpty(programActivation.satisfactionStructure)) this.satisfactionStructure = programActivation.satisfactionStructure;
 		if (APIUtility.isNotNullOrEmpty(programActivation.monitoringStructure)) this.monitoringStructure = programActivation.monitoringStructure;
-		if (programActivation.location > 0) this.location = programActivation.location;
-		if (programActivation.temporality > 0) this.temporality = programActivation.temporality;
-		if (programActivation.year > 0) this.year = programActivation.year;
-		if (programActivation.numberSessions > 0) this.numberSessions = programActivation.numberSessions;
+		if (programActivation.location != null && programActivation.location > 0) this.location = programActivation.location;
+		if (programActivation.temporality != null && programActivation.temporality > 0) this.temporality = programActivation.temporality;
+		if (programActivation.year != null && programActivation.year > 0) this.year = programActivation.year;
+		if (programActivation.numberSessions != null && programActivation.numberSessions > 0) this.numberSessions = programActivation.numberSessions;
 		this.freeCourses = programActivation.freeCourses;
 		this.activationStatus = programActivation.activationStatus;
 	}

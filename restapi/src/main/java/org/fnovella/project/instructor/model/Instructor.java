@@ -42,8 +42,8 @@ public class Instructor {
 	private String profession;
 	@Length(max = 50)
 	private String address;
-	private int phone;
-	private int cellphone;
+	private Integer phone;
+	private Integer cellphone;
 	@Length(max = 50)
 	private String email;
 	@Length(max = 50)
@@ -134,16 +134,16 @@ public class Instructor {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getPhone() {
+	public Integer getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(Integer phone) {
 		this.phone = phone;
 	}
-	public int getCellphone() {
+	public Integer getCellphone() {
 		return cellphone;
 	}
-	public void setCellphone(int cellphone) {
+	public void setCellphone(Integer cellphone) {
 		this.cellphone = cellphone;
 	}
 	public String getEmail() {
@@ -166,8 +166,8 @@ public class Instructor {
 	}
 	public Instructor(String firstName, String secondName, String firstLastname, String secondLastname,
 			GregorianCalendar bornDate, String documentType, String documentValue, String nacionality,
-			String department, String municipality, String community, String profession, String address, int phone,
-			int cellphone, String email, String appCode, String gender) {
+			String department, String municipality, String community, String profession, String address, Integer phone,
+			Integer cellphone, String email, String appCode, String gender) {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
@@ -230,8 +230,8 @@ public class Instructor {
 		if (APIUtility.isNotNullOrEmpty(instructor.email)) this.email = instructor.email;
 		if (APIUtility.isNotNullOrEmpty(instructor.appCode)) this.appCode = instructor.appCode;
 		if (APIUtility.isNotNullOrEmpty(instructor.gender)) this.gender = instructor.gender;
-		if (instructor.phone > 0) this.phone = instructor.phone;
-		if (instructor.cellphone > 0) this.cellphone = instructor.cellphone;
+		if (instructor.phone != null && instructor.phone > 0) this.phone = instructor.phone;
+		if (instructor.cellphone != null && instructor.cellphone > 0) this.cellphone = instructor.cellphone;
 	}
 	
 }
