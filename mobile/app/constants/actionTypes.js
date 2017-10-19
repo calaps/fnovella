@@ -1,0 +1,14 @@
+/* LOGIN */
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+
+/* SIGNUP */
+export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_FAIL = 'SIGNUP_FAIL';
+
+/* USER */
+export const GETUSER_SUCCESS = 'GETUSER_SUCCESS';
+export const GETUSER_FAIL = 'GETUSER_FAIL';
+export const SET_USER_TYPE = 'SET_USER_TYPE';
