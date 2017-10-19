@@ -2,7 +2,7 @@
 
 export default images = {
   /* Examples */
-  // Gift_Tab: require('../assets/images/Gift_Tab.png'),
+  user_placeholder: require('../assets/images/user_placeholder.png'),
   // calendar_icon: require('../assets/images/calendar_icon.png'),
   // Arrow_Down: require('../assets/images/Arrow_Down.png')
 };

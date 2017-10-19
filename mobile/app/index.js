@@ -15,15 +15,17 @@ export default class AppRoute extends Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      // 'RobotoBold': require('./assets/fonts/Roboto-Bold.ttf'),
-      // 'ProximaNova-Regular': require('./assets/fonts/ProximaNova-Regular.ttf'),
-      // 'ProximaNova-Bold': require('./assets/fonts/ProximaNova-Bold.ttf'),
-      // 'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
-      // 'Verdana': require('./assets/fonts/Verdana.ttf'),
-      // 'Oswald-Regular': require('./assets/fonts/Oswald-Regular.ttf'),
-      // 'Muller-Regular': require('./assets/fonts/muller_regular.ttf'),
+        'RobotoBold': require('./assets/fonts/Roboto-Bold.ttf'),
+        'Roboto_medium': require('./assets/fonts/Roboto-Bold.ttf'),
+        'RobotoMedium': require('./assets/fonts/Roboto-Bold.ttf'),
+        'ProximaNova-Regular': require('./assets/fonts/ProximaNova-Regular.ttf'),
+        'ProximaNova-Bold': require('./assets/fonts/ProximaNova-Bold.ttf'),
+        'Roboto-Regular': require('./assets/fonts/Roboto-Regular.ttf'),
+        'Verdana': require('./assets/fonts/Verdana.ttf'),
+        'Oswald-Regular': require('./assets/fonts/Oswald-Regular.ttf'),
+        'Muller-Regular': require('./assets/fonts/muller_regular.ttf'),
     });
-
+ 
     this.setState({ fontLoaded: true });
   }
 

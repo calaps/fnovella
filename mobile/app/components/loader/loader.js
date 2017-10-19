@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  View
+  View,
+  Text
 } from 'react-native';
 import styles from './styles';
 
