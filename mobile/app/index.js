@@ -34,7 +34,7 @@ export default class AppRoute extends Component {
     return (
 
       this.state.fontLoaded ?
-        <AppScreen />
+      <AppScreen />
         :<Loader/>
 
     );
