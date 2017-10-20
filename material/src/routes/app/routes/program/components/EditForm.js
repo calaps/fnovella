@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { valdiateCourse } from "../../../../../actions/formValidations"; //form validations
+import { programValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
@@ -31,11 +31,11 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
    self=this;
   }
-  
+
   componentWillReceiveProps(nextProps){
     if(this.props.programData!==nextProps.programData){
       this.setState({
-        isEditing:false,        
+        isEditing:false,
         name: '',
         audience: '',
         description: '',
@@ -44,18 +44,18 @@ class EditForm extends React.Component {
         freeCourses: true,
         type: true,
         id: '',
-      });  
+      });
     }
   }
 
   isValid(){
     // TODO:Temporary commented bcz validation is not valid
     //local validation
-    // const { errors, isValid } = valdiateCourse(this.state)
-    // if(!isValid){
-    //   this.setState({ errors });
-    //   return false;
-    // }
+    const { errors, isValid } = programValidator(this.state);
+    if(!isValid){
+      this.setState({ errors });
+      return false;
+    }
 
     return true;
   }
@@ -63,7 +63,7 @@ class EditForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if(this.isValid()){
-      //reset errros object and disable submit button
+      //reset errors object and disable submit button
       this.setState({ errors: {}, isLoading: true });
 
       let data = {

@@ -10,9 +10,9 @@ import Pagination from '../../../../../components/Pagination'
 /** *
  * Fake element list render....
  * */
-let size = 1; //limit
+let size = 20; //limit
 let number = 0; //skip
-let currentPage = 0; 
+let currentPage = 0;
 
 class ListElements extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class ListElements extends React.Component {
     // this.getNext=this.getNext.bind(this);
     // this.getPrev=this.getPrev.bind(this);
   }
-  
+
   // getPrev(){
   //   if(currentPage > 0){
   //     this.props.actions.programGetRequest(currentPage,number - 1,size);
@@ -73,7 +73,7 @@ class ListElements extends React.Component {
 
                     <tbody>
 
-                     { 
+                     {
                       this.props.programs.content?this.props.programs.content.map((program) => {
                         return <ListItem key={program.id} onDelete={this.onDeleteButton}
                                          number={i++}
@@ -81,7 +81,7 @@ class ListElements extends React.Component {
                                          programData={program}/>
                       }):null
                      }
-                    
+
 
                     </tbody>
                   </table>
