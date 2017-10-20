@@ -96,7 +96,7 @@ export function participantUpdateRequest(data) {
         data
       });
       resolve(true);
-      return;
+      return true;
 
       // API
       HTTP('patch', '/participant/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })

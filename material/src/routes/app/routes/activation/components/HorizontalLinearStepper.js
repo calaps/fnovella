@@ -7,17 +7,39 @@ import {
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import EditForm from './EditForm';
-import ListElements from './ListElements';
+import ProgramsListElements from './ProgramListElements';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  programActivationsAddRequest
+} from '../../../../../actions';
 
 
 class HorizontalLinearStepper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      finished: false,
+      stepIndex: 0,
+      errors: {},
+      isLoading: false,
+      formData: {},
+      programId: ''
+    };
+    this.handleCancel = this.handleCancel.bind(this);
+  }
 
-  state = {
-    finished: false,
-    stepIndex: 0,
-    program_id: 0,
-    program_name: "",
-  };
+  handleCancel() {
+    this.props.changeView("VIEW_ELEMENT");
+    this.setState({
+      finished: false,
+      stepIndex: 0,
+      errors: {},
+      isLoading: false,
+      formData: {},
+      programId: ''
+    });
+  }
 
   handlePrev = () => {
     const {stepIndex} = this.state;
@@ -29,15 +51,14 @@ class HorizontalLinearStepper extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <ListElements
-          handlePrev={this.handlePrev}
+        return <ProgramsListElements
+          handleCancel={this.handleCancel}
           handleNext={this.handleNext}
-        /> ;
+        />;
       case 1:
         return <EditForm
           handlePrev={this.handlePrev}
           handleNext={this.handleNext}
-          formData={this.state.formData}
         />;
       case 2:
         return 'Resumen de activación';
@@ -46,16 +67,68 @@ class HorizontalLinearStepper extends React.Component {
     }
   }
 
-  handleNext = () => {
+  handleNext = (data) => {
     const {stepIndex} = this.state;
-    this.setState({
-      stepIndex: stepIndex + 1,
-      finished: stepIndex >= 2,
-    });
+    switch (stepIndex) {
+      case 0:
+        if (data.programId !== null) {
+          this.setState({
+            programId: data.programId,
+            stepIndex: stepIndex + 1,
+            finished: stepIndex >= 2,
+            errors: {}
+          });
+        } else {
+          this.setState({
+            errors: {
+              programIdError: 'Select a program'
+            }
+          });
+        }
+        break;
+      case 1:
+        this.setState({
+          formData: {
+            activationStatus: data.activationStatus,
+            calPeriodsCourse: data.calPeriodsCourse,
+            calPeriodsGrade: data.calPeriodsGrade,
+            calPeriodsWorkshop: data.calPeriodsWorkshop,
+            evaluationStructure: data.evaluationStructure,
+            freeCourses: data.freeCourses,
+            location: data.location,
+            monitoringStructure: data.monitoringStructure,
+            numberSessions: data.numberSessions,
+            responsable: data.responsable,
+            satisfactionStructure: data.satisfactionStructure,
+            temporality: data.temporality,
+            year: data.year,
+            programId: this.state.programId
+          },
+          stepIndex: stepIndex + 1,
+          finished: stepIndex >= 2,
+          errors: {}
+        });
+        break;
+      case 2:
+        this.props.actions.programActivationsAddRequest(this.state.formData).then(
+          (response) => {
+            if(response){
+              this.props.changeView('VIEW_ELEMENT');
+            }
+          }, (error) => {
+            alert('fail');
+            console.log('error occoured with rest api: ', error);
+          }
+        );
+        // console.log("formData",this.state.formData);
+        return 'Resumen de activación';
+      default:
+        return 'You\'re a long way from home sonny jim!';
+    }
   };
 
   render() {
-    const {finished, stepIndex} = this.state;
+    const {finished, stepIndex, errors} = this.state;
     const contentStyle = {margin: '0 16px'};
 
     return (
@@ -92,19 +165,23 @@ class HorizontalLinearStepper extends React.Component {
                 ) : (
                   <div>
                     <div>{this.getStepContent(stepIndex)}</div>
-                    <div style={{marginTop: 12}}>
-                      <FlatButton
-                        label="Atras"
-                        disabled={stepIndex === 0}
-                        onTouchTap={this.handlePrev}
-                        style={{marginRight: 12}}
-                      />
-                      <RaisedButton
-                        label={stepIndex === 2 ? 'Activar' : 'Siguiente'}
-                        primary
-                        onTouchTap={this.handleNext}
-                      />
-                    </div>
+                    {
+                      stepIndex === 2 ?
+                        <div style={{marginTop: 12}}>
+                          <FlatButton
+                            label='Back'
+                            onTouchTap={this.handlePrev}
+                            style={{marginRight: 12}}
+                          />
+                          <RaisedButton
+                            label='Activate'
+                            primary
+                            onTouchTap={this.handleNext}
+                          />
+                        </div>
+                        : null
+                    }
+                    {errors.programIdError && <span className="help-block text-danger">{errors.programIdError}</span>}
                   </div>
                 )}
               </div>
@@ -122,5 +199,16 @@ class HorizontalLinearStepper extends React.Component {
   }
 }
 
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      programActivationsAddRequest
+    }, dispatch)
+  };
+}
 
-export default HorizontalLinearStepper;
+export default connect(
+  null,
+  mapDispatchToProps
+)(HorizontalLinearStepper);

@@ -1,7 +1,6 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import HorizontalLinearStepper from './HorizontalLinearStepper';
-import TableList from './TableList';
 import ListElements from './ListElements';
 
 const optionsName = "Activacion";
@@ -86,9 +85,10 @@ class Program extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "VIEW_ELEMENT"
+      active: "ADD_ELEMENT"
     };
-    this.changeView = this.changeView.bind(this); //bind this element
+    //bind elements
+    this.changeView = this.changeView.bind(this);
   }
 
   changeView(data){

@@ -30,9 +30,10 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">id</th>
-                      <th className="mdl-data-table__cell--non-numeric">Name</th>
-                      <th className="mdl-data-table__cell--non-numeric">Description</th>
+                      <th className="mdl-data-table__cell--non-numeric">Id</th>
+                      <th className="mdl-data-table__cell--non-numeric">Program Id</th>
+                      <th className="mdl-data-table__cell--non-numeric">Year</th>
+                      <th className="mdl-data-table__cell--non-numeric">Active</th>
                     </tr>
                     </thead>
                     <tbody>

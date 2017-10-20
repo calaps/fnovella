@@ -60,28 +60,40 @@ export function programActivationValidator(data){
 
   let errors = {}; //errors star with an empty object
 
-  if(Validator.isEmpty(data.audience)) {
-    errors.audience = required;
-    if(!Validator.isEmpty(data.audience) && !Validator.isAlphanumeric(data.audience)){
-      errors.audience = invalidData;
+  if(Validator.isEmpty(data.calPeriodsGrade)) {
+    errors.calPeriodsGrade = required;
+    if(!Validator.isEmpty(data.calPeriodsGrade) && !Validator.isAlphanumeric(data.calPeriodsGrade.toString())){
+      errors.calPeriodsGrade = invalidData;
     }
   }
-  if(Validator.isEmpty(data.clasification)) {
-    errors.clasification = required;
-    if(!Validator.isEmpty(data.clasification) && !Validator.isAlphanumeric(data.clasification)){
-      errors.clasification = invalidData;
+  if(Validator.isEmpty(data.calPeriodsWorkshop)) {
+    errors.calPeriodsWorkshop = required;
+    if(!Validator.isEmpty(data.calPeriodsWorkshop) && !Validator.isAlphanumeric(data.calPeriodsWorkshop.toString())){
+      errors.calPeriodsWorkshop = invalidData;
     }
   }
-  if(Validator.isEmpty(data.description)) {
-    errors.description = required;
-    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
-      errors.description = invalidData;
+  if(Validator.isEmpty(data.calPeriodsCourse)) {
+    errors.calPeriodsCourse = required;
+    if(!Validator.isEmpty(data.calPeriodsCourse) && !Validator.isAlphanumeric(data.calPeriodsCourse.toString())){
+      errors.calPeriodsCourse = invalidData;
     }
   }
-  if(Validator.isEmpty(data.name)) {
-    errors.name = required;
-    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
-      errors.name = invalidData;
+  if(Validator.isEmpty(data.evaluationStructure)) {
+    errors.evaluationStructure = required;
+    if(!Validator.isEmpty(data.evaluationStructure) && !Validator.isAlphanumeric(data.evaluationStructure.toString())){
+      errors.evaluationStructure = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.satisfactionStructure)) {
+    errors.satisfactionStructure = required;
+    if(!Validator.isEmpty(data.satisfactionStructure) && !Validator.isAlphanumeric(data.satisfactionStructure.toString())){
+      errors.satisfactionStructure = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.monitoringStructure)) {
+    errors.monitoringStructure = required;
+    if(!Validator.isEmpty(data.monitoringStructure) && !Validator.isAlphanumeric(data.monitoringStructure.toString())){
+      errors.monitoringStructure = invalidData;
     }
   }
 

@@ -1,29 +1,41 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import data_types from '../../../../../constants/data_types';
-import map from "Lodash/map"; //to use map in a object
-import { programActivationValidator } from "../../../../../actions/formValidations"; //form validations
+import FlatButton from 'material-ui/FlatButton';
+import {programActivationValidator} from "../../../../../actions/formValidations"; //form validations
 
+let self;
 
 class EditForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      name: '',
-      address: '',
-      alias: '',
+      activationStatus: true,
+      calPeriodsCourse: '',
+      calPeriodsGrade: '',
+      calPeriodsWorkshop: '',
+      evaluationStructure: '',
+      freeCourses: true,
+      location: '',
+      monitoringStructure: '',
+      numberSessions: '',
+      responsable: '',
+      satisfactionStructure: '',
+      temporality: '',
+      year: '',
       errors: {},
       isLoading: false
     };
-    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    {/* Makes a Bind of the actions, onChange, onSummit */}
+    this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    self = this;
   }
 
-  isValid(){
+  isValid() {
     //local validation
-    const { errors, isValid } = programActivationValidator(this.state)
-    if(!isValid){
-      this.setState({ errors });
+    const {errors, isValid} = programActivationValidator(this.state);
+    if (!isValid) {
+      this.setState({errors});
       return false;
     }
     return true;
@@ -31,31 +43,38 @@ class EditForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.isValid()){
+    if (this.isValid()) {
       //reset errros object and disable submit button
-      this.setState({ errors: {}, isLoading: true });
-
-      // ON SUCCESSS API
-
+      this.setState({errors: {}, isLoading: true});
+      let data ={
+        activationStatus: this.state.activationStatus,
+        calPeriodsCourse: this.state.calPeriodsCourse,
+        calPeriodsGrade: this.state.calPeriodsGrade,
+        calPeriodsWorkshop: this.state.calPeriodsWorkshop,
+        evaluationStructure: this.state.evaluationStructure,
+        freeCourses: this.state.freeCourses,
+        location: this.state.location,
+        monitoringStructure: this.state.monitoringStructure,
+        numberSessions: this.state.numberSessions,
+        responsable: this.state.responsable,
+        satisfactionStructure: this.state.satisfactionStructure,
+        temporality: this.state.temporality,
+        year: this.state.year
+      };
+      this.props.handleNext(data);
     } else {
-
       // FORM WITH ERRORS
-
     }
-
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
 
-    const { errors } = this.state;
+    const {errors} = this.state;
 
-    const options = map(data_types, (val, key) =>
-      <option key={val} value={val}>{key}</option>
-    );
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -67,47 +86,50 @@ class EditForm extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de grados</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de
+                        grados</label>
                       <div className="col-md-9">
                         <input
                           type="date"
                           className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
+                          id="calPeriodsGrade"
+                          name="calPeriodsGrade"
+                          value={this.state.calPeriodsGrade}
                           onChange={this.onChange}
-                          placeholder="eje: El Progreso" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                          placeholder="eje: El Progreso"/>
+                        {errors.calPeriodsGrade && <span className="help-block text-danger">{errors.calPeriodsGrade}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de cursos</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de
+                        cursos</label>
                       <div className="col-md-9">
                         <input
                           type="date"
                           className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
+                          id="calPeriodsCourse"
+                          name="calPeriodsCourse"
+                          value={this.state.calPeriodsCourse}
                           onChange={this.onChange}
-                          placeholder="eje: El Progreso" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                          placeholder="eje: El Progreso"/>
+                        {errors.calPeriodsCourse && <span className="help-block text-danger">{errors.calPeriodsCourse}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de talleres</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de
+                        talleres</label>
                       <div className="col-md-9">
                         <input
                           type="date"
                           className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
+                          id="calPeriodsWorkshop"
+                          name="calPeriodsWorkshop"
+                          value={this.state.calPeriodsWorkshop}
                           onChange={this.onChange}
-                          placeholder="eje: El Progreso" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                          placeholder="eje: El Progreso"/>
+                        {errors.calPeriodsWorkshop && <span className="help-block text-danger">{errors.calPeriodsWorkshop}</span>}
                       </div>
                     </div>
 
@@ -117,12 +139,12 @@ class EditForm extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
+                          id="responsable"
+                          name="responsable"
+                          value={this.state.responsable}
                           onChange={this.onChange}
-                          placeholder="eje: Ingrese el nombre del instructor" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                          placeholder="eje: Ingrese el nombre del instructor"/>
+                        {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
                       </div>
                     </div>
 
@@ -132,26 +154,27 @@ class EditForm extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          id="address"
-                          name="address"
-                          value={this.state.address}
+                          id="evaluationStructure"
+                          name="evaluationStructure"
+                          value={this.state.evaluationStructure}
                           onChange={this.onChange}
-                          placeholder="Eje: Trimestral" />
-                        {errors.address && <span className="help-block text-danger">{errors.address}</span>}
+                          placeholder="Eje: Trimestral"/>
+                        {errors.evaluationStructure && <span className="help-block text-danger">{errors.evaluationStructure}</span>}
                       </div>
                     </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de satisfacción</label>
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="satisfactionStructure"
+                          name="satisfactionStructure"
+                          value={this.state.satisfactionStructure}
                           onChange={this.onChange}
-                          placeholder="Evaluación" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="Evaluación"/>
+                        {errors.satisfactionStructure && <span className="help-block text-danger">{errors.satisfactionStructure}</span>}
                       </div>
                     </div>
 
@@ -161,12 +184,12 @@ class EditForm extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="monitoringStructure"
+                          name="monitoringStructure"
+                          value={this.state.monitoringStructure}
                           onChange={this.onChange}
-                          placeholder="Evaluación" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="Evaluación"/>
+                        {errors.monitoringStructure && <span className="help-block text-danger">{errors.monitoringStructure}</span>}
                       </div>
                     </div>
 
@@ -176,12 +199,12 @@ class EditForm extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="location"
+                          name="location"
+                          value={this.state.location}
                           onChange={this.onChange}
-                          placeholder="Selecione la sede" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="Selecione la sede"/>
+                        {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
 
@@ -191,12 +214,12 @@ class EditForm extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="freeCourses"
+                          name="freeCourses"
+                          value={this.state.freeCourses}
                           onChange={this.onChange}
-                          placeholder="eje: SI" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="eje: true or false"/>
+                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
                       </div>
                     </div>
 
@@ -206,12 +229,12 @@ class EditForm extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="temporality"
+                          name="temporality"
+                          value={this.state.temporality}
                           onChange={this.onChange}
-                          placeholder="eje: Trimestral" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="eje: Trimestral"/>
+                        {errors.temporality && <span className="help-block text-danger">{errors.temporality}</span>}
                       </div>
                     </div>
 
@@ -221,12 +244,12 @@ class EditForm extends React.Component {
                         <input
                           type="number"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="year"
+                          name="year"
+                          value={this.state.year}
                           onChange={this.onChange}
-                          placeholder="eje: 2017" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="eje: 2017"/>
+                        {errors.year && <span className="help-block text-danger">{errors.year}</span>}
                       </div>
                     </div>
 
@@ -236,19 +259,26 @@ class EditForm extends React.Component {
                         <input
                           type="number"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
                           onChange={this.onChange}
-                          placeholder="eje: 12" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions && <span className="help-block text-danger">{errors.numberSessions}</span>}
                       </div>
                     </div>
 
-                    <div className="form-group row">
-                      <div className="offset-md-3 col-md-10">
-                        <RaisedButton disabled={this.state.isLoading} type="submit" label="Agregar" secondary className="btn-w-md" />
-                      </div>
+                    <div style={{marginTop: 12}}>
+                      <FlatButton
+                        label='Back'
+                        style={{marginRight: 12}}
+                        onTouchTap={this.props.handlePrev}
+                      />
+                      <RaisedButton
+                        type='submit'
+                        label='Next'
+                        primary
+                      />
                     </div>
                   </form>
 
@@ -260,7 +290,7 @@ class EditForm extends React.Component {
           </div>
 
 
-          </div>
+        </div>
 
       </article>
     );
