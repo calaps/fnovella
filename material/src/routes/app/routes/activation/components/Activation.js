@@ -1,7 +1,8 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import HorizontalLinearStepper from './HorizontalLinearStepper';
-import TableList from './TableList';
+import ListElements from './ListElements';
+import UpdateForm from './UpdateForm';
 
 const optionsName = "Activacion";
 
@@ -85,21 +86,33 @@ class Program extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      activationData:{}
     };
-    this.changeView = this.changeView.bind(this); //bind this element
+    //bind elements
+    this.changeView = this.changeView.bind(this);
+    this.onEditProgram=this.onEditProgram.bind(this);
   }
 
-  changeView(data){
+  onEditProgram (activationData){
+    this.setState({activationData});
+
+    this.changeView('UPDATE_ELEMENT',false);
+  }
+
+  changeView(data,reset=true){
+    if(reset){this.setState({activationData: {}})}
     this.setState({ active: data });
   }
 
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <HorizontalLinearStepper />;
+        return <HorizontalLinearStepper changeView={this.changeView} activationData={this.state.activationData} />;
       case "VIEW_ELEMENT":
-        return <TableList />;
+        return  <ListElements onEdit={this.onEditProgram}/>;
+      case "UPDATE_ELEMENT":
+        return <UpdateForm activationData={this.state.activationData}/>;
       default:
         return null;
     }

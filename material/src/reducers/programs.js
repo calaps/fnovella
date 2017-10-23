@@ -48,7 +48,7 @@ const programs_reducer = (state = initialState.programs, action) => {
       // TODO: some alert may be
       return state;
     case PROGRAM_UPDATE_SUCCESS:
-      console.log(PROGRAM_UPDATE_SUCCESS)
+      console.log(PROGRAM_UPDATE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
         if(newState[i].id === action.data.id){

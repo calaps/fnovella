@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import { locationValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
@@ -33,18 +33,20 @@ class EditForm extends React.Component {
         isEditing:false,
         name: '',
         address: '',
-        alias: '',      
+        alias: '',
+        id: ''
       });
     }
   }
 
   isValid(){
     //local validation
-    const { errors, isValid } = emptyValidator(this.state)
+    const { errors, isValid } = locationValidator(this.state);
     if(!isValid){
       this.setState({ errors });
+      return false;
     }
-    return isValid;
+    return true;
   }
 
   onSubmit(e) {
@@ -57,7 +59,7 @@ class EditForm extends React.Component {
         name:this.state.name,
         address:this.state.address,
         alias:this.state.alias
-      }
+      };
       if(this.state.isEditing){
         data.id = this.state.id;
       }
@@ -77,6 +79,7 @@ class EditForm extends React.Component {
         :
         this.props.actions.sedesAddRequest(data).then(
           (response) => {
+            console.log(response);
             //Save the default object as a provider
             if(response){
               self.props.changeView('VIEW_ELEMENT');

@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import map from "Lodash/map"; //to use map in a object
 import { personal_documents, gender, countries, privileges }  from '../../../../../constants/data_types';
-import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import { userValidator } from "../../../../../actions/formValidations"; //form validations
 //import { signUpRequest } from './../../../../../actions'; //for use the Rest_API
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -58,7 +58,7 @@ class EditForm extends React.Component {
   componentWillReceiveProps(nextProps){
     if(this.props.userData!==nextProps.userData){
       this.setState({
-        isEditing:false,        
+        isEditing:false,
         firstName: '' ,
         secondName: '' ,
         firstLastName: '',
@@ -81,24 +81,18 @@ class EditForm extends React.Component {
         cemproCode: '' ,
         gender: '',
         id: '',
-      });  
+      });
     }
   }
 
 
   isValid(){
     //local validation
-
-    // console.log("this.state: ", this.state);
-    //
-    // const { errors, isValid } = validateCreateUserForm(this.state)
-    // if(!isValid){
-    //   this.setState({ errors });
-    //   return false;
-    // }
-    //
-    // console.log("this.state: ", validateCreateUserForm(this.state));
-
+    const { errors, isValid } = userValidator(this.state)
+    if(!isValid){
+      this.setState({ errors });
+      return false;
+    }
     return true;
   }
 

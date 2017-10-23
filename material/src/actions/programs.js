@@ -21,7 +21,7 @@ export function programGetRequest(currentPage,number,size) {
   params.number = number * size;
   params.size = size;
   params.type = 2;
-  
+
 
   return function (dispatch) {
     return new Promise(function(resolve, reject){{

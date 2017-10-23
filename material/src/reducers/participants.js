@@ -21,13 +21,13 @@ const participants_reducer = (state = initialState.participants, action) => {
   let newState;
   switch(action.type){
     case PARTICIPANT_ADD_SUCCESS:
-      console.log(PARTICIPANT_ADD_SUCCESS)
+      console.log(PARTICIPANT_ADD_SUCCESS);
       return [...state, action.data];
     case PARTICIPANT_ADD_FAIL:
       // TODO: some alert may be
       return state;
     case PARTICIPANT_GET_SUCCESS:
-      console.log(PARTICIPANT_GET_SUCCESS)
+      console.log(PARTICIPANT_GET_SUCCESS);
       return action.data;
     case PARTICIPANT_GET_FAIL:
       // TODO: some alert may be
@@ -45,7 +45,7 @@ const participants_reducer = (state = initialState.participants, action) => {
       // TODO: some alert may be
       return state;
     case PARTICIPANT_UPDATE_SUCCESS:
-      console.log(PARTICIPANT_UPDATE_SUCCESS)
+      console.log(PARTICIPANT_UPDATE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
         if(newState[i].id === action.data.id){
@@ -59,6 +59,6 @@ const participants_reducer = (state = initialState.participants, action) => {
     default:
       return state;
   }
-}
+};
 
 export default participants_reducer;
