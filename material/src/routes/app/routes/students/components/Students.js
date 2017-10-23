@@ -85,7 +85,7 @@ class Program extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "VIEW_ELEMENT"
+      active: "ADD_ELEMENT"
     };
     this.changeView = this.changeView.bind(this); //bind this element
   }

@@ -22,7 +22,6 @@ class EditForm extends React.Component {
       secondName: '',
       firstLastname: '',
       secondLastname: '',
-      // privilege: '',
       bornDate: '',
       documentType: '',
       documentValue: '',
@@ -33,13 +32,9 @@ class EditForm extends React.Component {
       profession: '',
       address: '',
       phone: '',
-      privilege: 'instructor',
-      password: '',
-      confirm_password: '',
       cellPhone: '',
       email: '',
       appCode: 'code',
-      cempro_code: '',
       gender: '',
       errors: {},
       isLoading: false
@@ -49,7 +44,12 @@ class EditForm extends React.Component {
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
     this.onChange = this.onChange.bind(this);
+    this._handleCancel = this._handleCancel.bind(this);
     self = this;
+  }
+
+  _handleCancel(){
+    this.props.handleCancel();
   }
 
   isValid() {
@@ -87,8 +87,9 @@ class EditForm extends React.Component {
         appCode: this.state.appCode,
         gender: this.state.gender
       };
-
-      //on Success Api
+      // console.log(this.state)
+      this.props.handleNext(data);
+      /*//on Success Api
       this.props.actions.participantAddRequest(data).then(
         (response) => {
           //Save the default object as a provider
@@ -99,8 +100,7 @@ class EditForm extends React.Component {
           alert('fail');
           console.log("An Error occur with the Rest API");
           self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
-        });
-
+        });*/
       // console.log('editform data is', data);
     }
   }
@@ -201,7 +201,6 @@ class EditForm extends React.Component {
                         electronico</label>
                       <div className="col-md-9">
                         <input
-                          type="email"
                           className="form-control"
                           id="email"
                           name="email"
@@ -209,38 +208,6 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           placeholder="eje: juan@gmail.com"/>
                         {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
-                      <div className="col-md-9">
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.password}
-                          onChange={this.onChange}
-                          placeholder="******"/>
-                        {errors.password && <span className="help-block text-danger">{errors.password}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Confirmar
-                        contraseña</label>
-                      <div className="col-md-9">
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="confirm_password"
-                          name="confirm_password"
-                          value={this.state.confirm_password}
-                          onChange={this.onChange}
-                          placeholder="******"/>
-                        {errors.confirm_password &&
-                        <span className="help-block text-danger">{errors.confirm_password}</span>}
                       </div>
                     </div>
 
@@ -435,15 +402,14 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <FlatButton
-                      label="Atras"
-                      disabled={true}
-                      onTouchTap={() => this.props.handlePrev()}
+                      label="Cancel"
+                      onTouchTap={this._handleCancel}
                       style={{marginRight: 12}}
                     />
                     <RaisedButton
-                      type='submit'
-                      label='Siguiente'
+                      label='Next'
                       primary
+                      type='submit'
                     />
 
                   </form>

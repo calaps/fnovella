@@ -1,63 +1,77 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton';
-import data_types from '../../../../../constants/data_types';
+import {personal_documents, gender} from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { emptyValidator } from "../../../../../actions/formValidations"; //form validations
+import {studentContactValidator} from "../../../../../actions/formValidations"; //form validations
 
 
 class EmergencyContact extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
       address: '',
-      alias: '',
+      cellphone: '',
+      documentType: '',
+      documentValue: '',
+      email: '',
+      firstLastname: '',
+      firstName: '',
+      secondLastname: '',
+      secondName: '',
+      tellphone: '',
       errors: {},
       isLoading: false
     };
-    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    {/* Makes a Bind of the actions, onChange, onSummit */}
+    this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
-  isValid(){
-    //local validation
-    const { errors, isValid } = emptyValidator(this.state)
-    if(!isValid){
-      this.setState({ errors });
+  isValid() {
+   /* //local validation
+    const {errors, isValid} = studentContactValidator(this.state);
+    if (!isValid) {
+      this.setState({errors});
     }
-    return isValid;
+    return isValid;*/
+   return true;
   }
 
   onSubmit(e) {
     e.preventDefault();
-    // if(this.isValid()){
-      //reset errros object and disable submit button
-      // this.setState({ errors: {}, isLoading: true });
-
-      // ON SUCCESSS API
-      let data = {
-        ...this.props.formData,
-      }
-      console.log('emergency data is',data);
-    // this.props.handleNext(data);
-    // } else {
-
-      // FORM WITH ERRORS
-
-    // }
-
+    if(this.isValid()){
+      this.setState({errors:{},isLoading:true});
+      let data ={
+        address: this.state.address,
+        cellphone: this.state.cellphone,
+        documentType: this.state.documentType,
+        documentValue: this.state.documentValue,
+        email: this.state.email,
+        firstLastname: this.state.firstLastname,
+        firstName: this.state.firstName,
+        secondLastname: this.state.secondLastname,
+        secondName: this.state.secondName,
+        tellphone: this.state.tellphone
+      };
+      this.props.handleNext(data);
+    }
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
 
-    const { errors } = this.state;
+    const {errors} = this.state;
 
-    const options = map(data_types, (val, key) =>
+    // Document identification types
+    const documentType = map(personal_documents, (val, key) =>
+      <option key={val} value={val}>{key}</option>
+    );
+    //Defaul gender
+    const genders = map(gender, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
     return (
@@ -71,67 +85,114 @@ class EmergencyContact extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de grados</label>
-                      <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
-                          onChange={this.onChange}
-                          placeholder="eje: El Progreso" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de cursos</label>
-                      <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
-                          onChange={this.onChange}
-                          placeholder="eje: El Progreso" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de talleres</label>
-                      <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
-                          onChange={this.onChange}
-                          placeholder="eje: El Progreso" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Instructor responsable</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer nombre</label>
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
+                          id="firstName"
+                          name="firstName"
+                          value={this.state.firstName}
                           onChange={this.onChange}
-                          placeholder="eje: Ingrese el nombre del instructor" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                          placeholder="eje: Diego"/>
+                        {errors.firstName && <span className="help-block text-danger">{errors.firstName}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Segundo nombre</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="secondName"
+                          name="secondName"
+                          value={this.state.secondName}
+                          onChange={this.onChange}
+                          placeholder="eje: Arturo"/>
+                        {errors.secondName && <span className="help-block text-danger">{errors.secondName}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer apellido</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="firstLastname"
+                          name="firstLastname"
+                          value={this.state.firstLastname}
+                          onChange={this.onChange}
+                          placeholder="eje: Perez"/>
+                        {errors.firstLastname && <span className="help-block text-danger">{errors.firstLastname}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Segundo apellido</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="secondLastname"
+                          name="secondLastname"
+                          value={this.state.secondLastname}
+                          onChange={this.onChange}
+                          placeholder="eje: Durán"/>
+                        {errors.secondLastname &&
+                        <span className="help-block text-danger">{errors.secondLastname}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Correo
+                        electronico</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="email"
+                          name="email"
+                          value={this.state.email}
+                          onChange={this.onChange}
+                          placeholder="Eje: juan@gmail.com"/>
+                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
+                      <div className="col-md-9">
+                        <select
+                          name="documentType"
+                          onChange={this.onChange}
+                          value={this.state.documentType}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona el tipo de documento</option>
+                          {documentType}
+                        </select>
+                        {errors.documentType && <span className="help-block text-danger">{errors.documentType}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Valor del documento</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="documentValue"
+                          name="documentValue"
+                          value={this.state.documentValue}
+                          onChange={this.onChange}
+                          placeholder="eje: 999499812"/>
+                        {errors.documentValue && <span className="help-block text-danger">{errors.documentValue}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Dirección</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -140,124 +201,50 @@ class EmergencyContact extends React.Component {
                           name="address"
                           value={this.state.address}
                           onChange={this.onChange}
-                          placeholder="Eje: Trimestral" />
+                          placeholder="eje: Km 18. Carretera a El Salvador"/>
                         {errors.address && <span className="help-block text-danger">{errors.address}</span>}
                       </div>
                     </div>
+
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de satisfacción</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Telefono</label>
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="tellphone"
+                          name="tellphone"
+                          value={this.state.tellphone}
                           onChange={this.onChange}
-                          placeholder="Evaluación" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="eje: 24245757"/>
+                        {errors.tellphone && <span className="help-block text-danger">{errors.tellphone}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de monitoreo</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Celular</label>
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
+                          id="cellphone"
+                          name="cellphone"
+                          value={this.state.cellphone}
                           onChange={this.onChange}
-                          placeholder="Evaluación" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sede</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
-                          onChange={this.onChange}
-                          placeholder="Selecione la sede" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ofrece cursos libres?</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
-                          onChange={this.onChange}
-                          placeholder="eje: SI" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Temporalidad</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
-                          onChange={this.onChange}
-                          placeholder="eje: Trimestral" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Año de activación</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
-                          onChange={this.onChange}
-                          placeholder="eje: 2017" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Número de sesiones</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="alias"
-                          name="alias"
-                          value={this.state.alias}
-                          onChange={this.onChange}
-                          placeholder="eje: 12" />
-                        {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
+                          placeholder="eje: 55329090"/>
+                        {errors.cellphone && <span className="help-block text-danger">{errors.cellphone}</span>}
                       </div>
                     </div>
 
                     <FlatButton
-                      label="Atras"
+                      label="Back"
                       disabled={false}
                       onTouchTap={() => this.props.handlePrev()}
                       style={{marginRight: 12}}
                     />
                     <RaisedButton
                       type='submit'
-                      label='Activar'
+                      label='Next'
                       primary
                     />
 
@@ -271,7 +258,7 @@ class EmergencyContact extends React.Component {
           </div>
 
 
-          </div>
+        </div>
 
       </article>
     );

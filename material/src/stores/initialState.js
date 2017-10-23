@@ -10,7 +10,8 @@ let initialState = {
     participants: [],
     sedes: [],
     users: [],
-    programActivations: {}
+    programActivations: {},
+    participantContacts: []
 
 };
 

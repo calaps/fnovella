@@ -14,7 +14,7 @@ import {
   PARTICIPANT_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function participantGetRequest(data) {
+export function participantGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready
@@ -122,7 +122,6 @@ export function participantUpdateRequest(data) {
     }})
   }
 }
-
 
 export function participantDeleteRequest(id) {
   return function (dispatch) {

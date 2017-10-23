@@ -350,14 +350,55 @@ export function studentValidator(data){
       errors.nacionality = invalidData;
     }
   }
-  if(Validator.isEmpty(data.password)) {
-    errors.password = required;
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}
+
+export function studentContactValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.address)) {
+    errors.address = required;
+    if(!Validator.isEmpty(data.address) && !Validator.isAlphanumeric(data.address)){
+      errors.address = invalidData;
+    }
   }
-  if(Validator.isEmpty(data.confirm_password)) {
-    errors.confirm_password = required;
+  if(Validator.isEmpty(data.email)) {
+    errors.email = required;
+    if(!Validator.isEmpty(data.email) && !Validator.isEmail(data.email)){
+      errors.email = invalidData;
+    }
   }
-  if(!Validator.isEmpty(data.confirm_password) && !Validator.equals(data.password, data.confirm_password)){
-    errors.confirm_password = passwordMatch;
+  if(Validator.isEmpty(data.firstName)) {
+    errors.firstName = required;
+    if(!Validator.isEmpty(data.firstName) && !Validator.isAlpha(data.firstName)){
+      errors.firstName = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.firstLastname)) {
+    errors.firstLastname = required;
+    if(!Validator.isEmpty(data.firstLastname) && !Validator.isAlpha(data.firstLastname)){
+      errors.firstLastname = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.secondName)) {
+    errors.secondName = required;
+    if(!Validator.isEmpty(data.secondName) && !Validator.isAlpha(data.secondName)){
+      errors.secondName = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.secondLastname)) {
+    errors.secondLastname = required;
+    if(!Validator.isEmpty(data.secondLastname) && !Validator.isAlpha(data.secondLastname)){
+      errors.secondLastname = invalidData;
+    }
   }
 
   //IsValid is just a boolean who return is errors is empty

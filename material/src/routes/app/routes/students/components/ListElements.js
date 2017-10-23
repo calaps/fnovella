@@ -18,7 +18,7 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.participantGetRequest(this.props.participants);
+    this.props.actions.participantGetRequest();
   }
 
   onDeleteButton(id) {
@@ -27,6 +27,7 @@ class ListElements extends React.Component {
   }
 
   render() {
+    console.log("render: ",this.props.participants);
     let i =0;
     return (
       <article className="article">
@@ -52,12 +53,13 @@ class ListElements extends React.Component {
                     </thead>
                     <tbody>
                     {
-                      this.props.participants.map((participant) => {
+                      this.props.participants ? this.props.participants.map((participant) => {
                         return <ListItem key={participant.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
                                          participantData={participant}/>
-                      })
+                      }) :null
+
                     }
                     </tbody>
                   </table>
