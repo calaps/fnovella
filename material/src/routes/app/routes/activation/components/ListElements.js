@@ -3,16 +3,22 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   programActivationsGetRequest,
+  programActivationsDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
+    this.onDeleteButton=this.onDeleteButton.bind(this);
   }
 
   componentWillMount() {
     this.props.actions.programActivationsGetRequest();
+  }
+  onDeleteButton(id) {
+    console.log("id: ", id);
+    this.props.actions.programActivationsDeleteRequest(id);
   }
 
   render() {
@@ -41,7 +47,9 @@ class ListElements extends React.Component {
                       this.props.programActivations.content?       this.props.programActivations.content.map((program) => {
                         return <ListItem key={program.id}
                                          number={i++}
-                                         programActivationsData={program}/>
+                                         onDelete={this.onDeleteButton}
+                                         onEdit={this.props.onEdit}
+                                         activationData={program}/>
                       }):null
 
                     }
@@ -73,7 +81,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      programActivationsGetRequest
+      programActivationsGetRequest,
+      programActivationsDeleteRequest
     }, dispatch)
   };
 }

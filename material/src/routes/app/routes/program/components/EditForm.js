@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { programValidator } from "../../../../../actions/formValidations"; //form validations
+import {programValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
@@ -11,31 +11,34 @@ import {
 } from '../../../../../actions';
 
 let self;
+
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: (this.props.programData.id)?true:false,
-      name: this.props.programData.name ||'',
+      isEditing: (this.props.programData.id) ? true : false,
+      name: this.props.programData.name || '',
       audience: this.props.programData.audience || '',
       description: this.props.programData.description || '',
-      provider: typeof this.props.programData.provider==="boolean"?this.props.programData.provider:true,
+      provider: typeof this.props.programData.provider === "boolean" ? this.props.programData.provider : true,
       clasification: this.props.programData.clasification || '',
-      freeCourses: typeof this.props.programData.freeCourses==="boolean"?this.props.programData.freeCourses:true,
-      type: typeof this.props.programData.type==="boolean"?this.props.programData.type:true,
+      freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
+      type: typeof this.props.programData.type === "boolean" ? this.props.programData.type : true,
       id: this.props.programData.id || '',
       errors: {},
       isLoading: false
     };
-    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    this.onSubmit = this.onSubmit.bind(this);
+    {/* Makes a Bind of the actions, onChange, onSummit */
+    }
     this.onChange = this.onChange.bind(this);
-   self=this;
+    self = this;
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.props.programData!==nextProps.programData){
+  componentWillReceiveProps(nextProps) {
+    if (this.props.programData !== nextProps.programData) {
       this.setState({
-        isEditing:false,
+        isEditing: false,
         name: '',
         audience: '',
         description: '',
@@ -48,12 +51,12 @@ class EditForm extends React.Component {
     }
   }
 
-  isValid(){
+  isValid() {
     // TODO:Temporary commented bcz validation is not valid
     //local validation
-    const { errors, isValid } = programValidator(this.state);
-    if(!isValid){
-      this.setState({ errors });
+    const {errors, isValid} = programValidator(this.state);
+    if (!isValid) {
+      this.setState({errors});
       return false;
     }
 
@@ -62,9 +65,9 @@ class EditForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.isValid()){
+    if (this.isValid()) {
       //reset errors object and disable submit button
-      this.setState({ errors: {}, isLoading: true });
+      this.setState({errors: {}, isLoading: true});
 
       let data = {
         name: this.state.name,
@@ -75,7 +78,7 @@ class EditForm extends React.Component {
         clasification: this.state.clasification,
         freeCourses: this.state.freeCourses
       };
-      if(this.state.isEditing){
+      if (this.state.isEditing) {
         data.id = this.state.id;
       }
       // ON SUCCESSS API
@@ -83,26 +86,26 @@ class EditForm extends React.Component {
         this.props.actions.programUpdateRequest(data).then(
           (response) => {
             //Save the default object as a provider
-            if(response){
+            if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
           },
           (error) => {
             alert('fail');
             console.log("An Error occur with the Rest API");
-            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
         :
         this.props.actions.programAddRequest(data).then(
           (response) => {
             //Save the default object as a provider
-            if(response){
+            if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
-          },(error) => {
+          }, (error) => {
             alert('fail');
             console.log("An Error occur with the Rest API");
-            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           });
     } else {
 
@@ -113,12 +116,12 @@ class EditForm extends React.Component {
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
 
-    const { errors } = this.state;
+    const {errors} = this.state;
 
     const options = map(data_types, (val, key) =>
       <option key={val} value={val}>{key}</option>
@@ -143,7 +146,7 @@ class EditForm extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: CENCA" />
+                          placeholder="eje: CENCA"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
@@ -158,7 +161,7 @@ class EditForm extends React.Component {
                           name="audience"
                           value={this.state.audience}
                           onChange={this.onChange}
-                          placeholder="eje: Niños de 10 - 15 años" />
+                          placeholder="eje: Niños de 10 - 15 años"/>
                         {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
                       </div>
                     </div>
@@ -172,7 +175,7 @@ class EditForm extends React.Component {
                           name="description"
                           value={this.state.description}
                           onChange={this.onChange}
-                          placeholder="Descripción del programa" />
+                          placeholder="Descripción del programa"/>
                         {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
@@ -203,7 +206,7 @@ class EditForm extends React.Component {
                           name="clasification"
                           value={this.state.clasification}
                           onChange={this.onChange}
-                          placeholder="Clasificación del programa" />
+                          placeholder="Clasificación del programa"/>
                         {errors.clasification && <span className="help-block text-danger">{errors.clasification}</span>}
                       </div>
                     </div>
@@ -228,8 +231,8 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ?'Update':'Add'}
-                                      secondary className="btn-w-md" />
+                                      label={this.state.isEditing ? 'Update' : 'Add'}
+                                      secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>
@@ -248,25 +251,25 @@ class EditForm extends React.Component {
 }
 
 
-  function mapStateToProps(state) {
-    //pass the providers
-    return {
-      // auth: state.auth
-    }
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    // auth: state.auth
   }
+}
 
-  /* Map Actions to Props */
-  function mapDispatchToProps(dispatch) {
-    return {
-      actions: bindActionCreators({
-        //    signUpRequest
-        programAddRequest,
-        programUpdateRequest,
-      }, dispatch)
-    };
-  }
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      //    signUpRequest
+      programAddRequest,
+      programUpdateRequest,
+    }, dispatch)
+  };
+}
 
-  module.exports = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditForm);
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditForm);
