@@ -210,7 +210,7 @@ class EmergencyContact extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Telefono</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
                           className="form-control"
                           id="tellphone"
                           name="tellphone"
@@ -225,7 +225,7 @@ class EmergencyContact extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Celular</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
                           className="form-control"
                           id="cellphone"
                           name="cellphone"
