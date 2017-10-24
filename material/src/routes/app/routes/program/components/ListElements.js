@@ -7,6 +7,7 @@ import {
 } from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
+
 /** *
  * Fake element list render....
  * */
@@ -16,13 +17,14 @@ let number = 0; //page
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
-    this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.onDeleteButton = this.onDeleteButton.bind(this);
   }
 
   componentWillMount() {
     // type: 2 reflects all programs
-    this.props.actions.programGetRequest(number,size);
+    this.props.actions.programGetRequest(number, size);
   }
+
   onDeleteButton(id) {
     console.log("id: ", id);
     this.props.actions.programDeleteRequest(id);
@@ -47,21 +49,21 @@ class ListElements extends React.Component {
                       <th className="mdl-data-table__cell--non-numeric">Id</th>
                       <th className="mdl-data-table__cell--non-numeric">Name</th>
                       <th className="mdl-data-table__cell--non-numeric">Audience</th>
-                      <th className="mdl-data-table__cell--non-numeric">Decription</th>
-                      <th className="mdl-data-table__cell--non-numeric">Clasification</th>
+                      <th className="mdl-data-table__cell--non-numeric">Description</th>
+                      <th className="mdl-data-table__cell--non-numeric">Classification</th>
                     </tr>
                     </thead>
 
                     <tbody>
 
-                     {
-                      this.props.programs.content?this.props.programs.content.map((program) => {
+                    {
+                      this.props.programs.content ? this.props.programs.content.map((program) => {
                         return <ListItem key={program.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
                                          programData={program}/>
-                      }):null
-                     }
+                      }) : null
+                    }
 
 
                     </tbody>

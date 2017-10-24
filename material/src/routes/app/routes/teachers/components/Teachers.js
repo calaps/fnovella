@@ -78,9 +78,6 @@ class MainOptions extends React.Component {
   };
 }
 
-
-
-
 class Teachers extends React.Component {
   constructor(props) {
     super(props);
@@ -92,17 +89,15 @@ class Teachers extends React.Component {
     this.changeView = this.changeView.bind(this); //bind this element
   }
 
-
   onEditTeacher (teacherData){
-    this.setState({teacherData})
-
+    this.setState({teacherData});
     this.changeView('ADD_ELEMENT',false);
   }
 
   changeView(data,reset=true){
     if(reset){
       this.setState({teacherData: {}})
-    }      
+    }
     this.setState({ active: data });
   }
 

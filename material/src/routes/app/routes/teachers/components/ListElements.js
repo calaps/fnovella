@@ -6,6 +6,7 @@ import {
   educatorsDeleteRequest,
 } from '../../../../../actions';
 import ListItem from './ListItem';
+
 /** *
  * Fake element list render....
  * */
@@ -13,17 +14,20 @@ import ListItem from './ListItem';
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
-    this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.onDeleteButton = this.onDeleteButton.bind(this);
   }
-    componentWillMount(){
-      this.props.actions.educatorsGetRequest();
-    }
+
+  componentWillMount() {
+    this.props.actions.educatorsGetRequest();
+  }
+
   onDeleteButton(id) {
     console.log("id: ", id);
     this.props.actions.educatorsDeleteRequest(id);
   }
+
   render() {
-    let i=0;
+    let i = 0;
     return (
       <article className="article">
         <h2 className="article-title">Lista de educadores</h2>
@@ -50,12 +54,12 @@ class ListElements extends React.Component {
                     <tbody>
 
                     {
-                      this.props.teachers.content?this.props.teachers.content.map((teacher) => {
+                      this.props.teachers.content ? this.props.teachers.content.map((teacher) => {
                         return <ListItem key={teacher.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
                                          teacherData={teacher}/>
-                      }):null
+                      }) : null
                     }
 
                     </tbody>
@@ -70,6 +74,7 @@ class ListElements extends React.Component {
     );
   }
 }
+
 function mapStateToProps(state) {
   //pass the providers
   return {

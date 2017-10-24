@@ -8,9 +8,9 @@ class ListItem extends React.Component {
             <td className="mdl-data-table__cell--non-numeric">{this.props.programData.id}</td>
             <td className="mdl-data-table__cell--non-numeric">{this.props.programData.name}</td>
             <td className="mdl-data-table__cell--non-numeric">{this.props.programData.audience}</td>
-            <td className="mdl-data-table__cell--non-numeric" >{this.props.programData.description}</td>
-            <td className="mdl-data-table__cell--non-numeric" >{this.props.programData.clasification}</td>
-            <td className="mdl-data-table__cell--non-numeric"style={{textAlign:'right'}}>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.programData.description}</td>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.programData.clasification}</td>
+            <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
               <button
                 onClick={()=>{this.props.onDelete(this.props.programData.id)}}
 
