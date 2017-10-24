@@ -180,22 +180,48 @@ export function courseValidator(data){
 
   let errors = {}; //errors star with an empty object
 
-  if(Validator.isEmpty(data.category)) {
-    errors.category = required;
-    if(!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)){
-      errors.category = invalidData;
-    }
-  }
-  if(Validator.isEmpty(data.dataType)) {
-    errors.dataType = required;
-    if(!Validator.isEmpty(data.dataType) && !Validator.isAlphanumeric(data.dataType)){
-      errors.dataType = invalidData;
-    }
-  }
   if(Validator.isEmpty(data.name)) {
     errors.name = required;
     if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
       errors.name = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.location)) {
+    errors.location = required;
+    if(!Validator.isEmpty(data.location) && !Validator.isAlphanumeric(data.location)){
+      errors.location = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.description)) {
+    errors.description = required;
+    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
+      errors.description = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.openCourse)) {
+    errors.openCourse = required;
+    if(!Validator.isEmpty(data.openCourse)){
+      if(data.openCourse !== 'true' || 'false'){
+        errors.openCourse = invalidData;
+      }
+    }
+  }
+  if(Validator.isEmpty(data.grade)) {
+    errors.grade = required;
+    if(!Validator.isEmpty(data.grade) && !Validator.isAlphanumeric(data.grade)){
+      errors.grade = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.programId)) {
+    errors.programId = required;
+    if(!Validator.isEmpty(data.programId) && !Validator.isAlphanumeric(data.programId)){
+      errors.programId = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.instructorId)) {
+    errors.instructorId = required;
+    if(!Validator.isEmpty(data.instructorId) && !Validator.isAlphanumeric(data.instructorId)){
+      errors.instructorId = invalidData;
     }
   }
 

@@ -1,10 +1,12 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import FlatButton from 'material-ui/FlatButton';
 import {programActivationValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  programActivationsUpdateRequest
+  programActivationsUpdateRequest,
+  sedesGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -58,6 +60,10 @@ class UpdateForm extends React.Component {
         id: '',
       });
     }
+  }
+
+  componentWillMount() {
+    this.props.actions.sedesGetRequest();
   }
 
   isValid() {
@@ -115,6 +121,14 @@ class UpdateForm extends React.Component {
   render() {
 
     const {errors} = this.state;
+
+    //Sedes || location options
+    let sedesOpt  = () => {
+      let {sedes} = this.props;
+      return sedes.map((sede)=>{
+        return <option key={sede.id} value={sede.id}>{sede.name}</option>
+      });
+    };
 
     return (
       <article className="article padding-lg-v article-bordered">
@@ -256,17 +270,20 @@ class UpdateForm extends React.Component {
                       </div>
                     </div>
 
+
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sede</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
                       <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="location"
+                        <select
                           name="location"
-                          value={this.state.location}
+                          id="location"
                           onChange={this.onChange}
-                          placeholder="Selecione la sede"/>
+                          value={this.state.location}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione la sede</option>
+                          {sedesOpt()}
+                        </select>
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
@@ -333,6 +350,11 @@ class UpdateForm extends React.Component {
                     </div>
 
                     <div style={{marginTop: 12}}>
+                      <FlatButton disabled={this.state.isLoading}
+                                  label='Cancel'
+                                  style={{marginRight: 12}}
+                                  onCancel={this.props.onCancel}
+                                  secondary className="btn-w-md"/>
                       <RaisedButton
                         type='submit'
                         disabled={this.state.isLoading}
@@ -360,7 +382,7 @@ class UpdateForm extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    // auth: state.auth
+    sedes: state.sedes
   }
 }
 
@@ -369,6 +391,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       programActivationsUpdateRequest,
+      sedesGetRequest
     }, dispatch)
   };
 }

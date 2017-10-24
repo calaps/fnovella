@@ -108,7 +108,7 @@ class Program extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm changeView={this.changeView} programData={this.state.programData}/>;
+        return <EditForm changeView={this.changeView} programData={this.state.programData} />;
       case "VIEW_ELEMENT":
         return <ListElements onEdit={this.onEditProgram}  />;
       default:

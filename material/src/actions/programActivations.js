@@ -15,7 +15,12 @@ import {
   PROGRAM_ACTIVATIONS_UPDATE_FAIL
 } from './../constants/ActionTypes';
 
-export function programActivationsGetRequest() {
+export function programActivationsGetRequest(number, size) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  params.type = 2;
+
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
@@ -29,7 +34,7 @@ export function programActivationsGetRequest() {
         // return;
 
         // API
-        HTTP('get', '/program_activation/', null, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('get', '/program_activation/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
             if (response.data.errors === null) {
               dispatch({

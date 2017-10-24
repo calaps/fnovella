@@ -13,13 +13,12 @@ import {
   TableHeader,
   TableHeaderColumn,
   TableRow,
-  TableRowColumn
+  TableRowColumn,
+  TableFooter
 } from 'material-ui/Table';
 
-let self;
-let size = 20; //limit
-let number = 0; //skip
-let currentPage = 0;
+let size = 5; //limit
+let number = 0; //page
 
 class ProgramsListElements extends React.Component {
   constructor(props) {
@@ -41,7 +40,7 @@ class ProgramsListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.programGetRequest(currentPage, number, size);
+    this.props.actions.programGetRequest(number, size);
   }
 
   render() {
@@ -75,6 +74,13 @@ class ProgramsListElements extends React.Component {
           >
             {tableRows}
           </TableBody>
+          <TableFooter>
+            <Pagination
+              totalPages={this.props.programs.totalPages}
+              totalElements={this.props.programs.totalElements}
+              getRequest={this.props.actions.programGetRequest}
+            />
+          </TableFooter>
         </Table>
         <div style={{marginTop: 12}}>
           <FlatButton

@@ -6,6 +6,10 @@ import {
   programActivationsDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
+
+let size = 5; //limit
+let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
@@ -14,7 +18,7 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.programActivationsGetRequest();
+    this.props.actions.programActivationsGetRequest(number,size);
   }
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -55,6 +59,11 @@ class ListElements extends React.Component {
                     }
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.programActivations.totalPages}
+                    totalElements={this.props.programActivations.totalElements}
+                    getRequest={this.props.actions.programActivationsGetRequest}
+                  />
                 </div>
 
               </div>

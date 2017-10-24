@@ -90,7 +90,7 @@ class EditForm extends React.Component {
       return sedes.map((sede)=>{
         return <option key={sede.id} value={sede.id}>{sede.name}</option>
       });
-    }
+    };
 
     return (
       <article className="article padding-lg-v article-bordered">
