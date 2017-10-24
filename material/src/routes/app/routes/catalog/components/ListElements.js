@@ -15,11 +15,20 @@ class ListElements extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.sortByKey=this.sortByKey.bind(this);
   }
 
   componentWillMount() {
     this.props.actions.catalogsGetRequest();
   }
+
+  sortByKey(array, key){
+    return array.sort(function(a, b) {
+      let x = a[key]; let y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
 
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -28,6 +37,7 @@ class ListElements extends React.Component {
 
   render() {
     let i =0;
+    let array  = this.sortByKey(this.props.catalogs,'category');
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
@@ -50,12 +60,12 @@ class ListElements extends React.Component {
                     </thead>
                     <tbody>
                     {
-                      this.props.catalogs.map((catalog) => {
+                      array?array.map((catalog) => {
                         return <ListItem key={catalog.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
                                          catalogData={catalog}/>
-                      })
+                      }):null
                     }
                     </tbody>
                   </table>
