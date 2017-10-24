@@ -83,7 +83,7 @@ class EditForm extends React.Component {
   isValid() {
     // TODO: Commented beacause validation was not valid
     //local validation
-    const { errors, isValid } = tutorValidator(this.state)
+    const { errors, isValid } = tutorValidator(this.state);
     if(!isValid){
       this.setState({ errors });
       return false;
@@ -112,8 +112,8 @@ class EditForm extends React.Component {
         address: this.state.address,
         phone: this.state.phone,
         privilege: 'instructor',
-        password: '',
-        confirmPassword: '',
+        password: this.state.password,
+        confirmPassword: this.state.confirmPassword,
         cellphone: this.state.cellphone,
         email: this.state.email,
         appCode: this.state.appCode || 'abc',
@@ -311,7 +311,7 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                       <div className="col-md-9">
                         <select
-                          name="dataType"
+                          name="documentType"
                           onChange={this.onChange}
                           value={this.state.documentType}
                           className="form-control"

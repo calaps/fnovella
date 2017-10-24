@@ -78,7 +78,7 @@ export function programAddRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PROGRAM_ADD_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else{
@@ -114,7 +114,7 @@ export function programUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PROGRAM_UPDATE_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {

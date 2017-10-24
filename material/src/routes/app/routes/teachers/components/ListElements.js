@@ -50,14 +50,12 @@ class ListElements extends React.Component {
                     <tbody>
 
                     {
-                      this.props.teachers.map((teacher) => {
-                        return <ListItem
-                           key={teacher.id}
-                          onDelete={this.onDeleteButton}
-                                          number={i++}
+                      this.props.teachers.content?this.props.teachers.content.map((teacher) => {
+                        return <ListItem key={teacher.id} onDelete={this.onDeleteButton}
+                                         number={i++}
                                          onEdit={this.props.onEdit}
                                          teacherData={teacher}/>
-                      })
+                      }):null
                     }
 
                     </tbody>

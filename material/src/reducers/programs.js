@@ -37,10 +37,10 @@ const programs_reducer = (state = initialState.programs, action) => {
       return state;
     case PROGRAM_DELETE_SUCCESS:
       console.log(PROGRAM_DELETE_SUCCESS);
-      newState = [...state];
-      for(let i=0; i<newState.length; i++){
-        if(newState[i].id === action.data.id){
-          newState.splice(i, 1);
+      newState = {...state};
+      for(let i=0; i<newState.content.length; i++){
+        if(newState.content[i].id === action.data.id){
+          newState.content.splice(i, 1);
         }
       }
       return newState;

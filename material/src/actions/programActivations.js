@@ -73,7 +73,7 @@ export function programActivationsAddRequest(data) {
             if (!response.data.errors) {
               dispatch({
                 type: PROGRAM_ACTIVATIONS_ADD_SUCCESS,
-                data: response.data.data.content
+                data: response.data.data
               });
               resolve(response.data);
             } else {
@@ -151,7 +151,7 @@ export function programActivationsUpdateRequest(data) {
             if (!response.data.errors) {
               dispatch({
                 type: PROGRAM_ACTIVATIONS_UPDATE_SUCCESS,
-                data: response.data.data.content
+                data: response.data.data
               });
               resolve(response.data);
             } else {

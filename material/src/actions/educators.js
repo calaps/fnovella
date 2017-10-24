@@ -34,7 +34,7 @@ export function educatorsGetRequest() {
           if(response.data.errors===null){
             dispatch({
               type: EDUCATORS_GET_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {
@@ -71,7 +71,7 @@ export function educatorsAddRequest(data) {
           if(!response.data.error){
             dispatch({
               type: EDUCATORS_ADD_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {
@@ -107,7 +107,7 @@ export function educatorsUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: EDUCATORS_UPDATE_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {

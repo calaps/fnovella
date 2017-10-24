@@ -5,7 +5,7 @@ let initialState = {
     },
     programs: {},
     catalogs: [],
-    educators: [],
+    educators: {},
     privileges: [],
     participants: [],
     sedes: [],
