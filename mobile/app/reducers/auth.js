@@ -1,6 +1,6 @@
 
 import { AsyncStorage } from 'react-native';
-
+import initialState from '../store/initialState';
 /* Actions */
 import {
     LOGIN_SUCCESS,
@@ -12,7 +12,7 @@ import {
     SET_USER_TYPE
 } from './../constants/actionTypes';
 
-const auth_reducer = (state = {}, action) => {
+const auth_reducer = (state = initialState.auth, action) => {
     switch(action.type){
         case LOGIN_SUCCESS:
             console.log("LOGIN_SUCCESS")

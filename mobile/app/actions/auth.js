@@ -16,21 +16,28 @@ import {
 export function loginRequest(data) {
     return function (dispatch) {
         return new Promise(function(resolve, reject){{
-            HTTP('post', '/login', data)
-                .then(function (response) {
-                    dispatch({
-                        type: LOGIN_SUCCESS,
-                        data: response.data.data
-                    });
-                    resolve(true);
-                })
-                .catch(error => {
-                    dispatch({
-                        type: LOGIN_FAIL,
-                        error: error
-                    });
-                    reject(false);
-                })
+            HTTP('post', '/user/login', data)
+            .then(function (response) {
+              console.log("response: ",response);
+              if(response.data.errors === null){
+                dispatch({
+                  type: LOGIN_SUCCESS,
+                  data: response.data
+                });
+                resolve(response.data);
+              }
+              else{
+                reject(response.data);
+              }
+            })
+            .catch(error => {
+              console.log("error: ",error);
+              dispatch({
+                type: LOGIN_FAIL,
+                error: error
+              });
+              reject(error);
+            })
         }})
     }
 }

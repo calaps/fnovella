@@ -13,7 +13,7 @@ export default class AppRoute extends Component {
 
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     await Font.loadAsync({
         'RobotoBold': require('./assets/fonts/Roboto-Bold.ttf'),
         'Roboto_medium': require('./assets/fonts/Roboto-Bold.ttf'),

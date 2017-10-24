@@ -6,7 +6,7 @@ let config = {};
 
 if(__DEV__){
   config = {
-      API_URL: "http://192.168.8.100:3002",
+      API_URL: "http://apicementos.centralus.cloudapp.azure.com",
       DEVICE_TYPE: (Platform.OS === 'ios')?'IOS':'ANDROID'
     };
 }else{
