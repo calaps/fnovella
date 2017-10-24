@@ -1,12 +1,15 @@
 package org.fnovella.project.program.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import org.fnovella.project.catalog_relation.repository.CatalogRelationRepository;
 import org.fnovella.project.program.model.Program;
 import org.fnovella.project.program.repository.ProgramRepository;
+import org.fnovella.project.program_activation.repository.ProgramActivationRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,22 +24,27 @@ public class ProgramController {
 
 	@Autowired
 	private ProgramRepository programRepository;
+	@Autowired
+	private CatalogRelationRepository catalogRelationRepository;
+	@Autowired
+	private ProgramActivationRepository programActivationRepository;
 	
 	@RequestMapping(value = "", method=RequestMethod.GET)
-	public APIResponse getAll(@RequestHeader("authorization") String authorization, @RequestParam("type") int type) {
-		List<Program> programList = null;
+	public APIResponse getAll(@RequestHeader("authorization") String authorization, @RequestParam("type") int type, 
+			Pageable pageable) {
+		Page<Program> programPage = null;
 		switch (type) {
 		case 0:
-			programList = this.programRepository.findByType(false);
+			programPage = this.programRepository.findByType(pageable, false);
 			break;
 		case 1:
-			programList = this.programRepository.findByType(true);
+			programPage = this.programRepository.findByType(pageable, true);
 			break;
 		case 2:
-			programList = this.programRepository.findAll();
+			programPage = this.programRepository.findAll(pageable);
 			break;
 		}
-		return new APIResponse(programList, null);
+		return new APIResponse(programPage, null);
 	}
 	
 	@RequestMapping(value = "{id}", method=RequestMethod.GET)
@@ -68,6 +76,8 @@ public class ProgramController {
 	
 	@RequestMapping(value = "{id}", method=RequestMethod.DELETE)
 	public APIResponse delete(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		this.programActivationRepository.deleteByProgramId(id);
+		this.catalogRelationRepository.deleteByIdProgram(id);
 		this.programRepository.delete(id);
 		return new APIResponse(true, null);
 	}

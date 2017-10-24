@@ -1,11 +1,18 @@
 package org.fnovella.project.participant.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.fnovella.project.catalog_relation_student.repository.CatalogRelationStudentRepository;
+import org.fnovella.project.inscriptions_part_course.repository.InscriptionsPartCourseRepository;
+import org.fnovella.project.inscriptions_part_grade.repository.InscriptionsPartGradeRepository;
+import org.fnovella.project.inscriptions_part_workshop.repository.InscriptionsPartWorkshopRepository;
 import org.fnovella.project.participant.model.Participant;
 import org.fnovella.project.participant.repository.ParticipantRepository;
+import org.fnovella.project.participant_contacts.repository.ParticipantContactsRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,10 +26,20 @@ public class ParticipantController {
 
 	@Autowired
 	private ParticipantRepository participantRepository;
+	@Autowired
+	private CatalogRelationStudentRepository catalogRelationStudentRepository;
+	@Autowired
+	private ParticipantContactsRepository participantContactsRepository;
+	@Autowired
+	private InscriptionsPartCourseRepository inscriptionsPartCourseRepository;
+	@Autowired
+	private InscriptionsPartGradeRepository inscriptionsPartGradeRepository;
+	@Autowired
+	private InscriptionsPartWorkshopRepository inscriptionsPartWorkshopRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public APIResponse getAll(@RequestHeader("authorization") String authorization) {
-		return new APIResponse(this.participantRepository.findAll(), null);
+	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
+		return new APIResponse(this.participantRepository.findAll(pageable), null);
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -32,7 +49,7 @@ public class ParticipantController {
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public APIResponse create(@RequestBody Participant participant, @RequestHeader("authorization") String authorization) {
-		ArrayList<String> errors = new ArrayList<String>();
+		ArrayList<String> errors = participant.validate();
 		if (errors.size() == 0) {
 			return new APIResponse(this.participantRepository.save(participant), null);
 		}
@@ -57,6 +74,21 @@ public class ParticipantController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Participant toDelete = this.participantRepository.findOne(id);
 		if (toDelete != null) {
+			List<?> list = this.inscriptionsPartWorkshopRepository.findByParticipantId(id);
+			if (list != null && !list.isEmpty())
+				this.inscriptionsPartWorkshopRepository.deleteByParticipantId(id);
+			list = this.inscriptionsPartGradeRepository.findByParticipantId(id);
+			if (list != null && !list.isEmpty())
+				this.inscriptionsPartGradeRepository.deleteByParticipantId(id);
+			list = this.inscriptionsPartCourseRepository.findByParticipantId(id);
+			if (list != null && !list.isEmpty())
+				this.inscriptionsPartCourseRepository.deleteByParticipantId(id);
+			list = this.participantContactsRepository.findByParticipantId(id);
+			if (list != null && !list.isEmpty())
+				this.participantContactsRepository.deleteByParticipantId(id);
+			list = this.catalogRelationStudentRepository.findByIdParticipant(id);
+			if (list != null && !list.isEmpty())
+				this.catalogRelationStudentRepository.deleteByIdParticipant(id);
 			this.participantRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}

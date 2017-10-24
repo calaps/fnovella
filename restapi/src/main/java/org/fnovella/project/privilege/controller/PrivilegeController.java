@@ -42,6 +42,17 @@ public class PrivilegeController {
 		return new APIResponse(null, errors);
 	}
 	
+	@RequestMapping(value = "{id}", method = RequestMethod.GET)
+	public APIResponse get(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		ArrayList<String> errors = new ArrayList<String>();
+		UserPrivileges userPrivilege = this.privilegeRepository.findOne(id);
+		if (userPrivilege != null) {
+			return new APIResponse(userPrivilege, null);
+		}
+		errors.add("Privilege doesn' exist");
+		return new APIResponse(null, errors);
+	}
+	
 	@RequestMapping(value = "all", method = RequestMethod.GET)
 	public APIResponse getAllPermissions(@RequestHeader("authorization") String authorization) {
 		return new APIResponse(this.privilegeRepository.findAll(), null);

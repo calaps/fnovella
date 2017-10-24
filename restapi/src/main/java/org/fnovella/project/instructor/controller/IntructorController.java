@@ -1,11 +1,15 @@
 package org.fnovella.project.instructor.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.fnovella.project.inscriptions_inst_course.model.InscriptionsInstCourse;
+import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
 import org.fnovella.project.instructor.model.Instructor;
 import org.fnovella.project.instructor.repository.InstructorRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,10 +23,12 @@ public class IntructorController {
 
 	@Autowired
 	private InstructorRepository instructorRepository;
+	@Autowired
+	private InscriptionsInstCourseRepository inscriptionsInstCourseRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public APIResponse getAll(@RequestHeader("authorization") String authorization) {
-		return new APIResponse(this.instructorRepository.findAll(), null);
+	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
+		return new APIResponse(this.instructorRepository.findAll(pageable), null);
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -57,6 +63,9 @@ public class IntructorController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Instructor toDelete = this.instructorRepository.findOne(id);
 		if (toDelete != null) {
+			List<InscriptionsInstCourse> list = this.inscriptionsInstCourseRepository.findByInstructorId(id);
+			if (list != null && !list.isEmpty())
+				this.inscriptionsInstCourseRepository.deleteByInstructorId(id);
 			this.instructorRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}

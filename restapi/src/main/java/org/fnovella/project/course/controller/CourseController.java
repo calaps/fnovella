@@ -1,11 +1,15 @@
 package org.fnovella.project.course.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.fnovella.project.course.model.Course;
 import org.fnovella.project.course.repository.CourseRepository;
+import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
+import org.fnovella.project.inscriptions_part_course.repository.InscriptionsPartCourseRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,10 +23,14 @@ public class CourseController {
 	
 	@Autowired
 	private CourseRepository courseRepository;
+	@Autowired
+	private InscriptionsInstCourseRepository inscriptionsInstCourseRepository;
+	@Autowired
+	private InscriptionsPartCourseRepository inscriptionsPartCourseRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public APIResponse getAll(@RequestHeader("authorization") String authorization) {
-		return new APIResponse(this.courseRepository.findAll(), null);
+	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
+		return new APIResponse(this.courseRepository.findAll(pageable), null);
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -51,7 +59,8 @@ public class CourseController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Course toUpdate = this.courseRepository.findOne(id);
 		if (toUpdate != null) {
-			return new APIResponse(this.courseRepository.saveAndFlush(course), null);
+			toUpdate.setUpdateFields(course);
+			return new APIResponse(this.courseRepository.saveAndFlush(toUpdate), null);
 		}
 		errors.add("Course doesn't exist");
 		return new APIResponse(null, errors);
@@ -62,6 +71,12 @@ public class CourseController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Course toDelete = this.courseRepository.findOne(id);
 		if (toDelete != null) {
+			List<?> list = this.inscriptionsPartCourseRepository.findByCourseId(id);
+			if (list != null && !list.isEmpty())
+				this.inscriptionsPartCourseRepository.deleteByCourseId(id);
+			list = this.inscriptionsInstCourseRepository.findByCourseId(id);
+			if (list != null && !list.isEmpty())
+				this.inscriptionsInstCourseRepository.delete(id);
 			this.courseRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}

@@ -46,6 +46,13 @@ public class Catalog {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	public Catalog(Integer id, String name, String type, String category) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.type = type;
+		this.category = category;
+	}
 	public Catalog() {
 		super();
 	}
