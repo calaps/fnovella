@@ -15,10 +15,9 @@ import {
   PROGRAM_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programGetRequest(currentPage,number,size) {
-  currentPage = number;
+export function programGetRequest(number,size) {
   let params = {};
-  params.number = number * size;
+  params.page = number;
   params.size = size;
   params.type = 2;
 
@@ -42,7 +41,7 @@ export function programGetRequest(currentPage,number,size) {
               type: PROGRAM_GET_SUCCESS,
               data: response.data.data
             });
-            console.log(response.data.data);
+            // console.log(response.data.data);
             resolve(response.data);
           }else{
             reject(response.data);
