@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Catalogo";
+const optionsName = "Categoria";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class MainOptions extends React.Component {
               <div className="box-body">
                 <div className="icon-box ibox-plain ibox-center">
                   <div className="ibox-icon">
-                    <a href="javascript:;"><i className="material-icons">dashboard</i></a>
+                    <a href="javascript:;"><i className="material-icons">list</i></a>
                   </div>
                   <h5>{optionsName}s</h5>
                 </div>
@@ -60,9 +60,9 @@ class MainOptions extends React.Component {
                     <div className="box-body">
                       <div className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="#/app/category"><i className="material-icons">list</i></a>
+                          <a href="#/app/catalog"><i className="material-icons">dashboard</i></a>
                         </div>
-                        <h6>Categorias</h6>
+                        <h6>Catalogos</h6>
                       </div>
                     </div>
                   </div>
@@ -81,7 +81,7 @@ class MainOptions extends React.Component {
 
 
 
-class Catalog extends React.Component {
+class Category extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -129,4 +129,4 @@ class Catalog extends React.Component {
   }
 }
 
-module.exports = Catalog;
+module.exports = Category;
