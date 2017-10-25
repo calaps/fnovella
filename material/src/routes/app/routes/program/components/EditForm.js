@@ -233,6 +233,44 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Categoria de campos: </label>
+                      <div className="col-md-9">
+                        <select
+                          name="freeCourses"
+                          id="freeCourses"
+                          onChange={this.onChange}
+                          value={this.state.freeCourses}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona la categoria...</option>
+                          <option value={false}>municpalidad</option>
+                          <option value={true}>departamento</option>
+                          <option value={true}>fisico</option>
+                        </select>
+                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero: </label>
+                      <div className="col-md-9">
+                        <select
+                          name="freeCourses"
+                          id="freeCourses"
+                          onChange={this.onChange}
+                          value={this.state.freeCourses}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona la categoria...</option>
+                          <option value="male">Hombres</option>
+                          <option value="female">Mujeres</option>
+                          <option value="both">Mixto</option>
+                        </select>
+                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
                                     label='Cancel'

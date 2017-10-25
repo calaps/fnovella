@@ -84,13 +84,7 @@ class EditForm extends React.Component {
 
     const {errors} = this.state;
 
-    //Sedes || location options
-    let sedesOpt  = () => {
-      let {sedes} = this.props;
-      return sedes.map((sede)=>{
-        return <option key={sede.id} value={sede.id}>{sede.name}</option>
-      });
-    };
+
 
     return (
       <article className="article padding-lg-v article-bordered">
@@ -227,7 +221,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecione la sede</option>
-                          {sedesOpt()}
+                          <option>sedes...</option>
                         </select>
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>

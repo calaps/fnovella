@@ -1,0 +1,3 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description) VALUES ('municipalidad', 'Municipalidades para usar en las sedes');
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description) VALUES ('departamento', 'Departamentos de Guatemala donde la fundación trabaja');
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description) VALUES ('comunidad', 'Comunidades pertencientes al programa');
