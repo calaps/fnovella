@@ -14,6 +14,7 @@ import participantContacts from './participantContacts';
 import courses from './courses';
 import grades from './grades';
 import workshops from './workshops';
+import dashboard from './dashboard';
 const reducers = {
   routing: routerReducer,
   settings,
@@ -29,7 +30,8 @@ const reducers = {
   participantContacts,
   courses,
   grades,
-  workshops
+  workshops,
+  dashboard
 };
 
 module.exports = combineReducers(reducers);

@@ -14,7 +14,8 @@ let initialState = {
   participantContacts: [],
   courses: {},
   grades: {},
-  workshops: {}
+  workshops: {},
+  dashboard: {}
 
 };
 
