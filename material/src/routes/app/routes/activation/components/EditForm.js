@@ -260,7 +260,7 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Número de sesiones</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Enero:</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -274,6 +274,183 @@ class EditForm extends React.Component {
                         <span className="help-block text-danger">{errors.numberSessions}</span>}
                       </div>
                     </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Febrero:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Marzo:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Abril:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Mayo:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Junio:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Julio:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Agosto:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Septiembre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Octubre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Noviembre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Diciembre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="numberSessions"
+                          name="numberSessions"
+                          value={this.state.numberSessions}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.numberSessions &&
+                        <span className="help-block text-danger">{errors.numberSessions}</span>}
+                      </div>
+                    </div>
+
 
                     <div style={{marginTop: 12}}>
                       <FlatButton
