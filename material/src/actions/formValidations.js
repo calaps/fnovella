@@ -188,9 +188,6 @@ export function courseValidator(data){
   }
   if(Validator.isEmpty(data.location)) {
     errors.location = required;
-    if(!Validator.isEmpty(data.location) && !Validator.isAlphanumeric(data.location)){
-      errors.location = invalidData;
-    }
   }
   if(Validator.isEmpty(data.description)) {
     errors.description = required;
@@ -208,21 +205,12 @@ export function courseValidator(data){
   }
   if(Validator.isEmpty(data.grade)) {
     errors.grade = required;
-    if(!Validator.isEmpty(data.grade) && !Validator.isAlphanumeric(data.grade)){
-      errors.grade = invalidData;
-    }
   }
   if(Validator.isEmpty(data.programId)) {
     errors.programId = required;
-    if(!Validator.isEmpty(data.programId) && !Validator.isAlphanumeric(data.programId)){
-      errors.programId = invalidData;
-    }
   }
   if(Validator.isEmpty(data.instructorId)) {
     errors.instructorId = required;
-    if(!Validator.isEmpty(data.instructorId) && !Validator.isAlphanumeric(data.instructorId)){
-      errors.instructorId = invalidData;
-    }
   }
 
   //IsValid is just a boolean who return is errors is empty

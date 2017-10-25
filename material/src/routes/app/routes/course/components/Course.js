@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Catalogo";
+const optionsName = "Courses";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class MainOptions extends React.Component {
               <div className="box-body">
                 <div className="icon-box ibox-plain ibox-center">
                   <div className="ibox-icon">
-                    <a href="javascript:;"><i className="material-icons">dashboard</i></a>
+                    <a href="javascript:;"><i className="material-icons">golf_course</i></a>
                   </div>
                   <h5>{optionsName}s</h5>
                 </div>
@@ -78,28 +78,35 @@ class MainOptions extends React.Component {
   };
 }
 
-
-
-
 class Course extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      courseData:{}
     };
+    this.onEditCourse=this.onEditCourse.bind(this);
     this.changeView = this.changeView.bind(this); //bind this element
   }
 
-  changeView(data){
+  onEditCourse (courseData){
+    this.setState({courseData});
+    this.changeView('ADD_ELEMENT',false);
+  }
+
+  changeView(data,reset=true){
+    if(reset){
+      this.setState({courseData: {}})
+    }
     this.setState({ active: data });
   }
 
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm />;
+        return <EditForm changeView={this.changeView} courseData={this.state.courseData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements />;
+        return <ListElements onEdit={this.onEditCourse}/>;
       default:
         return null;
     }
