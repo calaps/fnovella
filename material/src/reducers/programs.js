@@ -21,17 +21,17 @@ const programs_reducer = (state = initialState.programs, action) => {
   let newState;
   switch(action.type){
     case PROGRAM_ADD_SUCCESS:
-      console.log(PROGRAM_ADD_SUCCESS)
+      console.log(PROGRAM_ADD_SUCCESS);
       return [...state, action.data];
     case PROGRAM_ADD_FAIL:
       // TODO: some alert may be
       return state;
     case PROGRAM_GET_SUCCESS:
-      console.log(PROGRAM_GET_SUCCESS)
+      console.log(PROGRAM_GET_SUCCESS);
       return {
           ...state,
           ...action.data
-      }
+      };
     case PROGRAM_GET_FAIL:
       // TODO: some alert may be
       return state;
@@ -62,6 +62,6 @@ const programs_reducer = (state = initialState.programs, action) => {
     default:
       return state;
   }
-}
+};
 
 export default programs_reducer;

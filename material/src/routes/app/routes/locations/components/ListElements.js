@@ -6,26 +6,31 @@ import {
   sedesDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 
 /** *
  * Fake element list render....
  * */
+let size = 5; //limit
+let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
-    this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.onDeleteButton = this.onDeleteButton.bind(this);
   }
+
   componentWillMount() {
-    this.props.actions.sedesGetRequest();
+    this.props.actions.sedesGetRequest(number, size);
   }
+
   onDeleteButton(id) {
     console.log("id: ", id);
     this.props.actions.sedesDeleteRequest(id);
   }
 
   render() {
-    let i =0;
+    let i = 0;
     return (
       <article className="article">
         <h2 className="article-title">Lista de sedes</h2>
@@ -49,16 +54,21 @@ class ListElements extends React.Component {
                     <tbody>
 
                     {
-                      this.props.locations.map((location) => {
+                      this.props.locations.content ? this.props.locations.content.map((location) => {
                         return <ListItem key={location.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
                                          locationData={location}/>
-                      })
+                      }) : null
                     }
 
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.locations.totalPages}
+                    totalElements={this.props.locations.totalElements}
+                    getRequest={this.props.actions.sedesGetRequest}
+                  />
                 </div>
 
               </div>

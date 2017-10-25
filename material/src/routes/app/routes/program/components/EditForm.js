@@ -29,9 +29,8 @@ class EditForm extends React.Component {
       errors: {},
       isLoading: false
     };
+    {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onSubmit = this.onSubmit.bind(this);
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     self = this;
@@ -61,11 +60,10 @@ class EditForm extends React.Component {
       this.setState({errors});
       return false;
     }
-
     return true;
   }
 
-  handleCancel(){
+  handleCancel() {
     self.props.changeView('VIEW_ELEMENT')
   }
 
@@ -237,10 +235,10 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                      label='Cancel'
-                                      style={{marginRight: 12}}
-                                      onTouchTap={this.handleCancel}
-                                      secondary className="btn-w-md"/>
+                                    label='Cancel'
+                                    style={{marginRight: 12}}
+                                    onTouchTap={this.handleCancel}
+                                    secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
                                       label={this.state.isEditing ? 'Update' : 'Add'}
                                       secondary className="btn-w-md"/>

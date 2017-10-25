@@ -1,127 +1,54 @@
 import {HTTP} from './../utils/HTTP';
 
 import {
-  SEDES_ADD_REQUEST,
-  SEDES_ADD_SUCCESS,
-  SEDES_ADD_FAIL,
-  SEDES_DELETE_FAIL,
-  SEDES_DELETE_REQUEST,
-  SEDES_DELETE_SUCCESS,
-  SEDES_GET_FAIL,
-  SEDES_GET_REQUEST,
-  SEDES_GET_SUCCESS,
-  SEDES_UPDATE_FAIL,
-  SEDES_UPDATE_REQUEST,
-  SEDES_UPDATE_SUCCESS
+  COURSES_ADD_REQUEST,
+  COURSES_ADD_SUCCESS,
+  COURSES_ADD_FAIL,
+  COURSES_DELETE_FAIL,
+  COURSES_DELETE_REQUEST,
+  COURSES_DELETE_SUCCESS,
+  COURSES_GET_FAIL,
+  COURSES_GET_REQUEST,
+  COURSES_GET_SUCCESS,
+  COURSES_UPDATE_FAIL,
+  COURSES_UPDATE_REQUEST,
+  COURSES_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function sedesGetRequest(number, size) {
+export function coursesGetRequest(number, size) {
   let params = {};
   params.page = number;
   params.size = size;
   params.type = 2;
+
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       // dispatch({
-      //   type: SEDES_GET_REQUEST,
-      //   data
-      // });
-      // resolve(true);
-      // return;
-
-      // API
-      HTTP('get', '/location/', null,{authorization: localStorage.getItem('@fnovella:token'),params})
-        .then(function (response) {
-        if(response.data.errors===null){
-          dispatch({
-            type: SEDES_GET_SUCCESS,
-            data: response.data.data
-          });
-          // console.log(response.data);
-          resolve(response.data);
-        }else{
-          reject(response.data)
-        }
-        })
-        .catch(error => {
-          dispatch({
-            type: SEDES_GET_FAIL,
-            error: error
-          });
-          reject(error);
-        })
-    }})
-  }
-}
-
-export function sedesAddRequest(data) {
-  return function (dispatch) {
-    return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: SEDES_ADD_SUCCESS,
-      //   data
-      // });
-      // resolve(true);
-      // return;
-
-      // API
-      HTTP('post', '/location/', data,{authorization: localStorage.getItem('@fnovella:token')})
-        .then(function (response) {
-          if(!response.data.errors){
-            dispatch({
-              type: SEDES_ADD_SUCCESS,
-              data: response.data.data
-            });
-            resolve(response.data);
-          }else{
-            reject(response.data)
-          }
-        })
-        .catch(error => {
-          dispatch({
-            type: SEDES_ADD_FAIL,
-            error: error
-          });
-          reject(error);
-        })
-    }})
-  }
-}
-
-export function sedesUpdateRequest(data) {
-  return function (dispatch) {
-    return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: SEDES_UPDATE_SUCCESS,
+      //   type: COURSES_GET_REQUEST,
       //   data: {
-      //     id
       //   }
       // });
       // resolve(true);
       // return;
 
       // API
-      HTTP('patch', '/location/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token')})
+      HTTP('get', '/course/', null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors===null){
             dispatch({
-              type: SEDES_UPDATE_SUCCESS,
+              type: COURSES_GET_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
-          }else{
+          }else {
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: SEDES_UPDATE_FAIL,
+            type: COURSES_GET_FAIL,
             error: error
           });
           reject(error);
@@ -130,13 +57,86 @@ export function sedesUpdateRequest(data) {
   }
 }
 
-export function sedesDeleteRequest(id) {
+export function coursesAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       // dispatch({
-      //   type: SEDES_DELETE_SUCCESS,
+      //   type: COURSES_ADD_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
+
+      // API
+      HTTP('post', '/course/', data,{authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(!response.data.error){
+            dispatch({
+              type: COURSES_ADD_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data)
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: COURSES_ADD_FAIL,
+            error: error
+          });
+          reject(error);
+        })
+    }})
+  }
+}
+
+export function coursesUpdateRequest(data) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+
+      // will be removed once API is ready
+      // dispatch({
+      //   type: COURSES_UPDATE_SUCCESS,
+      //   data
+      // });
+      // resolve(true);
+      // return;
+
+      // API
+      HTTP('patch', '/course/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(!response.data.errors){
+            dispatch({
+              type: COURSES_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }else {
+            reject(response.data)
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: COURSES_UPDATE_FAIL,
+            error: error
+          });
+          reject(error);
+        })
+    }})
+  }
+}
+
+export function coursesDeleteRequest(id) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+
+      // will be removed once API is ready
+      // dispatch({
+      //   type: COURSES_DELETE_SUCCESS,
       //   data: {
       //     id
       //   }
@@ -145,11 +145,11 @@ export function sedesDeleteRequest(id) {
       // return;
 
       // API
-      HTTP('delete', '/location/'+id, null,{authorization: localStorage.getItem('@fnovella:token')})
+      HTTP('delete', '/course/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors)  {
+          if(!response.data.errors){
             dispatch({
-              type: SEDES_DELETE_SUCCESS,
+              type: COURSES_DELETE_SUCCESS,
               data: {
                 id
               }
@@ -161,7 +161,7 @@ export function sedesDeleteRequest(id) {
         })
         .catch(error => {
           dispatch({
-            type: SEDES_DELETE_FAIL,
+            type: COURSES_DELETE_FAIL,
             error: error
           });
           reject(error);
