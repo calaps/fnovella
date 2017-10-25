@@ -17,11 +17,8 @@ module.exports = {
         require('./routes/grade'), // Calaps App Students
         require('./routes/workshop'), // Calaps App Students
         require('./routes/activation'), // Calaps App Students
-<<<<<<< HEAD
         require('./routes/category'), // Calaps App Category
-=======
         require('./routes/course'), // Calaps App Students
->>>>>>> 6533f297673888dc0455bf02d167fca0ee1831bc
       ]);
     });
   },
