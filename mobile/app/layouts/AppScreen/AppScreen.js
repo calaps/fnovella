@@ -3,7 +3,7 @@ import {StackNavigator} from 'react-navigation';
 import {View} from 'react-native';
 // import PathSelection from './../../routes/pathSelection/pathSelection.js';
 import Login from './../../routes/auth/Login';
-import CardSection from "../../components/CardSection";
+// import CardSection from "../../components/CardSection";
 import Spinner from "../../components/Spinner"
 import Loader from "../../components/loader/loader"
 import ResetPassword from './../../routes/auth/ResetPassword.js';
@@ -45,48 +45,7 @@ const routeConfiguration = {
 // going to disable the header for now
 const stackNavigatorConfiguration = {
   headerMode: 'none',
-    initialRouteName: initialRoute
+    initialRouteName: 'menu'
 }
 
-export const AppScreen = StackNavigator(routeConfiguration, stackNavigatorConfiguration)
-
-// export class AppScreen extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       signedIn: null,
-//       checkedSignIn: false
-//     };
-//   }
-
-//   componentWillMount() {
-//     isSignedIn()
-//       .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
-//       .catch(err => alert("An error occurred"));
-//   }
-//   renderContent() {
-//     switch (this.state.signedIn) {
-//         case true:
-//         console.log('true')
-//             return (
-//               <LoggedIn />
-//             );
-//         case false:
-//         console.log('false')
-//             return <LoggedOut />;
-//         default:
-//         console.log('default')
-//             return (
-//                 <Loader />
-//             );
-//     }
-// }
-//   render () {
-//     return (
-//        <View style={{width:'100%',height:'100%'}}>
-//         {this.renderContent()}
-//         </View>
-//     )
-//   }
-// }
+export const AppScreen = StackNavigator(routeConfiguration, stackNavigatorConfiguration);

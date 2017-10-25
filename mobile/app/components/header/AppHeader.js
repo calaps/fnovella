@@ -42,7 +42,7 @@ class AppHeader extends React.Component {
     let response = await this.props.actions.logOut()
     if(response){
       this.props.navigation.navigate('login');
-      // console.log('response',this.props.navigation)
+      console.log('response',this.props.navigation)
     }
   }
 
@@ -62,7 +62,6 @@ class AppHeader extends React.Component {
         .navigate("Profile");
     }
     if (value == 'key2') {
-      // alert('yo');
       this.onLogOut();
      }
   }
