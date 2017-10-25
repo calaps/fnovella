@@ -14,7 +14,12 @@ import {
 import {Card} from 'react-native-material-design';
 import {View} from 'react-native';
 import {Root} from 'native-base'
+import { connect } from  'react-redux';
+import {bindActionCreators} from 'redux';
+
 import images from './../../configs/images';
+import {logOut} from '../../actions/auth';
+
 
 const Item = Picker.Item;
 
@@ -29,7 +34,18 @@ class AppHeader extends React.Component {
     this.state = {
       selected1: "key1"
     };
+    // this.onLogOut= this.onLogOut.bind(this);
   }
+
+  async onLogOut(){
+    console.log('in logout');
+    let response = await this.props.actions.logOut()
+    if(response){
+      this.props.navigation.navigate('login');
+      // console.log('response',this.props.navigation)
+    }
+  }
+
   onValueChange(value) {
     console.log("value " + value);
     this.setState({selected1: value});
@@ -46,11 +62,9 @@ class AppHeader extends React.Component {
         .navigate("Profile");
     }
     if (value == 'key2') {
-      this
-        .props
-        .navigation
-        .navigate("Chat");
-    }
+      // alert('yo');
+      this.onLogOut();
+     }
   }
 
   render() {
@@ -127,4 +141,22 @@ class AppHeader extends React.Component {
   }
 }
 
-export {AppHeader};
+/* Map state to props */
+function mapStateToProps(state){
+  return {
+    auth: state.auth,
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+
+  return {
+    actions: bindActionCreators({
+      logOut
+    }, dispatch)
+  };
+}
+export default connect(
+  mapStateToProps,mapDispatchToProps
+)(AppHeader);

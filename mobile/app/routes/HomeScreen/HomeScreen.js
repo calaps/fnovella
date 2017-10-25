@@ -20,7 +20,7 @@ import {View} from 'react-native';
 import {Root} from 'native-base'
 import {NativeModules, processColor} from 'react-native';
 
-import {AppHeader} from '../../components/header'
+import AppHeader from '../../components/header/AppHeader'
 import images from './../../configs/images';
 
 const Item = Picker.Item;

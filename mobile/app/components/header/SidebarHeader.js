@@ -73,4 +73,4 @@ class SidebarHeader extends React.Component {
     }
 }
 
-export  {SidebarHeader};
+export default SidebarHeader;

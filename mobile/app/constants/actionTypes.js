@@ -7,7 +7,8 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAIL = 'SIGNUP_FAIL';
-
+export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
+export const LOG_OUT_FAIL = 'LOG_OUT_FAIL';
 /* USER */
 export const GETUSER_SUCCESS = 'GETUSER_SUCCESS';
 export const GETUSER_FAIL = 'GETUSER_FAIL';

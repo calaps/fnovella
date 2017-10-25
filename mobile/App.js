@@ -11,7 +11,6 @@ const store = configureStore(initialState);
 
 export default class App extends Component {
   componentWillUpdate(){
-    console.log('App.js')
   }
   constructor(props) {
     super(props);

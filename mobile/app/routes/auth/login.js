@@ -46,10 +46,7 @@ class Login extends React.Component {
   };
   onSubmit(e) {
     e.preventDefault();
-    // // if(this.isValid()){   //reset errros object and disable submit button
-    // this.setState({ errors: {}, isLoading: true });   //
-    // this.context.router.history.push('/');
-
+ 
     let data = {
       email: this.state.email,
       password: this.state.password
@@ -63,11 +60,7 @@ class Login extends React.Component {
         //Save the default object as a provider
         if (response) {
           console.log('success');
-          this
-            .props
-            .navigation
-            .navigate('menu', {user: 'Lucy'});
-          // self.context.router.push('/app/dashboard');
+          this.props.navigation.navigate('menu');
         }
       }, (error) => {
         console.log("An Error occur with the Rest API", error);
@@ -166,8 +159,9 @@ class Login extends React.Component {
                 flexDirection: 'column-reverse'
               }}>
                 <Button overrides={this.object} text='INICIAR SEISION' 
-                onPress={() => navigate('menu', {user: 'Lucy'})}
-                onPress={this.onSubmit}/>
+                //onPress={() => navigate('menu')}
+                onPress={this.onSubmit}
+                />
               </View>
             </Card.Body>
           </Card>

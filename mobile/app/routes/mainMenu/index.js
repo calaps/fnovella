@@ -20,6 +20,6 @@ export default class MainMenu extends Component {
     const { navigate } = this.props.navigation;
     // The screen's current route is passed in to `props.navigation.state`:
     const { params } = this.props.navigation.state;
-    return <HomeScreen />;
+    return <HomeScreen/>;
   }
 }

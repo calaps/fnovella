@@ -5,6 +5,8 @@ import initialState from '../store/initialState';
 import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
+    LOG_OUT_SUCCESS,
+    LOG_OUT_FAIL,
     SIGNUP_SUCCESS,
     SIGNUP_FAIL,
     GETUSER_SUCCESS,
@@ -12,12 +14,14 @@ import {
     SET_USER_TYPE
 } from './../constants/actionTypes';
 
-const auth_reducer = (state = initialState.auth, action) => {
+  
+const auth_reducer = (state = initialState.auth, action) => {    
     switch(action.type){
         case LOGIN_SUCCESS:
             console.log("LOGIN_SUCCESS")
             // store token in asyncstorage
             AsyncStorage.setItem('@Axle:token', action.data.token);
+            console.log(action.data.token);
             return Object.assign(
                 {},
                 state,
@@ -29,6 +33,19 @@ const auth_reducer = (state = initialState.auth, action) => {
             // TODO: some alert may be
             return state;
 
+            case LOG_OUT_SUCCESS:
+            console.log(LOG_OUT_SUCCESS)
+            AsyncStorage.removeItem('@Axle:token');
+            return Object.assign(
+              {},
+              state,
+              {
+                user: null
+              }
+            );
+          case LOG_OUT_FAIL:
+            return state;
+          
         case SIGNUP_SUCCESS:
             console.log("SIGNUP_SUCCESS")
             return Object.assign(

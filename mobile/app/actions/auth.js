@@ -1,9 +1,11 @@
+import {AsyncStorage} from 'react-native';
 import {HTTP} from './../utils/HTTP';
-
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAIL,
+    LOG_OUT_SUCCESS,
+    LOG_OUT_FAIL,
     SIGNUP_REQUEST,
     SIGNUP_SUCCESS,
     SIGNUP_FAIL,
@@ -13,6 +15,7 @@ import {
 } from './../constants/actionTypes';
 
 // example action
+
 export function loginRequest(data) {
     return function (dispatch) {
         return new Promise(function(resolve, reject){{
@@ -41,6 +44,50 @@ export function loginRequest(data) {
         }})
     }
 }
+
+export  function logOut(){
+    return async function (dispatch) {
+      return  new  Promise(async function(resolve, reject){{        
+        // will be removed once API is ready
+        // dispatch({
+        //   type: LOG_OUT,
+        //   data: {}
+        // });
+        // resolve(true);
+        // return;
+  
+        var authToken;
+        var value = await AsyncStorage.getItem('@Axle:token').then((gettoken)=>{
+            authToken= gettoken;
+        });
+        console.log('tok is: ',authToken);
+        // API - in case we have Logout API
+        HTTP('get', '/user/logout', null, {authorization: authToken})
+          .then(function (response) {
+            console.log("response: ",response);
+            if(response.data.errors === null){
+              dispatch({
+                type: LOG_OUT_SUCCESS,
+                data: response.data
+              });
+              resolve(response.data);
+            }
+            else{
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            console.log("error: ",error);
+            dispatch({
+              type: LOG_OUT_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+      }})
+    }
+  }
+  
 
 export function signUpRequest(data) {
     return function (dispatch) {

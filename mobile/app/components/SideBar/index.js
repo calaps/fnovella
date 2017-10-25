@@ -9,7 +9,7 @@ import {
   Content,
   Icon
 } from "native-base";
-import {SidebarHeader} from '../header'
+import SidebarHeader from '../header/SidebarHeader'
 const routes = [
   {
     name:'Menu de Programa',
