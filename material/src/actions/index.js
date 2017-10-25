@@ -35,3 +35,4 @@ export * from './programActivations';
 export * from './participantContacts';
 export * from './courses';
 export * from './grades';
+export * from './workshops';

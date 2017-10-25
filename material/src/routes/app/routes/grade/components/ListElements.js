@@ -19,6 +19,7 @@ class ListElements extends React.Component {
     super(props);
     this.onDeleteButton = this.onDeleteButton.bind(this);
   }
+
   componentWillMount() {
     // type: 2 reflects all programs
     this.props.actions.gradesGetRequest(number, size);
