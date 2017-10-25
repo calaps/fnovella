@@ -2,6 +2,11 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton';
 import {programActivationValidator} from "../../../../../actions/formValidations"; //form validations
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  sedesGetRequest
+} from '../../../../../actions';
 
 let self;
 
@@ -29,6 +34,10 @@ class EditForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     self = this;
+  }
+
+  componentWillMount() {
+    this.props.actions.sedesGetRequest();
   }
 
   isValid() {
@@ -74,6 +83,14 @@ class EditForm extends React.Component {
   render() {
 
     const {errors} = this.state;
+
+    //Sedes || location options
+    let sedesOpt  = () => {
+      let {sedes} = this.props;
+      return sedes.map((sede)=>{
+        return <option key={sede.id} value={sede.id}>{sede.name}</option>
+      });
+    };
 
     return (
       <article className="article padding-lg-v article-bordered">
@@ -200,16 +217,18 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sede</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
                       <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="location"
+                        <select
                           name="location"
-                          value={this.state.location}
+                          id="location"
                           onChange={this.onChange}
-                          placeholder="Selecione la sede"/>
+                          value={this.state.location}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione la sede</option>
+                          {sedesOpt()}
+                        </select>
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
@@ -481,4 +500,23 @@ class EditForm extends React.Component {
   }
 }
 
-module.exports = EditForm;
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    sedes: state.sedes
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      sedesGetRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  mapStateToProps, mapDispatchToProps
+)(EditForm);
+

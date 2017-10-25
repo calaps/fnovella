@@ -1,27 +1,32 @@
 import {HTTP} from './../utils/HTTP';
 
 import {
-  EDUCATORS_ADD_REQUEST,
-  EDUCATORS_ADD_SUCCESS,
-  EDUCATORS_ADD_FAIL,
-  EDUCATORS_DELETE_FAIL,
-  EDUCATORS_DELETE_REQUEST,
-  EDUCATORS_DELETE_SUCCESS,
-  EDUCATORS_GET_FAIL,
-  EDUCATORS_GET_REQUEST,
-  EDUCATORS_GET_SUCCESS,
-  EDUCATORS_UPDATE_FAIL,
-  EDUCATORS_UPDATE_REQUEST,
-  EDUCATORS_UPDATE_SUCCESS
+  COURSES_ADD_REQUEST,
+  COURSES_ADD_SUCCESS,
+  COURSES_ADD_FAIL,
+  COURSES_DELETE_FAIL,
+  COURSES_DELETE_REQUEST,
+  COURSES_DELETE_SUCCESS,
+  COURSES_GET_FAIL,
+  COURSES_GET_REQUEST,
+  COURSES_GET_SUCCESS,
+  COURSES_UPDATE_FAIL,
+  COURSES_UPDATE_REQUEST,
+  COURSES_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function educatorsGetRequest() {
+export function coursesGetRequest(number, size) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  params.type = 2;
+
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       // dispatch({
-      //   type: EDUCATORS_GET_REQUEST,
+      //   type: COURSES_GET_REQUEST,
       //   data: {
       //   }
       // });
@@ -29,11 +34,11 @@ export function educatorsGetRequest() {
       // return;
 
       // API
-      HTTP('get', '/instructor/', null,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('get', '/course/', null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
           if(response.data.errors===null){
             dispatch({
-              type: EDUCATORS_GET_SUCCESS,
+              type: COURSES_GET_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
@@ -43,7 +48,7 @@ export function educatorsGetRequest() {
         })
         .catch(error => {
           dispatch({
-            type: EDUCATORS_GET_FAIL,
+            type: COURSES_GET_FAIL,
             error: error
           });
           reject(error);
@@ -52,13 +57,13 @@ export function educatorsGetRequest() {
   }
 }
 
-export function educatorsAddRequest(data) {
+export function coursesAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       // dispatch({
-      //   type: EDUCATORS_ADD_SUCCESS,
+      //   type: COURSES_ADD_SUCCESS,
       //   data: {
       //   }
       // });
@@ -66,11 +71,11 @@ export function educatorsAddRequest(data) {
       // return;
 
       // API
-      HTTP('post', '/instructor/', data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('post', '/course/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.error){
             dispatch({
-              type: EDUCATORS_ADD_SUCCESS,
+              type: COURSES_ADD_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
@@ -80,7 +85,7 @@ export function educatorsAddRequest(data) {
         })
         .catch(error => {
           dispatch({
-            type: EDUCATORS_ADD_FAIL,
+            type: COURSES_ADD_FAIL,
             error: error
           });
           reject(error);
@@ -89,24 +94,24 @@ export function educatorsAddRequest(data) {
   }
 }
 
-export function educatorsUpdateRequest(data) {
+export function coursesUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       // dispatch({
-      //   type: EDUCATORS_UPDATE_SUCCESS,
+      //   type: COURSES_UPDATE_SUCCESS,
       //   data
       // });
       // resolve(true);
       // return;
 
       // API
-      HTTP('patch', '/instructor/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('patch', '/course/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
-              type: EDUCATORS_UPDATE_SUCCESS,
+              type: COURSES_UPDATE_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
@@ -116,7 +121,7 @@ export function educatorsUpdateRequest(data) {
         })
         .catch(error => {
           dispatch({
-            type: EDUCATORS_UPDATE_FAIL,
+            type: COURSES_UPDATE_FAIL,
             error: error
           });
           reject(error);
@@ -125,13 +130,13 @@ export function educatorsUpdateRequest(data) {
   }
 }
 
-export function educatorsDeleteRequest(id) {
+export function coursesDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
       // dispatch({
-      //   type: EDUCATORS_DELETE_SUCCESS,
+      //   type: COURSES_DELETE_SUCCESS,
       //   data: {
       //     id
       //   }
@@ -140,11 +145,11 @@ export function educatorsDeleteRequest(id) {
       // return;
 
       // API
-      HTTP('delete', '/instructor/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('delete', '/course/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
-              type: EDUCATORS_DELETE_SUCCESS,
+              type: COURSES_DELETE_SUCCESS,
               data: {
                 id
               }
@@ -156,7 +161,7 @@ export function educatorsDeleteRequest(id) {
         })
         .catch(error => {
           dispatch({
-            type: EDUCATORS_DELETE_FAIL,
+            type: COURSES_DELETE_FAIL,
             error: error
           });
           reject(error);

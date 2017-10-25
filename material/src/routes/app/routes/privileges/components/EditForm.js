@@ -140,7 +140,7 @@ class EditForm extends React.Component {
         ppersonalDataEntry: this.state.ppersonalDataEntry,
         pprogramActivation: this.state.pprogramActivation,
         pstudentsEntry: this.state.pstudentsEntry
-      }
+      };
       // ON SUCCESSS API
       if(this.state.isEditing){
         data.id = this.state.id;

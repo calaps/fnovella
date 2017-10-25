@@ -92,6 +92,11 @@ class Program extends React.Component {
     //bind elements
     this.changeView = this.changeView.bind(this);
     this.onEditProgram=this.onEditProgram.bind(this);
+    this.handleCancel=this.handleCancel.bind(this);
+  }
+
+  handleCancel(){
+    this.changeView('VIEW_ELEMENT',false);
   }
 
   onEditProgram (activationData){
@@ -112,7 +117,7 @@ class Program extends React.Component {
       case "VIEW_ELEMENT":
         return  <ListElements onEdit={this.onEditProgram}/>;
       case "UPDATE_ELEMENT":
-        return <UpdateForm activationData={this.state.activationData}/>;
+        return <UpdateForm activationData={this.state.activationData} onCancel={this.handleCancel}/>;
       default:
         return null;
     }

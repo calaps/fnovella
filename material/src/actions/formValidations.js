@@ -180,23 +180,37 @@ export function courseValidator(data){
 
   let errors = {}; //errors star with an empty object
 
-  if(Validator.isEmpty(data.category)) {
-    errors.category = required;
-    if(!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)){
-      errors.category = invalidData;
-    }
-  }
-  if(Validator.isEmpty(data.dataType)) {
-    errors.dataType = required;
-    if(!Validator.isEmpty(data.dataType) && !Validator.isAlphanumeric(data.dataType)){
-      errors.dataType = invalidData;
-    }
-  }
   if(Validator.isEmpty(data.name)) {
     errors.name = required;
     if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
       errors.name = invalidData;
     }
+  }
+  if(Validator.isEmpty(data.location)) {
+    errors.location = required;
+  }
+  if(Validator.isEmpty(data.description)) {
+    errors.description = required;
+    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
+      errors.description = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.openCourse)) {
+    errors.openCourse = required;
+    if(!Validator.isEmpty(data.openCourse)){
+      if(data.openCourse !== 'true' || 'false'){
+        errors.openCourse = invalidData;
+      }
+    }
+  }
+  if(Validator.isEmpty(data.grade)) {
+    errors.grade = required;
+  }
+  if(Validator.isEmpty(data.programId)) {
+    errors.programId = required;
+  }
+  if(Validator.isEmpty(data.instructorId)) {
+    errors.instructorId = required;
   }
 
   //IsValid is just a boolean who return is errors is empty
@@ -212,23 +226,32 @@ export function gradeValidator(data){
 
   let errors = {}; //errors star with an empty object
 
-  if(Validator.isEmpty(data.category)) {
-    errors.category = required;
-    if(!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)){
-      errors.category = invalidData;
-    }
-  }
-  if(Validator.isEmpty(data.dataType)) {
-    errors.dataType = required;
-    if(!Validator.isEmpty(data.dataType) && !Validator.isAlphanumeric(data.dataType)){
-      errors.dataType = invalidData;
-    }
-  }
   if(Validator.isEmpty(data.name)) {
     errors.name = required;
     if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
       errors.name = invalidData;
     }
+  }
+  if(Validator.isEmpty(data.location)) {
+    errors.location = required;
+  }
+  if(Validator.isEmpty(data.description)) {
+    errors.description = required;
+    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
+      errors.description = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.level)) {
+    errors.level = required;
+    if(!Validator.isEmpty(data.level) && !Validator.isAlphanumeric(data.level)){
+      errors.level = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.programId)) {
+    errors.programId = required;
+  }
+  if(Validator.isEmpty(data.instructorId)) {
+    errors.instructorId = required;
   }
 
   //IsValid is just a boolean who return is errors is empty
@@ -553,6 +576,41 @@ export function userValidator(data){
   }
   if(!Validator.isEmpty(data.confirm_password) && !Validator.equals(data.password, data.confirm_password)){
     errors.confirm_password = passwordMatch;
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}
+
+export function workshopValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.name)) {
+    errors.name = required;
+    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
+      errors.name = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.location)) {
+    errors.location = required;
+  }
+  if(Validator.isEmpty(data.description)) {
+    errors.description = required;
+    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
+      errors.description = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.programId)) {
+    errors.programId = required;
+  }
+  if(Validator.isEmpty(data.instructorId)) {
+    errors.instructorId = required;
   }
 
   //IsValid is just a boolean who return is errors is empty

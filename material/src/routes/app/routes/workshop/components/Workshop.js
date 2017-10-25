@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Taller";
+const optionsName = "Workshops";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class MainOptions extends React.Component {
               <div className="box-body">
                 <div className="icon-box ibox-plain ibox-center">
                   <div className="ibox-icon">
-                    <a href="javascript:;"><i className="material-icons">dashboard</i></a>
+                    <a href="javascript:;"><i className="material-icons">group_work</i></a>
                   </div>
                   <h5>{optionsName}es</h5>
                 </div>
@@ -85,25 +85,36 @@ class Workshop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      workshopData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
+    this.onEditProgram = this.onEditProgram.bind(this);
   }
 
-  changeView(data){
-    this.setState({ active: data });
+  onEditProgram(workshopData) {
+    this.setState({workshopData});
+    this.changeView('ADD_ELEMENT', false);
+  }
+
+  changeView(data, reset = true) {
+    if (reset) {
+      this.setState({workshopData: {}})
+    }
+    this.setState({active: data});
   }
 
   activeView() {
-    switch(this.state.active) {
+    switch (this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm />;
+        return <EditForm changeView={this.changeView} workshopData={this.state.workshopData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements />;
+        return <ListElements onEdit={this.onEditProgram}/>;
       default:
         return null;
     }
   }
+
   render() {
       return (
         <div className="container-fluid no-breadcrumbs page-dashboard">

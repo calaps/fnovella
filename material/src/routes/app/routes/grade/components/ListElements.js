@@ -1,18 +1,40 @@
 import React from "react";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  gradesGetRequest,
+  gradesDeleteRequest
+} from '../../../../../actions';
+import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 
 /** *
  * Fake element list render....
  * */
+let size = 5; //limit
+let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
+    this.onDeleteButton = this.onDeleteButton.bind(this);
   }
-  render() {
 
+  componentWillMount() {
+    // type: 2 reflects all programs
+    this.props.actions.gradesGetRequest(number, size);
+  }
+
+  onDeleteButton(id) {
+    console.log("id: ", id);
+    this.props.actions.gradesDeleteRequest(id);
+  }
+
+  render() {
+    let i = 0;
     return (
       <article className="article">
-        <h2 className="article-title">Lista de catalogos</h2>
+        <h2 className="article-title">Lista de grades</h2>
         <div className="row">
           <div className="col-xl-6">
             <div className="box box-transparent">
@@ -24,87 +46,61 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
+                      <th className="mdl-data-table__cell--non-numeric">Id</th>
+                      <th className="mdl-data-table__cell--non-numeric">Name</th>
+                      <th className="mdl-data-table__cell--non-numeric">Level</th>
+                      <th className="mdl-data-table__cell--non-numeric">Description</th>
                     </tr>
                     </thead>
+
                     <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
+
+                    {
+                      this.props.grades.content ? this.props.grades.content.map((grade) => {
+                        return <ListItem key={grade.id} onDelete={this.onDeleteButton}
+                                         number={i++}
+                                         onEdit={this.props.onEdit}
+                                         gradeData={grade}/>
+                      }) : null
+                    }
+
+
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.grades.totalPages}
+                    totalElements={this.props.grades.totalElements}
+                    getRequest={this.props.actions.gradesGetRequest}
+                  />
                 </div>
 
               </div>
             </div>
           </div>
-
-          <div className="col-xl-6">
-            <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
-              <div className="box-body no-padding-h">
-
-                <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
-                    <thead>
-                    <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-
         </div>
-
-
       </article>
     );
   }
 }
 
-module.exports = ListElements;
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    grades: state.grades
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      gradesGetRequest,
+      gradesDeleteRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  mapStateToProps, mapDispatchToProps
+)(ListElements);
+

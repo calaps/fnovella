@@ -1,21 +1,21 @@
 import {HTTP} from './../utils/HTTP';
 
 import {
-  PROGRAM_ACTIVATIONS_GET_REQUEST,
-  PROGRAM_ACTIVATIONS_GET_SUCCESS,
-  PROGRAM_ACTIVATIONS_GET_FAIL,
-  PROGRAM_ACTIVATIONS_ADD_REQUEST,
-  PROGRAM_ACTIVATIONS_ADD_SUCCESS,
-  PROGRAM_ACTIVATIONS_ADD_FAIL,
-  PROGRAM_ACTIVATIONS_DELETE_REQUEST,
-  PROGRAM_ACTIVATIONS_DELETE_SUCCESS,
-  PROGRAM_ACTIVATIONS_DELETE_FAIL,
-  PROGRAM_ACTIVATIONS_UPDATE_REQUEST,
-  PROGRAM_ACTIVATIONS_UPDATE_SUCCESS,
-  PROGRAM_ACTIVATIONS_UPDATE_FAIL
+  WORKSHOPS_ADD_REQUEST,
+  WORKSHOPS_ADD_SUCCESS,
+  WORKSHOPS_ADD_FAIL,
+  WORKSHOPS_DELETE_FAIL,
+  WORKSHOPS_DELETE_REQUEST,
+  WORKSHOPS_DELETE_SUCCESS,
+  WORKSHOPS_GET_FAIL,
+  WORKSHOPS_GET_REQUEST,
+  WORKSHOPS_GET_SUCCESS,
+  WORKSHOPS_UPDATE_FAIL,
+  WORKSHOPS_UPDATE_REQUEST,
+  WORKSHOPS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programActivationsGetRequest(number, size) {
+export function workshopsGetRequest(number, size) {
   let params = {};
   params.page = number;
   params.size = size;
@@ -26,7 +26,7 @@ export function programActivationsGetRequest(number, size) {
       {
         // will be removed once API is ready
         // dispatch({
-        //   type: PROGRAM_GET_REQUEST,
+        //   type: WORKSHOPS_GET_REQUEST,
         //   data: {
         //   }
         // });
@@ -34,13 +34,14 @@ export function programActivationsGetRequest(number, size) {
         // return;
 
         // API
-        HTTP('get', '/program_activation/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
+        HTTP('get', '/workshop/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
             if (response.data.errors === null) {
               dispatch({
-                type: PROGRAM_ACTIVATIONS_GET_SUCCESS,
+                type: WORKSHOPS_GET_SUCCESS,
                 data: response.data.data
               });
+              // console.log(response.data.data);
               resolve(response.data);
             } else {
               reject(response.data);
@@ -48,7 +49,7 @@ export function programActivationsGetRequest(number, size) {
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_ACTIVATIONS_GET_FAIL,
+              type: WORKSHOPS_GET_FAIL,
               error: error
             });
             reject(error);
@@ -58,14 +59,14 @@ export function programActivationsGetRequest(number, size) {
   }
 }
 
-export function programActivationsAddRequest(data) {
+export function workshopsAddRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
 
         // will be removed once API is ready
         // dispatch({
-        //   type: PROGRAM_ACTIVATIONS_ADD_REQUEST,
+        //   type: WORKSHOPS_ADD_SUCCESS,
         //   data
         // });
         // resolve(true);
@@ -73,11 +74,11 @@ export function programActivationsAddRequest(data) {
 
 
         // API
-        HTTP('post', '/program_activation/', data, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('post', '/workshop/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (!response.data.errors) {
               dispatch({
-                type: PROGRAM_ACTIVATIONS_ADD_SUCCESS,
+                type: WORKSHOPS_ADD_SUCCESS,
                 data: response.data.data
               });
               resolve(response.data);
@@ -87,7 +88,7 @@ export function programActivationsAddRequest(data) {
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_ACTIVATIONS_ADD_FAIL,
+              type: WORKSHOPS_ADD_FAIL,
               error: error
             });
             reject(error);
@@ -97,25 +98,64 @@ export function programActivationsAddRequest(data) {
   }
 }
 
-export function programActivationsDeleteRequest(id) {
+export function workshopsUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
 
         // will be removed once API is ready
         // dispatch({
-        //   type: PROGRAM_ACTIVATIONS_DELETE_SUCCESS,
+        //   type: WORKSHOPS_UPDATE_SUCCESS,
+        //   data
+        // });
+        // resolve(true);
+        // return;
+
+        // API
+        HTTP('patch', '/workshop/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (!response.data.errors) {
+              dispatch({
+                type: WORKSHOPS_UPDATE_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+
+          })
+          .catch(error => {
+            dispatch({
+              type: WORKSHOPS_UPDATE_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+      }
+    })
+  }
+}
+
+export function workshopsDeleteRequest(id) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+
+        // will be removed once API is ready
+        // dispatch({
+        //   type: WORKSHOPS_DELETE_SUCCESS,
         //   id: id
         // });
         // resolve(true);
         // return;
 
         // API
-        HTTP('delete', '/program_activation/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('delete', '/workshop/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (!response.data.errors) {
               dispatch({
-                type: PROGRAM_ACTIVATIONS_DELETE_SUCCESS,
+                type: WORKSHOPS_DELETE_SUCCESS,
                 data: {
                   id
                 }
@@ -127,46 +167,7 @@ export function programActivationsDeleteRequest(id) {
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_ACTIVATIONS_DELETE_FAIL,
-              error: error
-            });
-            reject(error);
-          })
-      }
-    })
-  }
-}
-
-export function programActivationsUpdateRequest(data) {
-  return function (dispatch) {
-    return new Promise(function (resolve, reject) {
-      {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_ACTIVATIONS_UPDATE_FAIL,
-        //   data
-        // });
-        // resolve(true);
-        // return;
-
-        // API
-        HTTP('patch', '/program_activation/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
-          .then(function (response) {
-            if (!response.data.errors) {
-              dispatch({
-                type: PROGRAM_ACTIVATIONS_UPDATE_SUCCESS,
-                data: response.data.data
-              });
-              resolve(response.data);
-            } else {
-              reject(response.data);
-            }
-
-          })
-          .catch(error => {
-            dispatch({
-              type: PROGRAM_ACTIVATIONS_UPDATE_FAIL,
+              type: WORKSHOPS_DELETE_FAIL,
               error: error
             });
             reject(error);
