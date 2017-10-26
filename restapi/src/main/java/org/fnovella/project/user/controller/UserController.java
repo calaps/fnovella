@@ -129,4 +129,22 @@ public class UserController {
 		return new APIResponse(null, errors);
 	}
 	
+	@RequestMapping(value = "{id}/password", method = RequestMethod.PATCH)
+	public APIResponse updatePassword(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id,
+			@RequestBody String password) {
+		ArrayList<String> errors = new ArrayList<String>();
+		AppUser toUpdate = this.userRepository.findOne(id);
+		if (APIUtility.isNotNullOrEmpty(password)) {
+			if (toUpdate != null) {
+				toUpdate.setPassword(password);
+				toUpdate = this.userRepository.saveAndFlush(toUpdate);
+				return new APIResponse(true, null);
+			} else {
+				errors.add("User doesn't exist");
+			}
+		}
+		errors.add("Password was not sent");
+		return new APIResponse(null, errors);
+	}
+	
 }

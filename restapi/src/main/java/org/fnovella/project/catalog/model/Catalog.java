@@ -20,8 +20,7 @@ public class Catalog {
 	private String name;
 	@Length(max=50)
 	private String type;
-	@Length(max=50)
-	private String category;
+	private Integer category;
 	public Integer getId() {
 		return id;
 	}
@@ -40,13 +39,13 @@ public class Catalog {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getCategory() {
+	public Integer getCategory() {
 		return category;
 	}
-	public void setCategory(String category) {
+	public void setCategory(Integer category) {
 		this.category = category;
 	}
-	public Catalog(Integer id, String name, String type, String category) {
+	public Catalog(Integer id, String name, String type, Integer category) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -61,14 +60,14 @@ public class Catalog {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Name is required");
 		if (!APIUtility.isNotNullOrEmpty(this.type)) errors.add("Type is required");
-		if (!APIUtility.isNotNullOrEmpty(this.category)) errors.add("Category is required");
+		if (this.category == null || this.category <= 0) errors.add("Category is required");
 		return errors;
 	}
 	
 	public void setUpdateFields(Catalog catalog) {
 		if (APIUtility.isNotNullOrEmpty(catalog.name)) this.name = catalog.name;
 		if (APIUtility.isNotNullOrEmpty(catalog.type)) this.type = catalog.type;
-		if (APIUtility.isNotNullOrEmpty(catalog.category)) this.category = catalog.category;
+		if (this.category != null && this.category > 0) this.category = catalog.category;
 	}
 	
 }

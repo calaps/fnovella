@@ -41,7 +41,9 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.inscriptions_inst_workshop.controller.InscriptionsInstWorkshopController.*(..)) "
 			+ "|| execution(* org.fnovella.project.inscriptions_part_course.controller.InscriptionsPartCourseController.*(..))"
 			+ "|| execution(* org.fnovella.project.inscriptions_part_grade.controller.InscriptionsPartGradeController.*(..))"
-			+ "|| execution(* org.fnovella.project.inscriptions_part_workshop.controller.InscriptionsPartWorkshopController.*(..))")
+			+ "|| execution(* org.fnovella.project.inscriptions_part_workshop.controller.InscriptionsPartWorkshopController.*(..))"
+			+ "|| execution(* org.fnovella.project.dashboard.controller.DashboardController.*(..))"
+			+ "|| execution(* org.fnovella.project.category.controller.CategoryController.*(..))")
 	public void authorizeUser(JoinPoint joinPoint) throws NotAuthorizedException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		if (request != null) {

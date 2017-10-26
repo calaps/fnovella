@@ -36,6 +36,18 @@ public class ProgramActivation {
 	private Integer year;
 	private boolean activationStatus;
 	private Integer numberSessions;
+	private Integer nsJan;
+	private Integer nsFeb;
+	private Integer nsMar;
+	private Integer nsApr;
+	private Integer nsMay;
+	private Integer nsJun;
+	private Integer nsJul;
+	private Integer nsAug;
+	private Integer nsSep;
+	private Integer nsOct;
+	private Integer nsNov;
+	private Integer nsDec;
 	public Integer getId() {
 		return id;
 	}
@@ -126,10 +138,87 @@ public class ProgramActivation {
 	public void setNumberSessions(Integer numberSessions) {
 		this.numberSessions = numberSessions;
 	}
+	public Integer getNsJan() {
+		return nsJan;
+	}
+	public void setNsJan(Integer nsJan) {
+		this.nsJan = nsJan;
+	}
+	public Integer getNsFeb() {
+		return nsFeb;
+	}
+	public void setNsFeb(Integer nsFeb) {
+		this.nsFeb = nsFeb;
+	}
+	public Integer getNsMar() {
+		return nsMar;
+	}
+	public void setNsMar(Integer nsMar) {
+		this.nsMar = nsMar;
+	}
+	public Integer getNsApr() {
+		return nsApr;
+	}
+	public void setNsApr(Integer nsApr) {
+		this.nsApr = nsApr;
+	}
+	public Integer getNsMay() {
+		return nsMay;
+	}
+	public void setNsMay(Integer nsMay) {
+		this.nsMay = nsMay;
+	}
+	public Integer getNsJun() {
+		return nsJun;
+	}
+	public void setNsJun(Integer nsJun) {
+		this.nsJun = nsJun;
+	}
+	public Integer getNsJul() {
+		return nsJul;
+	}
+	public void setNsJul(Integer nsJul) {
+		this.nsJul = nsJul;
+	}
+	public Integer getNsAug() {
+		return nsAug;
+	}
+	public void setNsAug(Integer nsAug) {
+		this.nsAug = nsAug;
+	}
+	public Integer getNsSep() {
+		return nsSep;
+	}
+	public void setNsSep(Integer nsSep) {
+		this.nsSep = nsSep;
+	}
+	public Integer getNsOct() {
+		return nsOct;
+	}
+	public void setNsOct(Integer nsOct) {
+		this.nsOct = nsOct;
+	}
+	public Integer getNsNov() {
+		return nsNov;
+	}
+	public void setNsNov(Integer nsNov) {
+		this.nsNov = nsNov;
+	}
+	public Integer getNsDec() {
+		return nsDec;
+	}
+	public void setNsDec(Integer nsDec) {
+		this.nsDec = nsDec;
+	}
+	public void setYear(Integer year) {
+		this.year = year;
+	}
 	public ProgramActivation(Integer programId, String calPeriodsGrade, String calPeriodsCourse,
 			String calPeriodsWorkshop, Integer responsable, String evaluationStructure, String satisfactionStructure,
-			String monitoringStructure, Integer location, boolean freeCourses, Integer temporality, int year,
-			boolean activationStatus, Integer numberSessions) {
+			String monitoringStructure, Integer location, boolean freeCourses, Integer temporality, Integer year,
+			boolean activationStatus, Integer numberSessions, Integer nsJan, Integer nsFeb, Integer nsMar,
+			Integer nsApr, Integer nsMay, Integer nsJun, Integer nsJul, Integer nsAug, Integer nsSep, Integer nsOct,
+			Integer nsNov, Integer nsDec) {
 		super();
 		this.programId = programId;
 		this.calPeriodsGrade = calPeriodsGrade;
@@ -145,6 +234,18 @@ public class ProgramActivation {
 		this.year = year;
 		this.activationStatus = activationStatus;
 		this.numberSessions = numberSessions;
+		this.nsJan = nsJan;
+		this.nsFeb = nsFeb;
+		this.nsMar = nsMar;
+		this.nsApr = nsApr;
+		this.nsMay = nsMay;
+		this.nsJun = nsJun;
+		this.nsJul = nsJul;
+		this.nsAug = nsAug;
+		this.nsSep = nsSep;
+		this.nsOct = nsOct;
+		this.nsNov = nsNov;
+		this.nsDec = nsDec;
 	}
 	public ProgramActivation() {
 		super();
@@ -178,6 +279,18 @@ public class ProgramActivation {
 		if (programActivation.temporality != null && programActivation.temporality > 0) this.temporality = programActivation.temporality;
 		if (programActivation.year != null && programActivation.year > 0) this.year = programActivation.year;
 		if (programActivation.numberSessions != null && programActivation.numberSessions > 0) this.numberSessions = programActivation.numberSessions;
+		if (programActivation.nsJan != null && programActivation.nsJan > 0) this.nsJan = programActivation.nsJan;
+		if (programActivation.nsFeb != null && programActivation.nsFeb > 0) this.nsFeb = programActivation.nsFeb;
+		if (programActivation.nsMar != null && programActivation.nsMar > 0) this.nsMar = programActivation.nsMar;
+		if (programActivation.nsApr != null && programActivation.nsApr > 0) this.nsApr = programActivation.nsApr;
+		if (programActivation.nsMay != null && programActivation.nsMay > 0) this.nsMay = programActivation.nsMay;
+		if (programActivation.nsJun != null && programActivation.nsJun > 0) this.nsJun = programActivation.nsJun;
+		if (programActivation.nsJul != null && programActivation.nsJul > 0) this.nsJul = programActivation.nsJul;
+		if (programActivation.nsAug != null && programActivation.nsAug > 0) this.nsAug = programActivation.nsAug;
+		if (programActivation.nsSep != null && programActivation.nsSep > 0) this.nsSep = programActivation.nsSep;
+		if (programActivation.nsOct != null && programActivation.nsOct > 0) this.nsOct = programActivation.nsOct;
+		if (programActivation.nsNov != null && programActivation.nsNov > 0) this.nsNov = programActivation.nsNov;
+		if (programActivation.nsDec != null && programActivation.nsDec > 0) this.nsDec = programActivation.nsDec;
 		this.freeCourses = programActivation.freeCourses;
 		this.activationStatus = programActivation.activationStatus;
 	}
