@@ -22,6 +22,7 @@ public class AuthorizeAspect {
 	
 	@Before("execution(* org.fnovella.project.user.controller.UserController.singnup(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.userDetails(..)) "
+			+ "|| execution(* org.fnovella.project.user.controller.UserController.updatePassword(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.update(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.delete(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.getAll(..)) "
