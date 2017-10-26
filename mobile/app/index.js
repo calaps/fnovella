@@ -1,7 +1,7 @@
 import React ,{Component} from 'react';
 import { Text, View} from 'react-native';
 import { Font } from 'expo';
-import { AppScreen } from './layouts/AppScreen/AppScreen.js';
+import  AppScreen from './layouts/AppScreen/AppScreen.js';
 import   Loader  from './components/loader/loader.js';
 
 export default class AppRoute extends Component {

@@ -113,22 +113,33 @@ export function signUpRequest(data) {
 
 export function getUserDetails(token){
     return function (dispatch) {
-        return new Promise(function(resolve, reject){{
-            HTTP('get', '/getUser', null, {authorization: "Bearer "+token})
-                .then(function (response) {
-                    dispatch({
-                        type: GETUSER_SUCCESS,
-                        data: response.data.data
-                    });
-                    resolve(true);
-                })
-                .catch(error => {
-                    dispatch({
-                        type: GETUSER_FAIL,
-                        error: error
-                    });
-                    reject(false);
-                })
+        return new Promise(async function(resolve, reject){{
+            var authToken;
+            var value = await AsyncStorage.getItem('@Axle:token').then((gettoken)=>{
+                authToken= gettoken;
+            });
+            HTTP('get', '/user/userDetails', null, {authorization: authToken})
+            .then(function (response) {
+              console.log("response: ",response);
+              if(response.data.errors === null){
+                dispatch({
+                  type: GETUSER_SUCCESS,
+                  data: response.data.data
+                });
+                resolve(response.data);
+              }
+              else{
+                reject(response.data);
+              }
+            })
+            .catch(error => {
+              console.log("error: ",error);
+              dispatch({
+                type: GETUSER_FAIL,
+                error: error
+              });
+              reject(error);
+            })
         }})
     }
 }

@@ -1,5 +1,6 @@
 import {StatusBar, Image, Text, TouchableHighlight} from "react-native";
 import React from 'react';
+import {NavigationActions} from 'react-navigation';
 import {
   Button,
   Header,
@@ -18,7 +19,7 @@ import { connect } from  'react-redux';
 import {bindActionCreators} from 'redux';
 
 import images from './../../configs/images';
-import {logOut} from '../../actions/auth';
+import {logOut,getUserDetails} from '../../actions/auth';
 
 
 const Item = Picker.Item;
@@ -37,12 +38,24 @@ class AppHeader extends React.Component {
     // this.onLogOut= this.onLogOut.bind(this);
   }
 
+  componentWillMount(){
+    this.props.actions.getUserDetails();
+    // alert('dada');
+  }
   async onLogOut(){
     console.log('in logout');
+   
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'login'})
+      ]
+    });
     let response = await this.props.actions.logOut()
     if(response){
+      this.props.navigation.dispatch(resetAction);
       this.props.navigation.navigate('login');
-      console.log('response',this.props.navigation)
+      console.log('logout nav: ',this.props.navigation)
     }
   }
 
@@ -67,6 +80,7 @@ class AppHeader extends React.Component {
   }
 
   render() {
+    console.log('auth: ',this.props.auth)
     return (
       <View>
         <Header
@@ -79,7 +93,10 @@ class AppHeader extends React.Component {
           <Left>
             <Button
               transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+              onPress={() => {
+                this.props.navigation.navigate("DrawerOpen")}
+              }
+                >
               <Icon name="menu"/>
               <Title style={{
                 marginLeft: 15
@@ -100,7 +117,7 @@ class AppHeader extends React.Component {
               color: 'white',
               fontWeight: 'bold',
               marginRight: 5
-            }}>Sergio Andres Ramirez
+            }}>{this.props.user?(this.props.user.firstName+ ' ' + this.props.user.firstLastName):''}
             </Text>
             <Image
               source={images.user_placeholder}
@@ -143,7 +160,7 @@ class AppHeader extends React.Component {
 /* Map state to props */
 function mapStateToProps(state){
   return {
-    auth: state.auth,
+    user: state.auth.user,
   }
 }
 
@@ -152,7 +169,8 @@ function mapDispatchToProps(dispatch) {
 
   return {
     actions: bindActionCreators({
-      logOut
+      logOut,
+      getUserDetails
     }, dispatch)
   };
 }

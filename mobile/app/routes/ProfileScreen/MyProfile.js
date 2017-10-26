@@ -17,13 +17,16 @@ import {
 import {Card} from 'react-native-material-design';
 import {View} from 'react-native';
 import {Root} from 'native-base'
+import { connect } from  'react-redux';
+import {bindActionCreators} from 'redux';
 
 import AppHeader from '../../components/header/AppHeader'
 import images from './../../configs/images';
 
+
 const Item = Picker.Item;
 
-export default class MyProfile extends React.Component {
+class MyProfile extends React.Component {
   constructor(props) {
     super(props);
     this.values = {
@@ -60,6 +63,7 @@ export default class MyProfile extends React.Component {
   }
 
   render() {
+    var {user} =this.props;
     return (
       <Container>
         <AppHeader navigation={this.props.navigation} />
@@ -104,63 +108,78 @@ export default class MyProfile extends React.Component {
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Tipo de Privilegio: Administrator 
+            Tipo de Privilegio:
+              <Text style={{fontWeight:'normal'}}> Administrador</Text>
             </Text>
+            
             <Text
               style={{
               height: 20,
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Nombre completo: Full Name 
+            Nombre completo: 
+              <Text style={{fontWeight:'normal'}}> {user?(user.firstName + ' ' + user.firstLastName):' '}</Text>
             </Text>
+            
             <Text
               style={{
               height: 20,
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Email: email 
+            Email:
+              <Text style={{fontWeight:'normal'}}> {user?user.email:' '}</Text>
             </Text>
+            
             <Text
               style={{
               height: 20,
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Fecha de Nacimento: 12345 
+            Fecha de Nacimento:
+              <Text style={{fontWeight:'normal'}}> {user?user.bornDate:' '}</Text> 
             </Text>
+            
             <Text
               style={{
               height: 20,
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Nationalidad: abc 
+            Nationalidad:
+              <Text style={{fontWeight:'normal'}}> {user?user.nationality:' '}</Text> 
             </Text>
+
             <Text
               style={{
               height: 20,
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Departmento: Departmento 
+            Departmento:
+              <Text style={{fontWeight:'normal'}}> {user?user.department:' '}</Text>  
             </Text>
+
             <Text
               style={{
               height: 20,
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Genero: male 
+            Genero: 
+              <Text style={{fontWeight:'normal'}}> {user?user.gender:' '}</Text> 
             </Text>
+            
             <Text
               style={{
               height: 20,
               marginBottom: 5,
               fontWeight:'bold'
             }}>
-            Codigo de cemro: abc 
+            Codigo de cemro: 
+              <Text style={{fontWeight:'normal'}}> {user?user.cemproCode:' '}</Text>  
             </Text>
           </View>
            <Text
@@ -181,3 +200,13 @@ export default class MyProfile extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state){
+  return {
+    user: state.auth.user
+  }
+}
+
+export default connect(
+  mapStateToProps,null
+)(MyProfile);

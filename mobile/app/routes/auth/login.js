@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { NavigationActions } from 'react-navigation';
 import {
   AppRegistry,
   StyleSheet,
@@ -52,15 +53,18 @@ class Login extends React.Component {
       password: this.state.password
     };
     //   //we store  a function in the props console.log(this.props);
-    this
-      .props
-      .actions
-      .loginRequest(data)
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'menu'})
+      ]
+    });
+    this.props.actions.loginRequest(data)
       .then((response) => {
         //Save the default object as a provider
         if (response) {
           console.log('success');
-          this.props.navigation.navigate('menu');
+          this.props.navigation.dispatch(resetAction);
         }
       }, (error) => {
         console.log("An Error occur with the Rest API", error);
@@ -74,7 +78,7 @@ class Login extends React.Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <StatusBar backgroundColor="black" barStyle="light-content"/>
         <View
           style={{
@@ -148,6 +152,7 @@ class Login extends React.Component {
                 marginTop: 25,
                 height: 40
               }}
+                secureTextEntry
                 value={this.state.password}
                 onChangeText={(password) => this.setState({password})}
                 placeholder={this.state.contrasena}/>
@@ -160,13 +165,13 @@ class Login extends React.Component {
               }}>
                 <Button overrides={this.object} text='INICIAR SEISION' 
                 //onPress={() => navigate('menu')}
-                onPress={this.onSubmit}
+                 onPress={this.onSubmit}
                 />
               </View>
             </Card.Body>
           </Card>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -174,7 +179,7 @@ class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
   }
 });
 

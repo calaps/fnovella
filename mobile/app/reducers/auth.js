@@ -66,10 +66,9 @@ const auth_reducer = (state = initialState.auth, action) => {
                 {},
                 state,
                 {
-                    isLoggedIn: true,
-                    user: action.data.user
+                  user: action.data
                 }
-            );
+              );
         case GETUSER_FAIL:
             return state;
         case SET_USER_TYPE:

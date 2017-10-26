@@ -5,6 +5,7 @@ import {
   Container,
   CardItem,
   Body,
+  Drawer,
   Content,
   Header,
   Title,
@@ -27,7 +28,8 @@ import images from './../../configs/images';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  dashboardStatBoxesGetRequest
+  dashboardStatBoxesGetRequest,
+  getUserDetails,
 } from '../../actions';
 import Footer from '../../components/footer';
 
@@ -135,10 +137,16 @@ class HomeScreen extends React.Component {
         desc: 'Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de datos con variables de información para el programa.'
       }
     ];
-   
+    
+    closeDrawer = () => {
+      this.drawer._root.close()
+    };
+    openDrawer = () => {
+      this.drawer._root.open()
+    };
     return (
       <Container>
-        <AppHeader navigation={this.props.navigation}/>
+        <AppHeader  navigation={this.props.navigation}/>
         <Content padder>
 
           <Card
@@ -210,7 +218,8 @@ class HomeScreen extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    dashboard: state.dashboard
+    dashboard: state.dashboard,
+    auth: state.auth
   }
 }
 

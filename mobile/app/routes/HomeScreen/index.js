@@ -9,14 +9,9 @@ import Login from '../auth/Login'
 // import LucyChat from "../ChatScreen/LucyChat.js";
 const HomeScreenRouter = DrawerNavigator(
   {
-    Home: { 
-      screen: HomeScreen,
-      navigationOptions: {
-        gesturesEnabled: false
-      }
-    },
+    Home: { screen: HomeScreen },
     Profile: { screen: Profile },
-    login: {screen: Login}
+    login: { screen: Login }
   },
   {
     contentComponent: props => <SideBar {...props} />
