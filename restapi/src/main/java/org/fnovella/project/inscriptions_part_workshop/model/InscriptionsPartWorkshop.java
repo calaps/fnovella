@@ -83,10 +83,10 @@ public class InscriptionsPartWorkshop {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.groupId)) errors.add("Group is required");
 		if (!APIUtility.isNotNullOrEmpty(this.status)) errors.add("Status is required");
-		if (this.participantId != null && this.participantId <= 0) errors.add("Participant is required");
-		if (this.period != null && this.period <= 0) errors.add("Period is required");
-		if (this.year != null && this.year <= 0) errors.add("Year is required");
-		if (this.workshopId != null && this.workshopId <= 0) errors.add("Workshop is required");
+		if (this.participantId == null || this.participantId <= 0) errors.add("Participant is required");
+		if (this.period == null || this.period <= 0) errors.add("Period is required");
+		if (this.year == null || this.year <= 0) errors.add("Year is required");
+		if (this.workshopId == null || this.workshopId <= 0) errors.add("Workshop is required");
 		return errors;
 	}
 	public void setUpdateFields(InscriptionsPartWorkshop inscriptionsPartWorkshop) {
