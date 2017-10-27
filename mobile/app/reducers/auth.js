@@ -11,6 +11,8 @@ import {
     SIGNUP_FAIL,
     GETUSER_SUCCESS,
     GETUSER_FAIL,
+    FORGOT_PASSWORD_FAIL,
+    FORGOT_PASSWORD_SUCCESS,
     SET_USER_TYPE
 } from './../constants/actionTypes';
 

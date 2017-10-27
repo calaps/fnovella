@@ -11,6 +11,8 @@ import {
     SIGNUP_FAIL,
     GETUSER_SUCCESS,
     GETUSER_FAIL,
+    FORGOT_PASSWORD_SUCCESS,
+    FORGOT_PASSWORD_FAIL,
     SET_USER_TYPE
 } from './../constants/actionTypes';
 
@@ -45,17 +47,39 @@ export function loginRequest(data) {
     }
 }
 
+export function forgotPassword(data) {
+  return function (dispatch) {
+      return new Promise(function(resolve, reject){{
+          HTTP('post','/user/forgot_password', data)
+          .then(function (response) {
+            console.log("response: ",response);
+            if(response.data.errors === null){
+              // dispatch({
+              //   type: FORGOT_PASSWORD_SUCCESS,
+              //   data: response.data
+              // });
+              resolve(response.data);
+            }
+            else{
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            console.log("error: ",error);
+            // dispatch({
+            //   type: FORGOT_PASSWORD_FAIL,
+            //   error: error
+            // });
+            reject(error);
+          })
+      }})
+  }
+}
+
+
 export  function logOut(){
     return async function (dispatch) {
       return  new  Promise(async function(resolve, reject){{        
-        // will be removed once API is ready
-        // dispatch({
-        //   type: LOG_OUT,
-        //   data: {}
-        // });
-        // resolve(true);
-        // return;
-  
         var authToken;
         var value = await AsyncStorage.getItem('@Axle:token').then((gettoken)=>{
             authToken= gettoken;
