@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   catalogsGetRequest,
-  catalogsDeleteRequest
+  catalogsDeleteRequest,
+  categoriesGetRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
 
@@ -20,6 +21,7 @@ class ListElements extends React.Component {
 
   componentWillMount() {
     this.props.actions.catalogsGetRequest();
+    this.props.actions.categoriesGetRequest();
   }
 
   sortByKey(array, key){
@@ -62,6 +64,9 @@ class ListElements extends React.Component {
                       array?array.map((catalog) => {
                         return <ListItem key={catalog.id} onDelete={this.onDeleteButton}
                                          number={i++}
+                                         category={this.props.categories.filter((category)=>{
+                                           return category.id === catalog.category
+                                           })}
                                          onEdit={this.props.onEdit}
                                          catalogData={catalog}/>
                       }):null
@@ -84,7 +89,8 @@ class ListElements extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    catalogs: state.catalogs
+    catalogs: state.catalogs,
+    categories: state.categories
   }
 }
 
@@ -93,7 +99,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       catalogsGetRequest,
-      catalogsDeleteRequest
+      catalogsDeleteRequest,
+      categoriesGetRequest
     }, dispatch)
   };
 }
