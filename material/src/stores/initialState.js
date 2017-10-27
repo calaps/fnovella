@@ -11,7 +11,7 @@ let initialState = {
   sedes: {},
   users: [],
   programActivations: {},
-  participantContacts: [],
+  participantContacts: {},
   courses: {},
   grades: {},
   workshops: {},

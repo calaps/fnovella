@@ -3,6 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import HorizontalLinearStepper from './HorizontalLinearStepper';
 import ListElements from './ListElements';
 import UpdateForm from './UpdateForm';
+import ViewEmergencyContact from './ViewEmergencyContact';
 
 const optionsName = "Estudiantes";
 
@@ -88,11 +89,13 @@ class Student extends React.Component {
     super(props);
     this.state = {
       active: "VIEW_ELEMENT",
-      participantData: {}
+      participantData: {},
+      participantId: ''
     };
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditStudent = this.onEditStudent.bind(this); //bind this element
     this.handleCancel=this.handleCancel.bind(this);
+    this.onEmergencyView=this.onEmergencyView.bind(this);
   }
 
   changeView(data) {
@@ -104,19 +107,25 @@ class Student extends React.Component {
     this.changeView('UPDATE_ELEMENT', false);
   }
 
+  onEmergencyView(participantId){
+    this.setState({participantId});
+    this.changeView('VIEW_EMERGENCY',false);
+  }
+
   handleCancel(){
     this.changeView('VIEW_ELEMENT',false);
   }
-
 
   activeView() {
     switch (this.state.active) {
       case 'ADD_ELEMENT':
         return <HorizontalLinearStepper changeView={this.changeView} participantData={this.state.participantData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditStudent}/>;
+        return <ListElements onEdit={this.onEditStudent} onEmergencyView={this.onEmergencyView}/>;
       case "UPDATE_ELEMENT":
         return <UpdateForm participantData={this.state.participantData} changeView={this.changeView} onCancel={this.handleCancel}/>;
+      case "VIEW_EMERGENCY":
+        return <ViewEmergencyContact participantId={this.state.participantId}/>;
       default:
         return null;
     }
