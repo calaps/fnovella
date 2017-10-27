@@ -40,8 +40,7 @@ class Login extends React.Component {
       .onSubmit
       .bind(this);
   }
-
-  static navigationOptions = {
+   static navigationOptions = {
     //title: `Loggin`,
     header: null
   };
@@ -56,7 +55,8 @@ class Login extends React.Component {
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: 'menu'})
+        NavigationActions.navigate({ routeName: 'menu'}),
+        this.props.navigation.navigate('menu'),
       ]
     });
     this.props.actions.loginRequest(data)
@@ -164,8 +164,8 @@ class Login extends React.Component {
                 flexDirection: 'column-reverse'
               }}>
                 <Button overrides={this.object} text='INICIAR SEISION' 
-                //onPress={() => navigate('menu')}
-                 onPress={this.onSubmit}
+                //onPress={() => console.log(this.props)}
+                onPress={this.onSubmit}
                 />
               </View>
             </Card.Body>

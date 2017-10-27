@@ -35,12 +35,11 @@ class AppHeader extends React.Component {
     this.state = {
       selected1: "key1"
     };
-    // this.onLogOut= this.onLogOut.bind(this);
+    this.onLogOut= this.onLogOut.bind(this);
   }
 
   componentWillMount(){
     this.props.actions.getUserDetails();
-    // alert('dada');
   }
   async onLogOut(){
     console.log('in logout');
@@ -48,21 +47,20 @@ class AppHeader extends React.Component {
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: 'login'})
+        NavigationActions.navigate({ routeName: 'login'}),    
+        this.props.navigation.navigate('login')
       ]
     });
     let response = await this.props.actions.logOut()
     if(response){
-      this.props.navigation.dispatch(resetAction);
-      this.props.navigation.navigate('login');
-      console.log('logout nav: ',this.props.navigation)
+      this.props.navigation.dispatch(resetAction);  
     }
   }
 
   onValueChange(value) {
     console.log("value " + value);
     this.setState({selected1: value});
-    if (value == 'key0') {
+      if (value == 'key0') {
       this
         .props
         .navigation
@@ -80,7 +78,6 @@ class AppHeader extends React.Component {
   }
 
   render() {
-    console.log('auth: ',this.props.auth)
     return (
       <View>
         <Header

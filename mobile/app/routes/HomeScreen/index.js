@@ -5,8 +5,9 @@ import { DrawerNavigator } from "react-navigation";
 // import MainScreenNavigator from "../ChatScreen/index.js";
 import Profile from "../ProfileScreen/MyProfile.js";
 import SideBar from "../../components/SideBar";
-import Login from '../auth/Login'
-// import LucyChat from "../ChatScreen/LucyChat.js";
+import Login from '../auth/Login';
+import AppScreen from '../../layouts/AppScreen/AppScreen';
+
 const HomeScreenRouter = DrawerNavigator(
   {
     Home: { screen: HomeScreen },
