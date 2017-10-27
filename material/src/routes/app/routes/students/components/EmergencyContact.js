@@ -29,13 +29,12 @@ class EmergencyContact extends React.Component {
   }
 
   isValid() {
-   /* //local validation
+    //local validation
     const {errors, isValid} = studentContactValidator(this.state);
     if (!isValid) {
       this.setState({errors});
     }
-    return isValid;*/
-   return true;
+    return isValid;
   }
 
   onSubmit(e) {

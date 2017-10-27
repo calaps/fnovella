@@ -7,7 +7,7 @@ let initialState = {
   catalogs: [],
   educators: {},
   privileges: [],
-  participants: [],
+  participants: {},
   sedes: {},
   users: [],
   programActivations: {},

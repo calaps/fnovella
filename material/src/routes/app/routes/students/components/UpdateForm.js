@@ -1,54 +1,76 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import DatePicker from 'material-ui/DatePicker'; // Datepicker
+import FlatButton from 'material-ui/FlatButton';
 import map from "Lodash/map"; //to use map in a object
 import {personal_documents, gender, countries} from '../../../../../constants/data_types';
 import {studentValidator} from "../../../../../actions/formValidations"; //form validations
-import FlatButton from 'material-ui/FlatButton';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  participantAddRequest
+  participantUpdateRequest
 } from '../../../../../actions';
 
 let self;
 
-class EditForm extends React.Component {
+class UpdateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      secondName: '',
-      firstLastname: '',
-      secondLastname: '',
-      bornDate: '',
-      documentType: '',
-      documentValue: '',
-      nacionality: '',
-      department: '',
-      municipality: '',
-      community: '',
-      profession: '',
-      address: '',
-      phone: '',
-      cellPhone: '',
-      email: '',
-      appCode: 'code',
-      gender: '',
+      isEditing: (this.props.participantData.id) ? true : false,
+      firstName: this.props.participantData.firstName || '',
+      secondName: this.props.participantData.secondName || '',
+      firstLastname: this.props.participantData.firstLastname || '',
+      secondLastname: this.props.participantData.secondLastname || '',
+      bornDate: this.props.participantData.bornDate || '',
+      documentType: this.props.participantData.documentType || '',
+      documentValue: this.props.participantData.documentValue || '',
+      nacionality: this.props.participantData.nacionality || '',
+      department: this.props.participantData.department || '',
+      municipality: this.props.participantData.municipality || '',
+      community: this.props.participantData.community || '',
+      profession: this.props.participantData.profession || '',
+      address: this.props.participantData.address || '',
+      phone: this.props.participantData.phone || '',
+      cellPhone: this.props.participantData.cellPhone || '',
+      email: this.props.participantData.email || '',
+      appCode: this.props.participantData.appCode || '',
+      gender: this.props.participantData.gender || '',
+      id: this.props.participantData.id || '',
       errors: {},
       isLoading: false
     };
-    // console.log('state is',this.state);
-    this.onSubmit = this.onSubmit.bind(this);
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
+    this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this._handleCancel = this._handleCancel.bind(this);
     self = this;
   }
 
-  _handleCancel(){
-    this.props.handleCancel();
+  componentWillReceiveProps(nextProps) {
+    if (this.props.participantData !== nextProps.participantData) {
+      this.setState({
+        firstName: '',
+        secondName: '',
+        firstLastname: '',
+        secondLastname: '',
+        bornDate: '',
+        documentType: '',
+        documentValue: '',
+        nacionality: '',
+        department: '',
+        municipality: '',
+        community: '',
+        profession: '',
+        address: '',
+        phone: '',
+        cellPhone: '',
+        email: '',
+        appCode: 'code',
+        gender: '',
+        id: '',
+      });
+    }
   }
 
   isValid() {
@@ -61,10 +83,14 @@ class EditForm extends React.Component {
     return true;
   }
 
+  _handleCancel(){
+    this.props.handleCancel();
+  }
+
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      //reset errors object and disable submit button
+      //reset errros object and disable submit button
       this.setState({errors: {}, isLoading: true});
       let data = {
         firstName: this.state.firstName,
@@ -84,10 +110,23 @@ class EditForm extends React.Component {
         cellPhone: this.state.cellPhone,
         email: this.state.email,
         appCode: this.state.appCode,
-        gender: this.state.gender
+        gender: this.state.gender,
+        id: this.state.id
       };
-      // console.log(this.state)
-      this.props.handleNext(data);
+      this.props.actions.participantUpdateRequest(data).then(
+        (response) => {
+          //Save the default object as a provider
+          if (response) {
+            self.props.changeView('VIEW_ELEMENT');
+          }
+        },
+        (error) => {
+          alert('fail');
+          console.log("An Error occur with the Rest API");
+          self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
+        })
+    } else {
+      // FORM WITH ERRORS
     }
   }
 
@@ -98,6 +137,7 @@ class EditForm extends React.Component {
   render() {
 
     const {errors} = this.state;
+
     // Document identification types
     const documentType = map(personal_documents, (val, key) =>
       <option key={val} value={val}>{key}</option>
@@ -393,7 +433,7 @@ class EditForm extends React.Component {
                       style={{marginRight: 12}}
                     />
                     <RaisedButton
-                      label='Next'
+                      label='Update'
                       primary
                       type='submit'
                     />
@@ -415,17 +455,14 @@ class EditForm extends React.Component {
 
 function mapStateToProps(state) {
   //pass the providers
-  return {
-    // auth: state.auth
-  }
+  return {}
 }
 
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      //    signUpRequest
-      participantAddRequest
+      participantUpdateRequest
     }, dispatch)
   };
 }
@@ -433,4 +470,4 @@ function mapDispatchToProps(dispatch) {
 module.exports = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(EditForm);
+)(UpdateForm);

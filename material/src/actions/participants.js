@@ -14,7 +14,12 @@ import {
   PARTICIPANT_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function participantGetRequest() {
+export function participantGetRequest(number, size) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  params.type = 2;
+
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       // will be removed once API is ready
@@ -26,12 +31,12 @@ export function participantGetRequest() {
       // return;
 
       // API
-      HTTP('get', '/participant/',null,{authorization: localStorage.getItem('@fnovella:token')})
+      HTTP('get', '/participant/',null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
               type: PARTICIPANT_GET_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else{
@@ -68,7 +73,7 @@ export function participantAddRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PARTICIPANT_ADD_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else{
@@ -91,12 +96,12 @@ export function participantUpdateRequest(data) {
     return new Promise(function(resolve, reject){{
 
       // will be removed once API is ready
-      dispatch({
+      /*dispatch({
         type: PARTICIPANT_UPDATE_SUCCESS,
         data
       });
       resolve(true);
-      return true;
+      return true;*/
 
       // API
       HTTP('patch', '/participant/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
@@ -104,7 +109,7 @@ export function participantUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: PARTICIPANT_UPDATE_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {
@@ -138,7 +143,7 @@ export function participantDeleteRequest(id) {
       // return;
 
       // API
-      HTTP('delete', '/particpant/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('delete', '/participant/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(!response.data.errors){
             dispatch({
