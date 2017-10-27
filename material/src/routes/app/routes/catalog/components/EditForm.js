@@ -1,5 +1,6 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';// For Buttons
 import { data_types } from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import { catalogsValidator } from "../../../../../actions/formValidations"; //form validations
@@ -26,6 +27,7 @@ class EditForm extends React.Component {
     };
     this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onChange = this.onChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     self= this;
   }
   componentWillReceiveProps(nextProps){
@@ -49,6 +51,10 @@ class EditForm extends React.Component {
     }
 
     return true;
+  }
+
+  handleCancel() {
+    self.props.changeView('VIEW_ELEMENT')
   }
 
   onSubmit(e) {
@@ -167,6 +173,11 @@ class EditForm extends React.Component {
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
+                        <FlatButton disabled={this.state.isLoading}
+                                    label='Cancel'
+                                    style={{marginRight: 12}}
+                                    onTouchTap={this.handleCancel}
+                                    secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
                                       label={this.state.isEditing?'Update':'Add'}
                                       secondary className="btn-w-md" />

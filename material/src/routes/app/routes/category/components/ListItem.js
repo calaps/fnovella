@@ -5,19 +5,18 @@ class ListItem extends React.Component {
     return (
           <tr>
             <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-            <td className="mdl-data-table__cell--non-numeric">{this.props.catalogData.id}</td>
-            <td className="mdl-data-table__cell--non-numeric">{this.props.catalogData.name}</td>
-            <td className="mdl-data-table__cell--non-numeric">{this.props.catalogData.type}</td>
-            <td className="mdl-data-table__cell--non-numeric" >{this.props.catalogData.category}</td>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.categoryData.id}</td>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.categoryData.name}</td>
+            <td className="mdl-data-table__cell--non-numeric">{this.props.categoryData.description}</td>
             <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
               <button
-                onClick={()=>{this.props.onDelete(this.props.catalogData.id)}}
+                onClick={()=>{this.props.onDelete(this.props.categoryData.id)}}
 
                 type="submit" className="btn btn-primary">Delete</button>
               &nbsp;
               &nbsp;
               <button
-                onClick={()=>{this.props.onEdit(this.props.catalogData)}}
+                onClick={()=>{this.props.onEdit(this.props.categoryData)}}
 
                 type="submit" className="btn btn-primary">Edit</button>
             </td>

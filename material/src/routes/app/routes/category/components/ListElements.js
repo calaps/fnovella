@@ -2,8 +2,8 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  catalogsGetRequest,
-  catalogsDeleteRequest
+  categoriesGetRequest,
+  categoriesDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
 
@@ -18,12 +18,12 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.catalogsGetRequest();
+    this.props.actions.categoriesGetRequest();
   }
 
   onDeleteButton(id) {
     console.log("id: ", id);
-    this.props.actions.catalogsDeleteRequest(id);
+    this.props.actions.categoriesDeleteRequest(id);
   }
 
   render() {
@@ -43,17 +43,16 @@ class ListElements extends React.Component {
                       <th className="mdl-data-table__cell--non-numeric">#</th>
                       <th className="mdl-data-table__cell--non-numeric">id</th>
                       <th className="mdl-data-table__cell--non-numeric">Name</th>
-                      <th className="mdl-data-table__cell--non-numeric">Type</th>
-                      <th className="mdl-data-table__cell--non-numeric">Category</th>
+                      <th className="mdl-data-table__cell--non-numeric">Description</th>
                     </tr>
                     </thead>
                     <tbody>
                     {
-                      this.props.catalogs.map((catalog) => {
-                        return <ListItem key={catalog.id} onDelete={this.onDeleteButton}
+                      this.props.categories.map((category) => {
+                        return <ListItem key={category.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
-                                         catalogData={catalog}/>
+                                         categoryData={category}/>
                       })
                     }
                     </tbody>
@@ -74,7 +73,7 @@ class ListElements extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    catalogs: state.catalogs
+    categories: state.categories
   }
 }
 
@@ -82,8 +81,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      catalogsGetRequest,
-      catalogsDeleteRequest
+      categoriesGetRequest,
+      categoriesDeleteRequest
     }, dispatch)
   };
 }

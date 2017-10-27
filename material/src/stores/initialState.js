@@ -15,7 +15,8 @@ let initialState = {
   courses: {},
   grades: {},
   workshops: {},
-  dashboard: {}
+  dashboard: {},
+  categories: []
 
 };
 
