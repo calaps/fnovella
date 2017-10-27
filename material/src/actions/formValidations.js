@@ -299,10 +299,10 @@ export function privilegeValidator(data){
 
   let errors = {}; //errors star with an empty object
 
-  if(Validator.isEmpty(data.name)) {
-    errors.name = required;
-    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
-      errors.name = invalidData;
+  if(Validator.isEmpty(data.privilegeName)) {
+    errors.privilegeName = required;
+    if(!Validator.isEmpty(data.privilegeName) && !Validator.isAlphanumeric(data.privilegeName)){
+      errors.privilegeName = invalidData;
     }
   }
 

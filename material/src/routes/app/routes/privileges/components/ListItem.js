@@ -6,7 +6,7 @@ class ListItem extends React.Component {
           <tr>
             <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
             <td className="mdl-data-table__cell--non-numeric">{this.props.privilegeData.id}</td>
-            <td className="mdl-data-table__cell--non-numeric" >{this.props.privilegeData.name}</td>
+            <td className="mdl-data-table__cell--non-numeric" >{this.props.privilegeData.privilegeName}</td>
             <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
               <button
                 onClick={()=>{this.props.onDelete(this.props.privilegeData.id)}}
