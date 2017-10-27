@@ -445,9 +445,6 @@ export function tutorValidator(data){
   }
   if(Validator.isEmpty(data.bornDate)) {
     errors.bornDate = required;
-    if(!Validator.isEmpty(data.bornDate) && !isDate(data.bornDate)){
-      errors.bornDate = invalidData;
-    }
   }
   if(Validator.isEmpty(data.gender)) {
     errors.gender = required;
@@ -490,15 +487,6 @@ export function tutorValidator(data){
     if(!Validator.isEmpty(data.nacionality) && !Validator.isAlpha(data.nacionality)){
       errors.nacionality = invalidData;
     }
-  }
-  if(Validator.isEmpty(data.password)) {
-    errors.password = required;
-  }
-  if(Validator.isEmpty(data.confirmPassword)) {
-    errors.confirmPassword = required;
-  }
-  if(!Validator.isEmpty(data.confirmPassword) && !Validator.equals(data.password, data.confirmPassword)){
-    errors.confirmPassword = passwordMatch;
   }
 
   //IsValid is just a boolean who return is errors is empty

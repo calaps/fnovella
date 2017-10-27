@@ -6,10 +6,13 @@ import {
   educatorsDeleteRequest,
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 
 /** *
  * Fake element list render....
  * */
+let size = 5; //limit
+let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
@@ -18,7 +21,7 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.educatorsGetRequest();
+    this.props.actions.educatorsGetRequest(number, size);
   }
 
   onDeleteButton(id) {
@@ -64,6 +67,11 @@ class ListElements extends React.Component {
 
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.teachers.totalPages}
+                    totalElements={this.props.teachers.totalElements}
+                    getRequest={this.props.actions.educatorsGetRequest}
+                  />
                 </div>
 
               </div>

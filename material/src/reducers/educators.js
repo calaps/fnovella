@@ -21,14 +21,17 @@ const educators_reducer = (state = initialState.educators, action) => {
   let newState;
   switch(action.type){
     case EDUCATORS_ADD_SUCCESS:
-      console.log(EDUCATORS_ADD_SUCCESS)
+      console.log(EDUCATORS_ADD_SUCCESS);
       return [...state, action.data];
     case EDUCATORS_ADD_FAIL:
       // TODO: some alert may be
       return state;
     case EDUCATORS_GET_SUCCESS:
-      console.log(EDUCATORS_GET_SUCCESS)
-      return action.data;
+      console.log(EDUCATORS_GET_SUCCESS);
+      return {
+        ...state,
+        ...action.data
+      };
     case EDUCATORS_GET_FAIL:
       // TODO: some alert may be
       return state;
@@ -45,7 +48,7 @@ const educators_reducer = (state = initialState.educators, action) => {
       // TODO: some alert may be
       return state;
     case EDUCATORS_UPDATE_SUCCESS:
-      console.log(EDUCATORS_UPDATE_SUCCESS)
+      console.log(EDUCATORS_UPDATE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
         if(newState[i].id === action.data.id){
@@ -59,6 +62,6 @@ const educators_reducer = (state = initialState.educators, action) => {
     default:
       return state;
   }
-}
+};
 
 export default educators_reducer;
