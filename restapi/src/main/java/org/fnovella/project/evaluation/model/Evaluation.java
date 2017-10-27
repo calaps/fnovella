@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Length;
 //@Entity
 public class Evaluation {
 
-	@Id
+	/*@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	@Length(max = 50)
@@ -77,5 +77,5 @@ public class Evaluation {
 		if (APIUtility.isNotNullOrEmpty(evaluation.subject)) this.subject = evaluation.subject;
 		if (APIUtility.isNotNullOrEmpty(evaluation.practice)) this.practice = evaluation.practice;
 		if (evaluation.column5 != null && evaluation.column5 > 0) this.column5 = evaluation.column5;
-	}
+	}*/
 }

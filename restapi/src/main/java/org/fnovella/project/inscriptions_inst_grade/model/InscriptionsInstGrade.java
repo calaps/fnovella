@@ -70,19 +70,19 @@ public class InscriptionsInstGrade {
 		super();
 	}
 	public ArrayList<String> validate() {
-   		ArrayList<String> errors = new ArrayList<String>();
-   		if (!APIUtility.isNotNullOrEmpty(this.status)) errors.add("Status is required");
-   		if (this.instructorId != null && this.instructorId <= 0) errors.add("Instructor is required");
-   		if (this.period != null && this.period <= 0) errors.add("Period is required");
-   		if (this.year != null && this.year <= 0) errors.add("Year is required");
-    	if (this.gradeId != null && this.gradeId <= 0) errors.add("Grade is required");
-    	return errors;
+		ArrayList<String> errors = new ArrayList<String>();
+		if (!APIUtility.isNotNullOrEmpty(this.status)) errors.add("Status is required");
+		if (this.instructorId == null || this.instructorId <= 0) errors.add("Instructor is required");
+		if (this.period == null || this.period <= 0) errors.add("Period is required");
+		if (this.year == null || this.year <= 0) errors.add("Year is required");
+		if (this.gradeId == null || this.gradeId <= 0) errors.add("Grade is required");
+		return errors;
 	}
 	public void setUpdateFields(InscriptionsInstGrade inscriptionsInstGrade) {
-    	if (APIUtility.isNotNullOrEmpty(inscriptionsInstGrade.status)) this.status = inscriptionsInstGrade.status;
+		if (APIUtility.isNotNullOrEmpty(inscriptionsInstGrade.status)) this.status = inscriptionsInstGrade.status;
 		if (inscriptionsInstGrade.instructorId != null && inscriptionsInstGrade.instructorId > 0) this.instructorId = inscriptionsInstGrade.instructorId;
 		if (inscriptionsInstGrade.period != null && inscriptionsInstGrade.period > 0) this.period = inscriptionsInstGrade.period;
-   		if (inscriptionsInstGrade.year != null && inscriptionsInstGrade.year > 0) this.year = inscriptionsInstGrade.year;
-    	if (inscriptionsInstGrade.gradeId != null && inscriptionsInstGrade.gradeId > 0) this.gradeId = inscriptionsInstGrade.gradeId;
+		if (inscriptionsInstGrade.year != null && inscriptionsInstGrade.year > 0) this.year = inscriptionsInstGrade.year;
+		if (inscriptionsInstGrade.gradeId != null && inscriptionsInstGrade.gradeId > 0) this.gradeId = inscriptionsInstGrade.gradeId;
 	}
 }

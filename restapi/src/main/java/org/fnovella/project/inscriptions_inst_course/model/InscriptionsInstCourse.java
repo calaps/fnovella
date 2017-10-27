@@ -72,10 +72,10 @@ public class InscriptionsInstCourse {
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.status)) errors.add("Status is required");
-		if (this.instructorId != null && this.instructorId <= 0) errors.add("Instructor is required");
-		if (this.period != null && this.period <= 0) errors.add("Period is required");
-		if (this.year != null && this.year <= 0) errors.add("Year is required");
-		if (this.courseId != null && this.courseId <= 0) errors.add("Course is required");
+		if (this.instructorId == null || this.instructorId <= 0) errors.add("Instructor is required");
+		if (this.period == null || this.period <= 0) errors.add("Period is required");
+		if (this.year == null || this.year <= 0) errors.add("Year is required");
+		if (this.courseId == null || this.courseId <= 0) errors.add("Course is required");
 		return errors;
 	}
 	public void setUpdateFields(InscriptionsInstCourse inscriptionsInstCourse) {

@@ -27,6 +27,9 @@ public class Program {
 	@Length(max=50)
 	private String clasification;
 	private boolean freeCourses;
+	private boolean activationStatus;
+	@Length(max=50)
+	private String genderAudience;
 	public Integer getId() {
 		return id;
 	}
@@ -75,8 +78,20 @@ public class Program {
 	public void setFreeCourses(boolean freeCourses) {
 		this.freeCourses = freeCourses;
 	}
+	public boolean isActivationStatus() {
+		return activationStatus;
+	}
+	public void setActivationStatus(boolean activationStatus) {
+		this.activationStatus = activationStatus;
+	}
+	public String getGenderAudience() {
+		return genderAudience;
+	}
+	public void setGenderAudience(String genderAudience) {
+		this.genderAudience = genderAudience;
+	}
 	public Program(String name, boolean type, String audience, String description, boolean provider,
-			String clasification, boolean freeCourses) {
+			String clasification, boolean freeCourses, boolean activationStatus, String genderAudience) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -85,6 +100,8 @@ public class Program {
 		this.provider = provider;
 		this.clasification = clasification;
 		this.freeCourses = freeCourses;
+		this.activationStatus = activationStatus;
+		this.genderAudience = genderAudience;
 	}
 	public Program() {
 		super();
@@ -96,6 +113,7 @@ public class Program {
 		 if (!APIUtility.isNotNullOrEmpty(this.audience)) errors.add("Audience is required");
 		 if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Description is required");
 		 if (!APIUtility.isNotNullOrEmpty(this.clasification)) errors.add("Clasification is required");
+		 if (!APIUtility.isNotNullOrEmpty(this.genderAudience)) errors.add("Gender Audience is required");
 		 return errors;
 	}
 	
@@ -104,6 +122,8 @@ public class Program {
 		if (APIUtility.isNotNullOrEmpty(program.audience)) this.audience = program.audience;
 		if (APIUtility.isNotNullOrEmpty(program.description)) this.description = program.description;
 		if (APIUtility.isNotNullOrEmpty(program.clasification)) this.clasification = program.clasification;
+		if (APIUtility.isNotNullOrEmpty(program.genderAudience)) this.genderAudience = program.genderAudience;
+		this.activationStatus = program.activationStatus;
 		this.provider = program.provider;
 		this.freeCourses = program.freeCourses;
 		this.type = program.type;

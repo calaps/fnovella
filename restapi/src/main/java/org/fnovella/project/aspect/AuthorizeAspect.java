@@ -22,6 +22,7 @@ public class AuthorizeAspect {
 	
 	@Before("execution(* org.fnovella.project.user.controller.UserController.singnup(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.userDetails(..)) "
+			+ "|| execution(* org.fnovella.project.user.controller.UserController.updatePassword(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.update(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.delete(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.getAll(..)) "
@@ -41,7 +42,9 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.inscriptions_inst_workshop.controller.InscriptionsInstWorkshopController.*(..)) "
 			+ "|| execution(* org.fnovella.project.inscriptions_part_course.controller.InscriptionsPartCourseController.*(..))"
 			+ "|| execution(* org.fnovella.project.inscriptions_part_grade.controller.InscriptionsPartGradeController.*(..))"
-			+ "|| execution(* org.fnovella.project.inscriptions_part_workshop.controller.InscriptionsPartWorkshopController.*(..))")
+			+ "|| execution(* org.fnovella.project.inscriptions_part_workshop.controller.InscriptionsPartWorkshopController.*(..))"
+			+ "|| execution(* org.fnovella.project.dashboard.controller.DashboardController.*(..))"
+			+ "|| execution(* org.fnovella.project.category.controller.CategoryController.*(..))")
 	public void authorizeUser(JoinPoint joinPoint) throws NotAuthorizedException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		if (request != null) {

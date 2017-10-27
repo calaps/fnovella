@@ -19,6 +19,8 @@ public class Grade {
 	private String level;
 	private String description;
 	private Integer location;
+	private Integer programId;
+	private Integer instructorId;
 	
 	public Integer getId() {
 		return id;
@@ -50,12 +52,27 @@ public class Grade {
 	public void setLocation(Integer location) {
 		this.location = location;
 	}
-	public Grade(String name, String level, String description, Integer location) {
+	public Integer getProgramId() {
+		return programId;
+	}
+	public void setProgramId(Integer programId) {
+		this.programId = programId;
+	}
+	public Integer getInstructorId() {
+		return instructorId;
+	}
+	public void setInstructorId(Integer instructorId) {
+		this.instructorId = instructorId;
+	}
+	public Grade(String name, String level, String description, Integer location, Integer programId,
+			Integer instructorId) {
 		super();
 		this.name = name;
 		this.level = level;
 		this.description = description;
 		this.location = location;
+		this.programId = programId;
+		this.instructorId = instructorId;
 	}
 	public Grade() {
 		super();
@@ -66,6 +83,8 @@ public class Grade {
 		if (!APIUtility.isNotNullOrEmpty(this.level)) errors.add("Level is required");
 		if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Description is required");
 		if (this.location == null || this.location <= 0) errors.add("Location is required");
+		if (this.programId == null || this.programId <= 0) errors.add("Program is required");
+		if (this.instructorId == null || this.instructorId <= 0) errors.add("Instructor is required");
 		return errors;
 	}
 	public void setUpdateFields(Grade grade) {
@@ -73,5 +92,7 @@ public class Grade {
 		if (APIUtility.isNotNullOrEmpty(grade.level)) this.level = grade.level;
 		if (APIUtility.isNotNullOrEmpty(grade.description)) this.description = grade.description;
 		if (grade.location != null && grade.location > 0) this.location = grade.location;
+		if (grade.programId != null && grade.programId > 0) this.programId = grade.programId;
+		if (grade.instructorId != null && grade.instructorId > 0) this.instructorId = grade.instructorId;
 	}
 }

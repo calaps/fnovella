@@ -12,6 +12,7 @@ public class UserPrivileges {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	private String privilegeName;
 	@Column(name="p_program_activation")
 	private boolean PProgramActivation;
 	@Column(name="p_students_entry")
@@ -70,6 +71,12 @@ public class UserPrivileges {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	public String getPrivilegeName() {
+		return this.privilegeName;
+	}
+	public void setPrivilegeName(String privilegeName) {
+		this.privilegeName = privilegeName;
 	}
 	public boolean isPProgramActivation() {
 		return PProgramActivation;
@@ -234,7 +241,7 @@ public class UserPrivileges {
 			boolean pIndicatorsPVisualization, boolean pInformationVisualization, boolean pInformationEntry,
 			boolean pProgramsVisualization, boolean pIndicatrosRVisualization, boolean pIndicatrosDVisualization,
 			boolean pIndicatrosGVisualization, boolean pStructureEntry, boolean pCatalogsEntry, boolean pPersonalEntry,
-			boolean pPersonalEvaluationEntry, boolean pPersonalPassEntry, boolean pPersonalDataEntry) {
+			boolean pPersonalEvaluationEntry, boolean pPersonalPassEntry, boolean pPersonalDataEntry, String privilegeName) {
 		super();
 		PProgramActivation = pProgramActivation;
 		PStudentsEntry = pStudentsEntry;
@@ -262,6 +269,7 @@ public class UserPrivileges {
 		PPersonalEvaluationEntry = pPersonalEvaluationEntry;
 		PPersonalPassEntry = pPersonalPassEntry;
 		PPersonalDataEntry = pPersonalDataEntry;
+		this.privilegeName = privilegeName;
 	}
 	public UserPrivileges() {
 		super();
