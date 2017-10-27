@@ -299,10 +299,10 @@ export function privilegeValidator(data){
 
   let errors = {}; //errors star with an empty object
 
-  if(Validator.isEmpty(data.name)) {
-    errors.name = required;
-    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
-      errors.name = invalidData;
+  if(Validator.isEmpty(data.privilegeName)) {
+    errors.privilegeName = required;
+    if(!Validator.isEmpty(data.privilegeName) && !Validator.isAlphanumeric(data.privilegeName)){
+      errors.privilegeName = invalidData;
     }
   }
 
@@ -445,9 +445,6 @@ export function tutorValidator(data){
   }
   if(Validator.isEmpty(data.bornDate)) {
     errors.bornDate = required;
-    if(!Validator.isEmpty(data.bornDate) && !isDate(data.bornDate)){
-      errors.bornDate = invalidData;
-    }
   }
   if(Validator.isEmpty(data.gender)) {
     errors.gender = required;
@@ -490,15 +487,6 @@ export function tutorValidator(data){
     if(!Validator.isEmpty(data.nacionality) && !Validator.isAlpha(data.nacionality)){
       errors.nacionality = invalidData;
     }
-  }
-  if(Validator.isEmpty(data.password)) {
-    errors.password = required;
-  }
-  if(Validator.isEmpty(data.confirmPassword)) {
-    errors.confirmPassword = required;
-  }
-  if(!Validator.isEmpty(data.confirmPassword) && !Validator.equals(data.password, data.confirmPassword)){
-    errors.confirmPassword = passwordMatch;
   }
 
   //IsValid is just a boolean who return is errors is empty
@@ -611,6 +599,32 @@ export function workshopValidator(data){
   }
   if(Validator.isEmpty(data.instructorId)) {
     errors.instructorId = required;
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}
+
+export function categoriesValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.description)) {
+    errors.description = required;
+    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
+      errors.description = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.name)) {
+    errors.name = required;
+    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
+      errors.name = invalidData;
+    }
   }
 
   //IsValid is just a boolean who return is errors is empty

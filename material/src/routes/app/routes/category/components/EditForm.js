@@ -1,13 +1,14 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';// For Buttons
 import { data_types } from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { catalogsValidator } from "../../../../../actions/formValidations"; //form validations
+import { categoriesValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  catalogsAddRequest,
-  catalogsUpdateRequest
+  categoriesAddRequest,
+  categoriesUpdateRequest
 } from '../../../../../actions';
 
 let self;
@@ -16,11 +17,10 @@ class EditForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isEditing: (this.props.catalogData.id)?true:false,
-      name: this.props.catalogData.name || '',
-      type: this.props.catalogData.type|| '',
-      category: this.props.catalogData.category|| '',
-      id: this.props.catalogData.id || '',
+      isEditing: (this.props.categoryData.id)?true:false,
+      name: this.props.categoryData.name || '',
+      description: this.props.categoryData.description|| '',
+      id: this.props.categoryData.id || '',
       errors: {},
       isLoading: false
     };
@@ -29,12 +29,11 @@ class EditForm extends React.Component {
     self= this;
   }
   componentWillReceiveProps(nextProps){
-    if(this.props.catalogData!==nextProps.catalogData){
+    if(this.props.categoryData!==nextProps.categoryData){
       this.setState({
         isEditing: false,
         name: '',
-        type: '',
-        category: '',
+        description: '',
         id: '',
       })
     }
@@ -42,7 +41,7 @@ class EditForm extends React.Component {
   isValid(){
     // TODO:Commented bacause of invalid validation
     //local validation
-    const { errors, isValid } = catalogsValidator(this.state);
+    const { errors, isValid } = categoriesValidator(this.state);
     if(!isValid){
       this.setState({ errors });
       return false;
@@ -58,8 +57,7 @@ class EditForm extends React.Component {
       this.setState({ errors: {}, isLoading: true });
       let data = {
         name:this.state.name,
-        type: this.state.type,
-        category:this.state.category
+        description: this.state.description
       };
       if(this.state.isEditing){
         data.id = this.state.id;
@@ -67,7 +65,7 @@ class EditForm extends React.Component {
 
       // ON SUCCESSS API
       this.state.isEditing ?
-        this.props.actions.catalogsUpdateRequest(data).then(
+        this.props.actions.categoriesUpdateRequest(data).then(
           (response) => {
             //Save the default object as a provider
             if(response){
@@ -80,7 +78,7 @@ class EditForm extends React.Component {
             self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
           })
         :
-        this.props.actions.catalogsAddRequest(data).then(
+        this.props.actions.categoriesAddRequest(data).then(
           (response) => {
             //Save the default object as a provider
             if(response){
@@ -136,22 +134,27 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresa la descripción</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Descripción</label>
                       <div className="col-md-9">
                         <textarea
                           type="text"
                           className="form-control"
-                          id="category"
-                          name="category"
-                          value={this.state.category}
+                          id="description"
+                          name="description"
+                          value={this.state.description}
                           onChange={this.onChange}
-                          placeholder="eje: Departamentos de Guatemala" />
-                        {errors.category && <span className="help-block text-danger">{errors.category}</span>}
+                          placeholder="eje: About this category" />
+                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
+                        <FlatButton disabled={this.state.isLoading}
+                                    label='Cancel'
+                                    style={{marginRight: 12}}
+                                    onTouchTap={this.handleCancel}
+                                    secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
                                       label={this.state.isEditing?'Update':'Add'}
                                       secondary className="btn-w-md" />
@@ -191,8 +194,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       //    signUpRequest
-      catalogsAddRequest,
-      catalogsUpdateRequest,
+      categoriesAddRequest,
+      categoriesUpdateRequest
     }, dispatch)
   };
 }

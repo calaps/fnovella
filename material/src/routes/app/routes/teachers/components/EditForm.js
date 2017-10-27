@@ -1,5 +1,6 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import map from "Lodash/map"; //to use map in a object
 import {personal_documents, gender, countries} from '../../../../../constants/data_types';
@@ -23,7 +24,7 @@ class EditForm extends React.Component {
       secondName: this.props.teacherData.secondName || '',
       firstLastname: this.props.teacherData.firstLastname || '',
       secondLastname: this.props.teacherData.secondLastname || '',
-      bornDate: this.props.teacherData.bornDate || '',
+      bornDate: '',
       documentType: this.props.teacherData.documentType || '',
       documentValue: this.props.teacherData.documentValue || '',
       nacionality: this.props.teacherData.nacionality || '',
@@ -33,21 +34,17 @@ class EditForm extends React.Component {
       profession: this.props.teacherData.profession || '',
       address: this.props.teacherData.address || '',
       phone: this.props.teacherData.phone || '',
-      privilege: 'instructor',
-      password: '',
-      confirmPassword: '',
       cellphone: this.props.teacherData.cellphone || '',
       email: this.props.teacherData.email || '',
-      cemproCode: '',
       appCode: this.props.teacherData.appCode || '',
       gender: this.props.teacherData.gender || '',
       errors: {},
       isLoading: false
     };
+    {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onSubmit = this.onSubmit.bind(this);
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onChange = this.onChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     self = this;
   }
 
@@ -70,12 +67,8 @@ class EditForm extends React.Component {
         profession: '',
         address: '',
         phone: '',
-        privilege: 'instructor',
-        password: '',
-        confirmPassword: '',
         cellphone: '',
         email: '',
-        cemproCode: '',
         appCode: '',
         gender: '',
       })
@@ -112,14 +105,11 @@ class EditForm extends React.Component {
         profession: this.state.profession,
         address: this.state.address,
         phone: this.state.phone,
-        privilege: 'instructor',
-        password: this.state.password,
-        confirmPassword: this.state.confirmPassword,
         cellphone: this.state.cellphone,
         email: this.state.email,
         appCode: this.state.appCode || 'abc',
         gender: this.state.gender,
-      }
+      };
       if (this.state.isEditing) {
         data.id = this.state.id;
       }
@@ -156,6 +146,10 @@ class EditForm extends React.Component {
 
     }
 
+  }
+
+  handleCancel() {
+    self.props.changeView('VIEW_ELEMENT')
   }
 
   onChange(e) {
@@ -266,7 +260,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <div className="form-group row">
+                    {/*<div className="form-group row" disabled={this.state.isEditing}>
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
                       <div className="col-md-9">
                         <input
@@ -281,7 +275,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <div className="form-group row">
+                    <div className="form-group row" disabled={this.state.isEditing}>
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Confirmar
                         contraseña</label>
                       <div className="col-md-9">
@@ -296,7 +290,7 @@ class EditForm extends React.Component {
                         {errors.confirmPassword &&
                         <span className="help-block text-danger">{errors.confirmPassword}</span>}
                       </div>
-                    </div>
+                    </div>*/}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
@@ -491,6 +485,11 @@ class EditForm extends React.Component {
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
+                        <FlatButton disabled={this.state.isLoading}
+                                    label='Cancel'
+                                    style={{marginRight: 12}}
+                                    onTouchTap={this.handleCancel}
+                                    secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
                                       label={this.state.isEditing ? 'Update' : 'Add'} secondary className="btn-w-md"/>
                       </div>

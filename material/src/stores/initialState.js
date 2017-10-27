@@ -7,7 +7,7 @@ let initialState = {
   catalogs: [],
   educators: {},
   privileges: [],
-  participants: [],
+  participants: {},
   sedes: {},
   users: [],
   programActivations: {},
@@ -15,7 +15,8 @@ let initialState = {
   courses: {},
   grades: {},
   workshops: {},
-  dashboard: {}
+  dashboard: {},
+  categories: []
 
 };
 

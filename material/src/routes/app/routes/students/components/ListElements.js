@@ -6,10 +6,10 @@ import {
   participantDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 
-/** *
- * Fake element list render....
- * */
+let size = 5; //limit
+let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.participantGetRequest();
+    this.props.actions.participantGetRequest(number,size);
   }
 
   onDeleteButton(id) {
@@ -27,7 +27,6 @@ class ListElements extends React.Component {
   }
 
   render() {
-    console.log("render: ",this.props.participants);
     let i =0;
     return (
       <article className="article">
@@ -53,21 +52,22 @@ class ListElements extends React.Component {
                     </thead>
                     <tbody>
                     {
-                      this.props.participants.map((participant) => {
-                        if(participant){
-                          return <ListItem key={participant.id} onDelete={this.onDeleteButton}
-                                           number={i++}
-                                           onEdit={this.props.onEdit}
-                                           participantData={participant}/>;
-                        }
-                        else{
-                          return null;
-                        }
-                      })
+                      this.props.participants.content?this.props.participants.content.map((participant) => {
+                        return <ListItem key={participant.id}
+                                         number={i++}
+                                         onDelete={this.onDeleteButton}
+                                         onEdit={this.props.onEdit}
+                                         participantData={participant}/>
+                      }):null
 
                     }
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.participants.totalPages}
+                    totalElements={this.props.participants.totalElements}
+                    getRequest={this.props.actions.participantGetRequest}
+                  />
                 </div>
 
               </div>

@@ -86,20 +86,20 @@ class Category extends React.Component {
     super(props);
     this.state = {
       active: "VIEW_ELEMENT",
-      catalogData: {}
+      categoryData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditCatalog = this.onEditCatalog.bind(this);
   }
-  onEditCatalog (catalogData){
-    this.setState({catalogData});
+  onEditCatalog (categoryData){
+    this.setState({categoryData});
 
     this.changeView('ADD_ELEMENT',false);
   }
 
   changeView(data,reset=true){
     if(reset){
-      this.setState({ catalogData: {} })
+      this.setState({ categoryData: {} })
     }
     this.setState({ active: data });
   }
@@ -107,7 +107,7 @@ class Category extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm changeView={this.changeView} catalogData={this.state.catalogData} />;
+        return <EditForm changeView={this.changeView} categoryData={this.state.categoryData} />;
       case "VIEW_ELEMENT":
         return <ListElements onEdit={this.onEditCatalog}  />;
       default:
