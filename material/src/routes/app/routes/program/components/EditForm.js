@@ -8,7 +8,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   programAddRequest,
-  programUpdateRequest
+  programUpdateRequest,
+  categoriesGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -26,6 +27,8 @@ class EditForm extends React.Component {
       freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
       type: typeof this.props.programData.type === "boolean" ? this.props.programData.type : true,
       id: this.props.programData.id || '',
+      category: this.props.programData.category || '',
+      genderAudience: this.props.programData.genderAudience || '',
       errors: {},
       isLoading: false
     };
@@ -34,6 +37,10 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     self = this;
+  }
+
+  componentWillMount(){
+    this.props.actions.categoriesGetRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,6 +55,8 @@ class EditForm extends React.Component {
         freeCourses: true,
         type: true,
         id: '',
+        category: '',
+        genderAudience: '',
       });
     }
   }
@@ -80,7 +89,9 @@ class EditForm extends React.Component {
         description: this.state.description,
         provider: this.state.provider,
         clasification: this.state.clasification,
-        freeCourses: this.state.freeCourses
+        freeCourses: this.state.freeCourses,
+        category: this.state.category,
+        genderAudience: this.state.genderAudience,
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -127,9 +138,14 @@ class EditForm extends React.Component {
 
     const {errors} = this.state;
 
-    const options = map(data_types, (val, key) =>
-      <option key={val} value={val}>{key}</option>
-    );
+    //categories options
+    let categoriesOpt  = () => {
+      let {categories} = this.props;
+      return categories.map((category)=>{
+        return <option key={category.id} value={category.id}>{category.name}</option>
+      });
+    };
+
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -154,7 +170,6 @@ class EditForm extends React.Component {
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
-
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Audiencia</label>
                       <div className="col-md-9">
@@ -231,42 +246,38 @@ class EditForm extends React.Component {
                         {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
                       </div>
                     </div>
-
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Categoria de campos: </label>
                       <div className="col-md-9">
                         <select
-                          name="freeCourses"
-                          id="freeCourses"
+                          name="category"
+                          id="category"
                           onChange={this.onChange}
-                          value={this.state.freeCourses}
+                          value={this.state.category}
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona la categoria...</option>
-                          <option value={false}>municpalidad</option>
-                          <option value={true}>departamento</option>
-                          <option value={true}>fisico</option>
+                          {categoriesOpt()}
                         </select>
-                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                        {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
                     </div>
-
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero: </label>
                       <div className="col-md-9">
                         <select
-                          name="freeCourses"
-                          id="freeCourses"
+                          name="genderAudience"
+                          id="genderAudience"
                           onChange={this.onChange}
-                          value={this.state.freeCourses}
+                          value={this.state.genderAudience}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona la categoria...</option>
+                          <option value="" disabled>Selecciona la genero...</option>
                           <option value="male">Hombres</option>
                           <option value="female">Mujeres</option>
                           <option value="both">Mixto</option>
                         </select>
-                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                        {errors.genderAudience && <span className="help-block text-danger">{errors.genderAudience}</span>}
                       </div>
                     </div>
 
@@ -301,7 +312,7 @@ class EditForm extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    // auth: state.auth
+    categories: state.categories
   }
 }
 
@@ -312,6 +323,7 @@ function mapDispatchToProps(dispatch) {
       //    signUpRequest
       programAddRequest,
       programUpdateRequest,
+      categoriesGetRequest
     }, dispatch)
   };
 }

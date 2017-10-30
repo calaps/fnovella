@@ -134,6 +134,18 @@ export function programValidator(data){
       errors.name = invalidData;
     }
   }
+  if(Validator.isEmpty(data.category)) {
+    errors.category = required;
+    if(!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)){
+      errors.category = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.genderAudience)) {
+    errors.genderAudience = required;
+    if(!Validator.isEmpty(data.genderAudience) && !Validator.isAlphanumeric(data.genderAudience)){
+      errors.genderAudience = invalidData;
+    }
+  }
 
   //IsValid is just a boolean who return is errors is empty
   return {
