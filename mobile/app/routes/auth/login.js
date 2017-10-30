@@ -56,7 +56,7 @@ class Login extends React.Component {
       index: 0,
       actions: [
         NavigationActions.navigate({ routeName: 'menu'}),
-        this.props.navigation.navigate('menu'),
+        // this.props.navigation.navigate('menu'),
       ]
     });
     this.props.actions.loginRequest(data)

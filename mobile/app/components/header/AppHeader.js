@@ -47,8 +47,7 @@ class AppHeader extends React.Component {
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: 'login'}),    
-        this.props.navigation.navigate('login')
+        NavigationActions.navigate({ routeName: 'login'}) 
       ]
     });
     let response = await this.props.actions.logOut()

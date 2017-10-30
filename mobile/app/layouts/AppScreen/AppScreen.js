@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import {View, AsyncStorage} from 'react-native';
 import Login from './../../routes/auth/Login';
-import Spinner from "../../components/Spinner"
-import Loader from "../../components/loader/loader"
+import Spinner from "../../components/Spinner";
+import Loader from "../../components/loader/loader";
 import ResetPassword from './../../routes/auth/ResetPassword.js';
-import MainMenu from './../../routes/mainMenu';
-import HomeScreen from '../../routes/HomeScreen/HomeScreen'
-import Profile from './../../routes/ProfileScreen/index'
+import HomeScreen from '../../routes/HomeScreen'
+import Profile from './../../routes/ProfileScreen/index';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -23,25 +22,31 @@ import {bindActionCreators} from 'redux';
 
 const RootNavLogged = StackNavigator(
   {
-    menu: { screen: MainMenu } ,
     Profile: {screen: Profile},
-  }, 
+    menu: { screen: HomeScreen },
+    login: {screen: Login},
+  },
   {
+    navigationOptions:{
+      header:null
+    },
     initialRouteName: 'menu'
   }
 );
 
-const RootNav = StackNavigator({
-  login: {
-    screen: Login,
+const RootNav = StackNavigator(
+  {
+    login: { screen: Login },
+    menu: { screen:HomeScreen },
+    reset: { screen: ResetPassword },
   },
-  menu: {
-    screen: MainMenu
-  },
-  reset: {
-    screen: ResetPassword
-  },
-}, {initialRouteName: 'login'});
+  {
+    navigationOptions:{
+      header:null
+    },
+    initialRouteName: 'login'
+  }
+);
 
 class AppScreen extends Component {
   constructor(props) {
@@ -49,7 +54,7 @@ class AppScreen extends Component {
     this.state = {
       isLogin: null
     };
-    this.activeView = this.activeView.bind(this);
+     this.activeView = this.activeView.bind(this);
   }
 
   async componentWillMount() {
@@ -68,10 +73,10 @@ class AppScreen extends Component {
     console.log('login: ',this.state.isLogin);
     switch (this.state.isLogin) {
       case true:
-        return <RootNavLogged changeView={this.componentWillMount}/>;
+        return <RootNavLogged/>;
 
       case false:
-        return <RootNav changeView={this.componentWillMount}/>
+        return <RootNav/>
 
       default:
         return <Loader/>

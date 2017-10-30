@@ -1,5 +1,5 @@
 import React from "react";
-import {StatusBar, Image, Text, TouchableHighlight} from "react-native";
+import {StatusBar,View, Image, Text, TouchableHighlight} from "react-native";
 import {
   Button,
   Container,
@@ -17,7 +17,6 @@ import {
   Item as FormItem
 } from "native-base";
 import {Card} from 'react-native-material-design';
-import {View} from 'react-native';
 import {Root} from 'native-base'
 import {NativeModules, processColor} from 'react-native';
 import StatusBox from '../dashboard/statusBoxes'; 
@@ -80,7 +79,6 @@ class HomeScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.dashboard)
     var statusBoxes=[
       {
         id:1,
@@ -137,20 +135,14 @@ class HomeScreen extends React.Component {
         desc: 'Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de datos con variables de información para el programa.'
       }
     ];
-    
-    closeDrawer = () => {
-      this.drawer._root.close()
-    };
-    openDrawer = () => {
-      this.drawer._root.open()
-    };
     return (
-      <Container>
+       <Container>
+          <StatusBar backgroundColor="black" barStyle="light-content"/>
         <AppHeader  navigation={this.props.navigation}/>
-        <Content padder>
+        <Content padder >
 
           <Card
-            elevation={7}
+            elevation={7} 
             style={{
             paddingLeft: 0,
             paddingRight: 0,
@@ -171,7 +163,7 @@ class HomeScreen extends React.Component {
                   position: 'absolute',
                   paddingBottom: 370 *.30,
                   resizeMode: 'cover'
-                }}/>
+                  }}/>
                 <View
                   style={{
                   flex: 1,
@@ -209,7 +201,7 @@ class HomeScreen extends React.Component {
           
           <Footer />
         </Content>
-      </Container>
+       </Container> 
     );
   }
 }
