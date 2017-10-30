@@ -182,7 +182,7 @@ class EditForm extends React.Component {
       let {catalogs} = this.props;
       return catalogs.map((catalog) => {
         if (catalog.category === 2) {
-          return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
         }
       });
     };
@@ -191,7 +191,7 @@ class EditForm extends React.Component {
       let {catalogs} = this.props;
       return catalogs.map((catalog) => {
         if (catalog.category === 1) {
-          return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
         }
       });
     };
@@ -200,7 +200,7 @@ class EditForm extends React.Component {
       let {catalogs} = this.props;
       return catalogs.map((catalog) => {
         if (catalog.category === 3) {
-          return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
         }
       });
     };
