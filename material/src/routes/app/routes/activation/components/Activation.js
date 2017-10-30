@@ -117,7 +117,7 @@ class Program extends React.Component {
       case "VIEW_ELEMENT":
         return  <ListElements onEdit={this.onEditProgram}/>;
       case "UPDATE_ELEMENT":
-        return <UpdateForm activationData={this.state.activationData} onCancel={this.handleCancel}/>;
+        return <UpdateForm activationData={this.state.activationData} changeView={this.changeView} onCancel={this.handleCancel}/>;
       default:
         return null;
     }
