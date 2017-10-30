@@ -10,7 +10,9 @@ import {
   SET_USER_TYPE,
   LOG_OUT,
   LOG_OUT_SUCCESS,
-  LOG_OUT_FAIL
+  LOG_OUT_FAIL,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAIL
 } from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
@@ -18,7 +20,7 @@ import initialState from './../stores/initialState';
 const auth_reducer = (state = initialState.auth, action) => {
   switch(action.type){
     case LOGIN_SUCCESS:
-      console.log(LOGIN_SUCCESS)
+      console.log(LOGIN_SUCCESS);
       localStorage.setItem('@fnovella:token', action.data.token);
       return Object.assign(
         {},
@@ -32,7 +34,7 @@ const auth_reducer = (state = initialState.auth, action) => {
       return state;
 
     case SIGNUP_SUCCESS:
-      console.log(SIGNUP_SUCCESS)
+      console.log(SIGNUP_SUCCESS);
       localStorage.setItem('@fnovella:token', action.data.token);
       return Object.assign(
         {},
@@ -63,7 +65,7 @@ const auth_reducer = (state = initialState.auth, action) => {
         {}
       );
     case LOG_OUT_SUCCESS:
-      console.log(LOG_OUT)
+      console.log(LOG_OUT);
       localStorage.removeItem('@fnovella:token');
       return Object.assign(
         {},
@@ -74,9 +76,14 @@ const auth_reducer = (state = initialState.auth, action) => {
       );
     case LOG_OUT_FAIL:
       return state;
+    case FORGOT_PASSWORD_SUCCESS:
+      console.log(FORGOT_PASSWORD_SUCCESS);
+      return state;
+    case FORGOT_PASSWORD_FAIL:
+      return state;
     default:
       return state;
   }
-}
+};
 
 export default auth_reducer;
