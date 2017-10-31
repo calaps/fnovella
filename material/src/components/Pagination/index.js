@@ -14,7 +14,8 @@ const style = {
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    display: 'flex'
+    display: 'flex',
+    cursor: 'pointer'
   },
   activeStyle: {
     height: 30,
@@ -26,7 +27,8 @@ const style = {
     justifyContent: 'center',
     textAlign: 'center',
     display: 'flex',
-    backgroundColor: '#5CB85C'
+    backgroundColor: '#5CB85C',
+    cursor: 'pointer'
   }
 };
 
@@ -40,6 +42,7 @@ class Pagination extends React.Component {
     this.getNext = this.getNext.bind(this);
     this.getPrev = this.getPrev.bind(this);
     this.getRange = this.getRange.bind(this);
+    this.getIndex = this.getIndex.bind(this);
   }
 
   getPrev() {
@@ -78,7 +81,7 @@ class Pagination extends React.Component {
               <Paper
                 key={i} style={
                 this.state.number === i  ? style.activeStyle : style.paperStyle
-              } zDepth={1} circle={true}
+              } zDepth={1} circle={true} onTouchTap={()=>this.getIndex(i)}
               >
                 {i+1}
               </Paper>
@@ -86,6 +89,13 @@ class Pagination extends React.Component {
           );
       }
       return ret;
+  }
+
+  getIndex(i){
+    this.props.getRequest(i,this.state.size);
+    this.setState({
+      number: i
+    })
   }
 
 
