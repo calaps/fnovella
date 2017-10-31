@@ -176,7 +176,7 @@ class EditForm extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de campo</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de curso</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -190,7 +190,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Description</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Descripción</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -204,7 +204,12 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Is this course open?</label>
+                      {
+                        /* #change
+                        description: should be "true (verdadero)" or "false (falso) as a selectino option not input"
+                      */
+                      }
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Es un curso abierto?</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -218,7 +223,16 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
+                      {
+                        /* #change
+                        description: The options populated with locations is correct.
+                                     However should be only the locations related to the program
+                                     in the new controller "program_location" relation
+                        controller to use: program_location
+                        database name: program_location
+                      */
+                      }
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sede</label>
                       <div className="col-md-9">
                         <select
                           name="location"
@@ -234,7 +248,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Grade</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Grado</label>
                       <div className="col-md-9">
                         <select
                           name="grade"
@@ -243,14 +257,22 @@ class EditForm extends React.Component {
                           value={this.state.grade}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecione la grade</option>
+                          <option value="" disabled>Selecione el grado</option>
                           {gradesOpt()}
                         </select>
                         {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Program</label>
+                      {
+                        /* #change
+                        description: However should be only the locations related to the program
+                                      in the new controller "program_location" relation.ds
+                        controller to use: program_location
+                        database name: program_location
+                      */
+                      }
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa</label>
                       <div className="col-md-9">
                         <select
                           name="programId"
@@ -259,14 +281,19 @@ class EditForm extends React.Component {
                           value={this.state.programId}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecione la program</option>
+                          <option value="" disabled>Selecione el programa</option>
                           {programsOpt()}
                         </select>
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadore</label>
+                      {
+                        /* #change
+                        description: delete field "educadores" (instructors)
+                      */
+                      }
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educador</label>
                       <div className="col-md-9">
                         <select
                           name="instructorId"
@@ -275,7 +302,7 @@ class EditForm extends React.Component {
                           value={this.state.instructorId}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecione la educadore</option>
+                          <option value="" disabled>Selecione el educador</option>
                           {educatorsOpt()}
                         </select>
                         {errors.instructorId && <span className="help-block text-danger">{errors.instructorId}</span>}
@@ -285,7 +312,7 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                    label='Cancel'
+                                    label='Cancelar'
                                     style={{marginRight: 12}}
                                     onTouchTap={this.handleCancel}
                                     secondary className="btn-w-md"/>

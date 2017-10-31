@@ -5,7 +5,6 @@ class ListItem extends React.Component {
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.id}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.name}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.level}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.description}</td>
@@ -13,13 +12,13 @@ class ListItem extends React.Component {
           <button
             onClick={()=>{this.props.onDelete(this.props.gradeData.id)}}
 
-            type="submit" className="btn btn-primary">Delete</button>
+            type="submit" className="btn btn-primary">Eliminar</button>
           &nbsp;
           &nbsp;
           <button
             onClick={()=>{this.props.onEdit(this.props.gradeData)}}
 
-            type="submit" className="btn btn-primary">Edit</button>
+            type="submit" className="btn btn-primary">Editar</button>
         </td>
       </tr>
     );

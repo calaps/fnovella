@@ -439,6 +439,52 @@ class EditForm extends React.Component {
                       </div>
 
                       <div className="form-group row">
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia
+                        </label>
+                        {
+                          /* #change
+                          description: colony
+                          controller to use: instructor controller
+                          database name: colony
+                        */
+                        }
+                        <div className="col-md-9">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            value={this.state.email}
+                            onChange={this.onChange}
+                            placeholder="eje: Margarita"/>
+                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona
+                        </label>
+                        {
+                          /* #change
+                          description: zone
+                          controller to use: instructor controller
+                          database name: zone
+                        */
+                        }
+                        <div className="col-md-9">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            value={this.state.email}
+                            onChange={this.onChange}
+                            placeholder="eje: Margarita"/>
+                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
                         <label htmlFor="inputEmail3" className="col-md-3 control-label text-success">Comunidad</label>
                         <div className="col-md-9">
                           <select
@@ -529,6 +575,52 @@ class EditForm extends React.Component {
                             {genders}
                           </select>
                           {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa
+                        </label>
+                        {
+                          /* #change
+                          description: Multiselect option populated by programs
+                          controller to use: program_app_user
+                          database name: program_app_user
+                        */
+                        }
+                        <div className="col-md-9">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            value={this.state.email}
+                            onChange={this.onChange}
+                            placeholder="Program list..."/>
+                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                        </div>
+                      </div>
+
+                      <div className="form-group row">
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Código de Cempro
+                        </label>
+                        {
+                          /* #change
+                          description: add field
+                          controller to use: app user controler
+                          database name: cempro_code
+                        */
+                        }
+                        <div className="col-md-9">
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="password"
+                            name="password"
+                            value={this.state.email}
+                            onChange={this.onChange}
+                            placeholder="eje: Margarita"/>
+                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
                         </div>
                       </div>
 

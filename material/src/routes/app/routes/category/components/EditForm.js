@@ -133,6 +133,32 @@ class EditForm extends React.Component {
                           {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
+
+                    <div className="form-group row">
+                      {
+                        /* #change
+                        description: boolean of aditional camps
+                        controller to use: category controller
+                        database name: aditional_field
+                      */
+                      }
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Es categoria de campos adicionales?</label>
+                      <div className="col-md-9">
+                        <select
+                          name="freeCourses"
+                          id="freeCourses"
+                          onChange={this.onChange}
+                          value={this.state.freeCourses}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona...</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
+                        </select>
+                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                      </div>
+                    </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Descripción</label>
                       <div className="col-md-9">

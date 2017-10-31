@@ -260,6 +260,29 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña
+                      </label>
+                      {
+                        /* #change
+                        description: Add fiel password in order to instructor to access the application
+                        controller to use: instructor controller
+                        database name: password
+                      */
+                      }
+                      <div className="col-md-9">
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="password"
+                          name="password"
+                          value={this.state.email}
+                          onChange={this.onChange}
+                          placeholder="****"/>
+                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                      </div>
+                    </div>
+
                     {/*<div className="form-group row" disabled={this.state.isEditing}>
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
                       <div className="col-md-9">
@@ -348,7 +371,6 @@ class EditForm extends React.Component {
                           value={this.state.nacionality}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona el pais</option>
                           {nacionality}
                         </select>
                         {errors.nacionality && <span className="help-block text-danger">{errors.nacionality}</span>}
@@ -386,6 +408,52 @@ class EditForm extends React.Component {
                           {documentType}
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia
+                        </label>
+                      {
+                        /* #change
+                        description: colony
+                        controller to use: instructor controller
+                        database name: colony
+                      */
+                      }
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="password"
+                          name="password"
+                          value={this.state.email}
+                          onChange={this.onChange}
+                          placeholder="eje: Margarita"/>
+                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona
+                      </label>
+                      {
+                        /* #change
+                        description: zone
+                        controller to use: instructor controller
+                        database name: zone
+                      */
+                      }
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="password"
+                          name="password"
+                          value={this.state.email}
+                          onChange={this.onChange}
+                          placeholder="eje: Margarita"/>
+                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
                       </div>
                     </div>
 
@@ -480,6 +548,29 @@ class EditForm extends React.Component {
                           {genders}
                         </select>
                         {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa
+                        </label>
+                      {
+                        /* #change
+                        description: Multiselect option populated by programs
+                        controller to use: program_instructor
+                        database name: program_instructor
+                      */
+                      }
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="password"
+                          name="password"
+                          value={this.state.email}
+                          onChange={this.onChange}
+                          placeholder="Program list..."/>
+                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
                       </div>
                     </div>
 

@@ -98,7 +98,7 @@ class Pagination extends React.Component {
               onClick={this.getPrev}
               type="submit" className="btn btn-primary"
             >
-              Prev
+              Anterior
             </button>
 
           </li>
@@ -108,7 +108,7 @@ class Pagination extends React.Component {
               onClick={this.getNext}
               type="submit" className="btn btn-primary"
             >
-              Next
+              Siguiente
             </button>
           </li>
         </ul>

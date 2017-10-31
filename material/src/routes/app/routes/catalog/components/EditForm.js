@@ -144,7 +144,7 @@ class EditForm extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de campo</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de del valor</label>
                       <div className="col-md-9">
                         <input
                           type="text"

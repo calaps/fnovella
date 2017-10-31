@@ -7,7 +7,11 @@ export var data_types = {
   "Fecha con tiempo": "datetime-local",
   "Email": "email",
   "Rango": "range",
-  "Telefono": "tel"
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
 };
 
 export var privileges = {
@@ -28,7 +32,7 @@ export var gender = {
 };
 
 export var countries = {
-  "nombre": "name",
+  "Guatemala": "Guatemala",
   "Afganistán": "Afghanistan",
   "Albania": "Albania",
   "Alemania": "Germany",
@@ -109,7 +113,6 @@ export var countries = {
   "Groenlandia": "Greenland",
   "Guadalupe": "Guadeloupe",
   "Guam": "Guam",
-  "Guatemala": "Guatemala",
   "Guayana Francesa": "French Guiana",
   "Guernsey": "Guernsey",
   "Guinea": "Guinea",

@@ -13,13 +13,13 @@ class ListItem extends React.Component {
               <button
                 onClick={()=>{this.props.onDelete(this.props.programData.id)}}
 
-                type="submit" className="btn btn-primary">Delete</button>
+                type="submit" className="btn btn-primary">Eliminar</button>
            &nbsp;
               &nbsp;
               <button
                 onClick={()=>{this.props.onEdit(this.props.programData)}}
 
-                type="submit" className="btn btn-primary">Edit</button>
+                type="submit" className="btn btn-primary">Editar</button>
             </td>
           </tr>
           );

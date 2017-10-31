@@ -3,12 +3,12 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { gradeValidator } from "../../../../../actions/formValidations"; //form validations
+import { workshopValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  gradesAddRequest,
-  gradesUpdateRequest,
+  workshopsAddRequest,
+  workshopsUpdateRequest,
   sedesGetRequest,
   educatorsGetRequest,
   programGetRequest
@@ -20,14 +20,13 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: (this.props.gradeData.id) ? true : false,
-      id: this.props.gradeData.id || '',
-      name: this.props.gradeData.name || '',
-      level: this.props.gradeData.level || '',
-      description: this.props.gradeData.description || '',
-      location: this.props.gradeData.location || '',
-      programId: this.props.gradeData.programId || '',
-      instructorId: this.props.gradeData.instructorId || '',
+      isEditing: (this.props.workshopData.id) ? true : false,
+      id: this.props.workshopData.id || '',
+      name: this.props.workshopData.name || '',
+      description: this.props.workshopData.description || '',
+      location: this.props.workshopData.location || '',
+      programId: this.props.workshopData.programId || '',
+      instructorId: this.props.workshopData.instructorId || '',
       errors: {},
       isLoading: false
     };
@@ -44,11 +43,10 @@ class EditForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.gradeData !== nextProps.gradeData) {
+    if (this.props.workshopData !== nextProps.workshopData) {
       this.setState({
         isEditing: false,
         name: '',
-        level: '',
         description: '',
         location: '',
         programId: '',
@@ -60,16 +58,12 @@ class EditForm extends React.Component {
 
   isValid(){
     //local validation
-    const { errors, isValid } = gradeValidator(this.state);
+    const { errors, isValid } = workshopValidator(this.state);
     if(!isValid){
       this.setState({ errors });
       return false;
     }
     return true;
-  }
-
-  handleCancel() {
-    self.props.changeView('VIEW_ELEMENT')
   }
 
   onSubmit(e) {
@@ -80,7 +74,6 @@ class EditForm extends React.Component {
 
       let data = {
         name: this.state.name,
-        level: this.state.level,
         description: this.state.description,
         location: this.state.location,
         programId: this.state.programId,
@@ -91,7 +84,7 @@ class EditForm extends React.Component {
       }
       // ON SUCCESS API
       this.state.isEditing ?
-        this.props.actions.gradesUpdateRequest(data).then(
+        this.props.actions.workshopsUpdateRequest(data).then(
           (response) => {
             //Save the default object as a provider
             if (response) {
@@ -104,7 +97,7 @@ class EditForm extends React.Component {
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
         :
-        this.props.actions.gradesAddRequest(data).then(
+        this.props.actions.workshopsAddRequest(data).then(
           (response) => {
             //Save the default object as a provider
             if (response) {
@@ -121,6 +114,10 @@ class EditForm extends React.Component {
 
     }
 
+  }
+
+  handleCancel() {
+    self.props.changeView('VIEW_ELEMENT')
   }
 
   onChange(e) {
@@ -167,7 +164,7 @@ class EditForm extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de grado</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de campo</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -176,12 +173,12 @@ class EditForm extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: Primero"/>
+                          placeholder="eje: altura"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Descripción</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Description</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -190,42 +187,12 @@ class EditForm extends React.Component {
                           name="description"
                           value={this.state.description}
                           onChange={this.onChange}
-                          placeholder="eje: Descripción del grado"/>
+                          placeholder="eje: about this workshop"/>
                         {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
-                    {
-                      /* #change
-                      description: level should be a list of catalogs of category "nivel" with the catalog options (not input)
-                      controller to use: catalog
-                      database name: catalog filtered options by category "nivel"
-                    */
-                    }
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Nivel</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="level"
-                          name="level"
-                          value={this.state.level}
-                          onChange={this.onChange}
-                          placeholder="eje: Primaria"/>
-                        {errors.level && <span className="help-block text-danger">{errors.level}</span>}
-                      </div>
-                    </div>
-                    {
-                      /* #change
-                      description: The options populated with locations is correct.
-                                   However should be only the locations related to the program
-                                   in the new controller "program_location" relation
-                      controller to use: program_location
-                      database name: program_location
-                    */
-                    }
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ubicación</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
                       <div className="col-md-9">
                         <select
                           name="location"
@@ -240,16 +207,8 @@ class EditForm extends React.Component {
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
-                    {
-                      /* #change
-                      description: However should be only the locations related to the program
-                                    in the new controller "program_location" relation.ds
-                      controller to use: program_location
-                      database name: program_location
-                    */
-                    }
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Program</label>
                       <div className="col-md-9">
                         <select
                           name="programId"
@@ -264,13 +223,8 @@ class EditForm extends React.Component {
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
                     </div>
-                    {
-                      /* #change
-                      description: delete field "educadores" (instructors)
-                    */
-                    }
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadores</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadore</label>
                       <div className="col-md-9">
                         <select
                           name="instructorId"
@@ -304,20 +258,6 @@ class EditForm extends React.Component {
 
             </div>
 
-            <div className="col-xl-3 col-lg-6">
-              <div className="card bg-color-white">
-                <div className="card-content">
-                  <span className="card-title">Uso de catalogos</span>
-                  <p className="text-justify">El siguiente foromulario hace uso de catalogos, para agregar nuevos catalogos deveras editarlos
-                    previamente en la sección de la página.</p>
-                  <p>Categoria: nivel</p>
-                </div>
-                <div className="card-action">
-                  <a href="#/app/catalog">Ver catalogos</a>
-                </div>
-              </div>
-            </div>
-
           </div>
 
         </div>
@@ -342,8 +282,8 @@ function mapDispatchToProps(dispatch) {
       sedesGetRequest,
       programGetRequest,
       educatorsGetRequest,
-      gradesAddRequest,
-      gradesUpdateRequest,
+      workshopsAddRequest,
+      workshopsUpdateRequest,
     }, dispatch)
   };
 }
@@ -352,3 +292,4 @@ module.exports = connect(
   mapStateToProps,
   mapDispatchToProps
 )(EditForm);
+

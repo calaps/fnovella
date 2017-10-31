@@ -2,15 +2,12 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
-const optionsName = "Usuario";
+
+const optionsName = "Categoria";
 
 class MainOptions extends React.Component {
   constructor(props) {
     super(props);
-  }
-
-  isValid(){
-    return true;
   }
   render() {
     return(
@@ -22,7 +19,7 @@ class MainOptions extends React.Component {
               <div className="box-body">
                 <div className="icon-box ibox-plain ibox-center">
                   <div className="ibox-icon">
-                    <a href="javascript:;"><i className="material-icons">perm_identity</i></a>
+                    <a href="javascript:;"><i className="material-icons">group_work</i></a>
                   </div>
                   <h5>{optionsName}s</h5>
                 </div>
@@ -37,7 +34,7 @@ class MainOptions extends React.Component {
                     <div className="box-body">
                       <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="javascript:"><i className="material-icons">remove_red_eye</i></a>
+                          <a><i className="material-icons">remove_red_eye</i></a>
                         </div>
                         <h6>Visualizar {optionsName}</h6>
                       </div>
@@ -48,9 +45,7 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div
-                        onClick={() => this.props.changeView("ADD_ELEMENT") }
-                        className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("ADD_ELEMENT") } className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
                           <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
@@ -65,9 +60,9 @@ class MainOptions extends React.Component {
                     <div className="box-body">
                       <div className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="#/app/catalog"><i className="material-icons">dashboard</i></a>
+                          <a href="#/app/program"><i className="material-icons">dashboard</i></a>
                         </div>
-                        <h6>Catalogos</h6>
+                        <h6>Programas</h6>
                       </div>
                     </div>
                   </div>
@@ -86,40 +81,40 @@ class MainOptions extends React.Component {
 
 
 
-class Users extends React.Component {
+class Division extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       active: "VIEW_ELEMENT",
-      userData: {},
+      workshopData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
-    this.onEditUser=this.onEditUser.bind(this);
+    this.onEditProgram = this.onEditProgram.bind(this);
   }
 
-  changeView(data,reset=true){
-    if(reset){
-      this.setState({userData: {}})
+  onEditProgram(workshopData) {
+    this.setState({workshopData});
+    this.changeView('ADD_ELEMENT', false);
+  }
+
+  changeView(data, reset = true) {
+    if (reset) {
+      this.setState({workshopData: {}})
     }
-    this.setState({ active: data });
+    this.setState({active: data});
   }
-
-onEditUser (userData){
-  this.setState({userData})
-
-  this.changeView('ADD_ELEMENT',false);
-}
 
   activeView() {
-    switch(this.state.active) {
+    switch (this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm changeView={this.changeView} userData={this.state.userData} />;
+        return <EditForm changeView={this.changeView} workshopData={this.state.workshopData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditUser} />;
+        return <ListElements onEdit={this.onEditProgram}/>;
       default:
-        return null ;
+        return null;
     }
   }
+
   render() {
       return (
         <div className="container-fluid no-breadcrumbs page-dashboard">
@@ -135,4 +130,4 @@ onEditUser (userData){
   }
 }
 
-module.exports = Users;
+module.exports = Division;

@@ -192,6 +192,15 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
+                      {
+                        /* #change
+                        description: The options populated with locations is correct.
+                                     However should be only the locations related to the program
+                                     in the new controller "program_location" relation
+                        controller to use: program_location
+                        database name: program_location
+                      */
+                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
                       <div className="col-md-9">
                         <select

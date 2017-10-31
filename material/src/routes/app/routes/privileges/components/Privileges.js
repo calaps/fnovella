@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Privilegios";
+const optionsName = "Privilegio";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -32,11 +32,11 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("ADD_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="javascript:;"><i className="material-icons">add</i></a>
+                          <a href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
                         </div>
-                        <h6>Agregar {optionsName}</h6>
+                        <h6>Visualizar {optionsName}</h6>
                       </div>
                     </div>
                   </div>
@@ -45,11 +45,11 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("ADD_ELEMENT") } className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a><i className="material-icons">mode_edit</i></a>
+                          <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
-                        <h6>Editar {optionsName}</h6>
+                        <h6>Agregar {optionsName}</h6>
                       </div>
                     </div>
                   </div>

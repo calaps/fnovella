@@ -426,8 +426,8 @@ class EditForm extends React.Component {
                     {
                       /* #change
                       description: If the program uses "grade, courses, workshop or category"
-                      controller to use: program contoller
-                      database name: implementation_location
+                      controller to use: program controller
+                      database name: clasification
                     */
                     }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Clasificación</label>
@@ -443,7 +443,7 @@ class EditForm extends React.Component {
                           <option value="grade" >Grado</option>
                           <option value="workshop" >Taller</option>
                           <option value="course" >Curso</option>
-                          <option value="category" >Categorias</option>
+                          <option value="division" >Categorias</option>
                         </select>
                         {errors.clasification && <span className="help-block text-danger">{errors.clasification}</span>}
                       </div>

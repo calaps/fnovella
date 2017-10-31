@@ -93,28 +93,33 @@ class SidebarContent extends React.Component {
       <ul className="nav" ref={(c) => { this.nav = c; }}>
         <li className="nav-header"><span>Menu de Programa: </span></li>
         <li><FlatButton href="#/app/dashboard"><i className="nav-icon material-icons">home</i><span className="nav-text">Panel de control</span></FlatButton></li>
-        <li><FlatButton href="#/app/program"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programas</span></FlatButton></li>
+        <li><FlatButton href="#/app/program"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programas</span></FlatButton>
+        </li>
+        <li><FlatButton href="#/app/clasification"><i className="nav-icon material-icons">grade</i><span className="nav-text">Clasificaciones</span></FlatButton>
+          <ul>
+            <li><FlatButton className="prepend-icon" href="#/app/grade"><span>Grados</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/course"><span>Cursos</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/workshop"><span>Talleres</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/division"><span>Categorias</span></FlatButton></li>
+          </ul>
+        </li>
 
         <li>
           <FlatButton href="#/app/activation"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activaciones</span></FlatButton>
         </li>
         <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
         <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>
-        <li><FlatButton href="#/app/course"><i className="nav-icon material-icons">golf_course</i><span className="nav-text">Courses</span></FlatButton></li>
-        <li><FlatButton href="#/app/grade"><i className="nav-icon material-icons">grade</i><span className="nav-text">Grades</span></FlatButton></li>
-        <li><FlatButton href="#/app/workshop"><i className="nav-icon material-icons">group_work</i><span className="nav-text">Workshops</span></FlatButton></li>
 
         <li>
           <FlatButton href="#/app/ecommerce"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Products</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Products (Honrizonal)</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Invoice</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Resultado</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Desempeño</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Satisfacción</span></FlatButton></li>
           </ul>
         </li>
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">remove_red_eye</i><span className="nav-text">Visualización</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Programas</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Educadores</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Alumnos</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Catalogos</span></FlatButton></li>

@@ -16,6 +16,7 @@ module.exports = {
         require('./routes/locations'), // Calaps App Students
         require('./routes/grade'), // Calaps App Students
         require('./routes/workshop'), // Calaps App Students
+        require('./routes/division'), // Calaps App Students
         require('./routes/activation'), // Calaps App Students
         require('./routes/category'), // Calaps App Category
         require('./routes/course'), // Calaps App Students

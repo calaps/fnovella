@@ -28,14 +28,13 @@ class ListElements extends React.Component {
   }
 
   render() {
-    let i =0;
+    let i =1;
     return (
       <article className="article">
         <h2 className="article-title">Lista de usuarios</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
@@ -43,7 +42,6 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Id</th>
                       <th className="mdl-data-table__cell--non-numeric">FirstName</th>
                       <th className="mdl-data-table__cell--non-numeric">LastName</th>
                       <th className="mdl-data-table__cell--non-numeric">Email</th>
