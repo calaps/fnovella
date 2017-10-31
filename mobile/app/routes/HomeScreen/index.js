@@ -5,7 +5,7 @@ import { DrawerNavigator,StackNavigator } from "react-navigation";
 // import MainScreenNavigator from "../ChatScreen/index.js";
 import Profile from "../ProfileScreen/MyProfile.js";
 import SideBar from "../../components/SideBar";
-import Login from '../auth/Login';
+import Login from '../auth/login';
 import AppScreen from '../../layouts/AppScreen/AppScreen';
 
 const HomeScreenRouter = DrawerNavigator(

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {StackNavigator, DrawerNavigator} from 'react-navigation';
 import {View, AsyncStorage} from 'react-native';
-import Login from './../../routes/auth/Login';
+import Login from '../../routes/auth/login';
 import Spinner from "../../components/Spinner";
 import Loader from "../../components/loader/loader";
-import ResetPassword from './../../routes/auth/ResetPassword.js';
+import ResetPassword from '../../routes/auth/ResetPassword.js';
 import HomeScreen from '../../routes/HomeScreen'
-import Profile from './../../routes/ProfileScreen/index';
+import Profile from '../../routes/ProfileScreen/index';
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';

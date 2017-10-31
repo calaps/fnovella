@@ -67,6 +67,7 @@ class Login extends React.Component {
           this.props.navigation.dispatch(resetAction);
         }
       }, (error) => {
+        alert(error.errors[0]);
         console.log("An Error occur with the Rest API", error);
         // self.setState({ errors: { ...this.state.errors, apiErrors: error.error },
         // isLoading: false });
