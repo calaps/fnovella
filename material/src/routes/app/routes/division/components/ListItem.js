@@ -10,15 +10,27 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.workshopData.description}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
           <button
+            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
+
+            type="submit" className="btn btn-primary">Visualizar jornadas</button>
+          &nbsp;
+          &nbsp;
+          <button
+            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
+
+            type="submit" className="btn btn-primary">Crear jornada</button>
+          &nbsp;
+          &nbsp;
+          <button
             onClick={()=>{this.props.onDelete(this.props.workshopData.id)}}
 
-            type="submit" className="btn btn-primary">Delete</button>
+            type="submit" className="btn btn-primary">Eliminar</button>
           &nbsp;
           &nbsp;
           <button
             onClick={()=>{this.props.onEdit(this.props.workshopData)}}
 
-            type="submit" className="btn btn-primary">Edit</button>
+            type="submit" className="btn btn-primary">Editar</button>
         </td>
       </tr>
     );

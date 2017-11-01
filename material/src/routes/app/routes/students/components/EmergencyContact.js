@@ -235,6 +235,32 @@ class EmergencyContact extends React.Component {
                       </div>
                     </div>
 
+                    {
+                      /* #change
+                      description: Add new field
+                      controller to use: paticipant_contact
+                      database name: paticipant_contact
+                    */
+                    }
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Autoriza tomar foto?</label>
+                      <div className="col-md-9">
+                        <select
+                          name="provider"
+                          id="provider"
+                          onChange={this.onChange}
+                          value={this.state.provider}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona...</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
+                        </select>
+                        {errors.provider && <span className="help-block text-danger">{errors.provider}</span>}
+                      </div>
+                    </div>
+
                     <FlatButton
                       label="Back"
                       disabled={false}

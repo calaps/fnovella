@@ -9,6 +9,18 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.courseData.description}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
           <button
+            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
+
+            type="submit" className="btn btn-primary">visualizar grupo/sección</button>
+          &nbsp;
+          &nbsp;
+          <button
+            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
+
+            type="submit" className="btn btn-primary">Crear sección/Grupo</button>
+          &nbsp;
+          &nbsp;
+          <button
             onClick={()=>{this.props.onDelete(this.props.courseData.id)}}
 
             type="submit" className="btn btn-primary">Eliminar</button>

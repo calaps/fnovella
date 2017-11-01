@@ -34,7 +34,6 @@ class ListElements extends React.Component {
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
@@ -42,12 +41,11 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">id</th>
-                      <th className="mdl-data-table__cell--non-numeric">Name</th>
+                      <th className="mdl-data-table__cell--non-numeric">Nombre</th>
                       <th className="mdl-data-table__cell--non-numeric">Email</th>
-                      <th className="mdl-data-table__cell--non-numeric">Gender</th>
-                      <th className="mdl-data-table__cell--non-numeric">Department</th>
-                      <th className="mdl-data-table__cell--non-numeric">Cellphone</th>
+                      <th className="mdl-data-table__cell--non-numeric">Genero</th>
+                      <th className="mdl-data-table__cell--non-numeric">Departamento</th>
+                      <th className="mdl-data-table__cell--non-numeric">Celular</th>
                     </tr>
                     </thead>
                     <tbody>

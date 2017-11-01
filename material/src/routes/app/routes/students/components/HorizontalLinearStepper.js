@@ -182,20 +182,20 @@ class HorizontalLinearStepper extends React.Component {
 
     return (
       <article className="article">
-        <h2 className="article-title">Add A Student</h2>
+        <h2 className="article-title">Agreegar nuevo participante</h2>
         <div className="box box-default">
           <div className="box-body padding-xl">
 
             <div style={{width: '100%', maxWidth: 900, margin: 'auto'}}>
               <Stepper activeStep={stepIndex}>
                 <Step>
-                  <StepLabel>Enter student's details:</StepLabel>
+                  <StepLabel>Ingresoar información del estudiante:</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Enter student's emergency details:</StepLabel>
+                  <StepLabel>Ingresar información de contacto de emergencia:</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Submit</StepLabel>
+                  <StepLabel>Terminar</StepLabel>
                 </Step>
               </Stepper>
               <div style={contentStyle}>
@@ -208,7 +208,7 @@ class HorizontalLinearStepper extends React.Component {
                         this.setState({stepIndex: 0, finished: false});
                       }}
                     >
-                      Activar otro programa
+                     Crear alumno
                     </a> El programa ha sido activado correctamente para el inicio del ciclo escolar.
                   </p>
                 ) : (
@@ -219,12 +219,12 @@ class HorizontalLinearStepper extends React.Component {
                         stepIndex === 2 ?
                           <div style={{marginTop: 12}}>
                             <FlatButton
-                              label='Back'
+                              label='Atras'
                               onTouchTap={this.handlePrev}
                               style={{marginRight: 12}}
                             />
                             <RaisedButton
-                              label='Activate'
+                              label='Crear'
                               primary
                               onTouchTap={this.handleNext}
                             />
