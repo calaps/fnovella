@@ -55,6 +55,7 @@ class ListElements extends React.Component {
                                          number={i++}
                                          onDelete={this.onDeleteButton}
                                          onEdit={this.props.onEdit}
+                                         onEmergencyView={this.props.onEmergencyView}
                                          participantData={participant}/>
                       }):null
 

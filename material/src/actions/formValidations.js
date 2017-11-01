@@ -134,6 +134,18 @@ export function programValidator(data){
       errors.name = invalidData;
     }
   }
+  if(Validator.isEmpty(data.category)) {
+    errors.category = required;
+    if(!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)){
+      errors.category = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.genderAudience)) {
+    errors.genderAudience = required;
+    if(!Validator.isEmpty(data.genderAudience) && !Validator.isAlphanumeric(data.genderAudience)){
+      errors.genderAudience = invalidData;
+    }
+  }
 
   //IsValid is just a boolean who return is errors is empty
   return {
@@ -498,7 +510,7 @@ export function tutorValidator(data){
 }
 
 export function userValidator(data){
-  console.log(data);
+  // console.log(data);
 
   let errors = {}; //errors star with an empty object
 
@@ -625,6 +637,23 @@ export function categoriesValidator(data){
     if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
       errors.name = invalidData;
     }
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}
+
+export function forgotPasswordValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.email)) {
+    errors.email = required;
   }
 
   //IsValid is just a boolean who return is errors is empty

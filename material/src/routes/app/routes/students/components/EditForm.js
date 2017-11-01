@@ -8,7 +8,8 @@ import FlatButton from 'material-ui/FlatButton';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  participantAddRequest
+  participantAddRequest,
+  catalogsGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -47,7 +48,11 @@ class EditForm extends React.Component {
     self = this;
   }
 
-  _handleCancel(){
+  componentWillMount() {
+    this.props.actions.catalogsGetRequest();
+  }
+
+  _handleCancel() {
     this.props.handleCancel();
   }
 
@@ -110,7 +115,33 @@ class EditForm extends React.Component {
     const nacionality = map(countries, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-
+    //Department options
+    let departmentsOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 2) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Municipality options
+    let municipalitiesOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 1) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Community options
+    let communitiesOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 3) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -271,7 +302,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el departamento</option>
-                          {documentType}
+                          {departmentsOpt()}
                         </select>
                         {errors.department && <span className="help-block text-danger">{errors.department}</span>}
                       </div>
@@ -288,7 +319,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona la municipalidad</option>
-                          {documentType}
+                          {municipalitiesOpt()}
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                       </div>
@@ -351,7 +382,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el tipo de documento</option>
-                          {documentType}
+                          {communitiesOpt()}
                         </select>
                         {errors.community && <span className="help-block text-danger">{errors.community}</span>}
                       </div>
@@ -463,6 +494,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
+    catalogs: state.catalogs
   }
 }
 
@@ -471,7 +503,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       //    signUpRequest
-      participantAddRequest
+      participantAddRequest,
+      catalogsGetRequest
     }, dispatch)
   };
 }

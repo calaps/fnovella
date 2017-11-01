@@ -13,6 +13,12 @@ class ListItem extends React.Component {
 
         <td className="mdl-data-table__cell--non-numeric" >
           <button
+            onClick={()=>{this.props.onEmergencyView(this.props.participantData.id)}}
+
+            type="submit" className="btn btn-primary">Emergency contact</button>
+          &nbsp;
+          &nbsp;
+          <button
             onClick={()=>{this.props.onDelete(this.props.participantData.id)}}
 
             type="submit" className="btn btn-primary">Eliminar</button>

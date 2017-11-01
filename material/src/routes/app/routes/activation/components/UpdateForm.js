@@ -30,6 +30,18 @@ class UpdateForm extends React.Component {
       temporality: this.props.activationData.temporality || '',
       year: this.props.activationData.year || '',
       id: this.props.activationData.id || '',
+      nsJan: this.props.activationData.nsJan || 0,
+      nsFeb: this.props.activationData.nsFeb || 0,
+      nsMar: this.props.activationData.nsMar || 0,
+      nsApr: this.props.activationData.nsApr || 0,
+      nsMay: this.props.activationData.nsMay || 0,
+      nsJun: this.props.activationData.nsJun || 0,
+      nsJul: this.props.activationData.nsJul || 0,
+      nsAug: this.props.activationData.nsAug || 0,
+      nsSep: this.props.activationData.nsSep || 0,
+      nsOct: this.props.activationData.nsOct || 0,
+      nsNov: this.props.activationData.nsNov || 0,
+      nsDec: this.props.activationData.nsDec || 0,
       errors: {},
       isLoading: false
     };
@@ -58,6 +70,18 @@ class UpdateForm extends React.Component {
         activationStatus: true,
         freeCourses: true,
         id: '',
+        nsJan: '',
+        nsFeb: '',
+        nsMar: '',
+        nsApr: '',
+        nsMay: '',
+        nsJun: '',
+        nsJul: '',
+        nsAug: '',
+        nsSep: '',
+        nsOct: '',
+        nsNov: '',
+        nsDec: '',
       });
     }
   }
@@ -95,13 +119,25 @@ class UpdateForm extends React.Component {
         satisfactionStructure: this.state.satisfactionStructure,
         temporality: this.state.temporality,
         year: this.state.year,
-        id: this.state.id
+        id: this.state.id,
+        nsJan: this.state.nsJan || 0,
+        nsFeb: this.state.nsFeb || 0,
+        nsMar: this.state.nsMar || 0,
+        nsApr: this.state.nsApr || 0,
+        nsMay: this.state.nsMay || 0,
+        nsJun: this.state.nsJun || 0,
+        nsJul: this.state.nsJul || 0,
+        nsAug: this.state.nsAug || 0,
+        nsSep: this.state.nsSep || 0,
+        nsOct: this.state.nsOct || 0,
+        nsNov: this.state.nsNov || 0,
+        nsDec: this.state.nsDec || 0,
       };
       this.props.actions.programActivationsUpdateRequest(data).then(
         (response) => {
           //Save the default object as a provider
           if (response) {
-            self.props.changeView('VIEW_ELEMENT');
+            this.props.changeView('VIEW_ELEMENT');
           }
         },
         (error) => {
@@ -123,9 +159,9 @@ class UpdateForm extends React.Component {
     const {errors} = this.state;
 
     //Sedes || location options
-    let sedesOpt  = () => {
-      let {sedes} = this.props;
-      return sedes.map((sede)=>{
+    let sedesOpt = () => {
+      let sedes = this.props.sedes.content || [];
+      return sedes.map((sede) => {
         return <option key={sede.id} value={sede.id}>{sede.name}</option>
       });
     };
@@ -349,17 +385,209 @@ class UpdateForm extends React.Component {
                       </div>
                     </div>
 
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Enero:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsJan"
+                          name="nsJan"
+                          value={this.state.nsJan}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsJan &&
+                        <span className="help-block text-danger">{errors.nsJan}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Febrero:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsFeb"
+                          name="nsFeb"
+                          value={this.state.nsFeb}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsFeb &&
+                        <span className="help-block text-danger">{errors.nsFeb}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Marzo:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsMar"
+                          name="nsMar"
+                          value={this.state.nsMar}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsMar &&
+                        <span className="help-block text-danger">{errors.nsMar}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Abril:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsApr"
+                          name="nsApr"
+                          value={this.state.nsApr}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsApr &&
+                        <span className="help-block text-danger">{errors.nsApr}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Mayo:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsMay"
+                          name="nsMay"
+                          value={this.state.nsMay}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsMay &&
+                        <span className="help-block text-danger">{errors.nsMay}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Junio:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsJun"
+                          name="nsJun"
+                          value={this.state.nsJun}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsJun &&
+                        <span className="help-block text-danger">{errors.nsJun}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Julio:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsJul"
+                          name="nsJul"
+                          value={this.state.nsJul}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsJul &&
+                        <span className="help-block text-danger">{errors.nsJul}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Agosto:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsAug"
+                          name="nsAug"
+                          value={this.state.nsAug}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsAug &&
+                        <span className="help-block text-danger">{errors.nsAug}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Septiembre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsSep"
+                          name="nsSep"
+                          value={this.state.nsSep}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsSep &&
+                        <span className="help-block text-danger">{errors.nsSep}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Octubre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsOct"
+                          name="nsOct"
+                          value={this.state.nsOct}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsOct &&
+                        <span className="help-block text-danger">{errors.nsOct}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Noviembre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsNov"
+                          name="nsNov"
+                          value={this.state.nsNov}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsNov &&
+                        <span className="help-block text-danger">{errors.nsNov}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Diciembre:</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="nsDec"
+                          name="nsDec"
+                          value={this.state.nsDec}
+                          onChange={this.onChange}
+                          placeholder="eje: 12"/>
+                        {errors.nsDec &&
+                        <span className="help-block text-danger">{errors.nsDec}</span>}
+                      </div>
+                    </div>
+
                     <div style={{marginTop: 12}}>
                       <FlatButton disabled={this.state.isLoading}
                                   label='Cancel'
                                   style={{marginRight: 12}}
-                                  onCancel={this.props.onCancel}
+                                  onTouchTap={this.props.onCancel}
                                   secondary className="btn-w-md"/>
                       <RaisedButton
                         type='submit'
                         disabled={this.state.isLoading}
                         label='Update'
-                        primary
+                        secondary
                       />
                     </div>
                   </form>

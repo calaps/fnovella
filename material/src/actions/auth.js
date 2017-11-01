@@ -12,7 +12,9 @@ import {
   SET_USER_TYPE,
   LOG_OUT,
   LOG_OUT_SUCCESS,
-  LOG_OUT_FAIL
+  LOG_OUT_FAIL,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAIL
 } from './../constants/ActionTypes';
 
 export function loginRequest(data) {
@@ -221,7 +223,6 @@ export function logOut(){
   }
 }
 
-
 export function setUserType(isOwner){
   return function (dispatch) {
     dispatch({
@@ -230,5 +231,32 @@ export function setUserType(isOwner){
         isOwner
       }
     });
+  }
+}
+
+export function forgotPasswordRequest(data){
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      HTTP('post', '/user/forgot_password', data)
+        .then(function (response) {
+          if(response.data.errors === null){
+            dispatch({
+              type: FORGOT_PASSWORD_SUCCESS,
+              data: response.data
+            });
+            resolve(response.data);
+          }
+          else{
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: FORGOT_PASSWORD_FAIL,
+            error: error
+          });
+          reject(error);
+        })
+    }})
   }
 }
