@@ -60,6 +60,10 @@ public class AppUser {
 	@Length(max = 10)
 	private String gender;
 	private Date bornDate;
+	@Length(max = 50)
+	private String colony;
+	@Length(max = 50)
+	private String zone;
 	
 	public Integer getId() {
 		return id;
@@ -237,10 +241,35 @@ public class AppUser {
 		this.bornDate = bornDate;
 	}
 
+	public Integer getPhone() {
+		return phone;
+	}
+
+	public void setPhone(Integer phone) {
+		this.phone = phone;
+	}
+
+	public String getColony() {
+		return colony;
+	}
+
+	public void setColony(String colony) {
+		this.colony = colony;
+	}
+
+	public String getZone() {
+		return zone;
+	}
+
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+
 	public AppUser(String firstName, String secondName, String firstLastName, String secondLastName, Integer privilege,
 			String documentType, String documentValue, String nationality, String department, String profession,
-			String address, String email, String password, String municipality, String comunity, Integer phon,
-			Integer cellphone, String cemproCode, String appCode, String gender, Date bornDate) {
+			String address, String email, String password, String municipality, String comunity, Integer phone,
+			Integer cellphone, String cemproCode, String appCode, String gender, Date bornDate, String colony,
+			String zone) {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
@@ -257,12 +286,14 @@ public class AppUser {
 		this.password = password;
 		this.municipality = municipality;
 		this.comunity = comunity;
-		this.phone = phon;
+		this.phone = phone;
 		this.cellphone = cellphone;
 		this.cemproCode = cemproCode;
 		this.appCode = appCode;
 		this.gender = gender;
 		this.bornDate = bornDate;
+		this.colony = colony;
+		this.zone = zone;
 	}
 
 	public AppUser() {
@@ -307,6 +338,10 @@ public class AppUser {
 			errors.add("App Code is required");
 		if (!APIUtility.isNotNullOrEmpty(this.gender))
 			errors.add("Gender is required");
+		if (!APIUtility.isNotNullOrEmpty(this.colony))
+			errors.add("Colony is required");
+		if (!APIUtility.isNotNullOrEmpty(this.zone))
+			errors.add("Zone is required");
 		return errors;
 	}
 	
@@ -347,5 +382,9 @@ public class AppUser {
 			this.appCode= appUser.appCode;
 		if (APIUtility.isNotNullOrEmpty(appUser.gender))
 			this.gender = appUser.gender;
+		if (APIUtility.isNotNullOrEmpty(appUser.colony))
+			this.colony = appUser.colony;
+		if (APIUtility.isNotNullOrEmpty(appUser.zone))
+			this.zone = appUser.zone;
 	}
 }

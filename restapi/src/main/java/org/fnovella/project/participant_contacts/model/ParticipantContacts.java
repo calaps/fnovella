@@ -35,6 +35,7 @@ public class ParticipantContacts {
 	@Length(max = 100)
 	private String address;
 	private Integer participantId;
+	private boolean photo;
 	public Integer getId() {
 		return id;
 	}
@@ -107,9 +108,15 @@ public class ParticipantContacts {
 	public void setParticipantId(Integer participantId) {
 		this.participantId = participantId;
 	}
+	public boolean isPhoto() {
+		return photo;
+	}
+	public void setPhoto(boolean photo) {
+		this.photo = photo;
+	}
 	public ParticipantContacts(String firstName, String secondName, String firstLastname, String secondLastName,
 			String documentType, String documentValue, Integer tellphone, Integer cellphone, String email,
-			String address, Integer participantId) {
+			String address, Integer participantId, boolean photo) {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
@@ -122,6 +129,7 @@ public class ParticipantContacts {
 		this.email = email;
 		this.address = address;
 		this.participantId = participantId;
+		this.photo = photo;
 	}
 	public ParticipantContacts() {
 		super();
@@ -152,5 +160,6 @@ public class ParticipantContacts {
 		if (APIUtility.isNotNullOrEmpty(participantContacts.email)) this.email = participantContacts.email;
 		if (APIUtility.isNotNullOrEmpty(participantContacts.address)) this.address = participantContacts.address;
 		if (participantContacts.participantId != null && participantContacts.participantId > 0) this.participantId = participantContacts.participantId;
+		this.photo = participantContacts.photo;
 	}
 }

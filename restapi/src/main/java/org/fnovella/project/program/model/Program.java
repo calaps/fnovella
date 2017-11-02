@@ -18,7 +18,8 @@ public class Program {
 	private Integer id;
 	@Length(max=50)
 	private String name;
-	private boolean type;
+	@Length(max=50)
+	private String type;
 	@Length(max=50)
 	private String audience;
 	@Length(max=50)
@@ -30,6 +31,22 @@ public class Program {
 	private boolean activationStatus;
 	@Length(max=50)
 	private String genderAudience;
+	@Length(max=10)
+	private String gender;
+	private Integer category;
+	private Integer audienceMin;
+	private Integer audienceMax;
+	@Length(max=50)
+	private String implementationLocation;
+	private Integer responsable;
+	@Length(max=50)
+	private String evaluationType;
+	private boolean evaluationPerformmance;
+	private Integer monthsTotal;
+	private Integer evaluationPeriod;
+	private boolean indicatorsEvaluation;
+	private boolean indicatorsPerformmance;
+	private boolean indicatorsSatisfaction;
 	public Integer getId() {
 		return id;
 	}
@@ -42,10 +59,10 @@ public class Program {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public boolean getType() {
+	public String getType() {
 		return type;
 	}
-	public void setType(boolean type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	public String getAudience() {
@@ -90,8 +107,90 @@ public class Program {
 	public void setGenderAudience(String genderAudience) {
 		this.genderAudience = genderAudience;
 	}
-	public Program(String name, boolean type, String audience, String description, boolean provider,
-			String clasification, boolean freeCourses, boolean activationStatus, String genderAudience) {
+	public Integer getCategory() {
+		return category;
+	}
+	public void setCategory(Integer category) {
+		this.category = category;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public Integer getAudienceMin() {
+		return audienceMin;
+	}
+	public void setAudienceMin(Integer audienceMin) {
+		this.audienceMin = audienceMin;
+	}
+	public Integer getAudienceMax() {
+		return audienceMax;
+	}
+	public void setAudienceMax(Integer audienceMax) {
+		this.audienceMax = audienceMax;
+	}
+	public String getImplementationLocation() {
+		return implementationLocation;
+	}
+	public void setImplementationLocation(String implementationLocation) {
+		this.implementationLocation = implementationLocation;
+	}
+	public Integer getResponsable() {
+		return responsable;
+	}
+	public void setResponsable(Integer responsable) {
+		this.responsable = responsable;
+	}
+	public String getEvaluationType() {
+		return evaluationType;
+	}
+	public void setEvaluationType(String evaluationType) {
+		this.evaluationType = evaluationType;
+	}
+	public boolean isEvaluationPerformmance() {
+		return evaluationPerformmance;
+	}
+	public void setEvaluationPerformmance(boolean evaluationPerformmance) {
+		this.evaluationPerformmance = evaluationPerformmance;
+	}
+	public Integer getMonthsTotal() {
+		return monthsTotal;
+	}
+	public void setMonthsTotal(Integer monthsTotal) {
+		this.monthsTotal = monthsTotal;
+	}
+	public Integer getEvaluationPeriod() {
+		return evaluationPeriod;
+	}
+	public void setEvaluationPeriod(Integer evaluationPeriod) {
+		this.evaluationPeriod = evaluationPeriod;
+	}
+	public boolean isIndicatorsEvaluation() {
+		return indicatorsEvaluation;
+	}
+	public void setIndicatorsEvaluation(boolean indicatorsEvaluation) {
+		this.indicatorsEvaluation = indicatorsEvaluation;
+	}
+	public boolean isIndicatorsPerformmance() {
+		return indicatorsPerformmance;
+	}
+	public void setIndicatorsPerformmance(boolean indicatorsPerformmance) {
+		this.indicatorsPerformmance = indicatorsPerformmance;
+	}
+	public boolean isIndicatorsSatisfaction() {
+		return indicatorsSatisfaction;
+	}
+	public void setIndicatorsSatisfaction(boolean indicatorsSatisfaction) {
+		this.indicatorsSatisfaction = indicatorsSatisfaction;
+	}
+	public Program(String name, String type, String audience, String description, boolean provider,
+			String clasification, boolean freeCourses, boolean activationStatus, String genderAudience, String gender,
+			Integer category, Integer audienceMin, Integer audienceMax, String implementationLocation,
+			Integer responsable, String evaluationType, boolean evaluationPerformmance, Integer monthsTotal,
+			Integer evaluationPeriod, boolean indicatorsEvaluation, boolean indicatorsPerformmance,
+			boolean indicatorsSatisfaction) {
 		super();
 		this.name = name;
 		this.type = type;
@@ -102,11 +201,23 @@ public class Program {
 		this.freeCourses = freeCourses;
 		this.activationStatus = activationStatus;
 		this.genderAudience = genderAudience;
+		this.gender = gender;
+		this.category = category;
+		this.audienceMin = audienceMin;
+		this.audienceMax = audienceMax;
+		this.implementationLocation = implementationLocation;
+		this.responsable = responsable;
+		this.evaluationType = evaluationType;
+		this.evaluationPerformmance = evaluationPerformmance;
+		this.monthsTotal = monthsTotal;
+		this.evaluationPeriod = evaluationPeriod;
+		this.indicatorsEvaluation = indicatorsEvaluation;
+		this.indicatorsPerformmance = indicatorsPerformmance;
+		this.indicatorsSatisfaction = indicatorsSatisfaction;
 	}
 	public Program() {
 		super();
 	}
-	
 	public ArrayList<String> validate() {
 		 ArrayList<String> errors = new  ArrayList<String>();
 		 if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Name is required");
@@ -114,6 +225,15 @@ public class Program {
 		 if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Description is required");
 		 if (!APIUtility.isNotNullOrEmpty(this.clasification)) errors.add("Clasification is required");
 		 if (!APIUtility.isNotNullOrEmpty(this.genderAudience)) errors.add("Gender Audience is required");
+		 if (!APIUtility.isNotNullOrEmpty(this.type)) errors.add("Type is required");
+		 if (!APIUtility.isNotNullOrEmpty(this.gender)) errors.add("Gender is required");
+		 if (!APIUtility.isNotNullOrEmpty(this.evaluationType)) errors.add("Evaluation Type is required");
+		 if (this.audienceMin == null || this.audienceMin <= 0) errors.add("Audience Min is required");
+		 if (this.audienceMax == null || this.audienceMax <= 0) errors.add("Audience Max is required");
+		 if (this.responsable == null || this.responsable <= 0) errors.add("Responsable is required");
+		 if (this.monthsTotal == null || this.monthsTotal <= 0) errors.add("Months Total is required");
+		 if (this.evaluationPeriod == null || this.evaluationPeriod <= 0) errors.add("Evaluation Period is required");
+		 if (this.category == null || this.category <= 0) errors.add("Category is required");
 		 return errors;
 	}
 	
@@ -123,10 +243,22 @@ public class Program {
 		if (APIUtility.isNotNullOrEmpty(program.description)) this.description = program.description;
 		if (APIUtility.isNotNullOrEmpty(program.clasification)) this.clasification = program.clasification;
 		if (APIUtility.isNotNullOrEmpty(program.genderAudience)) this.genderAudience = program.genderAudience;
+		if (APIUtility.isNotNullOrEmpty(program.type)) this.type = program.type;
+		if (APIUtility.isNotNullOrEmpty(program.gender)) this.gender = program.gender;
+		if (APIUtility.isNotNullOrEmpty(program.evaluationType)) this.evaluationType = program.evaluationType;
+		if (program.audienceMin != null && this.audienceMin > 0) this.audienceMin = program.audienceMin;
+		if (program.audienceMax != null && this.audienceMax > 0) this.audienceMax = program.audienceMax;
+		if (program.responsable != null && this.responsable > 0) this.responsable = program.responsable;
+		if (program.monthsTotal != null && this.monthsTotal > 0) this.monthsTotal = program.monthsTotal;
+		if (program.evaluationPeriod != null && this.evaluationPeriod > 0) this.evaluationPeriod = program.evaluationPeriod;
+		if (program.category != null && program.category > 0) this.category = program.category; 
 		this.activationStatus = program.activationStatus;
 		this.provider = program.provider;
 		this.freeCourses = program.freeCourses;
-		this.type = program.type;
+		this.evaluationPerformmance = program.evaluationPerformmance;
+		this.indicatorsEvaluation = program.indicatorsEvaluation;
+		this.indicatorsPerformmance = program.indicatorsPerformmance;
+		this.indicatorsSatisfaction = program.indicatorsSatisfaction;
 	}
 	
 }

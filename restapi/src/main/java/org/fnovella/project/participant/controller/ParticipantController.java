@@ -8,6 +8,7 @@ import org.fnovella.project.inscriptions_part_course.repository.InscriptionsPart
 import org.fnovella.project.inscriptions_part_grade.repository.InscriptionsPartGradeRepository;
 import org.fnovella.project.inscriptions_part_workshop.repository.InscriptionsPartWorkshopRepository;
 import org.fnovella.project.participant.model.Participant;
+import org.fnovella.project.participant.model.ParticipantSearch;
 import org.fnovella.project.participant.repository.ParticipantRepository;
 import org.fnovella.project.participant_contacts.repository.ParticipantContactsRepository;
 import org.fnovella.project.utility.model.APIResponse;
@@ -47,11 +48,20 @@ public class ParticipantController {
 		return new APIResponse(this.participantRepository.findOne(id), null);
 	}
 	
+	@RequestMapping(value = "search", method = RequestMethod.POST)
+	public APIResponse search(@RequestHeader("authorization") String authorization, Pageable pageable, ParticipantSearch participantSearch) {
+		return new APIResponse(participantSearch.getResults(this.participantRepository, pageable), null);
+	}
+	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public APIResponse create(@RequestBody Participant participant, @RequestHeader("authorization") String authorization) {
 		ArrayList<String> errors = participant.validate();
 		if (errors.size() == 0) {
-			return new APIResponse(this.participantRepository.save(participant), null);
+			if (this.participantRepository.findByEmail(participant.getEmail()) == null) {
+				return new APIResponse(this.participantRepository.save(participant), null);	
+			} else {
+				errors.add("Email is already in use");
+			}
 		}
 		return new APIResponse(null, errors);
 	}
@@ -61,11 +71,17 @@ public class ParticipantController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Participant toUpdate = this.participantRepository.findOne(id);
 		if (toUpdate != null) {
-			toUpdate.setUpdatedFields(participant);
-			toUpdate = this.participantRepository.saveAndFlush(participant);
-			return new APIResponse(toUpdate, null);
+			if ((toUpdate.getEmail().equals(participant.getEmail())) || 
+					(!toUpdate.getEmail().equals(participant.getEmail()) && this.participantRepository.findByEmail(participant.getEmail()) == null)) {
+				toUpdate.setUpdatedFields(participant);
+				toUpdate = this.participantRepository.saveAndFlush(participant);
+				return new APIResponse(toUpdate, null);
+			} else {
+				errors.add("Email is already in use");
+			}
+		} else {			
+			errors.add("Participant doesn't exist");
 		}
-		errors.add("Participant doesn't exist");
 		return new APIResponse(null, errors);
 	}
 	

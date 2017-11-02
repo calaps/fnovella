@@ -50,6 +50,10 @@ public class Instructor {
 	private String appCode;
 	@Length(max = 10)
 	private String gender;
+	private String password;
+	private Integer privilege;
+	private String colony;
+	private String zone;
 	public Integer getId() {
 		return id;
 	}
@@ -164,10 +168,38 @@ public class Instructor {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Integer getPrivilege() {
+		return privilege;
+	}
+	public void setPrivilege(Integer privilege) {
+		this.privilege = privilege;
+	}
+	public String getColony() {
+		return colony;
+	}
+	public void setColony(String colony) {
+		this.colony = colony;
+	}
+	public String getZone() {
+		return zone;
+	}
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+	public Instructor() {
+		super();
+	}
 	public Instructor(String firstName, String secondName, String firstLastname, String secondLastname,
 			GregorianCalendar bornDate, String documentType, String documentValue, String nacionality,
 			String department, String municipality, String community, String profession, String address, Integer phone,
-			Integer cellphone, String email, String appCode, String gender) {
+			Integer cellphone, String email, String appCode, String gender, String password, Integer privilege,
+			String colony, String zone) {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
@@ -187,11 +219,11 @@ public class Instructor {
 		this.email = email;
 		this.appCode = appCode;
 		this.gender = gender;
+		this.password = password;
+		this.privilege = privilege;
+		this.colony = colony;
+		this.zone = zone;
 	}
-	public Instructor() {
-		super();
-	}
-	
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.firstName)) errors.add("First Name is required");
@@ -210,6 +242,10 @@ public class Instructor {
 		if (!APIUtility.isNotNullOrEmpty(this.email)) errors.add("Email is required");
 		if (!APIUtility.isNotNullOrEmpty(this.appCode)) errors.add("App Code is required");
 		if (!APIUtility.isNotNullOrEmpty(this.gender)) errors.add("Gender Code is required");
+		if (!APIUtility.isNotNullOrEmpty(this.password)) errors.add("Password is required");
+		if (!APIUtility.isNotNullOrEmpty(this.colony)) errors.add("Colony is required");
+		if (!APIUtility.isNotNullOrEmpty(this.zone)) errors.add("Zone is required");
+		if (this.privilege == null || this.privilege <= 0) errors.add("Privilege is required");
 		return errors;
 	}
 	
@@ -230,6 +266,10 @@ public class Instructor {
 		if (APIUtility.isNotNullOrEmpty(instructor.email)) this.email = instructor.email;
 		if (APIUtility.isNotNullOrEmpty(instructor.appCode)) this.appCode = instructor.appCode;
 		if (APIUtility.isNotNullOrEmpty(instructor.gender)) this.gender = instructor.gender;
+		if (APIUtility.isNotNullOrEmpty(instructor.password)) this.password = instructor.password;
+		if (APIUtility.isNotNullOrEmpty(instructor.colony)) this.colony = instructor.colony;
+		if (APIUtility.isNotNullOrEmpty(instructor.zone)) this.zone = instructor.zone;
+		if (instructor.privilege != null && instructor.privilege > 0) this.privilege = instructor.privilege;
 		if (instructor.phone != null && instructor.phone > 0) this.phone = instructor.phone;
 		if (instructor.cellphone != null && instructor.cellphone > 0) this.cellphone = instructor.cellphone;
 	}

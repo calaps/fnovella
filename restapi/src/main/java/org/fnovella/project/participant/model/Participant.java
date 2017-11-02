@@ -50,6 +50,10 @@ public class Participant {
 	private String appCode;
 	@Length(max=10)
 	private String gender;
+	@Length(max=50)
+	private String zone;
+	@Length(max=50)
+	private String colony;
 	public Integer getId() {
 		return id;
 	}
@@ -164,10 +168,22 @@ public class Participant {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+	public String getZone() {
+		return zone;
+	}
+	public void setZone(String zone) {
+		this.zone = zone;
+	}
+	public String getColony() {
+		return colony;
+	}
+	public void setColony(String colony) {
+		this.colony = colony;
+	}
 	public Participant(String firstName, String secondName, String firstLastname, String secondLastname,
 			GregorianCalendar bornDate, String documentType, String documentValue, String nacionality,
 			String department, String municipality, String community, String profession, String address, Integer phone,
-			Integer cellPhone, String email, String appCode, String gender) {
+			Integer cellPhone, String email, String appCode, String gender, String zone, String colony) {
 		super();
 		this.firstName = firstName;
 		this.secondName = secondName;
@@ -187,6 +203,8 @@ public class Participant {
 		this.email = email;
 		this.appCode = appCode;
 		this.gender = gender;
+		this.zone = zone;
+		this.colony = colony;
 	}
 	public Participant() {
 		super();
@@ -209,6 +227,8 @@ public class Participant {
 		if (!APIUtility.isNotNullOrEmpty(this.email)) errors.add("Email is required");
 		if (!APIUtility.isNotNullOrEmpty(this.appCode)) errors.add("App Code is required");
 		if (!APIUtility.isNotNullOrEmpty(this.gender)) errors.add("Gender is required");
+		if (!APIUtility.isNotNullOrEmpty(this.colony)) errors.add("Colony is required");
+		if (!APIUtility.isNotNullOrEmpty(this.zone)) errors.add("Zone is required");
 		return errors;
 	}
 	public void setUpdatedFields(Participant participant) {
@@ -227,6 +247,8 @@ public class Participant {
 		if (APIUtility.isNotNullOrEmpty(participant.email)) this.email = participant.email;
 		if (APIUtility.isNotNullOrEmpty(participant.appCode)) this.appCode = participant.appCode;
 		if (APIUtility.isNotNullOrEmpty(participant.gender)) this.gender = participant.gender;
+		if (APIUtility.isNotNullOrEmpty(participant.colony)) this.colony = participant.colony;
+		if (APIUtility.isNotNullOrEmpty(participant.zone)) this.zone = participant.zone;
 		if (participant.phone != null && participant.phone > 0) this.phone = participant.phone;
 		if (participant.cellPhone != null && participant.cellPhone > 0) this.cellPhone = participant.cellPhone;
 	}

@@ -2,6 +2,9 @@ package org.fnovella.project.user.controller;
 
 import org.fnovella.project.user.model.Login;
 import org.fnovella.project.user.model.LoginResponse;
+import org.fnovella.project.user.model.UserEmail;
+import org.fnovella.project.user.model.UserPassword;
+import org.fnovella.project.user.model.UserSearch;
 import org.fnovella.project.user.repository.AppUserRepository;
 import org.fnovella.project.user.repository.UserRepository;
 import org.fnovella.project.utility.APIUtility;
@@ -73,6 +76,11 @@ public class UserController {
 		return new APIResponse(this.userRepository.findAll(pageable), null);
 	}
 	
+	@RequestMapping(value = "search", method = RequestMethod.POST)
+	public APIResponse search(@RequestHeader("authorization") String authorization, Pageable pageable, UserSearch userSearch) {
+		return new APIResponse(userSearch.getResults(this.userRepository, pageable), null);
+	}
+	
 	@RequestMapping(value = "userDetails", method = RequestMethod.GET)
 	public APIResponse userDetails(@RequestHeader("authorization") String authorization) {
 		AppUser authorizedUser = APIUtility.authorizeAppUser(authorization, this.appUserRepository, this.userRepository);
@@ -88,10 +96,15 @@ public class UserController {
 		if (authorizedUser != null) {
 			AppUser toUpdate = this.userRepository.findOne(id);
 			if (toUpdate != null) {
-				toUpdate.setUpdateFields(user);
-				toUpdate = this.userRepository.saveAndFlush(toUpdate);
-				toUpdate.setPassword("");
-				return new APIResponse(toUpdate, null);
+				if ((toUpdate.getEmail().equals(user.getEmail())) || 
+						(!toUpdate.getEmail().equals(user.getEmail())) && this.userRepository.findByEmail(user.getEmail()) == null) {
+					toUpdate.setUpdateFields(user);
+					toUpdate = this.userRepository.saveAndFlush(toUpdate);
+					toUpdate.setPassword("");
+					return new APIResponse(toUpdate, null);	
+				} else {
+					errors.add("Email is already in use");
+				}
 			} else {
 				errors.add("User doesn't exist");
 			}
@@ -136,12 +149,12 @@ public class UserController {
 	
 	@RequestMapping(value = "{id}/password", method = RequestMethod.PATCH)
 	public APIResponse updatePassword(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id,
-		@RequestBody String password) {
+		@RequestBody UserPassword userPassword) {
 		ArrayList<String> errors = new ArrayList<String>();
 		AppUser toUpdate = this.userRepository.findOne(id);
-		if (APIUtility.isNotNullOrEmpty(password)) {
+		if (APIUtility.isNotNullOrEmpty(userPassword.getPassword())) {
 			if (toUpdate != null) {
-				toUpdate.setPassword(password);
+				toUpdate.setPassword(userPassword.getPassword());
 				toUpdate = this.userRepository.saveAndFlush(toUpdate);
 				return new APIResponse(true, null);
 			} else {
@@ -153,10 +166,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "reset_password", method = RequestMethod.POST)
-	public APIResponse resetPassword(@RequestBody String email) {
+	public APIResponse resetPassword(@RequestBody UserEmail userEmail) {
 		ArrayList<String> errors = new ArrayList<String>();
-		if (APIUtility.isNotNullOrEmpty(email)) {
-			AppUser appUser = this.userRepository.findByEmail(email);
+		if (APIUtility.isNotNullOrEmpty(userEmail.getEmail())) {
+			AppUser appUser = this.userRepository.findByEmail(userEmail.getEmail());
 			if (appUser != null) {
 				try {
 					sendResetPasswordEmail(appUser);
@@ -174,10 +187,10 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "forgot_password", method = RequestMethod.POST)
-	public APIResponse forgotPassword(@RequestBody String email) {
+	public APIResponse forgotPassword(@RequestBody UserEmail userEmail) {
 		ArrayList<String> errors = new ArrayList<String>();
-		if (APIUtility.isNotNullOrEmpty(email)) {
-			AppUser appUser = this.userRepository.findByEmail(email);
+		if (APIUtility.isNotNullOrEmpty(userEmail.getEmail())) {
+			AppUser appUser = this.userRepository.findByEmail(userEmail.getEmail());
 			if (appUser != null) {
 				try {
 					sendForgotPasswordEmail(appUser);
