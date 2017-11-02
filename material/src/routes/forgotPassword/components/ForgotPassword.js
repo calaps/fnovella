@@ -54,12 +54,12 @@ class ForgotPassword extends React.Component {
         (response) => {
           //Save the default object as a provider
           if (response) {
-            console.log(response);
-            // self.context.router.push('/app/login');
+            alert("An email has been sent tou you with password.");
+            self.context.router.push('/app/login');
           }
         },
         (error) => {
-          console.log("An Error occur with the Rest API", error);
+          console.log("An Error occur with the Rest API");
           self.setState({errors: {...this.state.errors, apiErrors: error.error}, isLoading: false});
         });
 
