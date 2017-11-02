@@ -498,13 +498,10 @@ class EditForm extends React.Component {
                           value={this.state.category}
                           className="form-control"
                         >
-<<<<<<< HEAD
                           <option value="conocimiento">Evaluación conocimiento</option>
                           <option value="continua">Evaluación de continua</option>
-=======
                           <option value="" disabled>Selecciona la categoria...</option>
                           {categoriesOpt()}
->>>>>>> f7d346e747baf2639b23d48455090f434d85c105
                         </select>
                         {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
@@ -526,7 +523,6 @@ class EditForm extends React.Component {
                           value={this.state.genderAudience}
                           className="form-control"
                         >
-<<<<<<< HEAD
                           <option value="" disabled>Selecciona...</option>
                           <option value={true}>Si</option>
                           <option value={false}>No</option>
