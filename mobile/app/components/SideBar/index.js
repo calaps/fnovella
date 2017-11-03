@@ -23,7 +23,7 @@ const routes = [
     path:'Profile'
   },{
     name:'Progaramas',
-    icon:'clipboard'
+    icon:'clipboard',
   },{
     name:'Activaciones',
     icon:'cloud-done'
@@ -53,7 +53,8 @@ const routes = [
     icon:'hand'
   },{
     name:'Usuarios',
-    icon:'person'
+    icon:'person',
+    path: 'user',
   },{
     name:'Menu de apoyo',
     divider:true
