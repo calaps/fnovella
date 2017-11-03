@@ -7,7 +7,8 @@ import {studentValidator} from "../../../../../actions/formValidations"; //form 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  participantUpdateRequest
+  participantUpdateRequest,
+  catalogsGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -36,6 +37,8 @@ class UpdateForm extends React.Component {
       appCode: this.props.participantData.appCode || '',
       gender: this.props.participantData.gender || '',
       id: this.props.participantData.id || '',
+      colony: this.props.participantData.colony || '',
+      zone: this.props.participantData.zone || '',
       errors: {},
       isLoading: false
     };
@@ -45,6 +48,10 @@ class UpdateForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this._handleCancel = this._handleCancel.bind(this);
     self = this;
+  }
+
+  componentWillMount() {
+    this.props.actions.catalogsGetRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,6 +76,8 @@ class UpdateForm extends React.Component {
         appCode: 'code',
         gender: '',
         id: '',
+        colony: '',
+        zone: ''
       });
     }
   }
@@ -83,7 +92,7 @@ class UpdateForm extends React.Component {
     return true;
   }
 
-  _handleCancel(){
+  _handleCancel() {
     this.props.handleCancel();
   }
 
@@ -111,7 +120,9 @@ class UpdateForm extends React.Component {
         email: this.state.email,
         appCode: this.state.appCode,
         gender: this.state.gender,
-        id: this.state.id
+        id: this.state.id,
+        colony: this.state.colony,
+        zone: this.state.zone
       };
       this.props.actions.participantUpdateRequest(data).then(
         (response) => {
@@ -150,7 +161,33 @@ class UpdateForm extends React.Component {
     const nacionality = map(countries, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-
+    //Department options
+    let departmentsOpt = () => {
+      let catalogs = this.props.catalogs.content || [];
+      return catalogs.map((catalog) => {
+        if (catalog.category === 2) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Municipality options
+    let municipalitiesOpt = () => {
+      let catalogs = this.props.catalogs.content || [];
+      return catalogs.map((catalog) => {
+        if (catalog.category === 1) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Community options
+    let communitiesOpt = () => {
+      let catalogs = this.props.catalogs.content || [];
+      return catalogs.map((catalog) => {
+        if (catalog.category === 3) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -311,7 +348,7 @@ class UpdateForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el departamento</option>
-                          {documentType}
+                          {departmentsOpt()}
                         </select>
                         {errors.department && <span className="help-block text-danger">{errors.department}</span>}
                       </div>
@@ -328,7 +365,7 @@ class UpdateForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona la municipalidad</option>
-                          {documentType}
+                          {municipalitiesOpt()}
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                       </div>
@@ -344,10 +381,40 @@ class UpdateForm extends React.Component {
                           value={this.state.community}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona el tipo de documento</option>
-                          {documentType}
+                          <option value="" disabled>Selecciona la Comunidad</option>
+                          {communitiesOpt()}
                         </select>
                         {errors.community && <span className="help-block text-danger">{errors.community}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia</label>
+                      <div className="col-md-9">
+                        <input
+                          type="colony"
+                          className="form-control"
+                          id="colony"
+                          name="colony"
+                          value={this.state.colony}
+                          onChange={this.onChange}
+                          placeholder="eje: Margarita"/>
+                        {errors.colony && <span className="help-block text-danger">{errors.colony}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona</label>
+                      <div className="col-md-9">
+                        <input
+                          type="zone"
+                          name="zone"
+                          id="zone"
+                          onChange={this.onChange}
+                          value={this.state.zone}
+                          className="form-control"
+                          placeholder="eje: Margarita"/>
+                        {errors.zone && <span className="help-block text-danger">{errors.zone}</span>}
                       </div>
                     </div>
 
@@ -455,14 +522,17 @@ class UpdateForm extends React.Component {
 
 function mapStateToProps(state) {
   //pass the providers
-  return {}
+  return {
+    catalogs: state.catalogs
+  }
 }
 
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      participantUpdateRequest
+      participantUpdateRequest,
+      catalogsGetRequest
     }, dispatch)
   };
 }

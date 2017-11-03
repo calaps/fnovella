@@ -79,7 +79,9 @@ class HorizontalLinearStepper extends React.Component {
             phone: data.phone,
             profession: data.profession,
             secondLastname: data.secondLastname,
-            secondName: data.secondName
+            secondName: data.secondName,
+            colony: data.colony,
+            zone: data.zone
           },
           stepIndex: stepIndex + 1,
           finished: stepIndex >= 2

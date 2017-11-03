@@ -36,6 +36,8 @@ class EditForm extends React.Component {
       email: '',
       appCode: 'code',
       gender: '',
+      colony: '',
+      zone: '',
       errors: {},
       isLoading: false
     };
@@ -89,7 +91,9 @@ class EditForm extends React.Component {
         cellPhone: this.state.cellPhone,
         email: this.state.email,
         appCode: this.state.appCode,
-        gender: this.state.gender
+        gender: this.state.gender,
+        colony: this.state.colony,
+        zone: this.state.zone
       };
       // console.log(this.state)
       this.props.handleNext(data);
@@ -335,10 +339,40 @@ class EditForm extends React.Component {
                           value={this.state.community}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona el tipo de documento</option>
+                          <option value="" disabled>Selecciona la Comunidad</option>
                           {communitiesOpt()}
                         </select>
                         {errors.community && <span className="help-block text-danger">{errors.community}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia</label>
+                      <div className="col-md-9">
+                        <input
+                          type="colony"
+                          className="form-control"
+                          id="colony"
+                          name="colony"
+                          value={this.state.colony}
+                          onChange={this.onChange}
+                          placeholder="eje: Margarita"/>
+                        {errors.colony && <span className="help-block text-danger">{errors.colony}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona</label>
+                      <div className="col-md-9">
+                        <input
+                          type="zone"
+                          name="zone"
+                          id="zone"
+                          onChange={this.onChange}
+                          value={this.state.zone}
+                          className="form-control"
+                          placeholder="eje: Margarita"/>
+                        {errors.zone && <span className="help-block text-danger">{errors.zone}</span>}
                       </div>
                     </div>
 
