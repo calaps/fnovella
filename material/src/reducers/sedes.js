@@ -21,23 +21,26 @@ const sedes_reducer = (state = initialState.sedes, action) => {
   let newState;
   switch(action.type){
     case SEDES_ADD_SUCCESS:
-      console.log(SEDES_ADD_SUCCESS)
+      console.log(SEDES_ADD_SUCCESS);
       return [...state, action.data];
     case SEDES_ADD_FAIL:
       // TODO: some alert may be
       return state;
     case SEDES_GET_SUCCESS:
-      console.log(SEDES_GET_SUCCESS)
-      return action.data;
+      console.log(SEDES_GET_SUCCESS);
+      return {
+        ...state,
+        ...action.data
+      };
     case SEDES_GET_FAIL:
       // TODO: some alert may be
       return state;
     case SEDES_DELETE_SUCCESS:
       console.log(SEDES_DELETE_SUCCESS);
-      newState = [...state];
-      for(let i=0; i<newState.length; i++){
-        if(newState[i].id === action.data.id){
-          newState.splice(i, 1);
+      newState = {...state};
+      for(let i=0; i<newState.content.length; i++){
+        if(newState.content[i].id === action.data.id){
+          newState.content.splice(i, 1);
         }
       }
       return newState;
@@ -45,7 +48,7 @@ const sedes_reducer = (state = initialState.sedes, action) => {
       // TODO: some alert may be
       return state;
     case SEDES_UPDATE_SUCCESS:
-      console.log(SEDES_UPDATE_SUCCESS)
+      console.log(SEDES_UPDATE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
         if(newState[i].id === action.data.id){
@@ -59,6 +62,6 @@ const sedes_reducer = (state = initialState.sedes, action) => {
     default:
       return state;
   }
-}
+};
 
 export default sedes_reducer;

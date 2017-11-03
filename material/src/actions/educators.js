@@ -15,7 +15,11 @@ import {
   EDUCATORS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function educatorsGetRequest() {
+export function educatorsGetRequest(number, size) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  params.type = 2;
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
@@ -29,12 +33,12 @@ export function educatorsGetRequest() {
       // return;
 
       // API
-      HTTP('get', '/instructor/', null,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('get', '/instructor/', null,{authorization: localStorage.getItem('@fnovella:token') },params)
         .then(function (response) {
           if(response.data.errors===null){
             dispatch({
               type: EDUCATORS_GET_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {
@@ -71,7 +75,7 @@ export function educatorsAddRequest(data) {
           if(!response.data.error){
             dispatch({
               type: EDUCATORS_ADD_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {
@@ -107,7 +111,7 @@ export function educatorsUpdateRequest(data) {
           if(!response.data.errors){
             dispatch({
               type: EDUCATORS_UPDATE_SUCCESS,
-              data: response.data.data.content
+              data: response.data.data
             });
             resolve(response.data);
           }else {

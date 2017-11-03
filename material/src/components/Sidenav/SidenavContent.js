@@ -100,6 +100,9 @@ class SidebarContent extends React.Component {
         </li>
         <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
         <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>
+        <li><FlatButton href="#/app/course"><i className="nav-icon material-icons">golf_course</i><span className="nav-text">Courses</span></FlatButton></li>
+        <li><FlatButton href="#/app/grade"><i className="nav-icon material-icons">grade</i><span className="nav-text">Grades</span></FlatButton></li>
+        <li><FlatButton href="#/app/workshop"><i className="nav-icon material-icons">group_work</i><span className="nav-text">Workshops</span></FlatButton></li>
 
         <li>
           <FlatButton href="#/app/ecommerce"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
@@ -121,6 +124,7 @@ class SidebarContent extends React.Component {
         <li className="nav-divider" />
         <li className="nav-header"><span>Menu de aplicación</span></li>
         <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Catalogos</span></FlatButton></li>
+        <li><FlatButton href="#/app/category"><i className="nav-icon material-icons">list</i><span className="nav-text">Categorias</span></FlatButton></li>
         <li><FlatButton href="#/app/locations"><i className="nav-icon material-icons">add_location</i><span className="nav-text">Sedes</span></FlatButton></li>
         <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
         <li><FlatButton href="#/app/users"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton></li>

@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   catalogsGetRequest,
-  catalogsDeleteRequest
+  catalogsDeleteRequest,
+  categoriesGetRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
 
@@ -15,11 +16,21 @@ class ListElements extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.sortByKey=this.sortByKey.bind(this);
   }
 
   componentWillMount() {
     this.props.actions.catalogsGetRequest();
+    this.props.actions.categoriesGetRequest();
   }
+
+  sortByKey(array, key){
+    return array.sort(function(a, b) {
+      let x = a[key]; let y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
 
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -28,13 +39,13 @@ class ListElements extends React.Component {
 
   render() {
     let i =0;
+    let array  = this.sortByKey(this.props.catalogs,'category');
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
@@ -50,12 +61,15 @@ class ListElements extends React.Component {
                     </thead>
                     <tbody>
                     {
-                      this.props.catalogs.map((catalog) => {
+                      array?array.map((catalog) => {
                         return <ListItem key={catalog.id} onDelete={this.onDeleteButton}
                                          number={i++}
+                                         category={this.props.categories.filter((category)=>{
+                                           return category.id === catalog.category
+                                           })}
                                          onEdit={this.props.onEdit}
                                          catalogData={catalog}/>
-                      })
+                      }):null
                     }
                     </tbody>
                   </table>
@@ -75,7 +89,8 @@ class ListElements extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    catalogs: state.catalogs
+    catalogs: state.catalogs,
+    categories: state.categories
   }
 }
 
@@ -84,7 +99,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       catalogsGetRequest,
-      catalogsDeleteRequest
+      catalogsDeleteRequest,
+      categoriesGetRequest
     }, dispatch)
   };
 }

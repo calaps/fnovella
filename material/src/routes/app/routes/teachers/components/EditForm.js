@@ -1,18 +1,20 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import map from "Lodash/map"; //to use map in a object
-import { personal_documents, gender, countries } from '../../../../../constants/data_types';
-import { tutorValidator } from "../../../../../actions/formValidations"; //form validations
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {personal_documents, gender, countries} from '../../../../../constants/data_types';
+import {tutorValidator} from "../../../../../actions/formValidations"; //form validations
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {
   educatorsAddRequest,
-  educatorsUpdateRequest
+  educatorsUpdateRequest,
+  catalogsGetRequest
 } from '../../../../../actions';
 
-
 let self;
+
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
@@ -23,7 +25,7 @@ class EditForm extends React.Component {
       secondName: this.props.teacherData.secondName || '',
       firstLastname: this.props.teacherData.firstLastname || '',
       secondLastname: this.props.teacherData.secondLastname || '',
-      bornDate: this.props.teacherData.bornDate || '',
+      bornDate: '',
       documentType: this.props.teacherData.documentType || '',
       documentValue: this.props.teacherData.documentValue || '',
       nacionality: this.props.teacherData.nacionality || '',
@@ -33,26 +35,25 @@ class EditForm extends React.Component {
       profession: this.props.teacherData.profession || '',
       address: this.props.teacherData.address || '',
       phone: this.props.teacherData.phone || '',
-      privilege: 'instructor',
-      password: '',
-      confirmPassword: '',
       cellphone: this.props.teacherData.cellphone || '',
       email: this.props.teacherData.email || '',
-      cemproCode: '',
       appCode: this.props.teacherData.appCode || '',
       gender: this.props.teacherData.gender || '',
       errors: {},
       isLoading: false
     };
-    this.onSubmit = this.onSubmit.bind(this); {/* Makes a Bind of the actions, onChange, onSummit */ }
+    {/* Makes a Bind of the actions, onChange, onSummit */
+    }
+    this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     self = this;
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.teacherData !== nextProps.teacherData) {
       this.setState({
-        isEditing:false,
+        isEditing: false,
         id: '',
         firstName: '',
         secondName: '',
@@ -68,12 +69,8 @@ class EditForm extends React.Component {
         profession: '',
         address: '',
         phone: '',
-        privilege: 'instructor',
-        password: '',
-        confirmPassword: '',
         cellphone: '',
         email: '',
-        cemproCode: '',
         appCode: '',
         gender: '',
       })
@@ -81,11 +78,10 @@ class EditForm extends React.Component {
   }
 
   isValid() {
-    // TODO: Commented beacause validation was not valid
     //local validation
-    const { errors, isValid } = tutorValidator(this.state)
-    if(!isValid){
-      this.setState({ errors });
+    const {errors, isValid} = tutorValidator(this.state);
+    if (!isValid) {
+      this.setState({errors});
       return false;
     }
     return true;
@@ -95,7 +91,7 @@ class EditForm extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       //reset errros object and disable submit button
-      this.setState({ errors: {}, isLoading: true });
+      this.setState({errors: {}, isLoading: true});
       let data = {
         firstName: this.state.firstName,
         secondName: this.state.secondName,
@@ -111,14 +107,11 @@ class EditForm extends React.Component {
         profession: this.state.profession,
         address: this.state.address,
         phone: this.state.phone,
-        privilege: 'instructor',
-        password: '',
-        confirmPassword: '',
         cellphone: this.state.cellphone,
         email: this.state.email,
         appCode: this.state.appCode || 'abc',
         gender: this.state.gender,
-      }
+      };
       if (this.state.isEditing) {
         data.id = this.state.id;
       }
@@ -134,7 +127,7 @@ class EditForm extends React.Component {
           (error) => {
             alert('fail');
             console.log("An Error occur with the Rest API");
-            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
         :
         this.props.actions.educatorsAddRequest(data).then(
@@ -146,7 +139,7 @@ class EditForm extends React.Component {
           }, (error) => {
             alert('fail');
             console.log("An Error occur with the Rest API");
-            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           });
 
     } else {
@@ -157,13 +150,21 @@ class EditForm extends React.Component {
 
   }
 
+  componentWillMount() {
+    this.props.actions.catalogsGetRequest();
+  }
+
+  handleCancel() {
+    self.props.changeView('VIEW_ELEMENT')
+  }
+
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
 
-    const { errors } = this.state;
+    const {errors} = this.state;
     // Document identification types
     const documentType = map(personal_documents, (val, key) =>
       <option key={val} value={val}>{key}</option>
@@ -176,7 +177,33 @@ class EditForm extends React.Component {
     const nacionality = map(countries, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-
+    //Department options
+    let departmentsOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 2) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Municipality options
+    let municipalitiesOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 1) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Community options
+    let communitiesOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 3) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -197,8 +224,8 @@ class EditForm extends React.Component {
                           name="firstName"
                           value={this.state.firstName}
                           onChange={this.onChange}
-                          placeholder="eje: Diego" />
-                        {errors.firstName && <span className="help-block text-danger">{errors.first_name}</span>}
+                          placeholder="eje: Diego"/>
+                        {errors.firstName && <span className="help-block text-danger">{errors.firstName}</span>}
                       </div>
                     </div>
 
@@ -212,8 +239,8 @@ class EditForm extends React.Component {
                           name="secondName"
                           value={this.state.secondName}
                           onChange={this.onChange}
-                          placeholder="eje: Arturo" />
-                        {errors.secondName && <span className="help-block text-danger">{errors.second_name}</span>}
+                          placeholder="eje: Arturo"/>
+                        {errors.secondName && <span className="help-block text-danger">{errors.secondName}</span>}
                       </div>
                     </div>
 
@@ -227,8 +254,9 @@ class EditForm extends React.Component {
                           name="firstLastname"
                           value={this.state.firstLastname}
                           onChange={this.onChange}
-                          placeholder="eje: Perez" />
-                        {errors.firstLastname && <span className="help-block text-danger">{errors.first_lastname}</span>}
+                          placeholder="eje: Perez"/>
+                        {errors.firstLastname &&
+                        <span className="help-block text-danger">{errors.firstLastname}</span>}
                       </div>
                     </div>
 
@@ -242,13 +270,15 @@ class EditForm extends React.Component {
                           name="secondLastname"
                           value={this.state.secondLastname}
                           onChange={this.onChange}
-                          placeholder="eje: Durán" />
-                        {errors.secondLastname && <span className="help-block text-danger">{errors.second_lastname}</span>}
+                          placeholder="eje: Durán"/>
+                        {errors.secondLastname &&
+                        <span className="help-block text-danger">{errors.secondLastname}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Correo electronico</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Correo
+                        electronico</label>
                       <div className="col-md-9">
                         <input
                           type="email"
@@ -257,12 +287,12 @@ class EditForm extends React.Component {
                           name="email"
                           value={this.state.email}
                           onChange={this.onChange}
-                          placeholder="eje: juan@gmail.com" />
+                          placeholder="eje: juan@gmail.com"/>
                         {errors.email && <span className="help-block text-danger">{errors.email}</span>}
                       </div>
                     </div>
 
-                    <div className="form-group row">
+                    {/*<div className="form-group row" disabled={this.state.isEditing}>
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
                       <div className="col-md-9">
                         <input
@@ -272,13 +302,14 @@ class EditForm extends React.Component {
                           name="password"
                           value={this.state.password}
                           onChange={this.onChange}
-                          placeholder="******" />
+                          placeholder="******"/>
                         {errors.password && <span className="help-block text-danger">{errors.password}</span>}
                       </div>
                     </div>
 
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Confirmar contraseña</label>
+                    <div className="form-group row" disabled={this.state.isEditing}>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Confirmar
+                        contraseña</label>
                       <div className="col-md-9">
                         <input
                           type="password"
@@ -287,10 +318,11 @@ class EditForm extends React.Component {
                           name="confirmPassword"
                           value={this.state.confirmPassword}
                           onChange={this.onChange}
-                          placeholder="******" />
-                        {errors.confirmPassword && <span className="help-block text-danger">{errors.confirmPassword}</span>}
+                          placeholder="******"/>
+                        {errors.confirmPassword &&
+                        <span className="help-block text-danger">{errors.confirmPassword}</span>}
                       </div>
-                    </div>
+                    </div>*/}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
@@ -302,8 +334,8 @@ class EditForm extends React.Component {
                           name="bornDate"
                           value={this.state.bornDate}
                           onChange={this.onChange}
-                          placeholder="eje: Durán" />
-                        {errors.bornDate && <span className="help-block text-danger">{errors.born_date}</span>}
+                          placeholder="eje: Durán"/>
+                        {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
                       </div>
                     </div>
 
@@ -311,7 +343,7 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                       <div className="col-md-9">
                         <select
-                          name="dataType"
+                          name="documentType"
                           onChange={this.onChange}
                           value={this.state.documentType}
                           className="form-control"
@@ -333,7 +365,7 @@ class EditForm extends React.Component {
                           name="documentValue"
                           value={this.state.documentValue}
                           onChange={this.onChange}
-                          placeholder="eje: 999499812" />
+                          placeholder="eje: 999499812"/>
                         {errors.documentValue && <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
                     </div>
@@ -366,7 +398,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el departamento</option>
-                          {documentType}
+                          {departmentsOpt()}
                         </select>
                         {errors.department && <span className="help-block text-danger">{errors.department}</span>}
                       </div>
@@ -383,7 +415,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona la municipalidad</option>
-                          {documentType}
+                          {municipalitiesOpt()}
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                       </div>
@@ -400,7 +432,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el tipo de documento</option>
-                          {documentType}
+                          {communitiesOpt()}
                         </select>
                         {errors.community && <span className="help-block text-danger">{errors.community}</span>}
                       </div>
@@ -416,7 +448,7 @@ class EditForm extends React.Component {
                           name="profession"
                           value={this.state.profession}
                           onChange={this.onChange}
-                          placeholder="eje: Profesor" />
+                          placeholder="eje: Profesor"/>
                         {errors.profession && <span className="help-block text-danger">{errors.profession}</span>}
                       </div>
                     </div>
@@ -431,7 +463,7 @@ class EditForm extends React.Component {
                           name="address"
                           value={this.state.address}
                           onChange={this.onChange}
-                          placeholder="eje: Km 18. Carretera a El Salvador" />
+                          placeholder="eje: Km 18. Carretera a El Salvador"/>
                         {errors.address && <span className="help-block text-danger">{errors.address}</span>}
                       </div>
                     </div>
@@ -446,7 +478,7 @@ class EditForm extends React.Component {
                           name="phone"
                           value={this.state.phone}
                           onChange={this.onChange}
-                          placeholder="eje: 24245757" />
+                          placeholder="eje: 24245757"/>
                         {errors.phone && <span className="help-block text-danger">{errors.phone}</span>}
                       </div>
                     </div>
@@ -461,7 +493,7 @@ class EditForm extends React.Component {
                           name="cellphone"
                           value={this.state.cellphone}
                           onChange={this.onChange}
-                          placeholder="eje: 55329090" />
+                          placeholder="eje: 55329090"/>
                         {errors.cellphone && <span className="help-block text-danger">{errors.cellphone}</span>}
                       </div>
                     </div>
@@ -483,12 +515,15 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-
-
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
+                        <FlatButton disabled={this.state.isLoading}
+                                    label='Cancel'
+                                    style={{marginRight: 12}}
+                                    onTouchTap={this.handleCancel}
+                                    secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                          label={this.state.isEditing ? 'Update' : 'Add'} secondary className="btn-w-md" />
+                                      label={this.state.isEditing ? 'Update' : 'Add'} secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>
@@ -502,8 +537,9 @@ class EditForm extends React.Component {
               <div className="card bg-color-white">
                 <div className="card-content">
                   <span className="card-title">Uso de catalogos</span>
-                  <p>El siguiente foromulario hace uso de catalogos, para agregar nuevos catalogos deveras editarlos previamente
-                  en la sección de la página.</p>
+                  <p>El siguiente foromulario hace uso de catalogos, para agregar nuevos catalogos deveras editarlos
+                    previamente
+                    en la sección de la página.</p>
                 </div>
                 <div className="card-action">
                   <a href="#/app/catalog">Ver catalogos</a>
@@ -524,6 +560,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
+    catalogs: state.catalogs
   }
 }
 
@@ -534,6 +571,7 @@ function mapDispatchToProps(dispatch) {
       //    signUpRequest
       educatorsAddRequest,
       educatorsUpdateRequest,
+      catalogsGetRequest
     }, dispatch)
   };
 }

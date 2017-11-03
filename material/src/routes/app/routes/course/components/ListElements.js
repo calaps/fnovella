@@ -1,20 +1,41 @@
 import React from "react";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  coursesGetRequest,
+  coursesDeleteRequest,
+} from '../../../../../actions';
+import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 
 /** *
  * Fake element list render....
  * */
+let size = 5; //limit
+let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
+    this.onDeleteButton = this.onDeleteButton.bind(this);
   }
-  render() {
 
+  componentWillMount() {
+    this.props.actions.coursesGetRequest(number, size);
+  }
+
+  onDeleteButton(id) {
+    console.log("id: ", id);
+    this.props.actions.coursesDeleteRequest(id);
+  }
+
+  render() {
+    let i = 0;
     return (
       <article className="article">
-        <h2 className="article-title">Lista de catalogos</h2>
+        <h2 className="article-title">Lista de courses</h2>
         <div className="row">
-          <div className="col-xl-6">
+          <div className="col-xl-12">
             <div className="box box-transparent">
               <div className="box-header no-padding-h">Basic table</div>
               <div className="box-body no-padding-h">
@@ -24,87 +45,57 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
+                      <th className="mdl-data-table__cell--non-numeric">id</th>
+                      <th className="mdl-data-table__cell--non-numeric">Name</th>
+                      <th className="mdl-data-table__cell--non-numeric">Description</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
+
+                    {
+                      this.props.courses.content ? this.props.courses.content.map((course) => {
+                        return <ListItem key={course.id} onDelete={this.onDeleteButton}
+                                         number={i++}
+                                         onEdit={this.props.onEdit}
+                                         courseData={course}/>
+                      }) : null
+                    }
+
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.courses.totalPages}
+                    totalElements={this.props.courses.totalElements}
+                    getRequest={this.props.actions.coursesGetRequest}
+                  />
                 </div>
 
               </div>
             </div>
           </div>
-
-          <div className="col-xl-6">
-            <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
-              <div className="box-body no-padding-h">
-
-                <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
-                    <thead>
-                    <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-
         </div>
-
-
       </article>
     );
   }
 }
 
-module.exports = ListElements;
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    courses: state.courses
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      coursesGetRequest,
+      coursesDeleteRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  mapStateToProps, mapDispatchToProps
+)(ListElements);

@@ -1,41 +1,52 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { programValidator } from "../../../../../actions/formValidations"; //form validations
+import {programValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   programAddRequest,
-  programUpdateRequest
+  programUpdateRequest,
+  categoriesGetRequest
 } from '../../../../../actions';
 
 let self;
+
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: (this.props.programData.id)?true:false,
-      name: this.props.programData.name ||'',
+      isEditing: (this.props.programData.id) ? true : false,
+      name: this.props.programData.name || '',
       audience: this.props.programData.audience || '',
       description: this.props.programData.description || '',
-      provider: typeof this.props.programData.provider==="boolean"?this.props.programData.provider:true,
+      provider: typeof this.props.programData.provider === "boolean" ? this.props.programData.provider : true,
       clasification: this.props.programData.clasification || '',
-      freeCourses: typeof this.props.programData.freeCourses==="boolean"?this.props.programData.freeCourses:true,
-      type: typeof this.props.programData.type==="boolean"?this.props.programData.type:true,
+      freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
+      type: typeof this.props.programData.type === "boolean" ? this.props.programData.type : true,
       id: this.props.programData.id || '',
+      category: this.props.programData.category || '',
+      genderAudience: this.props.programData.genderAudience || '',
       errors: {},
       isLoading: false
     };
-    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    {/* Makes a Bind of the actions, onChange, onSummit */}
+    this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-   self=this;
+    this.handleCancel = this.handleCancel.bind(this);
+    self = this;
   }
 
-  componentWillReceiveProps(nextProps){
-    if(this.props.programData!==nextProps.programData){
+  componentWillMount(){
+    this.props.actions.categoriesGetRequest();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.programData !== nextProps.programData) {
       this.setState({
-        isEditing:false,
+        isEditing: false,
         name: '',
         audience: '',
         description: '',
@@ -44,27 +55,32 @@ class EditForm extends React.Component {
         freeCourses: true,
         type: true,
         id: '',
+        category: '',
+        genderAudience: '',
       });
     }
   }
 
-  isValid(){
+  isValid() {
     // TODO:Temporary commented bcz validation is not valid
     //local validation
-    const { errors, isValid } = programValidator(this.state);
-    if(!isValid){
-      this.setState({ errors });
+    const {errors, isValid} = programValidator(this.state);
+    if (!isValid) {
+      this.setState({errors});
       return false;
     }
-
     return true;
+  }
+
+  handleCancel() {
+    self.props.changeView('VIEW_ELEMENT')
   }
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.isValid()){
+    if (this.isValid()) {
       //reset errors object and disable submit button
-      this.setState({ errors: {}, isLoading: true });
+      this.setState({errors: {}, isLoading: true});
 
       let data = {
         name: this.state.name,
@@ -73,36 +89,38 @@ class EditForm extends React.Component {
         description: this.state.description,
         provider: this.state.provider,
         clasification: this.state.clasification,
-        freeCourses: this.state.freeCourses
+        freeCourses: this.state.freeCourses,
+        category: this.state.category,
+        genderAudience: this.state.genderAudience,
       };
-      if(this.state.isEditing){
+      if (this.state.isEditing) {
         data.id = this.state.id;
       }
-      // ON SUCCESSS API
+      // ON SUCCESS API
       this.state.isEditing ?
         this.props.actions.programUpdateRequest(data).then(
           (response) => {
             //Save the default object as a provider
-            if(response){
+            if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
           },
           (error) => {
             alert('fail');
             console.log("An Error occur with the Rest API");
-            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
         :
         this.props.actions.programAddRequest(data).then(
           (response) => {
             //Save the default object as a provider
-            if(response){
+            if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
-          },(error) => {
+          }, (error) => {
             alert('fail');
             console.log("An Error occur with the Rest API");
-            self.setState({ errors: { ...self.state.errors, apiErrors: error.error }, isLoading: false });
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           });
     } else {
 
@@ -113,16 +131,21 @@ class EditForm extends React.Component {
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
 
-    const { errors } = this.state;
+    const {errors} = this.state;
 
-    const options = map(data_types, (val, key) =>
-      <option key={val} value={val}>{key}</option>
-    );
+    //categories options
+    let categoriesOpt  = () => {
+      let {categories} = this.props;
+      return categories.map((category)=>{
+        return <option key={category.id} value={category.id}>{category.name}</option>
+      });
+    };
+
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -143,11 +166,10 @@ class EditForm extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: CENCA" />
+                          placeholder="eje: CENCA"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
-
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Audiencia</label>
                       <div className="col-md-9">
@@ -158,7 +180,7 @@ class EditForm extends React.Component {
                           name="audience"
                           value={this.state.audience}
                           onChange={this.onChange}
-                          placeholder="eje: Niños de 10 - 15 años" />
+                          placeholder="eje: Niños de 10 - 15 años"/>
                         {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
                       </div>
                     </div>
@@ -172,7 +194,7 @@ class EditForm extends React.Component {
                           name="description"
                           value={this.state.description}
                           onChange={this.onChange}
-                          placeholder="Descripción del programa" />
+                          placeholder="Descripción del programa"/>
                         {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
@@ -203,7 +225,7 @@ class EditForm extends React.Component {
                           name="clasification"
                           value={this.state.clasification}
                           onChange={this.onChange}
-                          placeholder="Clasificación del programa" />
+                          placeholder="Clasificación del programa"/>
                         {errors.clasification && <span className="help-block text-danger">{errors.clasification}</span>}
                       </div>
                     </div>
@@ -224,12 +246,51 @@ class EditForm extends React.Component {
                         {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
                       </div>
                     </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Categoria de campos: </label>
+                      <div className="col-md-9">
+                        <select
+                          name="category"
+                          id="category"
+                          onChange={this.onChange}
+                          value={this.state.category}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona la categoria...</option>
+                          {categoriesOpt()}
+                        </select>
+                        {errors.category && <span className="help-block text-danger">{errors.category}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero: </label>
+                      <div className="col-md-9">
+                        <select
+                          name="genderAudience"
+                          id="genderAudience"
+                          onChange={this.onChange}
+                          value={this.state.genderAudience}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona la genero...</option>
+                          <option value="male">Hombres</option>
+                          <option value="female">Mujeres</option>
+                          <option value="both">Mixto</option>
+                        </select>
+                        {errors.genderAudience && <span className="help-block text-danger">{errors.genderAudience}</span>}
+                      </div>
+                    </div>
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
+                        <FlatButton disabled={this.state.isLoading}
+                                    label='Cancel'
+                                    style={{marginRight: 12}}
+                                    onTouchTap={this.handleCancel}
+                                    secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ?'Update':'Add'}
-                                      secondary className="btn-w-md" />
+                                      label={this.state.isEditing ? 'Update' : 'Add'}
+                                      secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>
@@ -248,25 +309,26 @@ class EditForm extends React.Component {
 }
 
 
-  function mapStateToProps(state) {
-    //pass the providers
-    return {
-      // auth: state.auth
-    }
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    categories: state.categories
   }
+}
 
-  /* Map Actions to Props */
-  function mapDispatchToProps(dispatch) {
-    return {
-      actions: bindActionCreators({
-        //    signUpRequest
-        programAddRequest,
-        programUpdateRequest,
-      }, dispatch)
-    };
-  }
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      //    signUpRequest
+      programAddRequest,
+      programUpdateRequest,
+      categoriesGetRequest
+    }, dispatch)
+  };
+}
 
-  module.exports = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(EditForm);
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(EditForm);

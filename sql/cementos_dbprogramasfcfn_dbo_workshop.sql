@@ -1,1 +1,2 @@
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, program, location, description) VALUES ('jose', 'program', 123, 'testing ');
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id) VALUES ('jose', 7, 'testing ', 6, 2);
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id) VALUES ('da', 1, 'adaiudgkj', 19, 4);

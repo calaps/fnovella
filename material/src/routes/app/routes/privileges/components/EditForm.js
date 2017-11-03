@@ -23,7 +23,7 @@ class EditForm extends React.Component {
     this.state = {
       isEditing: (this.props.privilegeData.id)?true:false,
       id: this.props.privilegeData.id || '',
-      name: this.props.privilegeData.name || '',
+      privilegeName: this.props.privilegeData.privilegeName || '',
       pstudentInscription: this.props.privilegeData.pstudentInscription || false,
       pstudentApproval: this.props.privilegeData.pstudentApproval || false,
       pnotesEntry: this.props.privilegeData.pnotesEntry || false,
@@ -65,7 +65,7 @@ class EditForm extends React.Component {
       this.setState({
         isEditing:false,
         id: '',
-        name: '',
+        privilegeName: '',
         pstudentInscription: false,
         pstudentApproval: false,
         pnotesEntry: false,
@@ -113,7 +113,7 @@ class EditForm extends React.Component {
       //reset errros object and disable submit button
       this.setState({ errors: {}, isLoading: true });
       let data = {
-        name: this.state.name,
+        privilegeName: this.state.privilegeName,
         pstudentInscription: this.state.pstudentInscription,
         pstudentApproval: this.state.pstudentApproval,
         pnotesEntry: this.state.pnotesEntry,
@@ -140,7 +140,7 @@ class EditForm extends React.Component {
         ppersonalDataEntry: this.state.ppersonalDataEntry,
         pprogramActivation: this.state.pprogramActivation,
         pstudentsEntry: this.state.pstudentsEntry
-      }
+      };
       // ON SUCCESSS API
       if(this.state.isEditing){
         data.id = this.state.id;
@@ -207,12 +207,12 @@ class EditForm extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          id="name"
-                          name="name"
-                          value={this.state.name}
+                          id="privilegeName"
+                          name="privilegeName"
+                          value={this.state.privilegeName}
                           onChange={this.onChange}
                           placeholder="eje: Administrador" />
-                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                        {errors.privilegeName && <span className="help-block text-danger">{errors.privilegeName}</span>}
                       </div>
                     </div>
 

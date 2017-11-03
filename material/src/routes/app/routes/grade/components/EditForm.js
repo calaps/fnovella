@@ -1,22 +1,61 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import { gradeValidator } from "../../../../../actions/formValidations"; //form validations
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  gradesAddRequest,
+  gradesUpdateRequest,
+  sedesGetRequest,
+  educatorsGetRequest,
+  programGetRequest
+} from '../../../../../actions';
 
+let self;
 
 class EditForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      name: '',
-      dataType: '',
-      category: '',
+      isEditing: (this.props.gradeData.id) ? true : false,
+      id: this.props.gradeData.id || '',
+      name: this.props.gradeData.name || '',
+      level: this.props.gradeData.level || '',
+      description: this.props.gradeData.description || '',
+      location: this.props.gradeData.location || '',
+      programId: this.props.gradeData.programId || '',
+      instructorId: this.props.gradeData.instructorId || '',
       errors: {},
       isLoading: false
     };
     this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onChange = this.onChange.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    self = this;
+  }
+
+  componentWillMount() {
+    this.props.actions.sedesGetRequest();
+    this.props.actions.programGetRequest();
+    this.props.actions.educatorsGetRequest();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.gradeData !== nextProps.gradeData) {
+      this.setState({
+        isEditing: false,
+        name: '',
+        level: '',
+        description: '',
+        location: '',
+        programId: '',
+        instructorId: '',
+        id: '',
+      });
+    }
   }
 
   isValid(){
@@ -29,14 +68,53 @@ class EditForm extends React.Component {
     return true;
   }
 
+  handleCancel() {
+    self.props.changeView('VIEW_ELEMENT')
+  }
+
   onSubmit(e) {
     e.preventDefault();
     if(this.isValid()){
-      //reset errros object and disable submit button
+      //reset errors object and disable submit button
       this.setState({ errors: {}, isLoading: true });
 
-      // ON SUCCESSS API
-
+      let data = {
+        name: this.state.name,
+        level: this.state.level,
+        description: this.state.description,
+        location: this.state.location,
+        programId: this.state.programId,
+        instructorId: this.state.instructorId,
+      };
+      if (this.state.isEditing) {
+        data.id = this.state.id;
+      }
+      // ON SUCCESS API
+      this.state.isEditing ?
+        this.props.actions.gradesUpdateRequest(data).then(
+          (response) => {
+            //Save the default object as a provider
+            if (response) {
+              self.props.changeView('VIEW_ELEMENT');
+            }
+          },
+          (error) => {
+            alert('fail');
+            console.log("An Error occur with the Rest API");
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
+          })
+        :
+        this.props.actions.gradesAddRequest(data).then(
+          (response) => {
+            //Save the default object as a provider
+            if (response) {
+              self.props.changeView('VIEW_ELEMENT');
+            }
+          }, (error) => {
+            alert('fail');
+            console.log("An Error occur with the Rest API");
+            self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
+          });
     } else {
 
       // FORM WITH ERRORS
@@ -56,6 +134,28 @@ class EditForm extends React.Component {
     const options = map(data_types, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
+    //Sedes || location options
+    let sedesOpt = () => {
+      let sedes = this.props.sedes.content || [];
+      return sedes.map((sede) => {
+        return <option key={sede.id} value={sede.id}>{sede.name}</option>
+      });
+    };
+    //Programs options
+    let programsOpt = () => {
+      let programs = this.props.programs.content || [];
+      return programs.map((program) => {
+        return <option key={program.id} value={program.id}>{program.name}</option>
+      });
+    };
+    //Educators options
+    let educatorsOpt = () => {
+      let educators = this.props.educators.content || [];
+      return educators.map((educator) => {
+        return <option key={educator.id} value={educator.id}>{educator.firstName}</option>
+      });
+    };
+
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -76,43 +176,96 @@ class EditForm extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: altura" />
-                          {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                          placeholder="eje: altura"/>
+                        {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresa la categoria</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Description</label>
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="category"
-                          name="category"
-                          value={this.state.category}
+                          id="description"
+                          name="description"
+                          value={this.state.description}
                           onChange={this.onChange}
-                          placeholder="eje: fisico" />
-                        {errors.category && <span className="help-block text-danger">{errors.category}</span>}
+                          placeholder="eje: about this grade"/>
+                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Level</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="level"
+                          name="level"
+                          value={this.state.level}
+                          onChange={this.onChange}
+                          placeholder="eje: hard, amature etc"/>
+                        {errors.level && <span className="help-block text-danger">{errors.level}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
                       <div className="col-md-9">
                         <select
-                          name="dataType"
+                          name="location"
+                          id="location"
                           onChange={this.onChange}
-                          value={this.state.dataType}
+                          value={this.state.location}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona el tipo de dato</option>
-                          {options}
+                          <option value="" disabled>Selecione la sede</option>
+                          {sedesOpt()}
                         </select>
-                        {errors.dataType && <span className="help-block text-danger">{errors.dataType}</span>}
+                        {errors.location && <span className="help-block text-danger">{errors.location}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Program</label>
+                      <div className="col-md-9">
+                        <select
+                          name="programId"
+                          id="programId"
+                          onChange={this.onChange}
+                          value={this.state.programId}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione la program</option>
+                          {programsOpt()}
+                        </select>
+                        {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadore</label>
+                      <div className="col-md-9">
+                        <select
+                          name="instructorId"
+                          id="instructorId"
+                          onChange={this.onChange}
+                          value={this.state.instructorId}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione la educadore</option>
+                          {educatorsOpt()}
+                        </select>
+                        {errors.instructorId && <span className="help-block text-danger">{errors.instructorId}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <RaisedButton disabled={this.state.isLoading} type="submit" label="Agregar" secondary className="btn-w-md" />
+                        <FlatButton disabled={this.state.isLoading}
+                                    label='Cancel'
+                                    style={{marginRight: 12}}
+                                    onTouchTap={this.handleCancel}
+                                    secondary className="btn-w-md"/>
+                        <RaisedButton disabled={this.state.isLoading} type="submit"
+                                      label={this.state.isEditing ? 'Update' : 'Add'} secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>
@@ -130,4 +283,29 @@ class EditForm extends React.Component {
   }
 }
 
-module.exports = EditForm;
+function mapStateToProps(state) {
+  //pass the providers
+  return {
+    sedes: state.sedes,
+    programs: state.programs,
+    educators: state.educators,
+  }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      sedesGetRequest,
+      programGetRequest,
+      educatorsGetRequest,
+      gradesAddRequest,
+      gradesUpdateRequest,
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditForm);

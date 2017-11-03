@@ -15,7 +15,7 @@ class PathSelector extends React.Component {
     this.state = {
       isLoaded: true,
       userDataReceived: false,
-      publicRoutes: ['/login', '/sign-up']
+      publicRoutes: ['/login', '/sign-up', '/forgot-password']
     };
     this.scrollToTop = this.scrollToTop.bind(this);
     this.onRouteUpdate = this.onRouteUpdate.bind(this);

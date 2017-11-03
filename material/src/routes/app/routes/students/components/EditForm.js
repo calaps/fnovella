@@ -9,7 +9,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   participantAddRequest,
-  participantUpdateRequest
+  catalogsGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -22,7 +22,6 @@ class EditForm extends React.Component {
       secondName: '',
       firstLastname: '',
       secondLastname: '',
-      // privilege: '',
       bornDate: '',
       documentType: '',
       documentValue: '',
@@ -33,13 +32,9 @@ class EditForm extends React.Component {
       profession: '',
       address: '',
       phone: '',
-      privilege: 'instructor',
-      password: '',
-      confirm_password: '',
       cellPhone: '',
       email: '',
       appCode: 'code',
-      cempro_code: '',
       gender: '',
       errors: {},
       isLoading: false
@@ -49,7 +44,16 @@ class EditForm extends React.Component {
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
     this.onChange = this.onChange.bind(this);
+    this._handleCancel = this._handleCancel.bind(this);
     self = this;
+  }
+
+  componentWillMount() {
+    this.props.actions.catalogsGetRequest();
+  }
+
+  _handleCancel() {
+    this.props.handleCancel();
   }
 
   isValid() {
@@ -87,21 +91,8 @@ class EditForm extends React.Component {
         appCode: this.state.appCode,
         gender: this.state.gender
       };
-
-      //on Success Api
-      this.props.actions.participantAddRequest(data).then(
-        (response) => {
-          //Save the default object as a provider
-          if (response) {
-            self.props.handleNext();
-          }
-        }, (error) => {
-          alert('fail');
-          console.log("An Error occur with the Rest API");
-          self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
-        });
-
-      // console.log('editform data is', data);
+      // console.log(this.state)
+      this.props.handleNext(data);
     }
   }
 
@@ -124,7 +115,33 @@ class EditForm extends React.Component {
     const nacionality = map(countries, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-
+    //Department options
+    let departmentsOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 2) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Municipality options
+    let municipalitiesOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 1) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
+    //Community options
+    let communitiesOpt = () => {
+      let {catalogs} = this.props;
+      return catalogs.map((catalog) => {
+        if (catalog.category === 3) {
+          return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
+        }
+      });
+    };
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -201,7 +218,6 @@ class EditForm extends React.Component {
                         electronico</label>
                       <div className="col-md-9">
                         <input
-                          type="email"
                           className="form-control"
                           id="email"
                           name="email"
@@ -209,38 +225,6 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           placeholder="eje: juan@gmail.com"/>
                         {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
-                      <div className="col-md-9">
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.password}
-                          onChange={this.onChange}
-                          placeholder="******"/>
-                        {errors.password && <span className="help-block text-danger">{errors.password}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Confirmar
-                        contraseña</label>
-                      <div className="col-md-9">
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="confirm_password"
-                          name="confirm_password"
-                          value={this.state.confirm_password}
-                          onChange={this.onChange}
-                          placeholder="******"/>
-                        {errors.confirm_password &&
-                        <span className="help-block text-danger">{errors.confirm_password}</span>}
                       </div>
                     </div>
 
@@ -318,7 +302,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el departamento</option>
-                          {documentType}
+                          {departmentsOpt()}
                         </select>
                         {errors.department && <span className="help-block text-danger">{errors.department}</span>}
                       </div>
@@ -335,7 +319,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona la municipalidad</option>
-                          {documentType}
+                          {municipalitiesOpt()}
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                       </div>
@@ -352,7 +336,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el tipo de documento</option>
-                          {documentType}
+                          {communitiesOpt()}
                         </select>
                         {errors.community && <span className="help-block text-danger">{errors.community}</span>}
                       </div>
@@ -435,15 +419,14 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <FlatButton
-                      label="Atras"
-                      disabled={true}
-                      onTouchTap={() => this.props.handlePrev()}
+                      label="Cancel"
+                      onTouchTap={this._handleCancel}
                       style={{marginRight: 12}}
                     />
                     <RaisedButton
-                      type='submit'
-                      label='Siguiente'
+                      label='Next'
                       primary
+                      type='submit'
                     />
 
                   </form>
@@ -465,6 +448,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
+    catalogs: state.catalogs
   }
 }
 
@@ -474,7 +458,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       //    signUpRequest
       participantAddRequest,
-      participantUpdateRequest,
+      catalogsGetRequest
     }, dispatch)
   };
 }

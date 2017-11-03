@@ -1,136 +1,130 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentLeft from 'material-ui/svg-icons/navigation/chevron-left';
-import ContentRight from 'material-ui/svg-icons/navigation/chevron-right';
 import Paper from 'material-ui/Paper';
 
 const style = {
-    containerStyle: {
-        float: 'right',
-        marginTop: 10,
-    },
-    paperStyle: {
-        height: 30,
-        width: 30,
-        marginLeft: 5,
-        marginRight: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        display: 'flex'
-    },
-    activeStyle: {
-        height: 30,
-        width: 30,
-        marginLeft: 5,
-        marginRight: 5,
-        color:'white',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        display: 'flex',
-        backgroundColor:'#5CB85C'
-    }
+  containerStyle: {
+    float: 'right',
+    marginTop: 10,
+  },
+  paperStyle: {
+    height: 30,
+    width: 30,
+    marginLeft: 5,
+    marginRight: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    display: 'flex',
+    cursor: 'pointer'
+  },
+  activeStyle: {
+    height: 30,
+    width: 30,
+    marginLeft: 5,
+    marginRight: 5,
+    color: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    display: 'flex',
+    backgroundColor: '#5CB85C',
+    cursor: 'pointer'
+  }
 };
 
 class Pagination extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            size: 1,
-            number: 0,
-            currentPage: 0,
-        }
-        this.getNext = this.getNext.bind(this);
-        this.getPrev = this.getPrev.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      size: 5,
+      number: 0
+    };
+    this.getNext = this.getNext.bind(this);
+    this.getPrev = this.getPrev.bind(this);
+    this.getRange = this.getRange.bind(this);
+    this.getIndex = this.getIndex.bind(this);
+  }
+
+  getPrev() {
+    let {number, size} = this.state;
+    if (number > 0) {
+      this.props.getRequest(number - 1, size);
+      this.setState({
+        number: this.state.number - 1
+      });
     }
-    getPrev() {
-        var { currentPage, number, size } = this.state;
-        if (currentPage > 0) {
-            this.props.getRequest(currentPage, number - 1, size);
-            this.setState({
-                currentPage: this.state.currentPage - 1
-            });
-            console.log('currentPage: ', currentPage)
-        }
+  }
+
+  getNext() {
+    let {number, size} = this.state;
+    if (this.props.totalPages > number + 1) {
+      this.props.getRequest(number + 1, size);
+      this.setState({
+        number: this.state.number + 1
+      });
     }
-    getNext() {
-        var { currentPage, number, size } = this.state;
-        if (currentPage === this.props.totalElements) {
-            //do nothing
-        }
-        else if (currentPage < Math.ceil(this.props.totalElements / 5)) {
-            this.props.getRequest(currentPage, number + 1, size);
-            this.setState({
-                currentPage: this.state.currentPage + 1
-            });
-            console.log('currentPage: ', currentPage)
-        }
-    }
+  }
 
-    // getRange(size, start, end) {
-    //     var ret = [];
-    //     // console.log(size,start, end);
+  getRange(size, start, end) {
+      let ret = [];
+      if (size < end) {
+          end = size;
+          if (size < this.state.size) {
+              start = 0;
+          } else {
+              start = size - this.state.size;
+          }
+      }
+      for (let i = start; i < end; i++) {
+          ret.push(
+            <li>
+              <Paper
+                key={i} style={
+                this.state.number === i  ? style.activeStyle : style.paperStyle
+              } zDepth={1} circle={true} onTouchTap={()=>this.getIndex(i)}
+              >
+                {i+1}
+              </Paper>
+            </li>
+          );
+      }
+      return ret;
+  }
 
-    //     if (size < end) {
-    //         end = size;
-    //         if (size < 5) {
-    //             start = 0;
-    //         } else {
-    //             start = size - 5;
-    //         }
-
-    //     }
-    //     for (var i = start; i < end; i++) {
-    //         ret.push(i);
-    //     }
-    //     console.log('range2:' ,ret);
-    //     return ret;
-    // }
+  getIndex(i){
+    this.props.getRequest(i,this.state.size);
+    this.setState({
+      number: i
+    })
+  }
 
 
-    render() {
-        console.log('range || pages: ', this.props.range);
-        var numbers = [];
-        for (var i = 1; i <= this.props.range; i++) {
-            numbers.push(
-                <li>
-                    <Paper
-                        key={i} style={
-                            this.state.currentPage=== i-1?style.activeStyle:style.paperStyle
-                        } zDepth={1} circle={true}
-                    >
-                        {i}
-                    </Paper>
-                </li>
-            );
-        }
-        return (
-            <div style={style.containerStyle}>
-                <ul style={{ display: 'inline-flex', listStyle: 'none' }}>
-                    <li>
-                        <button
-                            onClick={this.getPrev}
-                            type="submit" className="btn btn-primary"
-                        >
-                            Prev
-                        </button>
+  render() {
+    return (
+      <div style={style.containerStyle}>
+        <ul style={{display: 'inline-flex', listStyle: 'none'}}>
+          <li>
+            <button
+              onClick={this.getPrev}
+              type="submit" className="btn btn-primary"
+            >
+              Prev
+            </button>
 
-                    </li>
-                    {numbers}
-                    <li>
-                        <button
-                            onClick={this.getNext}
-                            type="submit" className="btn btn-primary"
-                        >
-                            Next
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        );
-    }
+          </li>
+          {this.getRange(Math.ceil(this.props.totalElements/this.state.size), this.state.number, this.state.number + this.state.size)}
+          <li>
+            <button
+              onClick={this.getNext}
+              type="submit" className="btn btn-primary"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default Pagination;

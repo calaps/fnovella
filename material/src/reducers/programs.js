@@ -21,26 +21,26 @@ const programs_reducer = (state = initialState.programs, action) => {
   let newState;
   switch(action.type){
     case PROGRAM_ADD_SUCCESS:
-      console.log(PROGRAM_ADD_SUCCESS)
+      console.log(PROGRAM_ADD_SUCCESS);
       return [...state, action.data];
     case PROGRAM_ADD_FAIL:
       // TODO: some alert may be
       return state;
     case PROGRAM_GET_SUCCESS:
-      console.log(PROGRAM_GET_SUCCESS)
+      console.log(PROGRAM_GET_SUCCESS);
       return {
           ...state,
           ...action.data
-      }
+      };
     case PROGRAM_GET_FAIL:
       // TODO: some alert may be
       return state;
     case PROGRAM_DELETE_SUCCESS:
       console.log(PROGRAM_DELETE_SUCCESS);
-      newState = [...state];
-      for(let i=0; i<newState.length; i++){
-        if(newState[i].id === action.data.id){
-          newState.splice(i, 1);
+      newState = {...state};
+      for(let i=0; i<newState.content.length; i++){
+        if(newState.content[i].id === action.data.id){
+          newState.content.splice(i, 1);
         }
       }
       return newState;
@@ -48,7 +48,7 @@ const programs_reducer = (state = initialState.programs, action) => {
       // TODO: some alert may be
       return state;
     case PROGRAM_UPDATE_SUCCESS:
-      console.log(PROGRAM_UPDATE_SUCCESS)
+      console.log(PROGRAM_UPDATE_SUCCESS);
       newState = [...state];
       for(let i=0; i<newState.length; i++){
         if(newState[i].id === action.data.id){
@@ -62,6 +62,6 @@ const programs_reducer = (state = initialState.programs, action) => {
     default:
       return state;
   }
-}
+};
 
 export default programs_reducer;

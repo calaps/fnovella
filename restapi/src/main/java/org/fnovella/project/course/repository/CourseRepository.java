@@ -1,0 +1,20 @@
+package org.fnovella.project.course.repository;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.fnovella.project.course.model.Course;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+@Repository("courseRepository")
+public interface CourseRepository extends JpaRepository<Course, Integer> {
+	List<Course> findByGrade(Integer grade);
+	@Modifying
+    @Transactional
+    @Query("delete from Course where grade = ?1")
+	void deleteByGrade(Integer grade);
+}
