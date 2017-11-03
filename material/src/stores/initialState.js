@@ -4,7 +4,7 @@ let initialState = {
     user: null,
   },
   programs: {},
-  catalogs: [],
+  catalogs: {},
   educators: {},
   privileges: [],
   participants: {},
