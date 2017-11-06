@@ -31,7 +31,7 @@ class ListElements extends React.Component {
   }
 
   render() {
-    let i = 0;
+    let i = 1;
     return (
       <article className="article">
         <h2 className="article-title">Lista de talleres</h2>

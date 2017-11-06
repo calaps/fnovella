@@ -12,7 +12,7 @@ class ListItem extends React.Component {
           <button
             onClick={()=>{this.props.onDelete(this.props.programData.id)}}
 
-            type="submit" className="btn btn-primary">visualizar secciones</button>
+            type="submit" className="btn btn-primary">Ver secciones asignadas</button>
           &nbsp;
           &nbsp;
           <button

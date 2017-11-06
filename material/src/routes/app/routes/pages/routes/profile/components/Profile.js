@@ -2,6 +2,7 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import RaisedButton from 'material-ui/RaisedButton'; //Buttons
 import EditProfile from './EditProfile';
+import ChangePassword from './ChangePassword';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getUserDetails } from '../../../../../../../actions';
@@ -29,7 +30,7 @@ class Information extends React.Component {
     var {user} = this.props;
     console.log(user);
     return(
-      <div className="col-md-4">
+      <div className="col-md-6">
         <section className="stat-item">
           <span className="stat-desc">Información</span>
         </section>
@@ -50,19 +51,25 @@ class Info extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      active: "EDIT_PRFILE"
+      active: "INFO"
     };
     this.activeView = this.activeView.bind(this);
+    this.changeView = this.changeView.bind(this);
   }
+
+  changeView(data){
+    this.setState({ active: data });
+  }
+
   activeView() {
     var {user} = this.props;
     switch (this.state.active) {
       case "INFO":
         return <Information user={user} />;
-      case "EDIT_PRFILE":
+      case "EDIT_PROFILE":
         return <EditProfile/>;
-      case "RESET_PASSWORD":
-      //return reset password;
+      case "UPDATE_PASSWORD":
+        return <ChangePassword/>
       default:
         return null;
     }
@@ -74,19 +81,19 @@ class Info extends React.Component {
       <div className="container-fluid with-maxwidth">
         <article className="article">
           <div className="row stat-container">
-            <div className="col-md-4">
+            <div className="col-md-3">
               <section className="stat-item">
                 <span className="stat-desc">{user?(user.firstName + ' ' + user.firstLastName):' '}</span>
               </section>
               <img className="calaps-profile" src="assets/images/dummyUser.png" alt="User profile pic" />
             </div>
             {this.activeView()}
-            <div className="col-md-4">
+            <div className="col-md-3">
               <section className="stat-item">
                 <span className="stat-desc">Opciones</span>
               </section>
-              <RaisedButton style={mWidthStyle} label="Cambiar contraseña" primary /><div className="divider" />
-              <RaisedButton style={mWidthStyle} label="Editar mi información" primary /><div className="divider" />
+              <RaisedButton onClick={() => this.changeView('UPDATE_PASSWORD')} style={mWidthStyle} label="Cambiar contraseña" primary /><div className="divider" />
+              <RaisedButton onClick={() => this.changeView('EDIT_PROFILE')} style={mWidthStyle} label="Editar mi información" primary /><div className="divider" />
             </div>
           </div>
         </article>

@@ -23,7 +23,7 @@ class Statboxes extends React.Component {
               <span>{this.props.dashboard.programs}</span>
             </div>
             <div className="box-info">
-              <span>Programas activos</span>
+              <span>Programas</span>
             </div>
             <div className="box-bottom">
               <i className="material-icons color-info">assignment</i>
@@ -36,7 +36,7 @@ class Statboxes extends React.Component {
               <span>{this.props.dashboard.students}</span>
             </div>
             <div className="box-info">
-              <span>Alumnos inscritos</span>
+              <span>Alumnos</span>
             </div>
             <div className="box-bottom">
               <i className="material-icons color-info">supervisor_account</i>

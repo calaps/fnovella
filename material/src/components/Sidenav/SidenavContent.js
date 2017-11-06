@@ -97,7 +97,12 @@ class SidebarContent extends React.Component {
         </li>
         <li><FlatButton href="#/app/clasification"><i className="nav-icon material-icons">grade</i><span className="nav-text">Clasificaciones</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/grade"><span>Grados</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/grade"><span>Grados</span></FlatButton>
+              <ul>
+                <li><FlatButton className="prepend-icon" href="#/app/grade"><span>Ver grados</span></FlatButton></li>
+                <li><FlatButton className="prepend-icon" href="#/app/section"><span>Secciones</span></FlatButton></li>
+              </ul>
+            </li>
             <li><FlatButton className="prepend-icon" href="#/app/course"><span>Cursos</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/workshop"><span>Talleres</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/division"><span>Categorias</span></FlatButton></li>

@@ -26,7 +26,7 @@ class EditProfile extends React.Component {
   render() {
     const {errors} = this.state;
     return (
-      <div className="col-md-4">
+      <div className="col-md-6">
         <section className="stat-item">
           <span className="stat-desc">Ingresa nueva información</span>
         </section>
@@ -37,7 +37,7 @@ class EditProfile extends React.Component {
 
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Primer nombre</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer nombre</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -52,7 +52,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Primer Apellido</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer Apellido</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -67,7 +67,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Tipo de dato</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -82,7 +82,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Valor del documento</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Valor del documento</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -97,7 +97,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Departamento</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Departamento</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -112,7 +112,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Municipalidad</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Municipalidad</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -127,7 +127,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Comunidad</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Comunidad</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -141,7 +141,7 @@ class EditProfile extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Profesión</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Profesión</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -156,7 +156,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Dirección</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Dirección</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -171,7 +171,7 @@ class EditProfile extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-2 control-label">Telefono celular</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Telefono celular</label>
                       <div className="col-md-9">
                         <input
                           type="text"
