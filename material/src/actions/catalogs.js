@@ -15,45 +15,52 @@ import {
   CATALOGS_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function catalogsGetRequest() {
+export function catalogsGetRequest(number, size, sort) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  params.type = 2;
+  params.sort = 'category';
   return function (dispatch) {
-    return new Promise(function(resolve, reject){{
-      // will be removed once API is ready
-      // dispatch({
-      //   type: PROGRAM_GET_REQUEST,
-      //   data: {
-      //   }
-      // });
-      // resolve(true);
-      // return;
+    return new Promise(function (resolve, reject) {
+      {
+        // will be removed once API is ready
+        // dispatch({
+        //   type: PROGRAM_GET_REQUEST,
+        //   data: {
+        //   }
+        // });
+        // resolve(true);
+        // return;
 
-      // API
-      HTTP('get', '/catalog/',null,{authorization: localStorage.getItem('@fnovella:token') })
-        .then(function (response) {
-          if(response.data.errors === null){
+        // API
+        HTTP('get', '/catalog/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
+          .then(function (response) {
+            if (response.data.errors === null) {
+              dispatch({
+                type: CATALOGS_GET_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
             dispatch({
-              type: CATALOGS_GET_SUCCESS,
-              data: response.data.data
+              type: CATALOGS_GET_FAIL,
+              error: error
             });
-            resolve(response.data);
-          }else{
-            reject(response.data);
-          }
-        })
-        .catch(error => {
-          dispatch({
-            type: CATALOGS_GET_FAIL,
-            error: error
-          });
-          reject(error);
-        })
-    }})
+            reject(error);
+          })
+      }
+    })
   }
 }
 
 export function catalogsAddRequest(data) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       // will be removed once API is ready
       // dispatch({
       //   type: CATALOGS_ADD_SUCCESS,
@@ -63,15 +70,15 @@ export function catalogsAddRequest(data) {
       // return;
 
       // API
-      HTTP('post', '/catalog/', data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('post', '/catalog/', data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(!response.data.errors){
+          if (!response.data.errors) {
             dispatch({
               type: CATALOGS_ADD_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
-          }else{
+          } else {
             reject(response.data)
           }
         })
@@ -88,7 +95,7 @@ export function catalogsAddRequest(data) {
 
 export function catalogsUpdateRequest(data) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
 
       // will be removed once API is ready
       // dispatch({
@@ -99,15 +106,15 @@ export function catalogsUpdateRequest(data) {
       // return;
 
       // API
-      HTTP('patch', '/catalog/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('patch', '/catalog/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(!response.data.errors){
+          if (!response.data.errors) {
             dispatch({
               type: CATALOGS_UPDATE_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
-          }else{
+          } else {
             reject(response.data)
           }
         })
@@ -124,7 +131,7 @@ export function catalogsUpdateRequest(data) {
 
 export function catalogsDeleteRequest(id) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
 
       // will be removed once API is ready
       // dispatch({
@@ -135,9 +142,9 @@ export function catalogsDeleteRequest(id) {
       // return;
 
       // API
-      HTTP('delete', '/catalog/'+id,null, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('delete', '/catalog/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(response.data.errors===null){
+          if (response.data.errors === null) {
             dispatch({
               type: CATALOGS_DELETE_SUCCESS,
               data: {
@@ -145,7 +152,7 @@ export function catalogsDeleteRequest(id) {
               }
             });
             resolve(response.data);
-          }else{
+          } else {
             reject(response.data);
           }
         })

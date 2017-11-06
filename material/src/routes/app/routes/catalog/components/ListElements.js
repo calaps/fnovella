@@ -7,30 +7,25 @@ import {
   categoriesGetRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 
 /** *
  * Fake element list render....
  * */
+let size = 5; //limit
+let number = 0; //page
+let sort = 'category';
 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteButton=this.onDeleteButton.bind(this);
-    this.sortByKey=this.sortByKey.bind(this);
   }
 
   componentWillMount() {
-    this.props.actions.catalogsGetRequest();
+    this.props.actions.catalogsGetRequest(number, size, sort);
     this.props.actions.categoriesGetRequest();
   }
-
-  sortByKey(array, key){
-    return array.sort(function(a, b) {
-      let x = a[key]; let y = b[key];
-      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
-  }
-
 
   onDeleteButton(id) {
     console.log("id: ", id);
@@ -39,7 +34,6 @@ class ListElements extends React.Component {
 
   render() {
     let i =0;
-    let array  = this.sortByKey(this.props.catalogs,'category');
     return (
       <article className="article">
         <h2 className="article-title">Lista de catalogos</h2>
@@ -61,18 +55,23 @@ class ListElements extends React.Component {
                     </thead>
                     <tbody>
                     {
-                      array?array.map((catalog) => {
+                      this.props.catalogs.content ? this.props.catalogs.content.map((catalog) => {
                         return <ListItem key={catalog.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          category={this.props.categories.filter((category)=>{
                                            return category.id === catalog.category
-                                           })}
+                                         })}
                                          onEdit={this.props.onEdit}
                                          catalogData={catalog}/>
-                      }):null
+                      }) : null
                     }
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.catalogs.totalPages}
+                    totalElements={this.props.catalogs.totalElements}
+                    getRequest={this.props.actions.catalogsGetRequest}
+                  />
                 </div>
 
               </div>

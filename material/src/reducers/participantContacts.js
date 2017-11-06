@@ -12,7 +12,10 @@ import {
   PARTICIPANT_CONTACT_UPDATE_SUCCESS,
   PARTICIPANT_CONTACT_ADD_REQUEST,
   PARTICIPANT_CONTACT_ADD_SUCCESS,
-  PARTICIPANT_CONTACT_ADD_FAIL
+  PARTICIPANT_CONTACT_ADD_FAIL,
+  PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_REQUEST,
+  PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_SUCCESS,
+  PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_FAIL
 } from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
@@ -24,6 +27,15 @@ const participants_contacts_reducer = (state = initialState.participantContacts,
       console.log(PARTICIPANT_CONTACT_ADD_SUCCESS);
       return [...state, action.data];
     case PARTICIPANT_CONTACT_ADD_FAIL:
+      // TODO: some alert may be
+      return state;
+    case PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_SUCCESS:
+      console.log(PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_SUCCESS);
+      return {
+        ...state,
+        ...action.data
+      };
+    case PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_FAIL:
       // TODO: some alert may be
       return state;
     default:

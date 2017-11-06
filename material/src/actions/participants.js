@@ -14,6 +14,40 @@ import {
   PARTICIPANT_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
+
+export function participantsGetRequestBySearch(id,firstName,appCode) {
+  return function (dispatch) {
+      return new Promise(async function(resolve, reject){{
+        let params= {
+        id,
+        firstName,
+        appCode
+        }
+        // API
+        HTTP('post', '/participant/search', null, {authorization:localStorage.getItem('@fnovella:token')},params)
+          .then(function (response) {
+            if(response.data.errors === null){
+               dispatch({
+                type: PARTICIPANT_GET_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            }
+            else{
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            dispatch({
+              type: PARTICIPANT_GET_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+      }})
+    }
+  }
+
 export function participantGetRequest(number, size) {
   let params = {};
   params.page = number;
