@@ -28,17 +28,20 @@ const users_reducer = (state = initialState.users, action) => {
       return state;
     case USERS_GET_SUCCESS:
       console.log(USERS_GET_SUCCESS)
-      return action.data;
+      return {
+        ...state,
+        ...action.data
+      };
     case USERS_GET_FAIL:
       // TODO: some alert may be
       return state;
     case USERS_DELETE_SUCCESS:
       console.log(USERS_DELETE_SUCCESS);
-      newState = [...state];
+      newState = {...state};
       console.log("new State: ", newState);
-      for(let i=0; i<newState.length; i++){
-        if(newState[i].id === action.data.id){
-          newState.splice(i, 1);
+      for(let i=0; i<newState.content.length; i++){
+        if(newState.content[i].id === action.data.id){
+          newState.content.splice(i, 1);
         }
       }
       console.log("new State: ", newState);

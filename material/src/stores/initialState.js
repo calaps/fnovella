@@ -9,7 +9,7 @@ let initialState = {
   privileges: [],
   participants: {},
   sedes: {},
-  users: [],
+  users: {},
   programActivations: {},
   participantContacts: {},
   courses: {},
