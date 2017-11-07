@@ -12,7 +12,13 @@ import {
   LOG_OUT_SUCCESS,
   LOG_OUT_FAIL,
   FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_FAIL
+  FORGOT_PASSWORD_FAIL,
+  APP_USER_UPDATE_REQUEST,
+  APP_USER_UPDATE_SUCCESS,
+  APP_USER_UPDATE_FAIL,
+  APP_USER_PASSWORD_UPDATE_REQUEST,
+  APP_USER_PASSWORD_UPDATE_SUCCESS,
+  APP_USER_PASSWORD_UPDATE_FAIL
 } from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
@@ -80,6 +86,26 @@ const auth_reducer = (state = initialState.auth, action) => {
       console.log(FORGOT_PASSWORD_SUCCESS);
       return state;
     case FORGOT_PASSWORD_FAIL:
+      return state;
+    case APP_USER_UPDATE_SUCCESS:
+      console.log(APP_USER_UPDATE_SUCCESS);
+      return Object.assign(
+        {},
+        state,
+        {
+          user: action.data
+        }
+      );
+    case APP_USER_UPDATE_FAIL:
+      console.log(APP_USER_UPDATE_FAIL);
+      // TODO: some alert may be
+      return state;
+    case APP_USER_PASSWORD_UPDATE_SUCCESS:
+      console.log(APP_USER_PASSWORD_UPDATE_SUCCESS);
+      return state;
+    case APP_USER_PASSWORD_UPDATE_FAIL:
+      console.log(APP_USER_PASSWORD_UPDATE_FAIL);
+      // TODO: some alert may be
       return state;
     default:
       return state;
