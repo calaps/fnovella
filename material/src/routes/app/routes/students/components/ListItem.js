@@ -15,7 +15,7 @@ class ListItem extends React.Component {
           <button
             onClick={()=>{this.props.onEmergencyView(this.props.participantData.id)}}
 
-            type="submit" className="btn btn-primary">Emergency contact</button>
+            type="submit" className="btn btn-primary">Contacto de emergencia</button>
           &nbsp;
           &nbsp;
           <button

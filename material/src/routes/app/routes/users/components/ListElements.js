@@ -76,26 +76,20 @@ class ListElements extends React.Component {
     }
   }
   render() {
-<<<<<<< HEAD
     let i =1;
-=======
-    console.log("users: ", this.props.users.content)
-    let i = 0;
->>>>>>> 6389a761b50e8dc802df2b328886e1bd8aa3892c
+    console.log("users: ", this.props.users.content);
     return (
       <article className="article">
         <h2 className="article-title">Lista de usuarios</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
-<<<<<<< HEAD
-=======
 
               <form onSubmit={this.handleSearch}>
 
                 <div className="row">
                   <div className="col-xl-5">
-                    <div >Basic table</div>
+                    <div >Búsqueda avanzada</div>
                   </div>
                   <div className="col-xl-7 text-right">
                     <input
@@ -118,9 +112,9 @@ class ListElements extends React.Component {
                       this.setState({searchValue: e.target.value})
                     }}
                       value={this.state.searchValue}>
-                      <option value="Name">Name</option>
-                      <option value="Id">Id</option>
-                      <option value="Code">Code</option>
+                      <option value="Name">por nombre</option>
+                      <option value="Id">por ID</option>
+                      <option value="Code">por código</option>
                     </select>
                     <IconButton
                       iconStyle={{
@@ -139,32 +133,28 @@ class ListElements extends React.Component {
                 </div>
               </form>
 
->>>>>>> 6389a761b50e8dc802df2b328886e1bd8aa3892c
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
                   <table className="mdl-data-table">
                     <thead>
-<<<<<<< HEAD
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">FirstName</th>
-                      <th className="mdl-data-table__cell--non-numeric">LastName</th>
+                      <th className="mdl-data-table__cell--non-numeric">Primer nombre</th>
+                      <th className="mdl-data-table__cell--non-numeric">Apellido</th>
                       <th className="mdl-data-table__cell--non-numeric">Email</th>
-                      <th className="mdl-data-table__cell--non-numeric">CellPhone</th>
-                      <th className="mdl-data-table__cell--non-numeric">Gender</th>
+                      <th className="mdl-data-table__cell--non-numeric">Celular</th>
+                      <th className="mdl-data-table__cell--non-numeric">Genero</th>
                     </tr>
-=======
                       <tr>
                         <th className="mdl-data-table__cell--non-numeric">#</th>
                         <th className="mdl-data-table__cell--non-numeric">Id</th>
-                        <th className="mdl-data-table__cell--non-numeric">FirstName</th>
-                        <th className="mdl-data-table__cell--non-numeric">LastName</th>
+                        <th className="mdl-data-table__cell--non-numeric">Primer nombre</th>
+                        <th className="mdl-data-table__cell--non-numeric">Apellido</th>
                         <th className="mdl-data-table__cell--non-numeric">Email</th>
-                        <th className="mdl-data-table__cell--non-numeric">CellPhone</th>
-                        <th className="mdl-data-table__cell--non-numeric">Gender</th>
+                        <th className="mdl-data-table__cell--non-numeric">Celular</th>
+                        <th className="mdl-data-table__cell--non-numeric">Genero</th>
                       </tr>
->>>>>>> 6389a761b50e8dc802df2b328886e1bd8aa3892c
                     </thead>
 
                     <tbody>

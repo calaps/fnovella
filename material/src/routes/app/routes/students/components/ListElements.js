@@ -65,47 +65,42 @@ class ListElements extends React.Component {
   }
 
   render() {
-    let i =0;
+    let i =1;
     return (
       <article className="article">
         <h2 className="article-title">Lista de participantes</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
-<<<<<<< HEAD
-=======
-            
-            
+
             <form onSubmit={this.handleSearch}>
 
             <div className="row">
               <div className="col-xl-5">
-              <div >Basic table</div>
+              <div >Búsqueda avanzada</div>
               </div>
               <div className="col-xl-7 text-right">
                   <input style={{margin:5,padding:5}} type='text'
                   value={this.state.inputValue}
                   onChange={(e)=>{this.setState({inputValue:e.target.value})}}
                   />
-                  <select 
+                  <select
                   style={{padding:5,margin:5,height:34}}
                     onChange={(e)=>{this.setState({searchValue:e.target.value})}}
                     value={this.state.searchValue}
                     >
-                     <option value="Name">Name</option>
-                    <option value="Id">Id</option>
-                    <option value="Code">Code</option>
+                     <option value="Name">por Nombre</option>
+                    <option value="Id">por ID</option>
+                    <option value="Code">por Código</option>
                   </select>
                 <IconButton
                 iconStyle = {{color:'white'}}
                 style={{margin:5, height:34,width:34, backgroundColor:'#49a54e', padding:5}}
                 type="submit" className="btn btn-primary"><Search /></IconButton>
-                </div>                
+                </div>
               </div>
               </form>
 
-            
->>>>>>> 6389a761b50e8dc802df2b328886e1bd8aa3892c
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">

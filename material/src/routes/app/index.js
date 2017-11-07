@@ -21,6 +21,7 @@ module.exports = {
         require('./routes/category'), // Calaps App Category
         require('./routes/course'), // Calaps App Students
         require('./routes/group'), // Calaps App Students
+        require('./routes/create_group'), // Calaps App Students
         require('./routes/section'), // Calaps App Students
       ]);
     });

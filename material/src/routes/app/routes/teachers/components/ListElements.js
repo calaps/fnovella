@@ -84,7 +84,7 @@ class ListElements extends React.Component {
 
                 <div className="row">
                   <div className="col-xl-5">
-                    <div >Basic table</div>
+                    <div >Búsqueda avanzada</div>
                   </div>
                   <div className="col-xl-7 text-right">
                     <input
@@ -107,9 +107,9 @@ class ListElements extends React.Component {
                       this.setState({searchValue: e.target.value})
                     }}
                       value={this.state.searchValue}>
-                      <option value="Name">Name</option>
-                      <option value="Id">Id</option>
-                      <option value="Code">Code</option>
+                      <option value="Name">por Nombre</option>
+                      <option value="Id">por ID</option>
+                      <option value="Code">por Código</option>
                     </select>
                     <IconButton
                       iconStyle={{
@@ -136,11 +136,11 @@ class ListElements extends React.Component {
                       <tr>
                         <th className="mdl-data-table__cell--non-numeric">#</th>
                         <th className="mdl-data-table__cell--non-numeric">id</th>
-                        <th className="mdl-data-table__cell--non-numeric">Name</th>
+                        <th className="mdl-data-table__cell--non-numeric">Nombre</th>
                         <th className="mdl-data-table__cell--non-numeric">Email</th>
-                        <th className="mdl-data-table__cell--non-numeric">Gender</th>
-                        <th className="mdl-data-table__cell--non-numeric">Department</th>
-                        <th className="mdl-data-table__cell--non-numeric">Cellphone</th>
+                        <th className="mdl-data-table__cell--non-numeric">Genero</th>
+                        <th className="mdl-data-table__cell--non-numeric">Departamento</th>
+                        <th className="mdl-data-table__cell--non-numeric">Celular</th>
 
                       </tr>
                     </thead>

@@ -11,13 +11,13 @@ class ListItem extends React.Component {
           <button
             onClick={()=>{this.props.onDelete(this.props.programData.id)}}
 
-            type="submit" className="btn btn-primary">visualizar grupo</button>
+            type="submit" className="btn btn-primary">visualizar grupo/sección</button>
           &nbsp;
           &nbsp;
           <button
             onClick={()=>{this.props.onDelete(this.props.programData.id)}}
 
-            type="submit" className="btn btn-primary">Crear grupo</button>
+            type="submit" className="btn btn-primary">Crear sección/Grupo</button>
           &nbsp;
           &nbsp;
           <button

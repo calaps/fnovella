@@ -458,7 +458,6 @@ class EditForm extends React.Component {
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                       </div>
-<<<<<<< HEAD
 
                       <div className="form-group row">
                         <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia
@@ -521,7 +520,6 @@ class EditForm extends React.Component {
                           </select>
                           {errors.community && <span className="help-block text-danger">{errors.community}</span>}
                         </div>
-=======
                     </div>
 
                     <div className="form-group row">
@@ -538,7 +536,6 @@ class EditForm extends React.Component {
                           {communitiesOpt()}
                         </select>
                         {errors.community && <span className="help-block text-danger">{errors.community}</span>}
->>>>>>> 6389a761b50e8dc802df2b328886e1bd8aa3892c
                       </div>
                     </div>
 
@@ -674,9 +671,10 @@ class EditForm extends React.Component {
                                       className="btn-w-md"> </RaisedButton>
                       </div>
                     </div>
-                  </form>
+
 
                 </div>
+                  </form>
               </div>
 
             </div>
@@ -697,8 +695,7 @@ class EditForm extends React.Component {
 
           </div>
 
-        </div>
-      </article>
+          </div></div></article>
     );
   }
 }
