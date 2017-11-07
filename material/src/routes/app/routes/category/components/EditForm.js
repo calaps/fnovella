@@ -20,6 +20,7 @@ class EditForm extends React.Component {
       isEditing: (this.props.categoryData.id)?true:false,
       name: this.props.categoryData.name || '',
       description: this.props.categoryData.description|| '',
+      additionalField: (typeof this.props.categoryData.additionalField === "boolean")?this.props.categoryData.additionalField:true,
       id: this.props.categoryData.id || '',
       errors: {},
       isLoading: false
@@ -57,6 +58,7 @@ class EditForm extends React.Component {
       this.setState({ errors: {}, isLoading: true });
       let data = {
         name:this.state.name,
+        additionalField: this.state.additionalField,
         description: this.state.description
       };
       if(this.state.isEditing){
@@ -131,6 +133,23 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           placeholder="eje: departamento" />
                           {errors.name && <span className="help-block text-danger">{errors.name}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Es categoria de campos adicionales?</label>
+                      <div className="col-md-9">
+                        <select
+                          name="additionalField"
+                          id="additionalField"
+                          onChange={this.onChange}
+                          value={this.state.additionalField}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona...</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
+                        </select>
+                        {errors.additionalField && <span className="help-block text-danger">{errors.additionalField}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
