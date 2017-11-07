@@ -20,6 +20,7 @@ public class Workshop {
 	private String description;
 	private Integer programId;
 	private Integer instructorId;
+	private boolean createdGroup;
 	public Integer getId() {
 		return id;
 	}
@@ -56,13 +57,20 @@ public class Workshop {
 	public void setInstructorId(Integer instructorId) {
 		this.instructorId = instructorId;
 	}
-	public Workshop(String name, Integer location, String description, Integer programId, Integer instructorId) {
+	public boolean getCreatedGroup() {
+		return createdGroup;
+	}
+	public void setCreatedGroup(boolean createdGroup) {
+		this.createdGroup = createdGroup;
+	}
+	public Workshop(String name, Integer location, String description, Integer programId, Integer instructorId, boolean createdGroup) {
 		super();
 		this.name = name;
 		this.location = location;
 		this.description = description;
 		this.programId = programId;
 		this.instructorId = instructorId;
+		this.createdGroup = createdGroup;
 	}
 	public Workshop() {
 		super();
@@ -82,5 +90,6 @@ public class Workshop {
 		if (workshop.location != null && workshop.location > 0) this.location = workshop.location;
 		if (workshop.programId != null && workshop.programId > 0) this.programId = workshop.programId;
 		if (workshop.instructorId != null && workshop.instructorId > 0) this.instructorId = workshop.instructorId;
+		this.createdGroup = workshop.createdGroup;
 	}
 }

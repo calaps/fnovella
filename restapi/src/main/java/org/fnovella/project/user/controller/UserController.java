@@ -212,8 +212,8 @@ public class UserController {
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		String password = APIUtility.generateHash();
 		helper.setTo(appUser.getEmail());
-		helper.setText("Hello, <br><br> You password has been restarted successfully, your new password is : " + password + "<br><br> Regards.", true);
-		helper.setSubject("Password Reset");
+		helper.setText("Hola, <br><br> Tu contraseña ha sido reiniciada correctamente, tu nueva contraseña es : " + password + "<br><br> Saludos.", true);
+		helper.setSubject("Reinicio de Contraseña");
 		emailSender.send(message);
 		appUser.setPassword(password);
 		this.userRepository.saveAndFlush(appUser);
@@ -223,8 +223,8 @@ public class UserController {
 		MimeMessage message = emailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		helper.setTo(appUser.getEmail());
-		helper.setText("Hello, <br><br> You password is : " + appUser.getPassword() + "<br><br> Regards.", true);
-		helper.setSubject("Forgot Password");
+		helper.setText("Hola, <br><br> Tu contraseña es : " + appUser.getPassword() + "<br><br> Saludos.", true);
+		helper.setSubject("Contraseña Olvidada");
 		emailSender.send(message);
 	}
 }

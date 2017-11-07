@@ -25,6 +25,7 @@ public class Course {
 	private Integer grade;
 	private Integer programId;
 	private Integer instructorId;
+	private boolean createdGroup;
 	
 	public Integer getGrade() {
 		return grade;
@@ -74,8 +75,14 @@ public class Course {
 	public void setInstructorId(Integer instructorId) {
 		this.instructorId = instructorId;
 	}
+	public boolean getCreatedGroup() {
+		return createdGroup;
+	}
+	public void setCreatedGroup(boolean createdGroup) {
+		this.createdGroup = createdGroup;
+	}
 	public Course(String name, Integer location, String description, boolean openCourse, Integer grade,
-			Integer programId, Integer instructorId) {
+			Integer programId, Integer instructorId, boolean createdGroup) {
 		super();
 		this.name = name;
 		this.location = location;
@@ -84,6 +91,7 @@ public class Course {
 		this.grade = grade;
 		this.programId = programId;
 		this.instructorId = instructorId;
+		this.createdGroup = createdGroup;
 	}
 	public Course() {
 		super();
@@ -106,5 +114,6 @@ public class Course {
 		if (course.programId != null && course.programId > 0) this.programId = course.programId;
 		if (course.instructorId != null && course.instructorId > 0) this.instructorId = course.instructorId;
 		this.openCourse = course.openCourse;
+		this.createdGroup = course.createdGroup;
 	}
 }

@@ -65,7 +65,7 @@ public class Grade {
 		this.instructorId = instructorId;
 	}
 	public Grade(String name, String level, String description, Integer location, Integer programId,
-			Integer instructorId) {
+			Integer instructorId, Integer section) {
 		super();
 		this.name = name;
 		this.level = level;

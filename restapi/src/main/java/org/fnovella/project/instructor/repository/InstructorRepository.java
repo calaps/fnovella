@@ -16,4 +16,5 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
 	Page<Instructor> findByFirstNameAndAppCode(String firstName, String appCode, Pageable pageable);
 	Page<Instructor> findByFirstNameAndAppCodeAndId(String firstName, String appCode, Integer id, Pageable pageable);
 	Page<Instructor> findByAppCodeAndId(String appCode, Integer id, Pageable pageable);
+	Instructor findByEmailAndPassword(String email, String password);
 }

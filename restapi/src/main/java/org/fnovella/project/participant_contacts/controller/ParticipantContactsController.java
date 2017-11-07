@@ -36,6 +36,12 @@ public class ParticipantContactsController {
 		errors.add("Participant Contacts doesn't exist");
 		return new APIResponse(null, errors);
 	}
+
+	@RequestMapping(value = "{participant_id}/participant_id", method = RequestMethod.GET)
+	public APIResponse getByParticipantId(@RequestHeader("authorization") String authorization, Pageable pageable,
+		@PathVariable ("participant_id") Integer participantId) {
+		return new APIResponse(this.participantContactsRepository.findByParticipantId(participantId, pageable), null);
+	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody ParticipantContacts participantContacts) {
