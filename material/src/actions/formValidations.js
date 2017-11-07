@@ -455,9 +455,9 @@ export function tutorValidator(data){
       errors.address = invalidData;
     }
   }
-  if(Validator.isEmpty(data.bornDate)) {
-    errors.bornDate = required;
-  }
+  // if(Validator.isEmpty(data.bornDate)) {
+  //   errors.bornDate = required;
+  // }
   if(Validator.isEmpty(data.gender)) {
     errors.gender = required;
     if(!Validator.isEmpty(data.gender) && !Validator.isAlphanumeric(data.gender)){

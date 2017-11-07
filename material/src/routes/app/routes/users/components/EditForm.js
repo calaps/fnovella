@@ -41,6 +41,8 @@ class EditForm extends React.Component {
       confirm_password: this.props.userData.confirm_password || '',
       cemproCode: this.props.userData.cemproCode || '',
       gender: this.props.userData.gender || '',
+      colony: this.props.userData.colony || '',
+      zone: this.props.userData.zone || '',
       id: this.props.userData.id || '',
       errors: {},
       isLoading: false
@@ -80,6 +82,8 @@ class EditForm extends React.Component {
         confirm_password: '',
         cemproCode: '',
         gender: '',
+        colony: '',
+        zone: '',
         id: '',
       });
     }
@@ -126,6 +130,8 @@ class EditForm extends React.Component {
         confirm_password: this.state.confirm_password,
         cemproCode: this.state.cemproCode,
         gender: this.state.gender,
+        colony: this.state.colony,
+        zone: this.state.zone,
         // remaining items
         appCode: '1',
         phon: 1
@@ -361,7 +367,7 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
+                      <label htmlFor="bornDate" className="col-md-3 control-label">Fecha de nacimiento</label>
                       <div className="col-md-9">
                         <input
                           type="date"
@@ -461,6 +467,38 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
+                      <label htmlFor="colony" className="col-md-3 control-label">Colonia</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="ecolony"
+                          name="colony"
+                          value={this.state.colony}
+                          onChange={this.onChange}
+                          placeholder="eje: juan@gmail.com"/>
+                        {errors.documentValue &&
+                        <span className="help-block text-danger">{errors.documentValue}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="zone" className="col-md-3 control-label">Zona</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="ezone"
+                          name="zone"
+                          value={this.state.zone}
+                          onChange={this.onChange}
+                          placeholder="eje: juan@gmail.com"/>
+                        {errors.documentValue &&
+                        <span className="help-block text-danger">{errors.documentValue}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-success">Comunidad</label>
                       <div className="col-md-9">
                         <select
@@ -551,6 +589,22 @@ class EditForm extends React.Component {
                           {genders}
                         </select>
                         {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="cemproCode" className="col-md-3 control-label">Código de Cempro</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="cemproCode"
+                          name="cemproCode"
+                          value={this.state.cemproCode}
+                          onChange={this.onChange}
+                          placeholder="eje: juan@gmail.com"/>
+                        {errors.documentValue &&
+                        <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
                     </div>
 
