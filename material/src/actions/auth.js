@@ -14,7 +14,13 @@ import {
   LOG_OUT_SUCCESS,
   LOG_OUT_FAIL,
   FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_FAIL
+  FORGOT_PASSWORD_FAIL,
+  APP_USER_UPDATE_REQUEST,
+  APP_USER_UPDATE_SUCCESS,
+  APP_USER_UPDATE_FAIL,
+  APP_USER_PASSWORD_UPDATE_REQUEST,
+  APP_USER_PASSWORD_UPDATE_SUCCESS,
+  APP_USER_PASSWORD_UPDATE_FAIL
 } from './../constants/ActionTypes';
 
 export function loginRequest(data) {
@@ -257,6 +263,82 @@ export function forgotPasswordRequest(data){
           });
           reject(error);
         })
+    }})
+  }
+}
+
+export function appUserUpdateRequest(data) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+
+      // will be removed once API is ready
+      // dispatch({
+      //   type: USERS_UPDATE_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
+
+      // API
+      HTTP('patch', '/user/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(response.data.errors === null){
+            dispatch({
+              type: APP_USER_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }
+          else{
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: APP_USER_UPDATE_FAIL,
+            error: error
+          });
+          reject(error);
+        });
+    }})
+  }
+}
+
+export function appUserPasswordUpdateRequest(data) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+
+      // will be removed once API is ready
+      // dispatch({
+      //   type: USERS_UPDATE_SUCCESS,
+      //   data: {
+      //   }
+      // });
+      // resolve(true);
+      // return;
+
+      // API
+      HTTP('patch', '/user/'+data.id+'/password', data, {authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(response.data.errors === null){
+            dispatch({
+              type: APP_USER_PASSWORD_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            resolve(response.data);
+          }
+          else{
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: APP_USER_PASSWORD_UPDATE_FAIL,
+            error: error
+          });
+          reject(error);
+        });
     }})
   }
 }
