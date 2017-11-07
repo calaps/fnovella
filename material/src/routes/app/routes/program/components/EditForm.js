@@ -9,7 +9,8 @@ import {bindActionCreators} from 'redux';
 import {
   programAddRequest,
   programUpdateRequest,
-  categoriesGetRequest
+  categoriesGetRequest,
+  usersGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -29,6 +30,19 @@ class EditForm extends React.Component {
       id: this.props.programData.id || '',
       category: this.props.programData.category || '',
       genderAudience: this.props.programData.genderAudience || '',
+      "activationStatus": typeof this.props.programData.activationStatus === "boolean" ? this.props.programData.activationStatus : true,
+      "audienceMax": typeof this.props.programData.audienceMax === "number" ? this.props.programData.audienceMax : 0,
+      "audienceMin": typeof this.props.programData.audienceMin === "number" ? this.props.programData.audienceMin : 0,
+      "evaluationPerformmance": typeof this.props.programData.evaluationPerformmance === "boolean" ? this.props.programData.evaluationPerformmance : true,
+      "evaluationPeriod": typeof this.props.programData.evaluationPeriod === "number" ? this.props.programData.evaluationPeriod : 0,
+      "evaluationType": this.props.programData.evaluationType || '',
+      "gender": this.props.programData.gender || 'male',
+      "implementationLocation": this.props.programData.implementationLocation || '',
+      "indicatorsEvaluation": typeof this.props.programData.indicatorsEvaluation === "boolean" ? this.props.programData.indicatorsEvaluation : true,
+      "indicatorsPerformmance": typeof this.props.programData.indicatorsPerformmance === "boolean" ? this.props.programData.indicatorsPerformmance : true,
+      "indicatorsSatisfaction": typeof this.props.programData.indicatorsSatisfaction === "boolean" ? this.props.programData.indicatorsSatisfaction : true,
+      "monthsTotal": typeof this.props.programData.monthsTotal === "number" ? this.props.programData.monthsTotal : 0,
+      "responsable": typeof this.props.programData.responsable === "number" ? this.props.programData.responsable : 0,
       errors: {},
       isLoading: false
     };
@@ -41,6 +55,7 @@ class EditForm extends React.Component {
 
   componentWillMount(){
     this.props.actions.categoriesGetRequest();
+    this.props.actions.usersGetRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,7 +71,7 @@ class EditForm extends React.Component {
         type: true,
         id: '',
         category: '',
-        genderAudience: '',
+        genderAudience: 'male',
 
 
         "activationStatus": true,
@@ -65,7 +80,7 @@ class EditForm extends React.Component {
         "evaluationPerformmance": true,
         "evaluationPeriod": 0,
         "evaluationType": "string",
-        "gender": "string",
+        "gender": "male",
         "implementationLocation": "string",
         "indicatorsEvaluation": true,
         "indicatorsPerformmance": true,
@@ -174,6 +189,20 @@ class EditForm extends React.Component {
       return categories.map((category)=>{
         return <option key={category.id} value={category.id}>{category.name}</option>
       });
+    };
+
+    //Programs options
+    let responsibleOpt = () => {
+      // console.log("this.props.users: ", this.props.users);
+      if(this.props.users.content){
+      let users = this.props.users.content;
+      return users.map((user) => {
+        return <option key={user.id} value={user.id}>{user.firstName + ' ' + user.firstLastName}</option>
+      });
+      }
+      else{
+        return null;
+      }
     };
 
     return (
@@ -513,14 +542,15 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">responsable</label>
                       <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="responsable"
+                        <select
                           name="responsable"
-                          value={this.state.responsable}
+                          id="responsable"
                           onChange={this.onChange}
-                          placeholder="eje: responsable"/>
+                          value={this.state.responsable}
+                          className="form-control"
+                        >
+                          {responsibleOpt()}
+                        </select>
                         {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
                       </div>
                     </div>
@@ -556,7 +586,8 @@ class EditForm extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    categories: state.categories
+    categories: state.categories,
+    users: state.users
   }
 }
 
@@ -567,7 +598,8 @@ function mapDispatchToProps(dispatch) {
       //    signUpRequest
       programAddRequest,
       programUpdateRequest,
-      categoriesGetRequest
+      categoriesGetRequest,
+      usersGetRequest
     }, dispatch)
   };
 }

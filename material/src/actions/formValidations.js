@@ -134,12 +134,12 @@ export function programValidator(data){
       errors.name = invalidData;
     }
   }
-  if(Validator.isEmpty(data.category)) {
-    errors.category = required;
-    if(!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)){
-      errors.category = invalidData;
-    }
-  }
+  // if(Validator.isEmpty(data.category)) {
+  //   errors.category = required;
+  //   if(!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)){
+  //     errors.category = invalidData;
+  //   }
+  // }
   if(Validator.isEmpty(data.genderAudience)) {
     errors.genderAudience = required;
     if(!Validator.isEmpty(data.genderAudience) && !Validator.isAlphanumeric(data.genderAudience)){
