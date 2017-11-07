@@ -50,7 +50,7 @@ class EditForm extends React.Component {
         description: '',
         location: '',
         programId: '',
-        instructorId: '',
+        // instructorId: '',
         id: '',
       });
     }
@@ -77,7 +77,7 @@ class EditForm extends React.Component {
         description: this.state.description,
         location: this.state.location,
         programId: this.state.programId,
-        instructorId: this.state.instructorId,
+        // instructorId: this.state.instructorId,
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -142,16 +142,19 @@ class EditForm extends React.Component {
     let programsOpt = () => {
       let programs = this.props.programs.content || [];
       return programs.map((program) => {
-        return <option key={program.id} value={program.id}>{program.name}</option>
+        if(program.clasification === "workshop"){
+          return <option key={program.id} value={program.id}>{program.name}</option>
+        }
       });
     };
     //Educators options
-    let educatorsOpt = () => {
-      let educators = this.props.educators.content || [];
-      return educators.map((educator) => {
-        return <option key={educator.id} value={educator.id}>{educator.firstName}</option>
-      });
-    };
+    // no longer needed
+    // let educatorsOpt = () => {
+    //   let educators = this.props.educators.content || [];
+    //   return educators.map((educator) => {
+    //     return <option key={educator.id} value={educator.id}>{educator.firstName}</option>
+    //   });
+    // };
 
     return (
       <article className="article padding-lg-v article-bordered">
@@ -223,7 +226,7 @@ class EditForm extends React.Component {
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
                     </div>
-                    <div className="form-group row">
+                    {/*<div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadore</label>
                       <div className="col-md-9">
                         <select
@@ -238,7 +241,7 @@ class EditForm extends React.Component {
                         </select>
                         {errors.instructorId && <span className="help-block text-danger">{errors.instructorId}</span>}
                       </div>
-                    </div>
+                    </div>*/}
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
