@@ -566,7 +566,6 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-<<<<<<< HEAD
                       {
                         /* #change
                         description: If the program uses "grade, courses, workshop or category"
@@ -575,9 +574,6 @@ class EditForm extends React.Component {
                       */
                       }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de desempeño</label>
-=======
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Gender Audience: </label>
->>>>>>> 74220fff29c778c56eec8a287b33445cd63147c5
                       <div className="col-md-9">
                         <select
                           name="genderAudience"

@@ -1,12 +1,7 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import RaisedButton from 'material-ui/RaisedButton'; //Buttons
-<<<<<<< HEAD
-import EditProfile from './EditProfile';
-import ChangePassword from './ChangePassword';
-=======
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
->>>>>>> 74220fff29c778c56eec8a287b33445cd63147c5
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { appUserUpdateRequest, appUserPasswordUpdateRequest } from '../../../../../../../actions';
@@ -26,64 +21,14 @@ const Hero = () => (
   </section>
 );
 
-<<<<<<< HEAD
-class Information extends React.Component {
-  constructor(props){
-    super(props);
-  }
-  render(){
-    var {user} = this.props;
-    console.log(user);
-    return(
-      <div className="col-md-6">
-        <section className="stat-item">
-          <span className="stat-desc">Información</span>
-        </section>
-        <strong>Tipo de privilegio: </strong><span>Administrador</span><br />
-        <strong>Nombre completo: </strong><span>{user?(user.firstName + ' ' + user.firstLastName):' '}</span><br />
-        <strong>Email: </strong><span>{user?user.email:' '}</span><br />
-        <strong>Fecha de nacimiento: </strong><span>{user?user.bornDate:' '}</span><br />
-        <strong>Nacionalidad: </strong><span>{user?user.nationality:' '}</span><br />
-        <strong>Departamento: </strong><span>{user?user.department:' '}</span><br />
-        <strong>Genero: </strong><span>{user?user.gender:' '}</span><br />
-        <strong>Codigo de cempro: </strong><span>{user?user.cemproCode:' '}</span>
-      </div>
-    )
-  }
-}
-=======
 let self;
->>>>>>> 74220fff29c778c56eec8a287b33445cd63147c5
 
 class Info extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-<<<<<<< HEAD
-      active: "INFO"
-    };
-    this.activeView = this.activeView.bind(this);
-    this.changeView = this.changeView.bind(this);
-  }
 
-  changeView(data){
-    this.setState({ active: data });
-  }
-
-  activeView() {
-    var {user} = this.props;
-    switch (this.state.active) {
-      case "INFO":
-        return <Information user={user} />;
-      case "EDIT_PROFILE":
-        return <EditProfile/>;
-      case "UPDATE_PASSWORD":
-        return <ChangePassword/>
-      default:
-        return null;
-    }
-=======
       "address": "string",
       "appCode": "string",
       "bornDate": "2017-11-06T06:40:32.169Z",
@@ -237,7 +182,6 @@ class Info extends React.Component {
 
     }
 
->>>>>>> 74220fff29c778c56eec8a287b33445cd63147c5
   }
 
   onPasswordSubmit(e) {
@@ -289,18 +233,10 @@ class Info extends React.Component {
               </section>
               <img className="calaps-profile" src="assets/images/dummyUser.png" alt="User profile pic" />
             </div>
-<<<<<<< HEAD
-            {this.activeView()}
-            <div className="col-md-3">
-              <section className="stat-item">
-                <span className="stat-desc">Opciones</span>
-              </section>
-              <RaisedButton onClick={() => this.changeView('UPDATE_PASSWORD')} style={mWidthStyle} label="Cambiar contraseña" primary /><div className="divider" />
-              <RaisedButton onClick={() => this.changeView('EDIT_PROFILE')} style={mWidthStyle} label="Editar mi información" primary /><div className="divider" />
-=======
+
             {
               (!this.state.isProfileEditing && !this.state.isPasswordEditing)?
-                <div className="col-md-4">
+                <div className="col-md-5">
                   <section className="stat-item">
                     <span className="stat-desc">Información</span>
                   </section>
@@ -315,13 +251,13 @@ class Info extends React.Component {
                 </div>
                 :
                 (this.state.isProfileEditing)?
-                  <div className="col-md-4">
+                  <div className="col-md-5">
                     <section className="stat-item">
                       <span className="stat-desc">Información</span>
                     </section>
                     <form onSubmit={this.onProfileSubmit} role="form">
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">address</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Dirección: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -335,7 +271,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">appCode</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Código de App: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -349,7 +285,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">bornDate</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento: </label>
                         <div className="col-md-9">
                         <textarea
                           type="text"
@@ -363,7 +299,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Clasificación</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Clasificación: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -377,7 +313,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">cemproCode</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Codigo de Cempro: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -391,7 +327,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">colony</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -405,7 +341,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">comunity</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Comunidad: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -419,7 +355,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">department</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Departamento: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -433,7 +369,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">documentType</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de documento: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -447,7 +383,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">documentValue</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Número del documento: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -461,7 +397,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">firstLastName</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer Apellido: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -475,7 +411,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">firstName</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer nombre: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -489,7 +425,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">municipality</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Municipalidad: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -503,7 +439,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">nationality</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Nacionalidad: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -517,7 +453,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">phon</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Telefono: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -531,7 +467,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">phone</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Celular: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -545,7 +481,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">profession</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Profesión</label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -559,7 +495,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">secondLastName</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Segundo Apellido</label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -573,7 +509,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">secondName</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Segundo Nombre:</label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -587,7 +523,7 @@ class Info extends React.Component {
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">zone</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -605,7 +541,7 @@ class Info extends React.Component {
 
 
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">gender: </label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero: </label>
                         <div className="col-md-9">
                           <select
                             name="gender"
@@ -614,7 +550,7 @@ class Info extends React.Component {
                             value={this.state.gender}
                             className="form-control"
                           >
-                            <option value="" disabled>Selecciona la genero...</option>
+                            <option value="" disabled>Selecciona tu genero...</option>
                             <option value="male">Hombres</option>
                             <option value="female">Mujeres</option>
                             <option value="both">Mixto</option>
@@ -626,25 +562,25 @@ class Info extends React.Component {
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
                           <FlatButton disabled={this.state.isLoading}
-                                      label='Cancel'
+                                      label='Cancelar'
                                       style={{marginRight: 12}}
                                       onTouchTap={this.handleCancel}
                                       secondary className="btn-w-md"/>
                           <RaisedButton disabled={this.state.isLoading} type="submit"
-                                        label={'Update'}
+                                        label={'Actualizar'}
                                         onTouchTap={this.onProfileSubmit}
                                         secondary className="btn-w-md"/>
                         </div>
                       </div>
                     </form>
                   </div>:
-                  <div className="col-md-4">
+                  <div className="col-md-5">
                     <section className="stat-item">
-                      <span className="stat-desc">Password</span>
+                      <span className="stat-desc">Cambiar contraseña</span>
                     </section>
                     <form onSubmit={this.onPasswordSubmit} role="form">
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">new password</label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresa nueva contraseña</label>
                         <div className="col-md-9">
                           <input
                             type="password"
@@ -653,7 +589,7 @@ class Info extends React.Component {
                             name="password"
                             value={this.state.password}
                             onChange={this.onChange}
-                            placeholder="eje: password"/>
+                            placeholder="eje: nueva contraseña"/>
                           {errors.password && <span className="help-block text-danger">{errors.password}</span>}
                         </div>
                       </div>
@@ -661,12 +597,12 @@ class Info extends React.Component {
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
                           <FlatButton disabled={this.state.isLoading}
-                                      label='Cancel'
+                                      label='Cancelar'
                                       style={{marginRight: 12}}
                                       onTouchTap={this.handleCancel}
                                       secondary className="btn-w-md"/>
                           <RaisedButton disabled={this.state.isLoading} type="submit"
-                                        label={'Update'}
+                                        label={'Actualizar'}
                                         onTouchTap={this.onPasswordSubmit}
                                         secondary className="btn-w-md"/>
                         </div>
@@ -688,7 +624,6 @@ class Info extends React.Component {
                             primary
                             onTouchTap={this.onProfileEditToggle}
               /><div className="divider" />
->>>>>>> 74220fff29c778c56eec8a287b33445cd63147c5
             </div>
           </div>
         </article>

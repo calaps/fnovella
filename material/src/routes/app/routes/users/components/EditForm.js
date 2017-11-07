@@ -653,8 +653,6 @@ class EditForm extends React.Component {
                         {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
                       </div>
                     </div>
-
-<<<<<<< HEAD
                       <div className="form-group row">
                         <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa
                         </label>
@@ -678,29 +676,6 @@ class EditForm extends React.Component {
                         </div>
                       </div>
 
-                      <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Código de Cempro
-                        </label>
-                        {
-                          /* #change
-                          description: add field
-                          controller to use: app user controler
-                          database name: cempro_code
-                        */
-                        }
-                        <div className="col-md-9">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="password"
-                            name="password"
-                            value={this.state.email}
-                            onChange={this.onChange}
-                            placeholder="eje: Margarita"/>
-                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                        </div>
-                      </div>
-=======
                     <div className="form-group row">
                       <label htmlFor="cemproCode" className="col-md-3 control-label">Código de Cempro</label>
                       <div className="col-md-9">
@@ -716,7 +691,6 @@ class EditForm extends React.Component {
                         <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
                     </div>
->>>>>>> 74220fff29c778c56eec8a287b33445cd63147c5
 
 
                     <div className="form-group row">
