@@ -80,7 +80,7 @@ class EditForm extends React.Component {
         "evaluationPerformmance": true,
         "evaluationPeriod": 0,
         "evaluationType": "string",
-        "gender": "male",
+        "gender": genderAudience,
         "implementationLocation": "string",
         "indicatorsEvaluation": true,
         "indicatorsPerformmance": true,
@@ -130,7 +130,7 @@ class EditForm extends React.Component {
         "evaluationPerformmance": this.state.evaluationPerformmance,
         "evaluationPeriod": this.state.evaluationPeriod,
         "evaluationType": this.state.evaluationType,
-        "gender": this.state.gender,
+        "gender": this.state.genderAudience,
         "implementationLocation": this.state.implementationLocation,
         "indicatorsEvaluation": this.state.indicatorsEvaluation,
         "indicatorsPerformmance": this.state.indicatorsPerformmance,
@@ -254,10 +254,10 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero</label>
                       <div className="col-md-9">
                         <select
-                          name="gender"
-                          id="gender"
+                          name="genderAudience"
+                          id="genderAudience"
                           onChange={this.onChange}
-                          value={this.state.gender}
+                          value={this.state.genderAudience}
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona la genero...</option>
@@ -265,7 +265,7 @@ class EditForm extends React.Component {
                           <option value="female">Mujeres</option>
                           <option value="both">Mixto</option>
                         </select>
-                        {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
+                        {errors.genderAudience && <span className="help-block text-danger">{errors.genderAudience}</span>}
                       </div>
                     </div>
 
