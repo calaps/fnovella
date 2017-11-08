@@ -6,6 +6,7 @@ import java.util.List;
 import org.fnovella.project.inscriptions_inst_course.model.InscriptionsInstCourse;
 import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
 import org.fnovella.project.instructor.model.Instructor;
+import org.fnovella.project.instructor.model.InstructorSearch;
 import org.fnovella.project.instructor.repository.InstructorRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,20 @@ public class IntructorController {
 		return new APIResponse(this.instructorRepository.findOne(id), null);
 	}
 	
+	@RequestMapping(value = "search", method = RequestMethod.POST)
+	public APIResponse search(@RequestHeader("authorization") String authorization, Pageable pageable, InstructorSearch instructoSearch) {
+		return new APIResponse(instructoSearch.getResults(this.instructorRepository, pageable), null);
+	}
+	
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public APIResponse create(@RequestBody Instructor instructor, @RequestHeader("authorization") String authorization) {
 		ArrayList<String> errors = instructor.validate();
 		if (errors.size() == 0) {
-			return new APIResponse(this.instructorRepository.save(instructor), null);
+			if (this.instructorRepository.findByEmail(instructor.getEmail()) == null) {
+				return new APIResponse(this.instructorRepository.save(instructor), null);	
+			} else {
+				errors.add("Email is already in use");
+			}
 		}
 		return new APIResponse(null, errors);
 	}
@@ -50,11 +60,17 @@ public class IntructorController {
 		ArrayList<String> errors = instructor.validate();
 		Instructor toUpdate = this.instructorRepository.findOne(id);
 		if (toUpdate != null) {
-			toUpdate.setUpdateFields(instructor);
-			toUpdate = this.instructorRepository.saveAndFlush(toUpdate);
-			return new APIResponse(toUpdate, null);
+			if ((toUpdate.getEmail().equals(instructor.getEmail())) || 
+					(!toUpdate.getEmail().equals(instructor.getEmail()) && this.instructorRepository.findByEmail(instructor.getEmail()) == null)) {
+				toUpdate.setUpdateFields(instructor);
+				toUpdate = this.instructorRepository.saveAndFlush(toUpdate);
+				return new APIResponse(toUpdate, null);
+			} else {
+				errors.add("Email is already in use");
+			}
+		} else {
+			errors.add("Instructor doesn't exist");
 		}
-		errors.add("Instructor doesn't exist");
 		return new APIResponse(null, errors);
 	}
 	

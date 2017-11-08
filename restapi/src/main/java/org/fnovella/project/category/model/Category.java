@@ -20,6 +20,7 @@ public class Category {
 	private String name;
 	@Length(max = 180)
 	private String description;
+	private boolean aditionalField;
 	public Integer getId() {
 		return id;
 	}
@@ -38,10 +39,17 @@ public class Category {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Category(String name, String description) {
+	public boolean isAdditionalField() {
+		return aditionalField;
+	}
+	public void setAdditionalField(boolean additionalField) {
+		this.aditionalField = additionalField;
+	}
+	public Category(String name, String description, boolean additionalField) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.aditionalField = additionalField;
 	}
 	public Category() {
 		super();
@@ -55,5 +63,6 @@ public class Category {
 	public void setUpdateFields(Category category) {
 		if (APIUtility.isNotNullOrEmpty(category.name)) this.name = category.name;
 		if (APIUtility.isNotNullOrEmpty(category.description)) this.description = category.description;
+		this.aditionalField = category.aditionalField;
 	}
 }

@@ -8,6 +8,7 @@ import org.fnovella.project.catalog_relation.repository.CatalogRelationRepositor
 import org.fnovella.project.catalog_relation_student.repository.CatalogRelationStudentRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -27,13 +28,19 @@ public class CatalogController {
 	private CatalogRelationStudentRepository catalogRelationStudentRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public APIResponse getAll(@RequestHeader("authorization") String authorization) {
-		return new APIResponse(this.catalogRepository.findAll(), null);
+	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
+		return new APIResponse(this.catalogRepository.findAll(pageable), null);
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public APIResponse get(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
 		return new APIResponse(this.catalogRepository.findOne(id), null);
+	}
+	
+	@RequestMapping(value = "search/{category}", method = RequestMethod.GET)
+	public APIResponse getByCategory(@RequestHeader("authorization") String authorization, Pageable pageable, 
+			@PathVariable Integer category) {
+		return new APIResponse(this.catalogRepository.findByCategory(category, pageable), null);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
