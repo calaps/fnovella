@@ -1,2 +1,3 @@
-INSERT INTO cementos_dbprogramasfcfn.dbo.grade (name, level, location, description, program_id, instructor_id) VALUES ('da', 'level', 7, 'hola que k ace', 51, 1);
-INSERT INTO cementos_dbprogramasfcfn.dbo.grade (name, level, location, description, program_id, instructor_id) VALUES ('daadaadda', 'hard', 1, 'adaiudgkj', 6, 2);
+INSERT INTO cementos_dbprogramasfcfn.dbo.grade (name, level, location, description, program_id, instructor_id) VALUES ('Sexto', 'primaria', 7, 'Alumnos con talentos', 51, 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.grade (name, level, location, description, program_id, instructor_id) VALUES ('Primero Basico', 'secundaria', 1, 'Alumnos independientes', 6, 2);
+INSERT INTO cementos_dbprogramasfcfn.dbo.grade (name, level, location, description, program_id, instructor_id) VALUES ('Bachillerato', 'diviersificado', 1, 'Alumnos de tecnologia', 6, 1);

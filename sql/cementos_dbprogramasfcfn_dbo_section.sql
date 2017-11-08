@@ -1,0 +1,2 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.section (grade, code, jornada, location, created_group, name) VALUES (1, 'abc-123-ab', 'matutina', 1, 0, 'AAA');
+INSERT INTO cementos_dbprogramasfcfn.dbo.section (grade, code, jornada, location, created_group, name) VALUES (1, 'abc-123-av', 'matutina', 1, 0, 'AAA');
