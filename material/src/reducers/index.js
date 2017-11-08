@@ -18,6 +18,8 @@ import dashboard from './dashboard';
 import categories from './categories';
 import divisions from './divisions';
 import sections from './sections';
+import programLocations from './programLocations';
+
 const reducers = {
   routing: routerReducer,
   settings,
@@ -37,7 +39,8 @@ const reducers = {
   dashboard,
   categories,
   divisions,
-  sections
+  sections,
+  programLocations
 };
 
 module.exports = combineReducers(reducers);

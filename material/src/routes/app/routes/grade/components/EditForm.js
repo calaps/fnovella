@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import {
   gradesAddRequest,
   gradesUpdateRequest,
-  sedesGetRequest,
+  programLocationGetRequest,
   programGetRequest,
   catalogsGetByCategoryRequest
 } from '../../../../../actions';
@@ -37,7 +37,7 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.sedesGetRequest();
+    this.props.actions.programLocationGetRequest();
     this.props.actions.programGetRequest();
     this.props.actions.catalogsGetByCategoryRequest(9);
   }
@@ -131,11 +131,11 @@ class EditForm extends React.Component {
     const options = map(data_types, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-    //Sedes || location options
-    let sedesOpt = () => {
-      let sedes = this.props.sedes.content || [];
-      return sedes.map((sede) => {
-        return <option key={sede.id} value={sede.id}>{sede.name}</option>
+    //programLocations || location options
+    let programLocationsOpt = () => {
+      let programLocations = this.props.programLocations.content || [];
+      return programLocations.map((location) => {
+        return <option key={location.id} value={location.location}>{location.location}</option>
       });
     };
     //Programs options
@@ -238,7 +238,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecione la sede</option>
-                          {sedesOpt()}
+                          {programLocationsOpt()}
                         </select>
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
@@ -311,7 +311,7 @@ class EditForm extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    sedes: state.sedes,
+    programLocations: state.programLocations,
     programs: state.programs,
     catalogs: state.catalogs
   }
@@ -321,7 +321,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      sedesGetRequest,
+      programLocationGetRequest,
       programGetRequest,
       gradesAddRequest,
       gradesUpdateRequest,

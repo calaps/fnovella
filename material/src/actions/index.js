@@ -40,3 +40,4 @@ export * from './dashboard';
 export * from './categories';
 export * from './divisions';
 export * from './sections';
+export * from './programLocations';

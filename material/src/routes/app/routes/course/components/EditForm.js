@@ -8,9 +8,9 @@ import {bindActionCreators} from 'redux';
 import {
   coursesAddRequest,
   coursesUpdateRequest,
-  sedesGetRequest,
-  educatorsGetRequest,
   programGetRequest,
+  educatorsGetRequest,
+  programLocationGetRequest,
   gradesGetRequest
 } from '../../../../../actions';
 
@@ -39,8 +39,8 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.sedesGetRequest();
     this.props.actions.programGetRequest();
+    this.props.actions.programLocationGetRequest();
     this.props.actions.educatorsGetRequest();
     this.props.actions.gradesGetRequest();
   }
@@ -133,11 +133,11 @@ class EditForm extends React.Component {
 
     const {errors} = this.state;
 
-    //Sedes || location options
-    let sedesOpt = () => {
-      let sedes = this.props.sedes.content || [];
-      return sedes.map((sede) => {
-        return <option key={sede.id} value={sede.id}>{sede.name}</option>
+    //programLocations || location options
+    let programLocationsOpt = () => {
+      let programLocations = this.props.programLocations.content || [];
+      return programLocations.map((location) => {
+        return <option key={location.id} value={location.location}>{location.location}</option>
       });
     };
     //Programs options
@@ -247,7 +247,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecione la sede</option>
-                          {sedesOpt()}
+                          {programLocationsOpt()}
                         </select>
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
@@ -322,7 +322,7 @@ class EditForm extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    sedes: state.sedes,
+    programLocations: state.programLocations,
     programs: state.programs,
     educators: state.educators,
     grades: state.grades
@@ -333,8 +333,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      sedesGetRequest,
       programGetRequest,
+      programLocationGetRequest,
       educatorsGetRequest,
       gradesGetRequest,
       coursesAddRequest,

@@ -18,7 +18,8 @@ let initialState = {
   divisions: {},
   dashboard: {},
   categories: [],
-  sections : []
+  sections : [],
+  programLocations:[]
 
 };
 
