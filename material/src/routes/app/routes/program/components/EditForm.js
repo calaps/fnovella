@@ -233,52 +233,39 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: select a main user to manage program
-                        controller relation: program / app_user
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Responsable:</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Responsable</label>
                       <div className="col-md-9">
                         <select
-                          name="location"
-                          id="location"
+                          name="responsable"
+                          id="responsable"
                           onChange={this.onChange}
-                          value={this.state.provider}
+                          value={this.state.responsable}
                           className="form-control"
                         >
-                          <option value="" >Selecciona usuario de aplicación...</option>
+                          {responsibleOpt()}
                         </select>
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
+                        {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
                       </div>
                     </div>
 
                     <h6>Audiencia: </h6><hr />
 
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: select user gender
-                        controller: program-controller
-                        database name: gender_audience
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero: </label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero</label>
                       <div className="col-md-9">
                         <select
-                          name="freeCourses"
-                          id="freeCourses"
+                          name="gender"
+                          id="gender"
                           onChange={this.onChange}
-                          value={this.state.freeCourses}
+                          value={this.state.gender}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona la categoria...</option>
+                          <option value="" disabled>Selecciona la genero...</option>
                           <option value="male">Hombres</option>
                           <option value="female">Mujeres</option>
                           <option value="both">Mixto</option>
                         </select>
-                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                        {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
                       </div>
                     </div>
 
@@ -286,7 +273,7 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Desscripción de audiencia:</label>
                       <div className="col-md-9">
                         <input
-                          type="number"
+                          type="text"
                           className="form-control"
                           id="audience"
                           name="audience"
@@ -298,70 +285,49 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: min age to audience
-                        controller: program-controller
-                        database name: audience_min
-                      */
-                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Edad minima</label>
                       <div className="col-md-9">
                         <input
                           type="number"
                           className="form-control"
-                          id="audience"
-                          name="audience"
-                          value={this.state.audience}
+                          id="audienceMin"
+                          name="audienceMin"
+                          value={this.state.audienceMin}
                           onChange={this.onChange}
-                          placeholder="5 años..."/>
-                        {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
+                          placeholder="eje: Niños de 10 - 15 años"/>
+                        {errors.audienceMin && <span className="help-block text-danger">{errors.audienceMin}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: max age to audience
-                        controller: program-controller
-                        database name: audience_max
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Edad máxima</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Edad Maxima</label>
                       <div className="col-md-9">
                         <input
                           type="number"
                           className="form-control"
-                          id="audience"
-                          name="audience"
-                          value={this.state.audience}
+                          id="audienceMax"
+                          name="audienceMax"
+                          value={this.state.audienceMax}
                           onChange={this.onChange}
-                          placeholder="25 años..." />
-                        {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
+                          placeholder="eje: Niños de 10 - 15 años"/>
+                        {errors.audienceMax && <span className="help-block text-danger">{errors.audienceMax}</span>}
                       </div>
                     </div>
 
                     <h6>Descripción: </h6><hr />
 
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: Program info abreviation
-                        controller: program-controller
-                        database name: type (previusly integer, now string)
-                      */
-                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo</label>
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="description"
-                          name="description"
-                          value={this.state.description}
+                          id="type"
+                          name="type"
+                          value={this.state.type}
                           onChange={this.onChange}
                           placeholder="eje: FISICO-FUTBOL" />
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
+                        {errors.type && <span className="help-block text-danger">{errors.type}</span>}
                       </div>
                     </div>
 
@@ -383,134 +349,38 @@ class EditForm extends React.Component {
                     <h6>Lugar de implementación: </h6><hr />
 
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: "Multiple selection" options pupulated with the location name.
-                        controller to use: program-location contoller
-                        database name: program_location table
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Selecciona las sedes:</label>
-                      <div className="col-md-9">
-                        <select
-                          name="location"
-                          id="location"
-                          onChange={this.onChange}
-                          value={this.state.provider}
-                          className="form-control"
-                        >
-                          <option value="" >Selecciona ubicaciones...</option>
-                        </select>
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      {
-                        /* #change
-                        description: Implementation place
-                        controller to use: program contoller
-                        database name: implementation_location
-                      */
-                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Lugar de implementación</label>
                       <div className="col-md-9">
+                        {
+                          /* #change !!!
+                          description: "Multiple selection" options pupulated with the location name.
+                          controller to use: program-location contoller
+                          database name: program_location table
+                        */
+                        }
                         <input
                           type="text"
                           className="form-control"
-                          id="description"
-                          name="description"
-                          value={this.state.description}
+                          id="implementationLocation"
+                          name="implementationLocation"
+                          value={this.state.implementationLocation}
                           onChange={this.onChange}
-                          placeholder="Ingrese..." />
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
+                          placeholder="eje: implementationLocation"/>
+                        {errors.implementationLocation && <span className="help-block text-danger">{errors.implementationLocation}</span>}
                       </div>
                     </div>
-
-                    {/*  Ignore....
-
-                    <h6>Tareas: </h6><hr />
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Agregar alumnos</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="description"
-                          name="description"
-                          value={this.state.description}
-                          onChange={this.onChange}
-                          placeholder="Tipo de programa" />
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row"> {/* #change
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Asistencia</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="description"
-                          name="description"
-                          value={this.state.description}
-                          onChange={this.onChange}
-                          placeholder="Tipo de programa" />
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row"> {/* #change
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresar evaluaciones</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="description"
-                          name="description"
-                          value={this.state.description}
-                          onChange={this.onChange}
-                          placeholder="Tipo de programa" />
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row"> {/* #change
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Aprobación de notas</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="description"
-                          name="description"
-                          value={this.state.description}
-                          onChange={this.onChange}
-                          placeholder="Tipo de programa" />
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
-                      </div>
-                    </div>
-
-                    */
-                    }
 
                     <h6>Clasificación: </h6><hr />
 
                     <div className="form-group row">
-                    {
-                      /* #change
-                      description: If the program uses "grade, courses, workshop or category"
-                      controller to use: program controller
-                      database name: clasification
-                    */
-                    }
+
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Clasificación</label>
                       <div className="col-md-9">
                         <select
-                          name="location"
-                          id="location"
+                          name="clasification"
+                          id="clasification"
                           onChange={this.onChange}
-                          value={this.state.provider}
+                          value={this.state.clasification}
                           className="form-control"
                         >
                           <option value="" >Selecciona la clasificación...</option>
@@ -540,15 +410,26 @@ class EditForm extends React.Component {
                         {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
                       </div>
                     </div>
+
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: type of evaluation to use in the program
-                        controller to use: program contoller
-                        database name: evaluation_type
-                      */
-                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
+                      <div className="col-md-9">
+                        <select
+                          className="form-control"
+                          id="evaluationType"
+                          name="evaluationType"
+                          value={this.state.evaluationType}
+                          onChange={this.onChange}
+                        >
+                          <option value="conocimiento">Evaluación conocimiento</option>
+                          <option value="continua">Evaluación de continua</option>
+                        </select>
+                        {errors.evaluationType && <span className="help-block text-danger">{errors.evaluationType}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Categoria</label>
                       <div className="col-md-9">
                         <select
                           name="category"
@@ -557,110 +438,76 @@ class EditForm extends React.Component {
                           value={this.state.category}
                           className="form-control"
                         >
-                          <option value="conocimiento">Evaluación conocimiento</option>
-                          <option value="continua">Evaluación de continua</option>
-                          <option value="" disabled>Selecciona la categoria...</option>
-                          {categoriesOpt()}
-                        </select>
+                        <option value="Programa">Programa</option>
+                        <option value="Sistema">Sistema</option>
+                      </select>
                         {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: If the program uses "grade, courses, workshop or category"
-                        controller to use: program contoller
-                        database name: evaluation_performance
-                      */
-                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de desempeño</label>
                       <div className="col-md-9">
                         <select
-                          name="genderAudience"
-                          id="genderAudience"
+                          name="evaluationPerformmance"
+                          id="evaluationPerformmance"
                           onChange={this.onChange}
-                          value={this.state.genderAudience}
+                          value={this.state.evaluationPerformmance}
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona...</option>
-                          <option value={true}>Si</option>
                           <option value={false}>No</option>
+                          <option value={true}>Si</option>
                         </select>
-                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                        {errors.evaluationPerformmance && <span className="help-block text-danger">{errors.evaluationPerformmance}</span>}
                       </div>
                     </div>
 
                     <h6>Temporalidad: </h6><hr />
 
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: number of months that the programs needs each year
-                        controller to use: program contoller
-                        database name: months_total
-                      */
-                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de meses</label>
                       <div className="col-md-9">
-                        <select
-                          name="provider"
-                          id="provider"
-                          onChange={this.onChange}
-                          value={this.state.provider}
+                        <input
+                          type="number"
                           className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                          <option value="12">12</option>
-                        </select>
-                        {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
+                          id="monthsTotal"
+                          name="monthsTotal"
+                          value={this.state.monthsTotal}
+                          onChange={this.onChange}
+                          placeholder="eje: monthsTotal"/>
+                        {errors.monthsTotal && <span className="help-block text-danger">{errors.monthsTotal}</span>}
                       </div>
                     </div>
 
+
                     <div className="form-group row">
-                      {
-                        /* #change
-                        description: How often does the program needs an evaluation?
-                        controller to use: program contoller
-                        database name: evaluation_period
-                      */
-                      }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Periodo de evaluación (cada cuanto se evalua)</label>
                       <div className="col-md-9">
-                        <select
-                          name="provider"
-                          id="provider"
-                          onChange={this.onChange}
-                          value={this.state.provider}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                          <option value="12">12</option>
-                        </select>
-                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
+                      <select
+                      className="form-control"
+                      id="evaluationPeriod"
+                      name="evaluationPeriod"
+                      value={this.state.evaluationPeriod}
+                      onChange={this.onChange}
+                      >
+                      <option value="" disabled>Selecciona...</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                      </select>
+                      {errors.evaluationPeriod && <span className="help-block text-danger">{errors.evaluationPeriod}</span>}
                       </div>
-                    </div>
+                      </div>
+
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tiene proveedor</label>
@@ -682,86 +529,68 @@ class EditForm extends React.Component {
 
                     <h6>Indicadores: </h6><hr />
 
-                    <div className="form-group row">
-                      {
-                        /* #change
-                        description: Does the program have results indicator?
-                        controller to use: program contoller
-                        database name: indicators_evaluation
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Requiere indicadores de resultado</label>
+                      <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Indicadores de evaluación</label>
                       <div className="col-md-9">
-                        <select
-                          name="provider"
-                          id="provider"
-                          onChange={this.onChange}
-                          value={this.state.provider}
-                          className="form-control"
-                        >
-                          <option value={false}>No</option>
-                          <option value={true}>Si</option>
-                        </select>
-                        {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
+                      <select
+                      name="indicatorsEvaluation"
+                      id="indicatorsEvaluation"
+                      onChange={this.onChange}
+                      value={this.state.indicatorsEvaluation}
+                      className="form-control"
+                      >
+                      <option value="" disabled>Selecciona...</option>
+                      <option value={false}>No</option>
+                      <option value={true}>Si</option>
+                      </select>
+                      {errors.indicatorsEvaluation && <span className="help-block text-danger">{errors.indicatorsEvaluation}</span>}
                       </div>
-                    </div>
+                      </div>
 
-                    <div className="form-group row">
-                      {
-                        /* #change
-                        description: Does the program have performmance indicator?
-                        controller to use: program contoller
-                        database name: indicators_performmance
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Requiere indicadores de desempeño</label>
+                      <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Indicadores de desempeño</label>
                       <div className="col-md-9">
-                        <select
-                          name="provider"
-                          id="provider"
-                          onChange={this.onChange}
-                          value={this.state.provider}
-                          className="form-control"
-                        >
-                          <option value={false}>No</option>
-                          <option value={true}>Si</option>
-                        </select>
-                        {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
+                      <select
+                      name="indicatorsPerformmance"
+                      id="indicatorsPerformmance"
+                      onChange={this.onChange}
+                      value={this.state.indicatorsPerformmance}
+                      className="form-control"
+                      >
+                      <option value="" disabled>Selecciona...</option>
+                      <option value={false}>No</option>
+                      <option value={true}>Si</option>
+                      </select>
+                      {errors.indicatorsPerformmance && <span className="help-block text-danger">{errors.indicatorsPerformmance}</span>}
                       </div>
-                    </div>
+                      </div>
 
-                    <div className="form-group row">
-                      {
-                        /* #change
-                        description: Does the program have satisfaction indicator?
-                        controller to use: program contoller
-                        database name: indicators_satisfaction
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Requiere indicadores de satisfacción</label>
+                      <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Indicadores de satisfacción</label>
                       <div className="col-md-9">
-                        <select
-                          name="provider"
-                          id="provider"
-                          onChange={this.onChange}
-                          value={this.state.provider}
-                          className="form-control"
-                        >
-                          <option value={false}>No</option>
-                          <option value={true}>Si</option>
-                        </select>
-                        {errors.audience && <span className="help-block text-danger">{errors.audience}</span>}
+                      <select
+                      name="indicatorsSatisfaction"
+                      id="indicatorsSatisfaction"
+                      onChange={this.onChange}
+                      value={this.state.indicatorsSatisfaction}
+                      className="form-control"
+                      >
+                      <option value="" disabled>Selecciona...</option>
+                      <option value={false}>No</option>
+                      <option value={true}>Si</option>
+                      </select>
+                      {errors.indicatorsSatisfaction && <span className="help-block text-danger">{errors.indicatorsSatisfaction}</span>}
                       </div>
-                    </div>
+                      </div>
 
-                    <h6>Indicadores: </h6><hr />
+                    <h6>Información adicional: </h6><hr />
 
                     <div className="form-group row">
                       {
-                        /* #change
-                        description: Is a multiple select params between
+                        /* #change !!!
+                        description: Is a **Multiple select** options populated by "category" table wich "aditional_field" equals true
                         controller to use: program_aditional_fields relation
-                        database name: is a relation
+                        database name: program_aditional_fields
                       */
                       }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Campos adicionales: </label>
@@ -774,19 +603,18 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" >Selecciona la categoria...</option>
-=======
-                          <option value="" disabled>Selecciona la genero...</option>
-                          <option value="male">Hombres</option>
-                          <option value="female">Mujeres</option>
-                          <option value="both">Mixto</option>
->>>>>>> f7d346e747baf2639b23d48455090f434d85c105
                         </select>
                         {errors.genderAudience && <span className="help-block text-danger">{errors.genderAudience}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Activation Status</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">EL programa esta activo?</label>
+                      {
+                        /* #change !!!
+                        description: HIDE THIS OPTION BY DEFAULT IS FALSE
+                      */
+                      }
                       <div className="col-md-9">
                         <select
                           name="activationStatus"
@@ -795,208 +623,9 @@ class EditForm extends React.Component {
                           value={this.state.activationStatus}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona...</option>
                           <option value={false}>No</option>
-                          <option value={true}>Si</option>
                         </select>
                         {errors.activationStatus && <span className="help-block text-danger">{errors.activationStatus}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">audienceMax</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="audienceMax"
-                          name="audienceMax"
-                          value={this.state.audienceMax}
-                          onChange={this.onChange}
-                          placeholder="eje: Niños de 10 - 15 años"/>
-                        {errors.audienceMax && <span className="help-block text-danger">{errors.audienceMax}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">audienceMin</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="audienceMin"
-                          name="audienceMin"
-                          value={this.state.audienceMin}
-                          onChange={this.onChange}
-                          placeholder="eje: Niños de 10 - 15 años"/>
-                        {errors.audienceMin && <span className="help-block text-danger">{errors.audienceMin}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">evaluationPerformmance</label>
-                      <div className="col-md-9">
-                        <select
-                          name="evaluationPerformmance"
-                          id="evaluationPerformmance"
-                          onChange={this.onChange}
-                          value={this.state.evaluationPerformmance}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value={false}>No</option>
-                          <option value={true}>Si</option>
-                        </select>
-                        {errors.evaluationPerformmance && <span className="help-block text-danger">{errors.evaluationPerformmance}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">evaluationPeriod</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="evaluationPeriod"
-                          name="evaluationPeriod"
-                          value={this.state.evaluationPeriod}
-                          onChange={this.onChange}
-                          placeholder="eje: Niños de 10 - 15 años"/>
-                        {errors.evaluationPeriod && <span className="help-block text-danger">{errors.evaluationPeriod}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">evaluationType</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="evaluationType"
-                          name="evaluationType"
-                          value={this.state.evaluationType}
-                          onChange={this.onChange}
-                          placeholder="eje: Niños de 10 - 15 años"/>
-                        {errors.evaluationType && <span className="help-block text-danger">{errors.evaluationType}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Gender</label>
-                      <div className="col-md-9">
-                        <select
-                          name="gender"
-                          id="gender"
-                          onChange={this.onChange}
-                          value={this.state.gender}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona la genero...</option>
-                          <option value="male">Hombres</option>
-                          <option value="female">Mujeres</option>
-                          <option value="both">Mixto</option>
-                        </select>
-                        {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">implementationLocation</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="implementationLocation"
-                          name="implementationLocation"
-                          value={this.state.implementationLocation}
-                          onChange={this.onChange}
-                          placeholder="eje: implementationLocation"/>
-                        {errors.implementationLocation && <span className="help-block text-danger">{errors.implementationLocation}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">indicatorsEvaluation</label>
-                      <div className="col-md-9">
-                        <select
-                          name="indicatorsEvaluation"
-                          id="indicatorsEvaluation"
-                          onChange={this.onChange}
-                          value={this.state.indicatorsEvaluation}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value={false}>No</option>
-                          <option value={true}>Si</option>
-                        </select>
-                        {errors.indicatorsEvaluation && <span className="help-block text-danger">{errors.indicatorsEvaluation}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">indicatorsPerformmance</label>
-                      <div className="col-md-9">
-                        <select
-                          name="indicatorsPerformmance"
-                          id="indicatorsPerformmance"
-                          onChange={this.onChange}
-                          value={this.state.indicatorsPerformmance}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value={false}>No</option>
-                          <option value={true}>Si</option>
-                        </select>
-                        {errors.indicatorsPerformmance && <span className="help-block text-danger">{errors.indicatorsPerformmance}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">indicatorsSatisfaction</label>
-                      <div className="col-md-9">
-                        <select
-                          name="indicatorsSatisfaction"
-                          id="indicatorsSatisfaction"
-                          onChange={this.onChange}
-                          value={this.state.indicatorsSatisfaction}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value={false}>No</option>
-                          <option value={true}>Si</option>
-                        </select>
-                        {errors.indicatorsSatisfaction && <span className="help-block text-danger">{errors.indicatorsSatisfaction}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">monthsTotal</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="monthsTotal"
-                          name="monthsTotal"
-                          value={this.state.monthsTotal}
-                          onChange={this.onChange}
-                          placeholder="eje: monthsTotal"/>
-                        {errors.monthsTotal && <span className="help-block text-danger">{errors.monthsTotal}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">responsable</label>
-                      <div className="col-md-9">
-                        <select
-                          name="responsable"
-                          id="responsable"
-                          onChange={this.onChange}
-                          value={this.state.responsable}
-                          className="form-control"
-                        >
-                          {responsibleOpt()}
-                        </select>
-                        {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
                       </div>
                     </div>
 
