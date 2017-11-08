@@ -2,8 +2,8 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  workshopsGetRequest,
-  workshopsDeleteRequest
+  divisionsGetRequest,
+  divisionsDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
@@ -22,12 +22,12 @@ class ListElements extends React.Component {
 
   componentWillMount() {
     // type: 2 reflects all programs
-    this.props.actions.workshopsGetRequest(number, size);
+    this.props.actions.divisionsGetRequest(number, size);
   }
 
   onDeleteButton(id) {
     console.log("id: ", id);
-    this.props.actions.workshopsDeleteRequest(id);
+    this.props.actions.divisionsDeleteRequest(id);
   }
 
   render() {
@@ -53,11 +53,11 @@ class ListElements extends React.Component {
                     <tbody>
 
                     {
-                      this.props.workshops.content ? this.props.workshops.content.map((workshop) => {
-                        return <ListItem key={workshop.id} onDelete={this.onDeleteButton}
+                      this.props.divisions.content ? this.props.divisions.content.map((division) => {
+                        return <ListItem key={i} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
-                                         workshopData={workshop}/>
+                                         divisionData={division}/>
                       }) : null
                     }
 
@@ -65,9 +65,9 @@ class ListElements extends React.Component {
                     </tbody>
                   </table>
                   <Pagination
-                    totalPages={this.props.workshops.totalPages}
-                    totalElements={this.props.workshops.totalElements}
-                    getRequest={this.props.actions.workshopsGetRequest}
+                    totalPages={this.props.divisions.totalPages}
+                    totalElements={this.props.divisions.totalElements}
+                    getRequest={this.props.actions.divisionsGetRequest}
                   />
                 </div>
 
@@ -82,7 +82,7 @@ class ListElements extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    workshops: state.workshops
+    divisions: state.divisions
   }
 }
 
@@ -90,8 +90,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      workshopsGetRequest,
-      workshopsDeleteRequest
+      divisionsGetRequest,
+      divisionsDeleteRequest
     }, dispatch)
   };
 }

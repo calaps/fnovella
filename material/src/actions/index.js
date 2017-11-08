@@ -38,3 +38,4 @@ export * from './grades';
 export * from './workshops';
 export * from './dashboard';
 export * from './categories';
+export * from './divisions';
