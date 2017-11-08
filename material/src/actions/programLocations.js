@@ -15,12 +15,56 @@ import {
   PROGRAM_LOCATION_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
+export function programLocationByProgramIdGetRequest(number=0, size=100, programId) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  params.type = 2;
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        // will be removed once API is ready
+        // dispatch({
+        //   type: PROGRAM_LOCATION_GET_REQUEST,
+        //   data: {
+        //   }
+        // });
+        // resolve(true);
+        // return;
+
+        // API
+        HTTP('get', '/program_location/'+programId+'/program_id', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
+          .then(function (response) {
+            if (response.data.errors === null) {
+              dispatch({
+                type: PROGRAM_LOCATION_GET_SUCCESS,
+                data: response.data.data
+              });
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            dispatch({
+              type: PROGRAM_LOCATION_GET_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+      }
+    })
+  }
+}
+
 export function programLocationGetRequest(number, size) {
   let params = {};
   params.page = number;
   params.size = size;
   params.type = 2;
-  
+
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
