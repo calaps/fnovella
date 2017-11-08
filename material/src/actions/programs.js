@@ -20,7 +20,7 @@ export function programGetRequest(number, size) {
   params.page = number;
   params.size = size;
   params.type = 2;
-
+  
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {

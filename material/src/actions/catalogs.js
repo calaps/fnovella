@@ -166,3 +166,32 @@ export function catalogsDeleteRequest(id) {
     })
   }
 }
+export function catalogsGetByCategoryRequest(category_id) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        // API
+        HTTP('get', '/catalog/search/'+category_id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              dispatch({
+                type: CATALOGS_GET_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            dispatch({
+              type: CATALOGS_GET_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+      }
+    })
+  }
+}

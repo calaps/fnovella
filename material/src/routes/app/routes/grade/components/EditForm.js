@@ -10,8 +10,8 @@ import {
   gradesAddRequest,
   gradesUpdateRequest,
   sedesGetRequest,
-  educatorsGetRequest,
-  programGetRequest
+  programGetRequest,
+  catalogsGetByCategoryRequest
 } from '../../../../../actions';
 
 let self;
@@ -27,7 +27,6 @@ class EditForm extends React.Component {
       description: this.props.gradeData.description || '',
       location: this.props.gradeData.location || '',
       programId: this.props.gradeData.programId || '',
-      instructorId: this.props.gradeData.instructorId || '',
       errors: {},
       isLoading: false
     };
@@ -40,7 +39,7 @@ class EditForm extends React.Component {
   componentWillMount() {
     this.props.actions.sedesGetRequest();
     this.props.actions.programGetRequest();
-    this.props.actions.educatorsGetRequest();
+    this.props.actions.catalogsGetByCategoryRequest(9);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -52,7 +51,6 @@ class EditForm extends React.Component {
         description: '',
         location: '',
         programId: '',
-        instructorId: '',
         id: '',
       });
     }
@@ -84,7 +82,6 @@ class EditForm extends React.Component {
         description: this.state.description,
         location: this.state.location,
         programId: this.state.programId,
-        instructorId: this.state.instructorId,
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -145,17 +142,21 @@ class EditForm extends React.Component {
     let programsOpt = () => {
       let programs = this.props.programs.content || [];
       return programs.map((program) => {
-        return <option key={program.id} value={program.id}>{program.name}</option>
+        if(program.clasification == "grades"){
+          return <option key={program.id} value={program.id}>{program.name}</option>
+        } else{
+          return null;
+        }
       });
     };
-    //Educators options
-    let educatorsOpt = () => {
-      let educators = this.props.educators.content || [];
-      return educators.map((educator) => {
-        return <option key={educator.id} value={educator.id}>{educator.firstName}</option>
+    //Level options
+    let catalogsOpt = () => {
+      let catalogs = this.props.catalogs.content || [];
+      return catalogs.map((catalog) => {
+        return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
       });
     };
-
+    
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -204,14 +205,16 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Nivel</label>
                       <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="level"
+                          <select
                           name="level"
-                          value={this.state.level}
+                          id="level"
                           onChange={this.onChange}
-                          placeholder="eje: Primaria"/>
+                          value={this.state.level}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione la sede</option>
+                          {catalogsOpt()}
+                        </select>
                         {errors.level && <span className="help-block text-danger">{errors.level}</span>}
                       </div>
                     </div>
@@ -264,27 +267,6 @@ class EditForm extends React.Component {
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
                     </div>
-                    {
-                      /* #change
-                      description: delete field "educadores" (instructors)
-                    */
-                    }
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadores</label>
-                      <div className="col-md-9">
-                        <select
-                          name="instructorId"
-                          id="instructorId"
-                          onChange={this.onChange}
-                          value={this.state.instructorId}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecione la educadore</option>
-                          {educatorsOpt()}
-                        </select>
-                        {errors.instructorId && <span className="help-block text-danger">{errors.instructorId}</span>}
-                      </div>
-                    </div>
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
@@ -331,7 +313,7 @@ function mapStateToProps(state) {
   return {
     sedes: state.sedes,
     programs: state.programs,
-    educators: state.educators,
+    catalogs: state.catalogs
   }
 }
 
@@ -341,9 +323,9 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       sedesGetRequest,
       programGetRequest,
-      educatorsGetRequest,
       gradesAddRequest,
       gradesUpdateRequest,
+      catalogsGetByCategoryRequest
     }, dispatch)
   };
 }
