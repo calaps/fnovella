@@ -144,7 +144,7 @@ class EditForm extends React.Component {
     let programsOpt = () => {
       let programs = this.props.programs.content || [];
       return programs.map((program) => {
-        if(program.clasification == "grades"){
+        if(program.clasification == "course"){
           return <option key={program.id} value={program.id}>{program.name}</option>
         } else{
           return null;

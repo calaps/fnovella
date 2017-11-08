@@ -10,7 +10,8 @@ import {bindActionCreators} from 'redux';
 import {
   educatorsAddRequest,
   educatorsUpdateRequest,
-  catalogsGetRequest
+  catalogsGetRequest,
+  programInstructorGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -44,6 +45,7 @@ class EditForm extends React.Component {
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
+    console.log("Daaata : ",this.props.teacherData)
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -152,6 +154,7 @@ class EditForm extends React.Component {
 
   componentWillMount() {
     this.props.actions.catalogsGetRequest();
+    this.props.actions.programInstructorGetRequest();
   }
 
   handleCancel() {
@@ -204,6 +207,12 @@ class EditForm extends React.Component {
         }
       });
     };
+    let programInstructors  = () => {
+      let programInstructors = this.props.programInstructors.content || [];
+      return programInstructors.map((instructors) => {
+          return <option key={instructors.id} value={instructors.instructor}>{instructors.instructor}</option>
+      });
+    }
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -308,10 +317,10 @@ class EditForm extends React.Component {
                           className="form-control"
                           id="password"
                           name="password"
-                          value={this.state.email}
+                          value={this.state.password}
                           onChange={this.onChange}
                           placeholder="****"/>
-                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                        {errors.password && <span className="help-block text-danger">{errors.password}</span>}
                       </div>
                     </div>
 
@@ -584,7 +593,7 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa
+                      <label htmlFor="programId" className="col-md-3 control-label">Programa
                         </label>
                       {
                         /* #change
@@ -594,15 +603,17 @@ class EditForm extends React.Component {
                       */
                       }
                       <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.email}
-                          onChange={this.onChange}
-                          placeholder="Program list..."/>
-                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                      <select
+                      name="programId"
+                      id="programId"
+                      onChange={this.onChange}
+                      value={this.state.programId}
+                      className="form-control"
+                    >
+                      <option value="" disabled>Selecciona el Programa</option>
+                      {programInstructors}
+                    </select>
+                        {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
                     </div>
 
@@ -651,6 +662,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
+    programInstructors : state.programInstructors,
     catalogs: state.catalogs
   }
 }
@@ -660,6 +672,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       //    signUpRequest
+      programInstructorGetRequest,
       educatorsAddRequest,
       educatorsUpdateRequest,
       catalogsGetRequest
