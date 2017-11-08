@@ -46,6 +46,7 @@ class EmergencyView extends React.Component {
               <strong>CellPhone: </strong><span>{this.props.participantContacts.content ? this.props.participantContacts.content[0].cellphone : ' '}</span><br/>
               <strong>Email: </strong><span>{this.props.participantContacts.content ? this.props.participantContacts.content[0].email : ' '}</span><br/>
               <strong>Address: </strong><span>{this.props.participantContacts.content ? this.props.participantContacts.content[0].address : ' '}</span><br/>
+              <strong>Autoriza tomar foto?: </strong><span>{this.props.participantContacts.content ? this.props.participantContacts.content[0].photo? 'Si':'No' : ' '}</span><br/>
             </div>
             {/*<div className="col-md-4">
               <section className="stat-item">
