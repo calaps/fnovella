@@ -3,12 +3,12 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
-import { workshopValidator } from "../../../../../actions/formValidations"; //form validations
+import { divisionValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  workshopsAddRequest,
-  workshopsUpdateRequest,
+  divisionsAddRequest,
+  divisionsUpdateRequest,
   sedesGetRequest,
   educatorsGetRequest,
   programGetRequest
@@ -20,13 +20,13 @@ class EditForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: (this.props.workshopData.id) ? true : false,
-      id: this.props.workshopData.id || '',
-      name: this.props.workshopData.name || '',
-      description: this.props.workshopData.description || '',
-      location: this.props.workshopData.location || '',
-      programId: this.props.workshopData.programId || '',
-      instructorId: this.props.workshopData.instructorId || '',
+      isEditing: (this.props.divisionData.id) ? true : false,
+      id: this.props.divisionData.id || '',
+      name: this.props.divisionData.name || '',
+      description: this.props.divisionData.description || '',
+      location: this.props.divisionData.location || '',
+      programId: this.props.divisionData.programId || '',
+      instructorId: this.props.divisionData.instructorId || '',
       errors: {},
       isLoading: false
     };
@@ -43,7 +43,7 @@ class EditForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.workshopData !== nextProps.workshopData) {
+    if (this.props.divisionData !== nextProps.divisionData) {
       this.setState({
         isEditing: false,
         name: '',
@@ -58,7 +58,7 @@ class EditForm extends React.Component {
 
   isValid(){
     //local validation
-    const { errors, isValid } = workshopValidator(this.state);
+    const { errors, isValid } = divisionValidator(this.state);
     if(!isValid){
       this.setState({ errors });
       return false;
@@ -84,7 +84,7 @@ class EditForm extends React.Component {
       }
       // ON SUCCESS API
       this.state.isEditing ?
-        this.props.actions.workshopsUpdateRequest(data).then(
+        this.props.actions.divisionsUpdateRequest(data).then(
           (response) => {
             //Save the default object as a provider
             if (response) {
@@ -97,7 +97,7 @@ class EditForm extends React.Component {
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
         :
-        this.props.actions.workshopsAddRequest(data).then(
+        this.props.actions.divisionsAddRequest(data).then(
           (response) => {
             //Save the default object as a provider
             if (response) {
@@ -187,7 +187,7 @@ class EditForm extends React.Component {
                           name="description"
                           value={this.state.description}
                           onChange={this.onChange}
-                          placeholder="eje: about this workshop"/>
+                          placeholder="eje: about this division"/>
                         {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
@@ -282,8 +282,8 @@ function mapDispatchToProps(dispatch) {
       sedesGetRequest,
       programGetRequest,
       educatorsGetRequest,
-      workshopsAddRequest,
-      workshopsUpdateRequest,
+      divisionsAddRequest,
+      divisionsUpdateRequest,
     }, dispatch)
   };
 }

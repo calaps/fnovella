@@ -16,6 +16,7 @@ import grades from './grades';
 import workshops from './workshops';
 import dashboard from './dashboard';
 import categories from './categories';
+import divisions from './divisions';
 const reducers = {
   routing: routerReducer,
   settings,
@@ -33,7 +34,8 @@ const reducers = {
   grades,
   workshops,
   dashboard,
-  categories
+  categories,
+  divisions
 };
 
 module.exports = combineReducers(reducers);

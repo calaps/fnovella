@@ -337,12 +337,12 @@ export function studentValidator(data){
       errors.address = invalidData;
     }
   }
-  if(Validator.isEmpty(data.bornDate)) {
-    errors.bornDate = required;
-    if(!Validator.isEmpty(data.bornDate) && !isDate(data.bornDate)){
-      errors.bornDate = invalidData;
-    }
-  }
+  // if(Validator.isEmpty(data.bornDate)) {
+  //   errors.bornDate = required;
+  //   if(!Validator.isEmpty(data.bornDate) && !isDate(data.bornDate)){
+  //     errors.bornDate = invalidData;
+  //   }
+  // }
   if(Validator.isEmpty(data.gender)) {
     errors.gender = required;
     if(!Validator.isEmpty(data.gender) && !Validator.isAlphanumeric(data.gender)){
@@ -654,6 +654,41 @@ export function forgotPasswordValidator(data){
 
   if(Validator.isEmpty(data.email)) {
     errors.email = required;
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}
+
+export function divisionValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.name)) {
+    errors.name = required;
+    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
+      errors.name = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.location)) {
+    errors.location = required;
+  }
+  if(Validator.isEmpty(data.description)) {
+    errors.description = required;
+    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
+      errors.description = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.programId)) {
+    errors.programId = required;
+  }
+  if(Validator.isEmpty(data.instructorId)) {
+    errors.instructorId = required;
   }
 
   //IsValid is just a boolean who return is errors is empty

@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Categoria";
+const optionsName = "Division";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -86,20 +86,20 @@ class Division extends React.Component {
     super(props);
     this.state = {
       active: "VIEW_ELEMENT",
-      workshopData: {}
+      divisionData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditProgram = this.onEditProgram.bind(this);
   }
 
-  onEditProgram(workshopData) {
-    this.setState({workshopData});
+  onEditProgram(divisionData) {
+    this.setState({divisionData});
     this.changeView('ADD_ELEMENT', false);
   }
 
   changeView(data, reset = true) {
     if (reset) {
-      this.setState({workshopData: {}})
+      this.setState({divisionData: {}})
     }
     this.setState({active: data});
   }
@@ -107,7 +107,7 @@ class Division extends React.Component {
   activeView() {
     switch (this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm changeView={this.changeView} workshopData={this.state.workshopData}/>;
+        return <EditForm changeView={this.changeView} divisionData={this.state.divisionData}/>;
       case "VIEW_ELEMENT":
         return <ListElements onEdit={this.onEditProgram}/>;
       default:
