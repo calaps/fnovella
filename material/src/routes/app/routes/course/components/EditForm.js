@@ -149,7 +149,7 @@ class EditForm extends React.Component {
         } else{
           return null;
         }
-        
+
       });
     };
     //Educators options

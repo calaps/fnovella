@@ -438,8 +438,8 @@ class EditForm extends React.Component {
                           value={this.state.category}
                           className="form-control"
                         >
-                        <option value="Programa">Programa</option>
-                        <option value="Sistema">Sistema</option>
+                        <option value="1">Programa</option>
+                        <option value="2">Sistema</option>
                       </select>
                         {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
