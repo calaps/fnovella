@@ -41,9 +41,9 @@ class EditForm extends React.Component {
       errors: {},
       isLoading: false
     };
-    // console.log('state is',this.state);
     this.onSubmit = this.onSubmit.bind(this);
-    {/* Makes a Bind of the actions, onChange, onSummit */
+    {
+      /* Makes a Bind of the actions, onChange, onSummit */
     }
     this.onChange = this.onChange.bind(this);
     this._handleCancel = this._handleCancel.bind(this);
@@ -95,7 +95,6 @@ class EditForm extends React.Component {
         colony: this.state.colony,
         zone: this.state.zone
       };
-      // console.log(this.state)
       this.props.handleNext(data);
     }
   }
@@ -330,52 +329,6 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia
-                      </label>
-                      {
-                        /* #change
-                        description: colony
-                        controller to use: instructor controller
-                        database name: colony
-                      */
-                      }
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.email}
-                          onChange={this.onChange}
-                          placeholder="eje: Margarita"/>
-                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona
-                      </label>
-                      {
-                        /* #change
-                        description: zone
-                        controller to use: instructor controller
-                        database name: zone
-                      */
-                      }
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.email}
-                          onChange={this.onChange}
-                          placeholder="eje: Margarita"/>
-                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Comunidad</label>
                       <div className="col-md-9">
                         <select
@@ -396,7 +349,7 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia</label>
                       <div className="col-md-9">
                         <input
-                          type="colony"
+                          type="text"
                           className="form-control"
                           id="colony"
                           name="colony"
@@ -411,7 +364,7 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona</label>
                       <div className="col-md-9">
                         <input
-                          type="zone"
+                          type="text"
                           name="zone"
                           id="zone"
                           onChange={this.onChange}
@@ -525,9 +478,7 @@ class EditForm extends React.Component {
 }
 
 function mapStateToProps(state) {
-  //pass the providers
   return {
-    // auth: state.auth
     catalogs: state.catalogs
   }
 }
@@ -536,7 +487,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      //    signUpRequest
       participantAddRequest,
       catalogsGetRequest
     }, dispatch)

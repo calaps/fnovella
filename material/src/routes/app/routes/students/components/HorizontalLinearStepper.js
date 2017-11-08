@@ -125,7 +125,9 @@ class HorizontalLinearStepper extends React.Component {
           phone: this.state.studentData.phone,
           profession: this.state.studentData.profession,
           secondLastname: this.state.studentData.secondLastname,
-          secondName: this.state.studentData.secondName
+          secondName: this.state.studentData.secondName,
+          colony: this.state.studentData.colony,
+          zone: this.state.studentData.zone
         };
         this.props.actions.participantAddRequest(studentData).then(
           (response) => {
