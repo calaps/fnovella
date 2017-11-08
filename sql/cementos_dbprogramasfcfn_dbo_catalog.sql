@@ -6,3 +6,16 @@ INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES (
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('El Pajon', 'text', 3);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('La Naranaja', 'text', 3);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('El Rancho', 'text', 3);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Altura', 'number', 7);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Primaria', 'text', 9);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('secundaria', 'text', 9);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('asistio', '1', 10);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('no asistio', '2', 10);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('No asistio. Por enfermedad o lesión', '3', 10);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('No asistio. Por problemas familiares', '4', 10);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('No asistio. Por amenaza o violencia', '5', 10);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Peso', 'number', 7);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Masa corporal', 'number', 7);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Coeficiente intelectual', 'number', 11);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Palabras por minuto', 'number', 13);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Libros leidos', 'number', 13);

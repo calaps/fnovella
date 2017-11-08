@@ -1,0 +1,2 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.division (name, programa, location, created_group) VALUES ('sub 15', 6, 1, 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.division (name, programa, location, created_group) VALUES ('sub 20', 6, 1, 0);

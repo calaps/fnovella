@@ -1,1 +1,3 @@
-INSERT INTO cementos_dbprogramasfcfn.dbo.course (name, program, location, description, open_course, grade, program_id, instructor_id) VALUES ('jose', 'program', 1, 'hola', 1, null, null, null);
+INSERT INTO cementos_dbprogramasfcfn.dbo.course (name, program, location, description, open_course, grade, program_id, instructor_id, created_group) VALUES ('Matematica', 'program', 1, 'Curso de alebra y ecuaciones basicas', 1, 1, 51, 4, 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.course (name, program, location, description, open_course, grade, program_id, instructor_id, created_group) VALUES ('Ingles', 'program', 1, 'Porgrama de Ingles', 1, 7, 51, 20, 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.course (name, program, location, description, open_course, grade, program_id, instructor_id, created_group) VALUES ('Robotica', 'program', 1, 'Intrudocción a Robotica a los niños', 0, 1, 51, 4, 0);
