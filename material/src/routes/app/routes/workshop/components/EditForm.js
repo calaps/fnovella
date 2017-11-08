@@ -12,7 +12,8 @@ import {
   sedesGetRequest,
   educatorsGetRequest,
   programGetRequest,
-  programLocationGetRequest
+  programLocationGetRequest,
+  programLocationByProgramIdGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -38,10 +39,9 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.sedesGetRequest();
+    this.props.actions.sedesGetRequest(0, 1000);
     this.props.actions.programGetRequest();
     this.props.actions.educatorsGetRequest();
-    this.props.actions.programLocationGetRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -124,6 +124,9 @@ class EditForm extends React.Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    if(e.target.name === 'programId'){
+      this.props.actions.programLocationByProgramIdGetRequest(0, 1000, e.target.value);
+    }
   }
 
   render() {
@@ -133,19 +136,26 @@ class EditForm extends React.Component {
     const options = map(data_types, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
+
     //Sedes || location options
     let sedesOpt = () => {
       // if no program return null
       if(this.state.programId){
         let sedes = this.props.sedes.content || [];
         let programLocationRelation = this.props.programLocations.content || [];
+
+        // console.log("programLocationRelation: ", programLocationRelation);
+        // console.log("this.state.programId: ", this.state.programId);
+
         // separate the locations first
         let programLocations = [];
         for(let i=0; i<programLocationRelation.length; i++){
-          if(programLocationRelation[i].program == self.state.programId){
-            programLocations.push(programLocationRelation[i].location);
-          }
+          programLocations.push(programLocationRelation[i].location);
         }
+
+        // console.log("programLocations: ", programLocations);
+        // console.log("sedes: ", sedes);
+
         return sedes.map((sede) => {
           if(programLocations.indexOf(sede.id)>=0){
             return <option key={sede.id} value={sede.id}>{sede.name}</option>
@@ -284,7 +294,8 @@ function mapDispatchToProps(dispatch) {
       educatorsGetRequest,
       workshopsAddRequest,
       workshopsUpdateRequest,
-      programLocationGetRequest
+      programLocationGetRequest,
+      programLocationByProgramIdGetRequest
     }, dispatch)
   };
 }

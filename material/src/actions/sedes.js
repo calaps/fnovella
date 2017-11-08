@@ -23,6 +23,8 @@ export function sedesGetRequest(number, size) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
+      console.log("params: ", params);
+
       // will be removed once API is ready
       // dispatch({
       //   type: SEDES_GET_REQUEST,
@@ -32,7 +34,7 @@ export function sedesGetRequest(number, size) {
       // return;
 
       // API
-      HTTP('get', '/location/', null,{authorization: localStorage.getItem('@fnovella:token'),params})
+      HTTP('get', '/location/', null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
         if(response.data.errors===null){
           dispatch({
