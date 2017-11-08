@@ -254,6 +254,12 @@ class EditForm extends React.Component {
                     </div>
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Grado</label>
+                      {
+                        /* #change
+                        description: 1. HIDE THIS OPTION IF IS AN OPEN COURSE.
+
+                      */
+                      }
                       <div className="col-md-9">
                         <select
                           name="grade"
@@ -268,6 +274,32 @@ class EditForm extends React.Component {
                         {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
                       </div>
                     </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Section</label>
+                      {
+                        /* #change
+                        description: 1. HIDE THIS OPTION IF IS AN OPEN COURSE.
+                                     2. Do not display every section onnly
+                                        pupulate this options with the sections corresponding to the respective grade
+
+                      */
+                      }
+                      <div className="col-md-9">
+                        <select
+                          name="grade"
+                          id="grade"
+                          onChange={this.onChange}
+                          value={this.state.grade}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione el grado</option>
+                          {gradesOpt()}
+                        </select>
+                        {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
+                      </div>
+                    </div>
+
                     <div className="form-group row">
                       {
                         /* #change
