@@ -11,7 +11,8 @@ import {
   workshopsUpdateRequest,
   sedesGetRequest,
   educatorsGetRequest,
-  programGetRequest
+  programGetRequest,
+  programLocationGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -40,6 +41,7 @@ class EditForm extends React.Component {
     this.props.actions.sedesGetRequest();
     this.props.actions.programGetRequest();
     this.props.actions.educatorsGetRequest();
+    this.props.actions.programLocationGetRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -133,10 +135,26 @@ class EditForm extends React.Component {
     );
     //Sedes || location options
     let sedesOpt = () => {
-      let sedes = this.props.sedes.content || [];
-      return sedes.map((sede) => {
-        return <option key={sede.id} value={sede.id}>{sede.name}</option>
-      });
+      // if no program return null
+      if(this.state.programId){
+        let sedes = this.props.sedes.content || [];
+        let programLocationRelation = this.props.programLocations.content || [];
+        // separate the locations first
+        let programLocations = [];
+        for(let i=0; i<programLocationRelation.length; i++){
+          if(programLocationRelation[i].program == self.state.programId){
+            programLocations.push(programLocationRelation[i].location);
+          }
+        }
+        return sedes.map((sede) => {
+          if(programLocations.indexOf(sede.id)>=0){
+            return <option key={sede.id} value={sede.id}>{sede.name}</option>
+          }
+        });
+      }
+      else{
+        return null;
+      }
     };
     //Programs options
     let programsOpt = () => {
@@ -147,14 +165,6 @@ class EditForm extends React.Component {
         }
       });
     };
-    //Educators options
-    // no longer needed
-    // let educatorsOpt = () => {
-    //   let educators = this.props.educators.content || [];
-    //   return educators.map((educator) => {
-    //     return <option key={educator.id} value={educator.id}>{educator.firstName}</option>
-    //   });
-    // };
 
     return (
       <article className="article padding-lg-v article-bordered">
@@ -194,31 +204,7 @@ class EditForm extends React.Component {
                         {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
-                    <div className="form-group row">
-                      {
-                        /* #change
-                        description: The options populated with locations is correct.
-                                     However should be only the locations related to the program
-                                     in the new controller "program_location" relation
-                        controller to use: program_location
-                        database name: program_location
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
-                      <div className="col-md-9">
-                        <select
-                          name="location"
-                          id="location"
-                          onChange={this.onChange}
-                          value={this.state.location}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecione la sede</option>
-                          {sedesOpt()}
-                        </select>
-                        {errors.location && <span className="help-block text-danger">{errors.location}</span>}
-                      </div>
-                    </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Program</label>
                       <div className="col-md-9">
@@ -235,22 +221,23 @@ class EditForm extends React.Component {
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
                     </div>
-                    {/*<div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadore</label>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
                       <div className="col-md-9">
                         <select
-                          name="instructorId"
-                          id="instructorId"
+                          name="location"
+                          id="location"
                           onChange={this.onChange}
-                          value={this.state.instructorId}
+                          value={this.state.location}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecione la educadore</option>
-                          {educatorsOpt()}
+                          <option value="" disabled>Selecione la sede</option>
+                          {sedesOpt()}
                         </select>
-                        {errors.instructorId && <span className="help-block text-danger">{errors.instructorId}</span>}
+                        {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
-                    </div>*/}
+                    </div>
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
@@ -284,6 +271,7 @@ function mapStateToProps(state) {
     sedes: state.sedes,
     programs: state.programs,
     educators: state.educators,
+    programLocations: state.programLocations,
   }
 }
 
@@ -296,6 +284,7 @@ function mapDispatchToProps(dispatch) {
       educatorsGetRequest,
       workshopsAddRequest,
       workshopsUpdateRequest,
+      programLocationGetRequest
     }, dispatch)
   };
 }
