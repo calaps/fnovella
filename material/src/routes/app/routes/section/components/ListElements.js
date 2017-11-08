@@ -2,15 +2,18 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  categoriesGetRequest,
-  categoriesDeleteRequest
+  sectionsGetRequest,
+  sectionsDeleteRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
+
 
 /** *
  * Fake element list render....
  * */
-
+let size = 5; //limit
+let number = 0; //page
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
@@ -18,12 +21,12 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.categoriesGetRequest();
+    this.props.actions.sectionsGetRequest(number, size);
   }
 
   onDeleteButton(id) {
     console.log("id: ", id);
-    this.props.actions.categoriesDeleteRequest(id);
+    this.props.actions.sectionsDeleteRequest(id);
   }
 
   render() {
@@ -43,20 +46,27 @@ class ListElements extends React.Component {
                       <th className="mdl-data-table__cell--non-numeric">#</th>
                       <th className="mdl-data-table__cell--non-numeric">id</th>
                       <th className="mdl-data-table__cell--non-numeric">Name</th>
-                      <th className="mdl-data-table__cell--non-numeric">Description</th>
+                      <th className="mdl-data-table__cell--non-numeric">Code</th>
+                      <th className="mdl-data-table__cell--non-numeric">Jornada</th>
                     </tr>
                     </thead>
                     <tbody>
                     {
-                      this.props.categories.map((category) => {
-                        return <ListItem key={category.id} onDelete={this.onDeleteButton}
+                      this.props.sections.content? this.props.sections.content.map((section) => {
+                        return <ListItem key={section.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
-                                         categoryData={category}/>
-                      })
+                                         sectionData={section}/>
+                      }): null
                     }
                     </tbody>
                   </table>
+
+                  <Pagination
+                    totalPages={this.props.sections.totalPages}
+                    totalElements={this.props.sections.totalElements}
+                    getRequest={this.props.actions.sectionsGetRequest}/>
+
                 </div>
 
               </div>
@@ -73,7 +83,7 @@ class ListElements extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    categories: state.categories
+    sections: state.sections
   }
 }
 
@@ -81,8 +91,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      categoriesGetRequest,
-      categoriesDeleteRequest
+      sectionsGetRequest,
+      sectionsDeleteRequest
     }, dispatch)
   };
 }

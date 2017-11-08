@@ -17,7 +17,8 @@ let initialState = {
   workshops: {},
   divisions: {},
   dashboard: {},
-  categories: []
+  categories: [],
+  sections : []
 
 };
 

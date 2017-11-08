@@ -698,3 +698,35 @@ export function divisionValidator(data){
   };
 
 }
+
+export function sectionsValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.code)) {
+    errors.code = required;
+    if(!Validator.isEmpty(data.code) && !Validator.isAlphanumeric(data.code)){
+      errors.code = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.name)) {
+    errors.name = required;
+    if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
+      errors.name = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.jornada)) {
+    errors.jornada = required;
+    if(!Validator.isEmpty(data.jornada) && !Validator.isAlphanumeric(data.jornada)){
+      errors.jornada = invalidData;
+    }
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}
