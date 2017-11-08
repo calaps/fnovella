@@ -436,7 +436,7 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Generoq</label>
                       <div className="col-md-9">
                         <select
                           name="gender"

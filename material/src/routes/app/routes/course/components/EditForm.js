@@ -28,7 +28,6 @@ class EditForm extends React.Component {
       openCourse: this.props.courseData.openCourse || '',
       grade: this.props.courseData.grade || '',
       programId: this.props.courseData.programId || '',
-      instructorId: this.props.courseData.instructorId || '',
       errors: {},
       isLoading: false
     };
@@ -56,8 +55,7 @@ class EditForm extends React.Component {
         description: '',
         openCourse: '',
         grade: '',
-        programId: '',
-        instructorId: ''
+        programId: ''
       })
     }
   }
@@ -88,7 +86,6 @@ class EditForm extends React.Component {
         openCourse: this.state.openCourse,
         grade: this.state.grade,
         programId: this.state.programId,
-        instructorId: this.state.instructorId
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -147,7 +144,12 @@ class EditForm extends React.Component {
     let programsOpt = () => {
       let programs = this.props.programs.content || [];
       return programs.map((program) => {
-        return <option key={program.id} value={program.id}>{program.name}</option>
+        if(program.clasification == "grades"){
+          return <option key={program.id} value={program.id}>{program.name}</option>
+        } else{
+          return null;
+        }
+        
       });
     };
     //Educators options
@@ -211,14 +213,17 @@ class EditForm extends React.Component {
                       }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Es un curso abierto?</label>
                       <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="openCourse"
+                          <select
                           name="openCourse"
-                          value={this.state.openCourse}
+                          id="openCourse"
                           onChange={this.onChange}
-                          placeholder="eje: true or false"/>
+                          value={this.state.openCourse}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione la curso</option>
+                          <option value="true">true</option>
+                          <option value="false">false</option>
+                        </select>
                         {errors.openCourse && <span className="help-block text-danger">{errors.openCourse}</span>}
                       </div>
                     </div>
@@ -285,27 +290,6 @@ class EditForm extends React.Component {
                           {programsOpt()}
                         </select>
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      {
-                        /* #change
-                        description: delete field "educadores" (instructors)
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educador</label>
-                      <div className="col-md-9">
-                        <select
-                          name="instructorId"
-                          id="instructorId"
-                          onChange={this.onChange}
-                          value={this.state.instructorId}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecione el educador</option>
-                          {educatorsOpt()}
-                        </select>
-                        {errors.instructorId && <span className="help-block text-danger">{errors.instructorId}</span>}
                       </div>
                     </div>
 
