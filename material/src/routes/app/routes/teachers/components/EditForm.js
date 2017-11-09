@@ -11,7 +11,8 @@ import {
   educatorsAddRequest,
   educatorsUpdateRequest,
   catalogsGetRequest,
-  programInstructorGetRequest
+  programInstructorGetRequest,
+  sedesGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -154,6 +155,7 @@ class EditForm extends React.Component {
 
   componentWillMount() {
     this.props.actions.catalogsGetRequest();
+    this.props.actions.sedesGetRequest();
     this.props.actions.programInstructorGetRequest();
   }
 
@@ -207,12 +209,27 @@ class EditForm extends React.Component {
         }
       });
     };
-    let programInstructors  = () => {
-      let programInstructors = this.props.programInstructors.content || [];
-      return programInstructors.map((instructors) => {
-          return <option key={instructors.id} value={instructors.instructor}>{instructors.instructor}</option>
-      });
-    }
+    
+    let sedesOpt = () => {
+      // if no program return null
+      if(this.state.programId){
+        let sedes = this.props.sedes.content || [];
+        let programInstructorRelation = this.props.programInstructors.content || [];
+        let programInstructors = [];
+        for(let i=0; i<programInstructorRelation.length; i++){
+          programInstructors.push(programInstructorRelation[i].location);
+        }
+
+        return sedes.map((sede) => {
+          if(programInstructors.indexOf(sede.id)>=0){
+            return <option key={sede.id} value={sede.id}>{sede.name}</option>
+          }
+        });
+      }
+      else{
+        return null;
+      }
+    };
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -611,7 +628,7 @@ class EditForm extends React.Component {
                       className="form-control"
                     >
                       <option value="" disabled>Selecciona el Programa</option>
-                      {programInstructors}
+                      {sedesOpt()}
                     </select>
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
@@ -662,6 +679,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
+    sedes: state.sedes,
     programInstructors : state.programInstructors,
     catalogs: state.catalogs
   }
@@ -672,6 +690,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       //    signUpRequest
+      sedesGetRequest,
       programInstructorGetRequest,
       educatorsAddRequest,
       educatorsUpdateRequest,
