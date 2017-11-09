@@ -125,7 +125,7 @@ class EditForm extends React.Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
     if(e.target.name === 'programId'){
-      this.props.actions.programLocationByProgramIdGetRequest(0, 1000, e.target.value);
+      this.props.actions.programLocationByProgramIdGetRequest(e.target.value);
     }
   }
 

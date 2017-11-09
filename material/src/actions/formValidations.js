@@ -234,7 +234,7 @@ export function courseValidator(data){
 }
 
 export function gradeValidator(data){
-  // console.log(data);
+  console.log(data);
 
   let errors = {}; //errors star with an empty object
 
@@ -243,9 +243,6 @@ export function gradeValidator(data){
     if(!Validator.isEmpty(data.name) && !Validator.isAlphanumeric(data.name)){
       errors.name = invalidData;
     }
-  }
-  if(Validator.isEmpty(data.location)) {
-    errors.location = required;
   }
   if(Validator.isEmpty(data.description)) {
     errors.description = required;

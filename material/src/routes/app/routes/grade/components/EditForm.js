@@ -6,7 +6,7 @@ import map from "Lodash/map"; //to use map in a object
 import {gradeValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {gradesAddRequest, gradesUpdateRequest, programLocationGetRequest, programGetRequest, catalogsGetByCategoryRequest} from '../../../../../actions';
+import {gradesAddRequest, gradesUpdateRequest, programLocationByProgramIdGetRequest, programGetRequest, catalogsGetByCategoryRequest} from '../../../../../actions';
 
 let self;
 
@@ -41,10 +41,7 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
-    this
-      .props
-      .actions
-      .programLocationGetRequest();
+    this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
     this
       .props
       .actions
@@ -159,6 +156,9 @@ class EditForm extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
+    if(e.target.name == "programId"){
+      this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
+    }
   }
 
   render() {
@@ -169,13 +169,11 @@ class EditForm extends React.Component {
     );
     //programLocations || location options
     let programLocationsOpt = () => {
+      console.log(this.props.programLocations)
       if(this.state.programId ){
       let programLocations = this.props.programLocations.content || [];
       return programLocations.map((location) => {
-        if(location.program == this.state.programId){
-        return <option key={location.id} value={location.location}>{location.locationData.name}</option>
-        }
-        return null;
+        return <option key={location.location} value={location.location}>{location.locationData.name}</option>
       });
     } else{
       return null;
@@ -363,7 +361,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      programLocationGetRequest,
+      programLocationByProgramIdGetRequest,
       programGetRequest,
       gradesAddRequest,
       gradesUpdateRequest,

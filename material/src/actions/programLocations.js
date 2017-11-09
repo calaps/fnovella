@@ -15,12 +15,8 @@ import {
   PROGRAM_LOCATION_UPDATE_SUCCESS
 } from './../constants/ActionTypes';
 
-export function programLocationByProgramIdGetRequest(number=0, size=100, programId) {
-  let params = {};
-  params.page = number;
-  params.size = size;
-  params.type = 2;
-
+export function programLocationByProgramIdGetRequest(programId) {
+  
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
@@ -34,7 +30,7 @@ export function programLocationByProgramIdGetRequest(number=0, size=100, program
         // return;
 
         // API
-        HTTP('get', '/program_location/'+programId+'/program_id', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
+        HTTP('get', '/program_location/'+programId+'/program_id', null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (response.data.errors === null) {
               dispatch({
