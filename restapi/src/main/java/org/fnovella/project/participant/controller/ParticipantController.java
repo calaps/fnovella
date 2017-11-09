@@ -90,26 +90,57 @@ public class ParticipantController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Participant toDelete = this.participantRepository.findOne(id);
 		if (toDelete != null) {
-			List<?> list = this.inscriptionsPartWorkshopRepository.findByParticipantId(id);
-			if (list != null && !list.isEmpty())
-				this.inscriptionsPartWorkshopRepository.deleteByParticipantId(id);
-			list = this.inscriptionsPartGradeRepository.findByParticipantId(id);
-			if (list != null && !list.isEmpty())
-				this.inscriptionsPartGradeRepository.deleteByParticipantId(id);
-			list = this.inscriptionsPartCourseRepository.findByParticipantId(id);
-			if (list != null && !list.isEmpty())
-				this.inscriptionsPartCourseRepository.deleteByParticipantId(id);
-			list = this.participantContactsRepository.findByParticipantId(id);
-			if (list != null && !list.isEmpty())
-				this.participantContactsRepository.deleteByParticipantId(id);
-			list = this.catalogRelationStudentRepository.findByIdParticipant(id);
-			if (list != null && !list.isEmpty())
-				this.catalogRelationStudentRepository.deleteByIdParticipant(id);
+			this.delete(id, true);
 			this.participantRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}
 		errors.add("Participant doesn't exist");
 		return new APIResponse(null, errors);
+	}
+	
+	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		return new APIResponse(this.delete(id, false), null);
+	}
+	
+	private boolean delete(Integer id, boolean delete) {
+		boolean toDelete = true;
+		List<?> list = this.catalogRelationStudentRepository.findByIdParticipant(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.catalogRelationStudentRepository.deleteByIdParticipant(id);
+			}
+		}
+		list = this.inscriptionsPartCourseRepository.findByParticipantId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.inscriptionsPartCourseRepository.deleteByParticipantId(id);
+			}
+		}
+		list = this.inscriptionsPartGradeRepository.findByParticipantId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.inscriptionsPartGradeRepository.deleteByParticipantId(id);
+			}
+		}
+		list = this.inscriptionsPartWorkshopRepository.findByParticipantId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.inscriptionsPartWorkshopRepository.deleteByParticipantId(id);
+			}
+		}
+		list = this.participantContactsRepository.findByParticipantId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.participantContactsRepository.deleteByParticipantId(id);
+			}
+		}
+		return toDelete;
 	}
 	
 }

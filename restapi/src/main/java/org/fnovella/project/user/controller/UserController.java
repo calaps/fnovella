@@ -1,5 +1,16 @@
 package org.fnovella.project.user.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.mail.internet.MimeMessage;
+
+import org.fnovella.project.instructor.model.Instructor;
+import org.fnovella.project.instructor.repository.InstructorRepository;
+import org.fnovella.project.program.repository.ProgramRepository;
+import org.fnovella.project.program_app_user.repository.ProgramAppUserRepository;
+import org.fnovella.project.user.model.AppUser;
+import org.fnovella.project.user.model.AppUserSession;
 import org.fnovella.project.user.model.Login;
 import org.fnovella.project.user.model.LoginResponse;
 import org.fnovella.project.user.model.UserEmail;
@@ -9,22 +20,16 @@ import org.fnovella.project.user.repository.AppUserRepository;
 import org.fnovella.project.user.repository.UserRepository;
 import org.fnovella.project.utility.APIUtility;
 import org.fnovella.project.utility.model.APIResponse;
-import org.fnovella.project.user.model.AppUser;
-import org.fnovella.project.user.model.AppUserSession;
-
-import java.util.ArrayList;
-
-import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 
 @RestController
 @RequestMapping("/user/")
@@ -35,7 +40,18 @@ public class UserController {
 	@Autowired
 	private AppUserRepository appUserRepository;
 	@Autowired
+	private InstructorRepository instructorRepository;
+	@Autowired
+	private ProgramRepository programRepository;
+	@Autowired
+	private ProgramAppUserRepository programAppUserRepository;
+	@Autowired
 	public JavaMailSender emailSender;
+	
+	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		return new APIResponse(this.delete(id, false), null);
+	}
 	
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public LoginResponse login(@RequestBody Login user) {
@@ -43,9 +59,16 @@ public class UserController {
 			if (APIUtility.isNotNullOrEmpty(user.getPassword())) {
 				AppUser appUser = this.userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()); 
 				if (appUser != null) {
-					AppUserSession session = new AppUserSession(appUser.getId(), APIUtility.generateHash());
+					AppUserSession session = new AppUserSession(appUser.getId(), APIUtility.generateHash(), true);
 					this.appUserRepository.save(session);
 					return new LoginResponse(appUser, session.getToken(), null);	
+				} else {
+					Instructor instructor = this.instructorRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+					if (instructor != null) {
+						AppUserSession session = new AppUserSession(instructor.getId(), APIUtility.generateHash(), true);
+						this.appUserRepository.save(session);
+						return new LoginResponse(instructor, session.getToken(), null);
+					}
 				}
 			}
 		}
@@ -61,7 +84,7 @@ public class UserController {
 			AppUser appUser = this.userRepository.findByEmail(user.getEmail());
 			if (appUser == null) {
 				appUser = this.userRepository.save(user);
-				AppUserSession session = new AppUserSession(appUser.getId(), APIUtility.generateHash());
+				AppUserSession session = new AppUserSession(appUser.getId(), APIUtility.generateHash(), true);
 				this.appUserRepository.save(session);
 				appUser.setPassword("");
 				return new LoginResponse(appUser, session.getToken(), null);	
@@ -121,6 +144,7 @@ public class UserController {
 		if (authorizedUser != null) {
 			AppUser appUser = this.userRepository.findOne(id);
 			if (appUser != null) {
+				this.delete(appUser.getId(), true);
 				this.appUserRepository.deleteByIdAppUser(appUser.getId());
 				this.userRepository.delete(appUser);
 				return new APIResponse(true, null);
@@ -130,6 +154,25 @@ public class UserController {
 		}
 		errors.add("Not authorizaded");
 		return new APIResponse(null, errors);
+	}
+	
+	private boolean delete(Integer appUserId, boolean delete) {
+		boolean toDelete = true;
+		List<?> list = this.programRepository.findByResponsable(appUserId);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.programRepository.deleteByResponsable(appUserId);
+			}
+		}
+		list = this.programAppUserRepository.findByAppUser(appUserId);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.programAppUserRepository.deleteByAppUser(appUserId);
+			}
+		}
+		return toDelete;
 	}
 	
 	@RequestMapping(value = "logout", method = RequestMethod.GET)

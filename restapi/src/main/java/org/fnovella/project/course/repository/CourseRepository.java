@@ -17,4 +17,10 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     @Transactional
     @Query("delete from Course where grade = ?1")
 	void deleteByGrade(Integer grade);
+	
+	List<Course> findByProgramId(Integer programId);
+	@Modifying
+    @Transactional
+    @Query("delete from Course where programId = ?1")
+	void deleteByProgramId(Integer idProgram);
 }

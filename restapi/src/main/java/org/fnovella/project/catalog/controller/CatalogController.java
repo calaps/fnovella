@@ -1,6 +1,7 @@
 package org.fnovella.project.catalog.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.fnovella.project.catalog.model.Catalog;
 import org.fnovella.project.catalog.repository.CatalogRepository;
@@ -70,12 +71,35 @@ public class CatalogController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Catalog toDelete = this.catalogRepository.findOne(id);
 		if (toDelete != null) {
-			this.catalogRelationStudentRepository.deleteByIdCatalog(id);
-			this.catalogRelationRepository.deleteByIdCatalog(id);
+			this.delete(id, true);
 			this.catalogRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}
 		errors.add("Catalog doesn't exist");
 		return new APIResponse(null, errors);
+	}
+	
+	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		return new APIResponse(this.delete(id, false), null);
+	}
+	
+	private boolean delete(Integer id, boolean delete) {
+		boolean toDelete = true;
+		List<?> list = this.catalogRelationRepository.findByIdCatalog(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.catalogRelationRepository.deleteByIdCatalog(id);
+			}
+		}
+		list = this.catalogRelationStudentRepository.findByIdCatalog(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.catalogRelationStudentRepository.deleteByIdCatalog(id);
+			}
+		}
+		return toDelete;
 	}
 }

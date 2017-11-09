@@ -24,7 +24,7 @@ public class ProgramLocationController {
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.programLocationRepository.findAll(pageable), null);
 	}
-	
+		
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
 		ArrayList<String> errors = new ArrayList<String>();
@@ -34,6 +34,12 @@ public class ProgramLocationController {
 		}
 		errors.add("Program Location doesn't exist");
 		return new APIResponse(null, errors);
+	}
+	
+	@RequestMapping(value = "{id}/program_id", method = RequestMethod.GET)
+	public APIResponse getByProgram(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id,
+			Pageable pageable) {
+		return new APIResponse(this.programLocationRepository.findByProgram(id, pageable), null);
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)

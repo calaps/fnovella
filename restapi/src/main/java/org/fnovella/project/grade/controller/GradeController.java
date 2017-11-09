@@ -79,19 +79,42 @@ public class GradeController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Grade toDelete = this.gradeRepository.findOne(id);
 		if (toDelete != null) {
-			List<?> list = this.inscriptionsPartGradeRepository.findByGradeId(id);
-			if (list != null && !list.isEmpty())
-				this.inscriptionsPartGradeRepository.deleteByGradeId(id);
-			list = this.inscriptionsInstGradeRepository.findByGradeId(id);
-			if (list != null && !list.isEmpty())
-				this.inscriptionsInstGradeRepository.deleteByGradeId(id);
-			list = this.courseRepository.findByGrade(id);
-			if (list != null && !list.isEmpty())
-				this.courseRepository.deleteByGrade(toDelete.getId());
+			this.delete(id, true);
 			this.gradeRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}
 		errors.add("Course doesn't exist");
 		return new APIResponse(null, errors);
+	}
+	
+	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		return new APIResponse(this.delete(id, false), null);
+	}
+	
+	private boolean delete(Integer id, boolean delete) {
+		boolean toDelete = true;
+		List<?> list = this.inscriptionsPartGradeRepository.findByGradeId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.inscriptionsPartGradeRepository.deleteByGradeId(id);
+			}
+		}
+		list = this.inscriptionsInstGradeRepository.findByGradeId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.inscriptionsInstGradeRepository.deleteByGradeId(id);
+			}
+		}
+		list = this.courseRepository.findByGrade(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.courseRepository.deleteByGrade(id);
+			}
+		}
+		return toDelete;
 	}
 }

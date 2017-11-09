@@ -71,16 +71,35 @@ public class CourseController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Course toDelete = this.courseRepository.findOne(id);
 		if (toDelete != null) {
-			List<?> list = this.inscriptionsPartCourseRepository.findByCourseId(id);
-			if (list != null && !list.isEmpty())
-				this.inscriptionsPartCourseRepository.deleteByCourseId(id);
-			list = this.inscriptionsInstCourseRepository.findByCourseId(id);
-			if (list != null && !list.isEmpty())
-				this.inscriptionsInstCourseRepository.delete(id);
+			this.delete(id, true);
 			this.courseRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}
 		errors.add("Course doesn't exist");
 		return new APIResponse(null, errors);
+	}
+	
+	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		return new APIResponse(this.delete(id, false), null);
+	}
+	
+	private boolean delete(Integer id, boolean delete) {
+		boolean toDelete = true;
+		List<?> list = this.inscriptionsPartCourseRepository.findByCourseId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.inscriptionsPartCourseRepository.deleteByCourseId(id);
+			}
+		}
+		list = this.inscriptionsInstCourseRepository.findByCourseId(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.inscriptionsInstCourseRepository.deleteByCourseId(id);
+			}
+		}
+		return toDelete;
 	}
 }

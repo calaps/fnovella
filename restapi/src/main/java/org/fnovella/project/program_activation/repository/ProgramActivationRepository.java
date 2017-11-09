@@ -1,5 +1,7 @@
 package org.fnovella.project.program_activation.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.fnovella.project.program_activation.model.ProgramActivation;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository("programActivationRepository")
 public interface ProgramActivationRepository extends JpaRepository<ProgramActivation, Integer> {
+	List<ProgramActivation> findByProgramId(Integer programId);
 	@Modifying
     @Transactional
     @Query("delete from ProgramActivation where programId = ?1")
