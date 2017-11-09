@@ -4,8 +4,11 @@ import {bindActionCreators} from 'redux';
 import {
   catalogsGetRequest,
   catalogsDeleteRequest,
-  categoriesGetRequest
+  categoriesGetRequest,
+  catalogsGetByCategoryRequest
 } from '../../../../../actions';
+import IconButton from 'material-ui/IconButton';
+import Search from 'material-ui/svg-icons/action/search';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
 
@@ -20,6 +23,11 @@ class ListElements extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.state = {
+      searchValue: 'category',
+      inputValue: ''
+    };
   }
 
   componentWillMount() {
@@ -31,7 +39,23 @@ class ListElements extends React.Component {
     console.log("id: ", id);
     this.props.actions.catalogsDeleteRequest(id);
   }
-
+  handleSearch(e) {
+    e.preventDefault();
+    switch (this.state.searchValue) {
+      case "category":
+        this
+          .props
+          .actions
+          .catalogsGetByCategoryRequest(this.state.inputValue);
+        break;
+      default:
+        this
+          .props
+          .actions
+          .catalogsGetByCategoryRequest();
+        break;
+    }
+  }
   render() {
     let i =0;
     return (
@@ -40,6 +64,51 @@ class ListElements extends React.Component {
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
+            <form onSubmit={this.handleSearch}>
+
+                <div className="row">
+                  <div className="col-xl-5">
+                    <div >Búsqueda avanzada</div>
+                  </div>
+                  <div className="col-xl-7 text-right">
+                    <input
+                      style={{
+                      margin: 5,
+                      padding: 5
+                    }}
+                      type='text'
+                      value={this.state.inputValue}
+                      onChange={(e) => {
+                      this.setState({inputValue: e.target.value})
+                    }}/>
+                    <select
+                      style={{
+                      padding: 5,
+                      margin: 5,
+                      height: 34
+                    }}
+                      onChange={(e) => {
+                      this.setState({searchValue: e.target.value})
+                    }}
+                      value={this.state.searchValue}>
+                      <option value="category">by category</option>
+                    </select>
+                    <IconButton
+                      iconStyle={{
+                      color: 'white'
+                    }}
+                      style={{
+                      margin: 5,
+                      height: 34,
+                      width: 34,
+                      backgroundColor: '#49a54e',
+                      padding: 5
+                    }}
+                      type="submit"
+                      className="btn btn-primary"><Search/></IconButton>
+                  </div>
+                </div>
+              </form>
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
@@ -99,7 +168,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       catalogsGetRequest,
       catalogsDeleteRequest,
-      categoriesGetRequest
+      categoriesGetRequest,
+      catalogsGetByCategoryRequest
     }, dispatch)
   };
 }
