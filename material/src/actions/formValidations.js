@@ -259,12 +259,6 @@ export function gradeValidator(data){
       errors.level = invalidData;
     }
   }
-  if(Validator.isEmpty(data.programId)) {
-    errors.programId = required;
-  }
-  if(Validator.isEmpty(data.instructorId)) {
-    errors.instructorId = required;
-  }
 
   //IsValid is just a boolean who return is errors is empty
   return {

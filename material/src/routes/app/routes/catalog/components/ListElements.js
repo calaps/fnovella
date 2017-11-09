@@ -43,10 +43,13 @@ class ListElements extends React.Component {
     e.preventDefault();
     switch (this.state.searchValue) {
       case "category":
-        this
-          .props
-          .actions
-          .catalogsGetByCategoryRequest(this.state.inputValue);
+        let categories = this.props.categories;
+        for(let i=0;i<categories.length;i++){
+          if(categories[i].name == this.state.inputValue){
+            this.props.actions.catalogsGetByCategoryRequest(categories[i].id);
+          }
+        }
+        console.log(this.props.categories);
         break;
       default:
         this

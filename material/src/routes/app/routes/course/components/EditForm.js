@@ -135,10 +135,17 @@ class EditForm extends React.Component {
 
     //programLocations || location options
     let programLocationsOpt = () => {
+      if(this.state.programId ){
       let programLocations = this.props.programLocations.content || [];
       return programLocations.map((location) => {
+        if(location.program == this.state.programId){
         return <option key={location.id} value={location.location}>{location.locationData.name}</option>
+        }
+        return null;
       });
+    } else{
+      return null;
+    }
     };
     //Programs options
     let programsOpt = () => {
@@ -230,6 +237,31 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       {
                         /* #change
+                        description: However should be only the locations related to the program
+                                      in the new controller "program_location" relation.ds
+                        controller to use: program_location
+                        database name: program_location
+                      */
+                      }
+                      <label htmlFor="programId" className="col-md-3 control-label">Programa</label>
+                      <div className="col-md-9">
+                        <select
+                          name="programId"
+                          id="programId"
+                          onChange={this.onChange}
+                          value={this.state.programId}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione el programa</option>
+                          {programsOpt()}
+                        </select>
+                        {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      {
+                        /* #change
                         description: The options populated with locations is correct.
                                      However should be only the locations related to the program
                                      in the new controller "program_location" relation
@@ -237,7 +269,7 @@ class EditForm extends React.Component {
                         database name: program_location
                       */
                       }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sede</label>
+                      <label htmlFor="location" className="col-md-3 control-label">Sede</label>
                       <div className="col-md-9">
                         <select
                           name="location"
@@ -297,31 +329,6 @@ class EditForm extends React.Component {
                           {gradesOpt()}
                         </select>
                         {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      {
-                        /* #change
-                        description: However should be only the locations related to the program
-                                      in the new controller "program_location" relation.ds
-                        controller to use: program_location
-                        database name: program_location
-                      */
-                      }
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa</label>
-                      <div className="col-md-9">
-                        <select
-                          name="programId"
-                          id="programId"
-                          onChange={this.onChange}
-                          value={this.state.programId}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecione el programa</option>
-                          {programsOpt()}
-                        </select>
-                        {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
                     </div>
 
