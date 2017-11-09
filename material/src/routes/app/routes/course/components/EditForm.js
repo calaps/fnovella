@@ -11,7 +11,8 @@ import {
   programGetRequest,
   educatorsGetRequest,
   programLocationByProgramIdGetRequest,
-  gradesGetRequest
+  gradesGetRequest,
+  sectionsGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -28,6 +29,7 @@ class EditForm extends React.Component {
       openCourse: this.props.courseData.openCourse || '',
       grade: this.props.courseData.grade || '',
       programId: this.props.courseData.programId || '',
+      section: this.props.courseData.section || '',
       errors: {},
       isLoading: false
     };
@@ -36,13 +38,15 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     self = this;
+    console.log("Data", this.props.courseData)
   }
 
   componentWillMount() {
     this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
-    this.props.actions.programLocationGetRequest();
+    this.props.actions.programGetRequest();
     this.props.actions.educatorsGetRequest();
     this.props.actions.gradesGetRequest();
+    this.props.actions.sectionsGetRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,7 +59,8 @@ class EditForm extends React.Component {
         description: '',
         openCourse: '',
         grade: '',
-        programId: ''
+        programId: '',
+        section:''
       })
     }
   }
@@ -86,6 +91,7 @@ class EditForm extends React.Component {
         openCourse: this.state.openCourse,
         grade: this.state.grade,
         programId: this.state.programId,
+        section : this.state.section
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -174,7 +180,61 @@ class EditForm extends React.Component {
         return <option key={grade.id} value={grade.id}>{grade.name}</option>
       });
     };
+    let sectionsOpt = () =>{
+      let sections = this.props.sections.content || [];
+      if(this.state.grade){
+        return sections.map((section) => {
+          if(this.state.grade == section.grade){
+            return <option key={section.id} value={section.id}>{section.name}</option>
+          }
+        });
+      }
+      return null;
+       
+    }
+    let showGrades = () =>{
+      if(this.state.openCourse == 'false'){
+        return(
+          <div> 
+            <div className="form-group row">
+              <label htmlFor="grade" className="col-md-3 control-label">Grado</label>
+              <div className="col-md-9">
+                <select
+                  name="grade"
+                  id="grade"
+                  onChange={this.onChange}
+                  value={this.state.grade}
+                  className="form-control"
+                >
+                  <option value="" disabled>Selecione el grado</option>
+                  {gradesOpt()}
+                </select>
+                {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
+              </div>
+            </div>
 
+            <div className="form-group row">
+                      <label htmlFor="section" className="col-md-3 control-label">Section</label>
+                      <div className="col-md-9">
+                        <select
+                          name="section"
+                          id="section"
+                          onChange={this.onChange}
+                          value={this.state.section}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione el Section</option>
+                          {sectionsOpt()}
+                        </select>
+                        {errors.section && <span className="help-block text-danger">{errors.section}</span>}
+                      </div>
+            </div>
+          </div>
+        )
+        
+      }
+      return null;
+    }
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -270,7 +330,7 @@ class EditForm extends React.Component {
                         database name: program_location
                       */
                       }
-                      <label htmlFor="location" className="col-md-3 control-label">Sede</label>
+                      <label htmlFor="location" className="col-md-3 control-label">Location</label>
                       <div className="col-md-9">
                         <select
                           name="location"
@@ -285,22 +345,8 @@ class EditForm extends React.Component {
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Grado</label>
-                      <div className="col-md-9">
-                        <select
-                          name="grade"
-                          id="grade"
-                          onChange={this.onChange}
-                          value={this.state.grade}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecione el grado</option>
-                          {gradesOpt()}
-                        </select>
-                        {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
-                      </div>
-                    </div>
+                    
+                    {showGrades()}
                     
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
@@ -334,7 +380,8 @@ function mapStateToProps(state) {
     programLocations: state.programLocations,
     programs: state.programs,
     educators: state.educators,
-    grades: state.grades
+    grades: state.grades,
+    sections: state.sections
   }
 }
 
@@ -343,11 +390,12 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       programLocationByProgramIdGetRequest,
-      programLocationGetRequest,
+      programGetRequest,
       educatorsGetRequest,
       gradesGetRequest,
       coursesAddRequest,
       coursesUpdateRequest,
+      sectionsGetRequest
     }, dispatch)
   };
 }
