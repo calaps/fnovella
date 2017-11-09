@@ -135,7 +135,7 @@ class EditForm extends React.Component {
     let programLocationsOpt = () => {
       let programLocations = this.props.programLocations.content || [];
       return programLocations.map((location) => {
-        return <option key={location.id} value={location.location}>{location.location}</option>
+        return <option key={location.id} value={location.location}>{location.locationData.name}</option>
       });
     };
     //Programs options

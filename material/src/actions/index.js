@@ -41,3 +41,4 @@ export * from './categories';
 export * from './divisions';
 export * from './sections';
 export * from './programLocations';
+export * from './programInstructors';
