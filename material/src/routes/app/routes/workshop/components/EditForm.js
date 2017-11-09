@@ -196,7 +196,7 @@ class EditForm extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: altura"/>
+                          placeholder="eje: Pintura"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
@@ -210,7 +210,7 @@ class EditForm extends React.Component {
                           name="description"
                           value={this.state.description}
                           onChange={this.onChange}
-                          placeholder="eje: about this workshop"/>
+                          placeholder="eje: Acerca de este taller"/>
                         {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
