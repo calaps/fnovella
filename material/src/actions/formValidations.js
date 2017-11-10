@@ -669,17 +669,8 @@ export function divisionValidator(data){
   if(Validator.isEmpty(data.location)) {
     errors.location = required;
   }
-  if(Validator.isEmpty(data.description)) {
-    errors.description = required;
-    if(!Validator.isEmpty(data.description) && !Validator.isAlphanumeric(data.description)){
-      errors.description = invalidData;
-    }
-  }
-  if(Validator.isEmpty(data.programId)) {
-    errors.programId = required;
-  }
-  if(Validator.isEmpty(data.instructorId)) {
-    errors.instructorId = required;
+  if(Validator.isEmpty(data.programa.toString())) {
+    errors.programa = required;
   }
 
   //IsValid is just a boolean who return is errors is empty
