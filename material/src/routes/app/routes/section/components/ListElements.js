@@ -30,7 +30,7 @@ class ListElements extends React.Component {
   }
 
   render() {
-    let i =0;
+    let i =1;
     return (
       <article className="article">
         <h2 className="article-title">Lista de secciones de grados</h2>
@@ -44,9 +44,8 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">id</th>
-                      <th className="mdl-data-table__cell--non-numeric">Name</th>
-                      <th className="mdl-data-table__cell--non-numeric">Code</th>
+                      <th className="mdl-data-table__cell--non-numeric">Nombre de sección</th>
+                      <th className="mdl-data-table__cell--non-numeric">Código</th>
                       <th className="mdl-data-table__cell--non-numeric">Jornada</th>
                     </tr>
                     </thead>

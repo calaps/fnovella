@@ -80,6 +80,7 @@ class ListElements extends React.Component {
                       padding: 5
                     }}
                       type='text'
+                      placeholder="Ingresa la categoria..."
                       value={this.state.inputValue}
                       onChange={(e) => {
                       this.setState({inputValue: e.target.value})
@@ -94,7 +95,7 @@ class ListElements extends React.Component {
                       this.setState({searchValue: e.target.value})
                     }}
                       value={this.state.searchValue}>
-                      <option value="category">by category</option>
+                      <option value="category">filtrar categoria</option>
                     </select>
                     <IconButton
                       iconStyle={{

@@ -5,7 +5,6 @@ class ListItem extends React.Component {
     return (
           <tr>
             <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-            <td className="mdl-data-table__cell--non-numeric">{this.props.sectionData.id}</td>
             <td className="mdl-data-table__cell--non-numeric">{this.props.sectionData.name}</td>
             <td className="mdl-data-table__cell--non-numeric">{this.props.sectionData.code}</td>
             <td className="mdl-data-table__cell--non-numeric">{this.props.sectionData.jornada}</td>

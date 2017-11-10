@@ -20,16 +20,16 @@ class ListItem extends React.Component {
           }
         </td>
         <td className="mdl-data-table__cell--non-numeric"style={{textAlign:'center'}}>
-          <button
+          {/* <button
             onClick={()=>{this.props.onDelete(this.props.activationData.id)}}
 
-            type="submit" className="btn btn-primary">Delete</button>
+            type="submit" className="btn btn-primary">Delete</button> */}
           &nbsp;
           &nbsp;
           <button
             onClick={()=>{this.props.onEdit(this.props.activationData)}}
 
-            type="submit" className="btn btn-primary">Edit</button>
+            type="submit" className="btn btn-primary">Modificar</button>
         </td>
       </tr>
     );
