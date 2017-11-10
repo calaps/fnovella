@@ -10,7 +10,8 @@ import {bindActionCreators} from 'redux';
 import {
   usersAddRequest,
   usersUpdateRequest,
-  catalogsGetRequest
+  catalogsGetRequest,
+  privilegesGetAllRequest
 } from '../../../../../actions';
 import { convertDateToHTMLInputDateValue } from '../../../../../utils/helpers';
 
@@ -48,7 +49,7 @@ class EditForm extends React.Component {
       zone: this.props.userData.zone || '',
       id: this.props.userData.id || '',
       appCode: this.props.userData.appCode || '',
-      phon: this.props.userData.phon || '',
+      phon: 1,
       errors: {},
       isLoading: false
     };
@@ -59,6 +60,7 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
+    this.props.actions.privilegesGetAllRequest();
     this.props.actions.catalogsGetRequest();
   }
 
@@ -91,7 +93,7 @@ class EditForm extends React.Component {
         zone: '',
         id: '',
         appCode: '',
-        phon: '',
+        phon: 1,
       });
     }
   }
@@ -188,14 +190,19 @@ class EditForm extends React.Component {
 
   render() {
     const {errors} = this.state;
-    // privileges types
-    const privilegeTypes = map(privileges, (val, key) =>
-      <option key={val} value={val}>{key}</option>
-    );
+
     // Document identification types
     const documentType = map(personal_documents, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
+
+    //Department options
+    let privilegesOpt = () => {
+      let privileges = this.props.privileges || [];
+      return privileges.map((privilege) => {
+        return <option key={privilege.id} value={privilege.id}>{privilege.privilegeName}</option>
+      });
+    };
 
     //Department options
     let departmentsOpt = () => {
@@ -366,7 +373,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el privilegio</option>
-                          {privilegeTypes}
+                          {privilegesOpt()}
                         </select>
                         {errors.privilege && <span className="help-block text-danger">{errors.privilege}</span>}
                       </div>
@@ -630,22 +637,6 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Phon</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="phon"
-                          name="phon"
-                          value={this.state.phon}
-                          onChange={this.onChange}
-                          placeholder="eje: 55329090"/>
-                        {errors.phon && <span className="help-block text-danger">{errors.phon}</span>}
-                      </div>
-                    </div>
-
-
-                    <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <RaisedButton disabled={this.state.isLoading}
                                       type="submit"
@@ -684,7 +675,8 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
-    catalogs: state.catalogs
+    catalogs: state.catalogs,
+    privileges: state.privileges
   }
 }
 
@@ -692,10 +684,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      //    signUpRequest
       usersAddRequest,
       usersUpdateRequest,
-      catalogsGetRequest
+      catalogsGetRequest,
+      privilegesGetAllRequest
     }, dispatch)
   };
 }
