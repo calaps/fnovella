@@ -77,7 +77,7 @@ class ListElements extends React.Component {
   }
   render() {
     let i =1;
-    console.log("users: ", this.props.users.content);
+    console.log("users: ", this.props.users);
     return (
       <article className="article">
         <h2 className="article-title">Lista de usuarios</h2>

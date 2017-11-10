@@ -67,7 +67,7 @@ export function usersGetRequest(number, size) {
       // return;
 
       // API
-      HTTP('get', '/user/users', null, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('get', '/user/users', null, {authorization: localStorage.getItem('@fnovella:token') }, params)
         .then(function (response) {
           if(response.data.errors === null){
              dispatch({
