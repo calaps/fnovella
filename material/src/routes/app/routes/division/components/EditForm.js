@@ -11,7 +11,8 @@ import {
   divisionsUpdateRequest,
   sedesGetRequest,
   educatorsGetRequest,
-  programGetRequest
+  programGetRequest,
+  programLocationByProgramIdGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -19,14 +20,14 @@ let self;
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
+    console.log("this.props.divisionData: ", this.props.divisionData);
     this.state = {
       isEditing: (this.props.divisionData.id) ? true : false,
       id: this.props.divisionData.id || '',
       name: this.props.divisionData.name || '',
       description: this.props.divisionData.description || '',
       location: this.props.divisionData.location || '',
-      programId: this.props.divisionData.programId || '',
-      instructorId: this.props.divisionData.instructorId || '',
+      programa: this.props.divisionData.programa || '',
       errors: {},
       isLoading: false
     };
@@ -34,12 +35,14 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     self = this;
+    if(this.state.isEditing){
+      this.props.actions.programLocationByProgramIdGetRequest(this.state.programa);
+    }
   }
 
   componentWillMount() {
-    this.props.actions.sedesGetRequest();
+    // this.props.actions.sedesGetRequest();
     this.props.actions.programGetRequest();
-    this.props.actions.educatorsGetRequest();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,8 +52,7 @@ class EditForm extends React.Component {
         name: '',
         description: '',
         location: '',
-        programId: '',
-        instructorId: '',
+        programa: '',
         id: '',
       });
     }
@@ -67,6 +69,7 @@ class EditForm extends React.Component {
   }
 
   onSubmit(e) {
+    console.log("onSubbmit");
     e.preventDefault();
     if(this.isValid()){
       //reset errors object and disable submit button
@@ -76,8 +79,7 @@ class EditForm extends React.Component {
         name: this.state.name,
         description: this.state.description,
         location: this.state.location,
-        programId: this.state.programId,
-        instructorId: this.state.instructorId,
+        programa: this.state.programa
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -122,6 +124,9 @@ class EditForm extends React.Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+    if(e.target.name === 'programa'){
+      this.props.actions.programLocationByProgramIdGetRequest(e.target.value);
+    }
   }
 
   render() {
@@ -133,23 +138,25 @@ class EditForm extends React.Component {
     );
     //Sedes || location options
     let sedesOpt = () => {
-      let sedes = this.props.sedes.content || [];
-      return sedes.map((sede) => {
-        return <option key={sede.id} value={sede.id}>{sede.name}</option>
-      });
+      // if no program return null
+      if(this.state.programa){
+        let programLocationsRelation = this.props.programLocations.content || [];
+        return programLocationsRelation.map((prl) => {
+          return <option key={prl.locationData.id} value={prl.locationData.id}>{prl.locationData.name}</option>
+        });
+      }
+      else{
+        return null;
+      }
     };
     //Programs options
     let programsOpt = () => {
+      console.log("this.props.programs.content: ", this.props.programs.content);
       let programs = this.props.programs.content || [];
       return programs.map((program) => {
-        return <option key={program.id} value={program.id}>{program.name}</option>
-      });
-    };
-    //Educators options
-    let educatorsOpt = () => {
-      let educators = this.props.educators.content || [];
-      return educators.map((educator) => {
-        return <option key={educator.id} value={educator.id}>{educator.firstName}</option>
+        if(program.clasification === "division"){
+          return <option key={program.id} value={program.id}>{program.name}</option>
+        }
       });
     };
 
@@ -177,18 +184,34 @@ class EditForm extends React.Component {
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
+                    {/*<div className="form-group row">*/}
+                      {/*<label htmlFor="inputEmail3" className="col-md-3 control-label">Description</label>*/}
+                      {/*<div className="col-md-9">*/}
+                        {/*<input*/}
+                          {/*type="text"*/}
+                          {/*className="form-control"*/}
+                          {/*id="description"*/}
+                          {/*name="description"*/}
+                          {/*value={this.state.description}*/}
+                          {/*onChange={this.onChange}*/}
+                          {/*placeholder="eje: about this division"/>*/}
+                        {/*{errors.description && <span className="help-block text-danger">{errors.description}</span>}*/}
+                      {/*</div>*/}
+                    {/*</div>*/}
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Description</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Program</label>
                       <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="description"
-                          name="description"
-                          value={this.state.description}
+                        <select
+                          name="programa"
+                          id="programa"
                           onChange={this.onChange}
-                          placeholder="eje: about this division"/>
-                        {errors.description && <span className="help-block text-danger">{errors.description}</span>}
+                          value={this.state.programa}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecione la program</option>
+                          {programsOpt()}
+                        </select>
+                        {errors.programa && <span className="help-block text-danger">{errors.programa}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -207,39 +230,6 @@ class EditForm extends React.Component {
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Program</label>
-                      <div className="col-md-9">
-                        <select
-                          name="programId"
-                          id="programId"
-                          onChange={this.onChange}
-                          value={this.state.programId}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecione la program</option>
-                          {programsOpt()}
-                        </select>
-                        {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Educadore</label>
-                      <div className="col-md-9">
-                        <select
-                          name="instructorId"
-                          id="instructorId"
-                          onChange={this.onChange}
-                          value={this.state.instructorId}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecione la educadore</option>
-                          {educatorsOpt()}
-                        </select>
-                        {errors.instructorId && <span className="help-block text-danger">{errors.instructorId}</span>}
-                      </div>
-                    </div>
-
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
@@ -272,6 +262,7 @@ function mapStateToProps(state) {
     sedes: state.sedes,
     programs: state.programs,
     educators: state.educators,
+    programLocations: state.programLocations,
   }
 }
 
@@ -284,6 +275,7 @@ function mapDispatchToProps(dispatch) {
       educatorsGetRequest,
       divisionsAddRequest,
       divisionsUpdateRequest,
+      programLocationByProgramIdGetRequest
     }, dispatch)
   };
 }

@@ -12,12 +12,14 @@ import {
   usersUpdateRequest,
   catalogsGetRequest
 } from '../../../../../actions';
+import { convertDateToHTMLInputDateValue } from '../../../../../utils/helpers';
 
 let self;
 
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
+    console.log("this.props.userData: ", this.props.userData);
     this.state = {
       isEditing: (this.props.userData.id) ? true : false,
       firstName: this.props.userData.firstName || '',
@@ -25,13 +27,14 @@ class EditForm extends React.Component {
       firstLastName: this.props.userData.firstLastName || '',
       secondLastName: this.props.userData.secondLastName || '',
       privilege: this.props.userData.privilege || '',
-      bornDate: this.props.userData.bornDate || '',
+      bornDate: (this.props.userData.bornDate)? convertDateToHTMLInputDateValue(new Date(this.props.userData.bornDate))
+        : convertDateToHTMLInputDateValue(new Date()),
       documentType: this.props.userData.documentType || '',
       documentValue: this.props.userData.documentValue || '',
       nationality: this.props.userData.nationality || '',
       department: this.props.userData.department || '',
       municipality: this.props.userData.municipality || '',
-      community: this.props.userData.community || '',
+      comunity: this.props.userData.comunity || '',
       profession: this.props.userData.profession || '',
       address: this.props.userData.address || '',
       phone: this.props.userData.phone || '',
@@ -44,6 +47,8 @@ class EditForm extends React.Component {
       colony: this.props.userData.colony || '',
       zone: this.props.userData.zone || '',
       id: this.props.userData.id || '',
+      appCode: this.props.userData.appCode || '',
+      phon: this.props.userData.phon || '',
       errors: {},
       isLoading: false
     };
@@ -66,13 +71,13 @@ class EditForm extends React.Component {
         firstLastName: '',
         secondLastName: '',
         privilege: '',
-        bornDate: '',
+        bornDate: convertDateToHTMLInputDateValue(new Date()),
         documentType: '',
         documentValue: '',
         nationality: '',
         department: '',
         municipality: '',
-        community: '',
+        comunity: '',
         profession: '',
         address: '',
         phone: '',
@@ -85,6 +90,8 @@ class EditForm extends React.Component {
         colony: '',
         zone: '',
         id: '',
+        appCode: '',
+        phon: '',
       });
     }
   }
@@ -120,7 +127,7 @@ class EditForm extends React.Component {
         nationality: this.state.nationality,
         department: this.state.department,
         municipality: this.state.municipality,
-        comunity: this.state.community,
+        comunity: this.state.comunity,
         profession: this.state.profession,
         address: this.state.address,
         phone: this.state.phone,
@@ -132,9 +139,8 @@ class EditForm extends React.Component {
         gender: this.state.gender,
         colony: this.state.colony,
         zone: this.state.zone,
-        // remaining items
-        appCode: '1',
-        phon: 1
+        appCode: this.state.appCode,
+        phon: this.state.phon
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -464,68 +470,6 @@ class EditForm extends React.Component {
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                       </div>
-
-                      <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia
-                        </label>
-                        {
-                          /* #change
-                          description: colony
-                          controller to use: instructor controller
-                          database name: colony
-                        */
-                        }
-                        <div className="col-md-9">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="password"
-                            name="password"
-                            value={this.state.email}
-                            onChange={this.onChange}
-                            placeholder="eje: Margarita"/>
-                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                        </div>
-                      </div>
-
-                      <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona
-                        </label>
-                        {
-                          /* #change
-                          description: zone
-                          controller to use: instructor controller
-                          database name: zone
-                        */
-                        }
-                        <div className="col-md-9">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="password"
-                            name="password"
-                            value={this.state.email}
-                            onChange={this.onChange}
-                            placeholder="eje: Margarita"/>
-                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                        </div>
-                      </div>
-
-                      <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label text-success">Comunidad</label>
-                        <div className="col-md-9">
-                          <select
-                            name="community"
-                            id="community"
-                            onChange={this.onChange}
-                            value={this.state.community}
-                            className="form-control"
-                          >
-                            <option value="" disabled>Selecciona el tipo de documento</option>
-                            {categoryOpt('comunidad')}
-                          </select>
-                          {errors.community && <span className="help-block text-danger">{errors.community}</span>}
-                        </div>
                     </div>
 
                     <div className="form-group row">
@@ -564,16 +508,16 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-success">Comunidad</label>
                       <div className="col-md-9">
                         <select
-                          name="community"
-                          id="community"
+                          name="comunity"
+                          id="comunity"
                           onChange={this.onChange}
-                          value={this.state.community}
+                          value={this.state.comunity}
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona el tipo de documento</option>
                           {communitiesOpt()}
                         </select>
-                        {errors.community && <span className="help-block text-danger">{errors.community}</span>}
+                        {errors.comunity && <span className="help-block text-danger">{errors.comunity}</span>}
                       </div>
                     </div>
 
@@ -653,28 +597,6 @@ class EditForm extends React.Component {
                         {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
                       </div>
                     </div>
-                      <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa
-                        </label>
-                        {
-                          /* #change
-                          description: Multiselect option populated by programs
-                          controller to use: program_app_user
-                          database name: program_app_user
-                        */
-                        }
-                        <div className="col-md-9">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="password"
-                            name="password"
-                            value={this.state.email}
-                            onChange={this.onChange}
-                            placeholder="Program list..."/>
-                          {errors.email && <span className="help-block text-danger">{errors.email}</span>}
-                        </div>
-                      </div>
 
                     <div className="form-group row">
                       <label htmlFor="cemproCode" className="col-md-3 control-label">Código de Cempro</label>
@@ -692,6 +614,36 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">AppCode</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="appCode"
+                          name="appCode"
+                          value={this.state.appCode}
+                          onChange={this.onChange}
+                          placeholder="eje: appcode"/>
+                        {errors.appCode && <span className="help-block text-danger">{errors.appCode}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Phon</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          className="form-control"
+                          id="phon"
+                          name="phon"
+                          value={this.state.phon}
+                          onChange={this.onChange}
+                          placeholder="eje: 55329090"/>
+                        {errors.phon && <span className="help-block text-danger">{errors.phon}</span>}
+                      </div>
+                    </div>
+
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
@@ -702,8 +654,6 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-
-                </div>
                   </form>
               </div>
 
