@@ -3,7 +3,9 @@ import {HTTP} from './../utils/HTTP';
 import {
   DASHBOARD_STATBOXES_GET_FAIL,
   DASHBOARD_STATBOXES_GET_REQUEST,
-  DASHBOARD_STATBOXES_GET_SUCCESS
+  DASHBOARD_STATBOXES_GET_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function dashboardStatBoxesGetRequest() {
@@ -19,6 +21,9 @@ export function dashboardStatBoxesGetRequest() {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('get', '/dashboard/', null,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
@@ -38,6 +43,11 @@ export function dashboardStatBoxesGetRequest() {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
         })
     }})
   }

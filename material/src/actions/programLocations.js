@@ -12,11 +12,13 @@ import {
   PROGRAM_LOCATION_GET_SUCCESS,
   PROGRAM_LOCATION_UPDATE_FAIL,
   PROGRAM_LOCATION_UPDATE_REQUEST,
-  PROGRAM_LOCATION_UPDATE_SUCCESS
+  PROGRAM_LOCATION_UPDATE_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function programLocationByProgramIdGetRequest(programId) {
-  
+
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
@@ -28,7 +30,9 @@ export function programLocationByProgramIdGetRequest(programId) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/program_location/'+programId+'/program_id', null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -49,6 +53,11 @@ export function programLocationByProgramIdGetRequest(programId) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })
@@ -72,7 +81,9 @@ export function programLocationGetRequest(number, size) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/program_location/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
@@ -94,6 +105,11 @@ export function programLocationGetRequest(number, size) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -112,7 +128,9 @@ export function programLocationAddRequest(data) {
         // resolve(true);
         // return;
 
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('post', '/program_location/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -133,6 +151,11 @@ export function programLocationAddRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -150,7 +173,9 @@ export function programLocationUpdateRequest(data) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('patch', '/program_location/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -172,6 +197,11 @@ export function programLocationUpdateRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -189,7 +219,9 @@ export function programLocationDeleteRequest(id) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('delete', '/program_location/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -211,6 +243,11 @@ export function programLocationDeleteRequest(id) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })

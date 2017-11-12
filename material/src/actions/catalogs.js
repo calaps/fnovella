@@ -12,7 +12,9 @@ import {
   CATALOGS_GET_SUCCESS,
   CATALOGS_UPDATE_FAIL,
   CATALOGS_UPDATE_REQUEST,
-  CATALOGS_UPDATE_SUCCESS
+  CATALOGS_UPDATE_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function catalogsGetRequest(number, size, sort) {
@@ -33,6 +35,9 @@ export function catalogsGetRequest(number, size, sort) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/catalog/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
@@ -53,6 +58,11 @@ export function catalogsGetRequest(number, size, sort) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -69,6 +79,9 @@ export function catalogsAddRequest(data) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('post', '/catalog/', data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
@@ -89,6 +102,11 @@ export function catalogsAddRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     })
   }
 }
@@ -105,6 +123,9 @@ export function catalogsUpdateRequest(data) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/catalog/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
@@ -125,6 +146,11 @@ export function catalogsUpdateRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     })
   }
 }
@@ -141,6 +167,9 @@ export function catalogsDeleteRequest(id) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/catalog/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
@@ -163,6 +192,11 @@ export function catalogsDeleteRequest(id) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     })
   }
 }
@@ -171,6 +205,10 @@ export function catalogsGetByCategoryRequest(category_id) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
+
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/catalog/search/'+category_id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -190,6 +228,11 @@ export function catalogsGetByCategoryRequest(category_id) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })

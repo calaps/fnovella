@@ -20,6 +20,7 @@ import divisions from './divisions';
 import sections from './sections';
 import programLocations from './programLocations';
 import programInstructors from './programInstructors';
+import loader from './loader';
 
 const reducers = {
   routing: routerReducer,
@@ -42,7 +43,8 @@ const reducers = {
   divisions,
   sections,
   programLocations,
-  programInstructors
+  programInstructors,
+  loader
 };
 
 module.exports = combineReducers(reducers);

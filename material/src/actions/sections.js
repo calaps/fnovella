@@ -12,12 +12,17 @@ import {
   SECTIONS_GET_SUCCESS,
   SECTIONS_UPDATE_FAIL,
   SECTIONS_UPDATE_REQUEST,
-  SECTIONS_UPDATE_SUCCESS
+  SECTIONS_UPDATE_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function sectionsGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('get', '/section/',null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -38,6 +43,11 @@ export function sectionsGetRequest() {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -45,6 +55,9 @@ export function sectionsGetRequest() {
 export function sectionsAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('post', '/section/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -65,6 +78,11 @@ export function sectionsAddRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     })
   }
 }
@@ -72,6 +90,9 @@ export function sectionsAddRequest(data) {
 export function sectionsUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/section/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -92,6 +113,11 @@ export function sectionsUpdateRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     })
   }
 }
@@ -99,6 +125,9 @@ export function sectionsUpdateRequest(data) {
 export function sectionsDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/section/'+id,null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -120,6 +149,11 @@ export function sectionsDeleteRequest(id) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
         })
     })
   }

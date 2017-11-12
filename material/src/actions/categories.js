@@ -12,7 +12,9 @@ import {
   CATEGORIES_GET_SUCCESS,
   CATEGORIES_UPDATE_FAIL,
   CATEGORIES_UPDATE_REQUEST,
-  CATEGORIES_UPDATE_SUCCESS
+  CATEGORIES_UPDATE_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function categoriesGetRequest() {
@@ -27,6 +29,9 @@ export function categoriesGetRequest() {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('get', '/category/',null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -47,6 +52,11 @@ export function categoriesGetRequest() {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -62,6 +72,9 @@ export function categoriesAddRequest(data) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('post', '/category/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -82,6 +95,11 @@ export function categoriesAddRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     })
   }
 }
@@ -98,6 +116,9 @@ export function categoriesUpdateRequest(data) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/category/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -118,6 +139,11 @@ export function categoriesUpdateRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     })
   }
 }
@@ -134,6 +160,9 @@ export function categoriesDeleteRequest(id) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/category/'+id,null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -155,6 +184,11 @@ export function categoriesDeleteRequest(id) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
         })
     })
   }

@@ -20,7 +20,9 @@ import {
   APP_USER_UPDATE_FAIL,
   APP_USER_PASSWORD_UPDATE_REQUEST,
   APP_USER_PASSWORD_UPDATE_SUCCESS,
-  APP_USER_PASSWORD_UPDATE_FAIL
+  APP_USER_PASSWORD_UPDATE_FAIL,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function loginRequest(data) {
@@ -60,7 +62,9 @@ export function loginRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('post', '/user/login', data)
         .then(function (response) {
@@ -83,6 +87,11 @@ export function loginRequest(data) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
         })
     }})
   }
@@ -107,7 +116,9 @@ export function signUpRequest(data) {
       });
       resolve(true);
       return;
-
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('post', '/user/signup', data)
         .then(function (response) {
@@ -123,6 +134,11 @@ export function signUpRequest(data) {
             error: error
           });
           reject(false);
+        })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
         })
     }})
   }
@@ -162,7 +178,9 @@ export function getUserDetails(token){
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('get', '/user/userDetails', null, {authorization: token})
         .then(function (response) {
@@ -186,6 +204,11 @@ export function getUserDetails(token){
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -201,7 +224,9 @@ export function logOut(){
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API - in case we have Logout API
       HTTP('get', '/user/logout', null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -225,6 +250,11 @@ export function logOut(){
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -243,6 +273,9 @@ export function setUserType(isOwner){
 export function forgotPasswordRequest(data){
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       HTTP('post', '/user/forgot_password', data)
         .then(function (response) {
           if(response.data.errors === null){
@@ -263,6 +296,11 @@ export function forgotPasswordRequest(data){
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -279,7 +317,9 @@ export function appUserUpdateRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/user/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -300,6 +340,11 @@ export function appUserUpdateRequest(data) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
         });
     }})
   }
@@ -317,7 +362,9 @@ export function appUserPasswordUpdateRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: LOADER_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/user/'+data.id+'/password', data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -338,6 +385,11 @@ export function appUserPasswordUpdateRequest(data) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: LOADER_REMOVE_REQUEST
+          });
         });
     }})
   }

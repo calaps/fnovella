@@ -12,7 +12,9 @@ import {
   GRADES_GET_SUCCESS,
   GRADES_UPDATE_FAIL,
   GRADES_UPDATE_REQUEST,
-  GRADES_UPDATE_SUCCESS
+  GRADES_UPDATE_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function gradesGetRequest(number, size) {
@@ -33,6 +35,9 @@ export function gradesGetRequest(number, size) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/grade/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
@@ -54,6 +59,11 @@ export function gradesGetRequest(number, size) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -72,7 +82,9 @@ export function gradesAddRequest(data) {
         // resolve(true);
         // return;
 
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('post', '/grade/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -93,6 +105,11 @@ export function gradesAddRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -110,7 +127,9 @@ export function gradesUpdateRequest(data) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('patch', '/grade/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -132,6 +151,11 @@ export function gradesUpdateRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -149,7 +173,9 @@ export function gradesDeleteRequest(id) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('delete', '/grade/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -171,6 +197,11 @@ export function gradesDeleteRequest(id) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })

@@ -12,7 +12,9 @@ import {
   PROGRAM_GET_SUCCESS,
   PROGRAM_UPDATE_FAIL,
   PROGRAM_UPDATE_REQUEST,
-  PROGRAM_UPDATE_SUCCESS
+  PROGRAM_UPDATE_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function programGetRequest(number, size) {
@@ -20,7 +22,7 @@ export function programGetRequest(number, size) {
   params.page = number;
   params.size = size;
   params.type = 2;
-  
+
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
@@ -33,6 +35,9 @@ export function programGetRequest(number, size) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/program/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
@@ -54,6 +59,11 @@ export function programGetRequest(number, size) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -72,7 +82,9 @@ export function programAddRequest(data) {
         // resolve(true);
         // return;
 
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('post', '/program/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -93,6 +105,11 @@ export function programAddRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -111,6 +128,9 @@ export function programUpdateRequest(data) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('patch', '/program/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -132,6 +152,11 @@ export function programUpdateRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -150,6 +175,9 @@ export function programDeleteRequest(id) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('delete', '/program/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -171,6 +199,11 @@ export function programDeleteRequest(id) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })

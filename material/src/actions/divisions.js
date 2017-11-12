@@ -12,7 +12,9 @@ import {
   DIVISIONS_GET_SUCCESS,
   DIVISIONS_UPDATE_FAIL,
   DIVISIONS_UPDATE_REQUEST,
-  DIVISIONS_UPDATE_SUCCESS
+  DIVISIONS_UPDATE_SUCCESS,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function divisionsGetRequest(number, size) {
@@ -33,6 +35,9 @@ export function divisionsGetRequest(number, size) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/division/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
@@ -54,6 +59,11 @@ export function divisionsGetRequest(number, size) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -72,7 +82,9 @@ export function divisionsAddRequest(data) {
         // resolve(true);
         // return;
 
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('post', '/division/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -93,6 +105,11 @@ export function divisionsAddRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -111,6 +128,9 @@ export function divisionsUpdateRequest(data) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('patch', '/division/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -132,6 +152,11 @@ export function divisionsUpdateRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -150,6 +175,9 @@ export function divisionsDeleteRequest(id) {
         // resolve(true);
         // return;
 
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('delete', '/division/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -171,6 +199,11 @@ export function divisionsDeleteRequest(id) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })

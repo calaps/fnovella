@@ -12,7 +12,9 @@ import {
   PROGRAM_ACTIVATIONS_DELETE_FAIL,
   PROGRAM_ACTIVATIONS_UPDATE_REQUEST,
   PROGRAM_ACTIVATIONS_UPDATE_SUCCESS,
-  PROGRAM_ACTIVATIONS_UPDATE_FAIL
+  PROGRAM_ACTIVATIONS_UPDATE_FAIL,
+  LOADER_ADD_REQUEST,
+  LOADER_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function programActivationsGetRequest(number, size) {
@@ -32,7 +34,9 @@ export function programActivationsGetRequest(number, size) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('get', '/program_activation/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
@@ -53,6 +57,11 @@ export function programActivationsGetRequest(number, size) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -71,7 +80,9 @@ export function programActivationsAddRequest(data) {
         // resolve(true);
         // return;
 
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('post', '/program_activation/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -92,6 +103,11 @@ export function programActivationsAddRequest(data) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
+          })
       }
     })
   }
@@ -109,7 +125,9 @@ export function programActivationsDeleteRequest(id) {
         // });
         // resolve(true);
         // return;
-
+        dispatch({
+          type: LOADER_ADD_REQUEST
+        });
         // API
         HTTP('delete', '/program_activation/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
@@ -131,6 +149,11 @@ export function programActivationsDeleteRequest(id) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })
@@ -170,6 +193,11 @@ export function programActivationsUpdateRequest(data) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: LOADER_REMOVE_REQUEST
+            });
           })
       }
     })

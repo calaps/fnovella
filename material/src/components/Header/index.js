@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import APPCONFIG from 'constants/Config';
 import NavLeftList from './NavLeftList';
 import NavRightList from './NavRightList';
+import LinearProgress from 'material-ui/LinearProgress';
 
 /**
  * #calaps //Hide until notification implementation
@@ -61,6 +62,12 @@ class Header extends React.Component {
             </p>
           </div>
         </div>
+        {
+          (this.props.loader.requestInProgress > 0)?
+            <LinearProgress mode="indeterminate" />
+            :
+            null
+        }
       </section>
     );
   }
@@ -71,7 +78,8 @@ function mapStateToProps(state){
   return {
     auth: state.auth,
     colorOption: state.settings.colorOption,
-    isFixedHeader: state.settings.isFixedHeader
+    isFixedHeader: state.settings.isFixedHeader,
+    loader: state.loader
   }
 }
 
