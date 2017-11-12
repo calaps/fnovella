@@ -13,8 +13,8 @@ import {
   PROGRAM_UPDATE_FAIL,
   PROGRAM_UPDATE_REQUEST,
   PROGRAM_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function programGetRequest(number, size) {
@@ -36,7 +36,7 @@ export function programGetRequest(number, size) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/program/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
@@ -61,7 +61,7 @@ export function programGetRequest(number, size) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -83,7 +83,7 @@ export function programAddRequest(data) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('post', '/program/', data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -107,7 +107,7 @@ export function programAddRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -129,7 +129,7 @@ export function programUpdateRequest(data) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('patch', '/program/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -154,7 +154,7 @@ export function programUpdateRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -176,7 +176,7 @@ export function programDeleteRequest(id) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('delete', '/program/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
@@ -202,7 +202,7 @@ export function programDeleteRequest(id) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }

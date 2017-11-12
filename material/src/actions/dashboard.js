@@ -4,8 +4,8 @@ import {
   DASHBOARD_STATBOXES_GET_FAIL,
   DASHBOARD_STATBOXES_GET_REQUEST,
   DASHBOARD_STATBOXES_GET_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function dashboardStatBoxesGetRequest() {
@@ -22,7 +22,7 @@ export function dashboardStatBoxesGetRequest() {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/dashboard/', null,{authorization: localStorage.getItem('@fnovella:token')})
@@ -46,7 +46,7 @@ export function dashboardStatBoxesGetRequest() {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})

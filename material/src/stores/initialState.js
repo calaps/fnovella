@@ -21,7 +21,7 @@ let initialState = {
   sections : {},
   programLocations:{},
   programInstructors:{},
-  loader: {
+  progress: {
     requestInProgress: 0
   }
 

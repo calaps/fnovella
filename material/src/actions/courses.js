@@ -13,8 +13,8 @@ import {
   COURSES_UPDATE_FAIL,
   COURSES_UPDATE_REQUEST,
   COURSES_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function coursesGetRequest(number, size) {
@@ -36,7 +36,7 @@ export function coursesGetRequest(number, size) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/course/', null,{authorization: localStorage.getItem('@fnovella:token')},params)
@@ -60,7 +60,7 @@ export function coursesGetRequest(number, size) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -81,7 +81,7 @@ export function coursesAddRequest(data) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/course/', data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -105,7 +105,7 @@ export function coursesAddRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -125,7 +125,7 @@ export function coursesUpdateRequest(data) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/course/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -149,7 +149,7 @@ export function coursesUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -171,7 +171,7 @@ export function coursesDeleteRequest(id) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/course/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
@@ -197,7 +197,7 @@ export function coursesDeleteRequest(id) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})

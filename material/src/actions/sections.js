@@ -13,15 +13,15 @@ import {
   SECTIONS_UPDATE_FAIL,
   SECTIONS_UPDATE_REQUEST,
   SECTIONS_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function sectionsGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/section/',null,{authorization: localStorage.getItem('@fnovella:token') })
@@ -45,7 +45,7 @@ export function sectionsGetRequest() {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -56,7 +56,7 @@ export function sectionsAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/section/', data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -80,7 +80,7 @@ export function sectionsAddRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })
@@ -91,7 +91,7 @@ export function sectionsUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/section/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -115,7 +115,7 @@ export function sectionsUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })
@@ -126,7 +126,7 @@ export function sectionsDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/section/'+id,null, {authorization: localStorage.getItem('@fnovella:token') })
@@ -152,7 +152,7 @@ export function sectionsDeleteRequest(id) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })

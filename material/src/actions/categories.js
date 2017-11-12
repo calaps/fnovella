@@ -13,8 +13,8 @@ import {
   CATEGORIES_UPDATE_FAIL,
   CATEGORIES_UPDATE_REQUEST,
   CATEGORIES_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function categoriesGetRequest() {
@@ -30,7 +30,7 @@ export function categoriesGetRequest() {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/category/',null,{authorization: localStorage.getItem('@fnovella:token') })
@@ -54,7 +54,7 @@ export function categoriesGetRequest() {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -73,7 +73,7 @@ export function categoriesAddRequest(data) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/category/', data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -97,7 +97,7 @@ export function categoriesAddRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })
@@ -117,7 +117,7 @@ export function categoriesUpdateRequest(data) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/category/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -141,7 +141,7 @@ export function categoriesUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })
@@ -161,7 +161,7 @@ export function categoriesDeleteRequest(id) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/category/'+id,null, {authorization: localStorage.getItem('@fnovella:token') })
@@ -187,7 +187,7 @@ export function categoriesDeleteRequest(id) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })

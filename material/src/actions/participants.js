@@ -12,8 +12,8 @@ import {
   PARTICIPANT_UPDATE_FAIL,
   PARTICIPANT_UPDATE_REQUEST,
   PARTICIPANT_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 
@@ -26,7 +26,7 @@ export function participantsGetRequestBySearch(id,firstName,appCode) {
         appCode
         };
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('post', '/participant/search', null, {authorization:localStorage.getItem('@fnovella:token')},params)
@@ -51,7 +51,7 @@ export function participantsGetRequestBySearch(id,firstName,appCode) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }})
@@ -74,7 +74,7 @@ export function participantGetRequest(number, size) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/participant/',null,{authorization: localStorage.getItem('@fnovella:token')},params)
@@ -98,7 +98,7 @@ export function participantGetRequest(number, size) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -118,7 +118,7 @@ export function participantAddRequest(data) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/participant/', data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -142,7 +142,7 @@ export function participantAddRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -161,7 +161,7 @@ export function participantUpdateRequest(data) {
       resolve(true);
       return true;*/
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/participant/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
@@ -186,7 +186,7 @@ export function participantUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -207,7 +207,7 @@ export function participantDeleteRequest(id) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/participant/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
@@ -233,7 +233,7 @@ export function participantDeleteRequest(id) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})

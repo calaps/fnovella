@@ -13,8 +13,8 @@ import {
   PROGRAM_INSTRUCTOR_UPDATE_FAIL,
   PROGRAM_INSTRUCTOR_UPDATE_REQUEST,
   PROGRAM_INSTRUCTOR_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function programInstructorGetRequest(number, size) {
@@ -35,7 +35,7 @@ export function programInstructorGetRequest(number, size) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/program_instructor/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
@@ -60,7 +60,7 @@ export function programInstructorGetRequest(number, size) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -82,7 +82,7 @@ export function programInstructorAddRequest(data) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('post', '/program_instructor/', data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -106,7 +106,7 @@ export function programInstructorAddRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -127,7 +127,7 @@ export function programInstructorUpdateRequest(data) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('patch', '/program_instructor/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -152,7 +152,7 @@ export function programInstructorUpdateRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -173,7 +173,7 @@ export function programInstructorDeleteRequest(id) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('delete', '/program_instructor/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
@@ -199,7 +199,7 @@ export function programInstructorDeleteRequest(id) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }

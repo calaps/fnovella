@@ -13,8 +13,8 @@ import {
   SEDES_UPDATE_FAIL,
   SEDES_UPDATE_REQUEST,
   SEDES_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function sedesGetRequest(number, size) {
@@ -35,7 +35,7 @@ export function sedesGetRequest(number, size) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/location/', null,{authorization: localStorage.getItem('@fnovella:token')},params)
@@ -60,7 +60,7 @@ export function sedesGetRequest(number, size) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -79,7 +79,7 @@ export function sedesAddRequest(data) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/location/', data,{authorization: localStorage.getItem('@fnovella:token')})
@@ -103,7 +103,7 @@ export function sedesAddRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -124,7 +124,7 @@ export function sedesUpdateRequest(data) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/location/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token')})
@@ -148,7 +148,7 @@ export function sedesUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -169,7 +169,7 @@ export function sedesDeleteRequest(id) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/location/'+id, null,{authorization: localStorage.getItem('@fnovella:token')})
@@ -195,7 +195,7 @@ export function sedesDeleteRequest(id) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})

@@ -13,8 +13,8 @@ import {
   WORKSHOPS_UPDATE_FAIL,
   WORKSHOPS_UPDATE_REQUEST,
   WORKSHOPS_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function workshopsGetRequest(number, size) {
@@ -35,7 +35,7 @@ export function workshopsGetRequest(number, size) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/workshop/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
@@ -60,7 +60,7 @@ export function workshopsGetRequest(number, size) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -82,7 +82,7 @@ export function workshopsAddRequest(data) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('post', '/workshop/', data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -106,7 +106,7 @@ export function workshopsAddRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -127,7 +127,7 @@ export function workshopsUpdateRequest(data) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('patch', '/workshop/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -152,7 +152,7 @@ export function workshopsUpdateRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -173,7 +173,7 @@ export function workshopsDeleteRequest(id) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('delete', '/workshop/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
@@ -199,7 +199,7 @@ export function workshopsDeleteRequest(id) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }

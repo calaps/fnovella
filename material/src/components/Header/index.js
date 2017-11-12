@@ -63,7 +63,7 @@ class Header extends React.Component {
           </div>
         </div>
         {
-          (this.props.loader.requestInProgress > 0)?
+          (this.props.progress.requestInProgress > 0)?
             <LinearProgress mode="indeterminate" />
             :
             null
@@ -79,7 +79,7 @@ function mapStateToProps(state){
     auth: state.auth,
     colorOption: state.settings.colorOption,
     isFixedHeader: state.settings.isFixedHeader,
-    loader: state.loader
+    progress: state.progress
   }
 }
 

@@ -13,8 +13,8 @@ import {
   CATALOGS_UPDATE_FAIL,
   CATALOGS_UPDATE_REQUEST,
   CATALOGS_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function catalogsGetRequest(number, size, sort) {
@@ -36,7 +36,7 @@ export function catalogsGetRequest(number, size, sort) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/catalog/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
@@ -60,7 +60,7 @@ export function catalogsGetRequest(number, size, sort) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -80,7 +80,7 @@ export function catalogsAddRequest(data) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/catalog/', data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -104,7 +104,7 @@ export function catalogsAddRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })
@@ -124,7 +124,7 @@ export function catalogsUpdateRequest(data) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/catalog/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -148,7 +148,7 @@ export function catalogsUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })
@@ -168,7 +168,7 @@ export function catalogsDeleteRequest(id) {
       // return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/catalog/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
@@ -194,7 +194,7 @@ export function catalogsDeleteRequest(id) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     })
@@ -207,7 +207,7 @@ export function catalogsGetByCategoryRequest(category_id) {
       {
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/catalog/search/'+category_id, null, {authorization: localStorage.getItem('@fnovella:token')})
@@ -231,7 +231,7 @@ export function catalogsGetByCategoryRequest(category_id) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }

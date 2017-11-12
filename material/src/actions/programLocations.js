@@ -13,8 +13,8 @@ import {
   PROGRAM_LOCATION_UPDATE_FAIL,
   PROGRAM_LOCATION_UPDATE_REQUEST,
   PROGRAM_LOCATION_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function programLocationByProgramIdGetRequest(programId) {
@@ -31,7 +31,7 @@ export function programLocationByProgramIdGetRequest(programId) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/program_location/'+programId+'/program_id', null, {authorization: localStorage.getItem('@fnovella:token')})
@@ -56,7 +56,7 @@ export function programLocationByProgramIdGetRequest(programId) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -82,7 +82,7 @@ export function programLocationGetRequest(number, size) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/program_location/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
@@ -107,7 +107,7 @@ export function programLocationGetRequest(number, size) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -129,7 +129,7 @@ export function programLocationAddRequest(data) {
         // return;
 
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('post', '/program_location/', data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -153,7 +153,7 @@ export function programLocationAddRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -174,7 +174,7 @@ export function programLocationUpdateRequest(data) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('patch', '/program_location/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -199,7 +199,7 @@ export function programLocationUpdateRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }
@@ -220,7 +220,7 @@ export function programLocationDeleteRequest(id) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('delete', '/program_location/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
@@ -246,7 +246,7 @@ export function programLocationDeleteRequest(id) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       }

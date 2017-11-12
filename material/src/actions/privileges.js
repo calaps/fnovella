@@ -14,8 +14,8 @@ import {
   PRIVILEGES_UPDATE_FAIL,
   PRIVILEGES_UPDATE_REQUEST,
   PRIVILEGES_UPDATE_SUCCESS,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function privilegesGetRequest(data) {
@@ -31,7 +31,7 @@ export function privilegesGetRequest(data) {
       return;
 
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/privilege/', null,{authorization: localStorage.getItem('@fnovella:token') })
@@ -55,7 +55,7 @@ export function privilegesGetRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -74,7 +74,7 @@ export function privilegesGetAllRequest() {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/privilege/all', null,{authorization: localStorage.getItem('@fnovella:token') })
@@ -98,7 +98,7 @@ export function privilegesGetAllRequest() {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -117,7 +117,7 @@ export function privilegesAddRequest(data) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/privilege/',data,{authorization: localStorage.getItem('@fnovella:token') })
@@ -141,7 +141,7 @@ export function privilegesAddRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -161,7 +161,7 @@ export function privilegesUpdateRequest(data) {
         // resolve(true);
         // return;
         dispatch({
-          type: LOADER_ADD_REQUEST
+          type: PROGRESS_ADD_REQUEST
         });
 // API
         HTTP('patch', '/privilege/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
@@ -185,7 +185,7 @@ export function privilegesUpdateRequest(data) {
           })
           .finally(()=>{
             dispatch({
-              type: LOADER_REMOVE_REQUEST
+              type: PROGRESS_REMOVE_REQUEST
             });
           })
       } })
@@ -206,7 +206,7 @@ export function privilegesDeleteRequest(id) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/privilege/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
@@ -232,7 +232,7 @@ export function privilegesDeleteRequest(id) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})

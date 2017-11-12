@@ -21,8 +21,8 @@ import {
   APP_USER_PASSWORD_UPDATE_REQUEST,
   APP_USER_PASSWORD_UPDATE_SUCCESS,
   APP_USER_PASSWORD_UPDATE_FAIL,
-  LOADER_ADD_REQUEST,
-  LOADER_REMOVE_REQUEST
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function loginRequest(data) {
@@ -63,7 +63,7 @@ export function loginRequest(data) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/user/login', data)
@@ -90,7 +90,7 @@ export function loginRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -117,7 +117,7 @@ export function signUpRequest(data) {
       resolve(true);
       return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/user/signup', data)
@@ -137,7 +137,7 @@ export function signUpRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -179,7 +179,7 @@ export function getUserDetails(token){
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('get', '/user/userDetails', null, {authorization: token})
@@ -206,7 +206,7 @@ export function getUserDetails(token){
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -225,7 +225,7 @@ export function logOut(){
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API - in case we have Logout API
       HTTP('get', '/user/logout', null, {authorization: localStorage.getItem('@fnovella:token') })
@@ -252,7 +252,7 @@ export function logOut(){
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -274,7 +274,7 @@ export function forgotPasswordRequest(data){
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       HTTP('post', '/user/forgot_password', data)
         .then(function (response) {
@@ -298,7 +298,7 @@ export function forgotPasswordRequest(data){
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         })
     }})
@@ -318,7 +318,7 @@ export function appUserUpdateRequest(data) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/user/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
@@ -343,7 +343,7 @@ export function appUserUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         });
     }})
@@ -363,7 +363,7 @@ export function appUserPasswordUpdateRequest(data) {
       // resolve(true);
       // return;
       dispatch({
-        type: LOADER_ADD_REQUEST
+        type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/user/'+data.id+'/password', data, {authorization: localStorage.getItem('@fnovella:token') })
@@ -388,7 +388,7 @@ export function appUserPasswordUpdateRequest(data) {
         })
         .finally(()=>{
           dispatch({
-            type: LOADER_REMOVE_REQUEST
+            type: PROGRESS_REMOVE_REQUEST
           });
         });
     }})
