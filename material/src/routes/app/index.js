@@ -23,6 +23,7 @@ module.exports = {
         require('./routes/group'), // Calaps App Students
         require('./routes/create_group'), // Calaps App Students
         require('./routes/section'), // Calaps App Students
+        require('./routes/visualization'), // Calaps App Visualization
       ]);
     });
   },
