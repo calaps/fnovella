@@ -7,12 +7,14 @@ import {personal_documents, gender, countries} from '../../../../../constants/da
 import {tutorValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import { convertDateToHTMLInputDateValue } from '../../../../../utils/helpers';
 import {
   educatorsAddRequest,
   educatorsUpdateRequest,
   catalogsGetRequest,
   programInstructorGetRequest,
-  programGetRequest
+  programGetRequest,
+  privilegesGetAllRequest
 } from '../../../../../actions';
 
 let self;
@@ -27,7 +29,8 @@ class EditForm extends React.Component {
       secondName: this.props.teacherData.secondName || '',
       firstLastname: this.props.teacherData.firstLastname || '',
       secondLastname: this.props.teacherData.secondLastname || '',
-      bornDate: '',
+      bornDate: (this.props.teacherData.bornDate)? convertDateToHTMLInputDateValue(new Date(this.props.teacherData.bornDate))
+      : convertDateToHTMLInputDateValue(new Date()),
       documentType: this.props.teacherData.documentType || '',
       documentValue: this.props.teacherData.documentValue || '',
       nacionality: this.props.teacherData.nacionality || '',
@@ -41,13 +44,14 @@ class EditForm extends React.Component {
       email: this.props.teacherData.email || '',
       appCode: this.props.teacherData.appCode || '',
       gender: this.props.teacherData.gender || '',
+      password: this.props.teacherData.password || '',
+      colony: this.props.teacherData.colony || '',
+      zone: this.props.teacherData.zone || '',
+      privilege: this.props.teacherData.privilege || 2,       // default is 2 for instructor
       errors: {},
       isLoading: false
     };
-    console.log("PROPS",this.props.teacherData)
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
-    console.log("Daaata : ",this.props.teacherData)
+    console.log("this.props.teacherData : ",this.props.teacherData);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -77,6 +81,10 @@ class EditForm extends React.Component {
         email: '',
         appCode: '',
         gender: '',
+        password: '',
+        colony: '',
+        zone: '',
+        privilege: 2 // default is 2 for instructor
       })
     }
   }
@@ -115,6 +123,10 @@ class EditForm extends React.Component {
         email: this.state.email,
         appCode: this.state.appCode || 'abc',
         gender: this.state.gender,
+        password: this.state.password,
+        colony: this.state.colony,
+        zone: this.state.zone,
+        privilege: this.state.privilege 
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -158,6 +170,7 @@ class EditForm extends React.Component {
     this.props.actions.catalogsGetRequest();
     this.props.actions.programGetRequest(null,1000);
     this.props.actions.programInstructorGetRequest();
+    this.props.actions.privilegesGetAllRequest();    
   }
 
   handleCancel() {
@@ -230,6 +243,14 @@ class EditForm extends React.Component {
         return null;
       }
     };
+    //Privilege options
+    let privilegesOpt = () => {
+      let privileges = this.props.privileges || [];
+      return privileges.map((privilege) => {
+        return <option key={privilege.id} value={privilege.id}>{privilege.privilegeName}</option>
+      });
+    };
+
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -321,13 +342,6 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña
                       </label>
-                      {
-                        /* #change
-                        description: Add fiel password in order to instructor to access the application
-                        controller to use: instructor controller
-                        database name: password
-                      */
-                      }
                       <div className="col-md-9">
                         <input
                           type="password"
@@ -340,38 +354,6 @@ class EditForm extends React.Component {
                         {errors.password && <span className="help-block text-danger">{errors.password}</span>}
                       </div>
                     </div>
-
-                    {/*<div className="form-group row" disabled={this.state.isEditing}>
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
-                      <div className="col-md-9">
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.password}
-                          onChange={this.onChange}
-                          placeholder="******"/>
-                        {errors.password && <span className="help-block text-danger">{errors.password}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row" disabled={this.state.isEditing}>
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Confirmar
-                        contraseña</label>
-                      <div className="col-md-9">
-                        <input
-                          type="password"
-                          className="form-control"
-                          id="confirmPassword"
-                          name="confirmPassword"
-                          value={this.state.confirmPassword}
-                          onChange={this.onChange}
-                          placeholder="******"/>
-                        {errors.confirmPassword &&
-                        <span className="help-block text-danger">{errors.confirmPassword}</span>}
-                      </div>
-                    </div>*/}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
@@ -472,46 +454,32 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Colonia
                         </label>
-                      {
-                        /* #change
-                        description: colony
-                        controller to use: instructor controller
-                        database name: colony
-                      */
-                      }
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.email}
+                          id="colony"
+                          name="colony"
+                          value={this.state.colony}
                           onChange={this.onChange}
-                          placeholder="eje: Margarita"/>
-                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                          placeholder="eje: colony"/>
+                        {errors.colony && <span className="help-block text-danger">{errors.colony}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Zona
                       </label>
-                      {
-                        /* #change
-                        description: zone
-                        controller to use: instructor controller
-                        database name: zone
-                      */
-                      }
                       <div className="col-md-9">
                         <input
                           type="text"
                           className="form-control"
-                          id="password"
-                          name="password"
-                          value={this.state.email}
+                          id="zone"
+                          name="zone"
+                          value={this.state.zone}
                           onChange={this.onChange}
                           placeholder="eje: Margarita"/>
-                        {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                        {errors.zone && <span className="help-block text-danger">{errors.zone}</span>}
                       </div>
                     </div>
 
@@ -610,6 +578,24 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Privelgio del
+                        usuario</label>
+                      <div className="col-md-9">
+                        <select
+                          name="privilege"
+                          id="privilege"
+                          onChange={this.onChange}
+                          value={this.state.privilege}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona el privilegio</option>
+                          {privilegesOpt()}
+                        </select>
+                        {errors.privilege && <span className="help-block text-danger">{errors.privilege}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                       <label htmlFor="programId" className="col-md-3 control-label">Programa
                         </label>
                       {
@@ -681,7 +667,8 @@ function mapStateToProps(state) {
     // auth: state.auth
     programs: state.programs,
     programInstructors : state.programInstructors,
-    catalogs: state.catalogs
+    catalogs: state.catalogs,
+    privileges: state.privileges    
   }
 }
 
@@ -694,7 +681,8 @@ function mapDispatchToProps(dispatch) {
       programInstructorGetRequest,
       educatorsAddRequest,
       educatorsUpdateRequest,
-      catalogsGetRequest
+      catalogsGetRequest,
+      privilegesGetAllRequest
     }, dispatch)
   };
 }
