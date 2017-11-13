@@ -89,7 +89,7 @@ export function gradesAddRequest(data) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: snackBarMessages.ERROR
+                  message: "Error: " + response.data.errors[0]
                 }
               });
               reject(response.data);
@@ -140,7 +140,7 @@ export function gradesUpdateRequest(data) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: snackBarMessages.ERROR
+                  message: "Error: " + response.data.errors[0]
                 }
               });
               reject(response.data);
@@ -194,7 +194,7 @@ export function gradesDeleteRequest(id) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: snackBarMessages.ERROR
+                  message: "Error: " + response.data.errors[0]
                 }
               });
               reject(response.data);

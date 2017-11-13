@@ -241,11 +241,7 @@ class EditForm extends React.Component {
                           placeholder="eje: Descripción del grado"/> {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
-                    {/* #change
-                      description: level should be a list of catalogs of category "nivel" with the catalog options (not input)
-                      controller to use: catalog
-                      database name: catalog filtered options by category "nivel"
-                    */}
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Nivel</label>
                       <div className="col-md-9">
@@ -261,13 +257,6 @@ class EditForm extends React.Component {
                         {errors.level && <span className="help-block text-danger">{errors.level}</span>}
                       </div>
                     </div>
-                    {/* #change
-                      description: The options populated with locations is correct.
-                                   However should be only the locations related to the program
-                                   in the new controller "program_location" relation
-                      controller to use: program_location
-                      database name: program_location
-                    */}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa</label>
@@ -300,12 +289,6 @@ class EditForm extends React.Component {
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
-                    {/* #change
-                      description: However should be only the locations related to the program
-                                    in the new controller "program_location" relation.ds
-                      controller to use: program_location
-                      database name: program_location
-                    */}
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
