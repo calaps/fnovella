@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import APPCONFIG from 'constants/Config';
 import NavLeftList from './NavLeftList';
 import NavRightList from './NavRightList';
-import LinearProgress from 'material-ui/LinearProgress';
+import ProgressBar from './../ProgressBar';
 
 /**
  * #calaps //Hide until notification implementation
@@ -62,12 +62,7 @@ class Header extends React.Component {
             </p>
           </div>
         </div>
-        {
-          (this.props.progress.requestInProgress > 0)?
-            <LinearProgress mode="indeterminate" />
-            :
-            null
-        }
+        <ProgressBar/>
       </section>
     );
   }
@@ -78,8 +73,7 @@ function mapStateToProps(state){
   return {
     auth: state.auth,
     colorOption: state.settings.colorOption,
-    isFixedHeader: state.settings.isFixedHeader,
-    progress: state.progress
+    isFixedHeader: state.settings.isFixedHeader
   }
 }
 

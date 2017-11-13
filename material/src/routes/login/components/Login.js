@@ -9,6 +9,8 @@ import {bindActionCreators} from 'redux';
 import {loginRequest} from '../../../actions'; //for use the Rest_API
 
 import SnackBar from 'components/SnackBar';
+import ProgressBar from 'components/ProgressBar';
+
 
 let self;
 
@@ -137,9 +139,10 @@ class Page extends React.Component {
   render() {
     return (
       <div className="page-login">
+        <ProgressBar/>
         <div className="main-body">
           <QueueAnim type="bottom" className="ui-animate">
-            <div key="1">
+            <div key="2">
               <Login loginRequest={this.props.actions.loginRequest}/>
             </div>
           </QueueAnim>
