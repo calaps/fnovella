@@ -21,6 +21,14 @@ let initialState = {
   sections : {},
   programLocations:{},
   programInstructors:{},
+  progress: {
+    requestInProgress: 0
+  },
+  snackBar: {
+    open: false,
+    message: '',
+    autoHideDuration: 4000
+  }
 
 };
 

@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import APPCONFIG from 'constants/Config';
 import NavLeftList from './NavLeftList';
 import NavRightList from './NavRightList';
+import ProgressBar from './../ProgressBar';
 
 /**
  * #calaps //Hide until notification implementation
@@ -61,6 +62,7 @@ class Header extends React.Component {
             </p>
           </div>
         </div>
+        <ProgressBar/>
       </section>
     );
   }

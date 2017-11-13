@@ -11,7 +11,9 @@ import {
   PARTICIPANT_GET_SUCCESS,
   PARTICIPANT_UPDATE_FAIL,
   PARTICIPANT_UPDATE_REQUEST,
-  PARTICIPANT_UPDATE_SUCCESS
+  PARTICIPANT_UPDATE_SUCCESS,
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 
@@ -22,7 +24,10 @@ export function participantsGetRequestBySearch(id,firstName,appCode) {
         id,
         firstName,
         appCode
-        }
+        };
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
         // API
         HTTP('post', '/participant/search', null, {authorization:localStorage.getItem('@fnovella:token')},params)
           .then(function (response) {
@@ -44,6 +49,11 @@ export function participantsGetRequestBySearch(id,firstName,appCode) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
       }})
     }
   }
@@ -63,7 +73,9 @@ export function participantGetRequest(number, size) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('get', '/participant/',null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
@@ -84,6 +96,11 @@ export function participantGetRequest(number, size) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -100,7 +117,9 @@ export function participantAddRequest(data) {
       // resolve(true);
       // return;
 
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('post', '/participant/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -121,6 +140,11 @@ export function participantAddRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -136,7 +160,9 @@ export function participantUpdateRequest(data) {
       });
       resolve(true);
       return true;*/
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/participant/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -158,6 +184,11 @@ export function participantUpdateRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -175,7 +206,9 @@ export function participantDeleteRequest(id) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/participant/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -197,6 +230,11 @@ export function participantDeleteRequest(id) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
         })
     }})
   }

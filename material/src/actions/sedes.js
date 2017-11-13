@@ -12,7 +12,9 @@ import {
   SEDES_GET_SUCCESS,
   SEDES_UPDATE_FAIL,
   SEDES_UPDATE_REQUEST,
-  SEDES_UPDATE_SUCCESS
+  SEDES_UPDATE_SUCCESS,
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function sedesGetRequest(number, size) {
@@ -32,7 +34,9 @@ export function sedesGetRequest(number, size) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('get', '/location/', null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
@@ -54,6 +58,11 @@ export function sedesGetRequest(number, size) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -69,7 +78,9 @@ export function sedesAddRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('post', '/location/', data,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
@@ -90,6 +101,11 @@ export function sedesAddRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -107,7 +123,9 @@ export function sedesUpdateRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/location/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
@@ -128,6 +146,11 @@ export function sedesUpdateRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -145,7 +168,9 @@ export function sedesDeleteRequest(id) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/location/'+id, null,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
@@ -167,6 +192,11 @@ export function sedesDeleteRequest(id) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
         })
     }})
   }

@@ -13,7 +13,9 @@ import {
   PRIVILEGES_GET_ALL_SUCCESS,
   PRIVILEGES_UPDATE_FAIL,
   PRIVILEGES_UPDATE_REQUEST,
-  PRIVILEGES_UPDATE_SUCCESS
+  PRIVILEGES_UPDATE_SUCCESS,
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function privilegesGetRequest(data) {
@@ -28,6 +30,9 @@ export function privilegesGetRequest(data) {
       resolve(true);
       return;
 
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('get', '/privilege/', null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -48,6 +53,11 @@ export function privilegesGetRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -63,7 +73,9 @@ export function privilegesGetAllRequest() {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('get', '/privilege/all', null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -84,6 +96,11 @@ export function privilegesGetAllRequest() {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -99,7 +116,9 @@ export function privilegesAddRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('post', '/privilege/',data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -120,6 +139,11 @@ export function privilegesAddRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -136,29 +160,36 @@ export function privilegesUpdateRequest(data) {
         // });
         // resolve(true);
         // return;
-
-// API
-  HTTP('patch', '/privilege/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
-    .then(function (response) {
-      if (!response.data.errors) {
         dispatch({
-          type: PRIVILEGES_UPDATE_SUCCESS,
-          data: response.data.data
+          type: PROGRESS_ADD_REQUEST
         });
-        resolve(response.data);
-      } else {
-        reject(response.data);
-      }
-    })
-    .catch(error => {
-      dispatch({
-        type: PRIVILEGES_UPDATE_FAIL,
-        error: error
-      });
-      reject(error);
-    })
-    } })
-}
+// API
+        HTTP('patch', '/privilege/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (!response.data.errors) {
+              dispatch({
+                type: PRIVILEGES_UPDATE_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            dispatch({
+              type: PRIVILEGES_UPDATE_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      } })
+  }
 }
 
 export function privilegesDeleteRequest(id) {
@@ -174,28 +205,35 @@ export function privilegesDeleteRequest(id) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/privilege/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-            if (!response.data.errors) {
-              dispatch({
-                type: PRIVILEGES_DELETE_SUCCESS,
-                data: {
-                  id
-                }
-              });
-              resolve(response.data);
-            }else{
-              reject(response.data);
-            }
-          })
+          if (!response.data.errors) {
+            dispatch({
+              type: PRIVILEGES_DELETE_SUCCESS,
+              data: {
+                id
+              }
+            });
+            resolve(response.data);
+          }else{
+            reject(response.data);
+          }
+        })
         .catch(error => {
           dispatch({
             type: PRIVILEGES_DELETE_FAIL,
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
         })
     }})
   }

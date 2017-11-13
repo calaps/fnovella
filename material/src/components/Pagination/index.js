@@ -77,7 +77,7 @@ class Pagination extends React.Component {
       }
       for (let i = start; i < end; i++) {
           ret.push(
-            <li>
+            <li key={i}>
               <Paper
                 key={i} style={
                 this.state.number === i  ? style.activeStyle : style.paperStyle
@@ -103,7 +103,7 @@ class Pagination extends React.Component {
     return (
       <div style={style.containerStyle}>
         <ul style={{display: 'inline-flex', listStyle: 'none'}}>
-          <li>
+          <li key='a'>
             <button
               onClick={this.getPrev}
               type="submit" className="btn btn-primary"
@@ -113,7 +113,7 @@ class Pagination extends React.Component {
 
           </li>
           {this.getRange(Math.ceil(this.props.totalElements/this.state.size), this.state.number, this.state.number + this.state.size)}
-          <li>
+          <li key='z'>
             <button
               onClick={this.getNext}
               type="submit" className="btn btn-primary"

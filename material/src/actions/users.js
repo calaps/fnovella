@@ -12,7 +12,9 @@ import {
   USERS_GET_SUCCESS,
   USERS_UPDATE_FAIL,
   USERS_UPDATE_REQUEST,
-  USERS_UPDATE_SUCCESS
+  USERS_UPDATE_SUCCESS,
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 export function usersGetRequestBySearch(id,firstName,appCode) {
@@ -22,7 +24,10 @@ export function usersGetRequestBySearch(id,firstName,appCode) {
         id,
         firstName,
         appCode
-        }
+        };
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
         // API
         HTTP('post', '/user/search', null, {authorization:localStorage.getItem('@fnovella:token')},params)
           .then(function (response) {
@@ -43,6 +48,11 @@ export function usersGetRequestBySearch(id,firstName,appCode) {
               error: error
             });
             reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
           })
       }})
     }
@@ -65,7 +75,9 @@ export function usersGetRequest(number, size) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('get', '/user/users', null, {authorization: localStorage.getItem('@fnovella:token') }, params)
         .then(function (response) {
@@ -87,6 +99,11 @@ export function usersGetRequest(number, size) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -103,7 +120,9 @@ export function usersAddRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('post', '/user/signup', data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -124,6 +143,11 @@ export function usersAddRequest(data) {
             error: error,
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
         });
     }});
   }
@@ -141,7 +165,9 @@ export function usersUpdateRequest(data) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/user/update/'+data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -162,6 +188,11 @@ export function usersUpdateRequest(data) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
         });
     }})
   }
@@ -180,7 +211,9 @@ export function usersDeleteRequest(id) {
       // });
       // resolve(true);
       // return;
-
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/user/delete/'+id, null, {authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -203,7 +236,12 @@ export function usersDeleteRequest(id) {
             error: error
           });
           reject(error);
-        });
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }

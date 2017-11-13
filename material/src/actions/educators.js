@@ -12,7 +12,9 @@ import {
   EDUCATORS_GET_SUCCESS,
   EDUCATORS_UPDATE_FAIL,
   EDUCATORS_UPDATE_REQUEST,
-  EDUCATORS_UPDATE_SUCCESS
+  EDUCATORS_UPDATE_SUCCESS,
+  PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
 } from './../constants/ActionTypes';
 
 
@@ -23,7 +25,11 @@ export function educatorsGetRequestBySearch(id,firstName,appCode) {
         id,
         firstName,
         appCode
-        }
+        };
+
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
         // API
         HTTP('post', '/instructor/search', null, {authorization:localStorage.getItem('@fnovella:token')},params)
           .then(function (response) {
@@ -45,6 +51,11 @@ export function educatorsGetRequestBySearch(id,firstName,appCode) {
             });
             reject(error);
           })
+          .finally(()=>{
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
       }})
     }
   }
@@ -65,6 +76,9 @@ export function educatorsGetRequest(number, size) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('get', '/instructor/', null,{authorization: localStorage.getItem('@fnovella:token') },params)
         .then(function (response) {
@@ -85,6 +99,11 @@ export function educatorsGetRequest(number, size) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -102,6 +121,9 @@ export function educatorsAddRequest(data) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('post', '/instructor/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -122,6 +144,11 @@ export function educatorsAddRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -138,6 +165,9 @@ export function educatorsUpdateRequest(data) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('patch', '/instructor/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -158,6 +188,11 @@ export function educatorsUpdateRequest(data) {
           });
           reject(error);
         })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
     }})
   }
 }
@@ -176,6 +211,9 @@ export function educatorsDeleteRequest(id) {
       // resolve(true);
       // return;
 
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
       // API
       HTTP('delete', '/instructor/'+id, null,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
@@ -197,6 +235,11 @@ export function educatorsDeleteRequest(id) {
             error: error
           });
           reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
         })
     }})
   }

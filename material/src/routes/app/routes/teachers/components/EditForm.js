@@ -12,7 +12,7 @@ import {
   educatorsUpdateRequest,
   catalogsGetRequest,
   programInstructorGetRequest,
-  sedesGetRequest
+  programGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -44,6 +44,7 @@ class EditForm extends React.Component {
       errors: {},
       isLoading: false
     };
+    console.log("PROPS",this.props.teacherData)
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
     console.log("Daaata : ",this.props.teacherData)
@@ -155,7 +156,7 @@ class EditForm extends React.Component {
 
   componentWillMount() {
     this.props.actions.catalogsGetRequest();
-    this.props.actions.sedesGetRequest();
+    this.props.actions.programGetRequest(null,1000);
     this.props.actions.programInstructorGetRequest();
   }
 
@@ -210,19 +211,18 @@ class EditForm extends React.Component {
       });
     };
 
-    let sedesOpt = () => {
+    let programsOpt = () => {
       // if no program return null
-      if(this.state.programId){
-        let sedes = this.props.sedes.content || [];
-        let programInstructorRelation = this.props.programInstructors.content || [];
-        let programInstructors = [];
-        for(let i=0; i<programInstructorRelation.length; i++){
-          programInstructors.push(programInstructorRelation[i].location);
-        }
-
-        return sedes.map((sede) => {
-          if(programInstructors.indexOf(sede.id)>=0){
-            return <option key={sede.id} value={sede.id}>{sede.name}</option>
+      if(this.state.id){
+        let programs = this.props.programs.content || [];
+        let programInstructors = this.props.programInstructors.content || [];
+        return programInstructors.map((programInstructor) => {
+          if(programInstructor.instructor == this.state.id){
+            for(let i=0;i<programs.length;i++){
+              if(programInstructor.program == programs[i].id){
+                return <option key={programs[i].id} value={programs[i].id}>{programs[i].name}</option>
+              }
+            }
           }
         });
       }
@@ -628,7 +628,7 @@ class EditForm extends React.Component {
                       className="form-control"
                     >
                       <option value="" disabled>Selecciona el Programa</option>
-                      {sedesOpt()}
+                      {programsOpt()}
                     </select>
                         {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                       </div>
@@ -679,7 +679,7 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     // auth: state.auth
-    sedes: state.sedes,
+    programs: state.programs,
     programInstructors : state.programInstructors,
     catalogs: state.catalogs
   }
@@ -690,7 +690,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       //    signUpRequest
-      sedesGetRequest,
+      programGetRequest,
       programInstructorGetRequest,
       educatorsAddRequest,
       educatorsUpdateRequest,

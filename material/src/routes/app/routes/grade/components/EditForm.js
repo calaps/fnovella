@@ -29,8 +29,6 @@ class EditForm extends React.Component {
     this.onSubmit = this
       .onSubmit
       .bind(this);
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onChange = this
       .onChange
       .bind(this);
@@ -41,7 +39,12 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
+    if(this.state.isEditing){
+      this
+      .props
+      .actions
+      .programLocationByProgramIdGetRequest(this.state.programId);
+    }
     this
       .props
       .actions
@@ -156,8 +159,11 @@ class EditForm extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    if(e.target.name == "programId"){
-      this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
+    if (e.target.name == "programId") {
+      this
+        .props
+        .actions
+        .programLocationByProgramIdGetRequest(e.target.value);
     }
   }
 
@@ -170,14 +176,14 @@ class EditForm extends React.Component {
     //programLocations || location options
     let programLocationsOpt = () => {
       console.log(this.props.programLocations)
-      if(this.state.programId ){
-      let programLocations = this.props.programLocations.content || [];
-      return programLocations.map((location) => {
-        return <option key={location.location} value={location.location}>{location.locationData.name}</option>
-      });
-    } else{
-      return null;
-    }
+      if (this.state.programId) {
+        let programLocations = this.props.programLocations.content || [];
+        return programLocations.map((location) => {
+          return <option key={location.locationData.id} value={location.locationData.id}>{location.locationData.name}</option>
+        });
+      } else {
+        return null;
+      }
     };
     //Programs options
     let programsOpt = () => {
@@ -194,7 +200,7 @@ class EditForm extends React.Component {
     let catalogsOpt = () => {
       let catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
-        return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
+        return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
       });
     };
 
@@ -235,11 +241,7 @@ class EditForm extends React.Component {
                           placeholder="eje: Descripción del grado"/> {errors.description && <span className="help-block text-danger">{errors.description}</span>}
                       </div>
                     </div>
-                    {/* #change
-                      description: level should be a list of catalogs of category "nivel" with the catalog options (not input)
-                      controller to use: catalog
-                      database name: catalog filtered options by category "nivel"
-                    */}
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Nivel</label>
                       <div className="col-md-9">
@@ -255,13 +257,6 @@ class EditForm extends React.Component {
                         {errors.level && <span className="help-block text-danger">{errors.level}</span>}
                       </div>
                     </div>
-                    {/* #change
-                      description: The options populated with locations is correct.
-                                   However should be only the locations related to the program
-                                   in the new controller "program_location" relation
-                      controller to use: program_location
-                      database name: program_location
-                    */}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Programa</label>
@@ -294,12 +289,6 @@ class EditForm extends React.Component {
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
-                    {/* #change
-                      description: However should be only the locations related to the program
-                                    in the new controller "program_location" relation.ds
-                      controller to use: program_location
-                      database name: program_location
-                    */}
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">

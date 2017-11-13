@@ -125,6 +125,7 @@ class SidebarContent extends React.Component {
         </li>
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">remove_red_eye</i><span className="nav-text">Visualización</span></FlatButton>
           <ul>
+            <li><FlatButton className="prepend-icon" href="#/app/visualization/programs"><span>Programas</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/teachers"><span>Educadores</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/students"><span>Alumnos</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/users"><span>Usuarios</span></FlatButton></li>
