@@ -14,8 +14,11 @@ import {
   CATALOGS_UPDATE_REQUEST,
   CATALOGS_UPDATE_SUCCESS,
   PROGRESS_ADD_REQUEST,
-  PROGRESS_REMOVE_REQUEST
+  PROGRESS_REMOVE_REQUEST,
+  SNACKBAR_REMOVE,
+  SNACKBAR_SHOW
 } from './../constants/ActionTypes';
+import snackBarMessages from '../constants/SnackBarMessages';
 
 export function catalogsGetRequest(number, size, sort) {
   let params = {};
@@ -26,14 +29,6 @@ export function catalogsGetRequest(number, size, sort) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_GET_REQUEST,
-        //   data: {
-        //   }
-        // });
-        // resolve(true);
-        // return;
 
         dispatch({
           type: PROGRESS_ADD_REQUEST
@@ -71,13 +66,6 @@ export function catalogsGetRequest(number, size, sort) {
 export function catalogsAddRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
-      // will be removed once API is ready
-      // dispatch({
-      //   type: CATALOGS_ADD_SUCCESS,
-      //   data
-      // });
-      // resolve(true);
-      // return;
 
       dispatch({
         type: PROGRESS_ADD_REQUEST
@@ -90,15 +78,29 @@ export function catalogsAddRequest(data) {
               type: CATALOGS_ADD_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_ADDED
+              }
+            });
             resolve(response.data);
           } else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
+            });
             reject(response.data)
           }
         })
         .catch(error => {
           dispatch({
-            type: CATALOGS_ADD_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -115,14 +117,6 @@ export function catalogsUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
 
-      // will be removed once API is ready
-      // dispatch({
-      //   type: CATALOGS_UPDATE_SUCCESS,
-      //   id
-      // });
-      // resolve(true);
-      // return;
-
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
@@ -134,15 +128,29 @@ export function catalogsUpdateRequest(data) {
               type: CATALOGS_UPDATE_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_UPDATED
+              }
+            });
             resolve(response.data);
           } else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
+            });
             reject(response.data)
           }
         })
         .catch(error => {
           dispatch({
-            type: CATALOGS_UPDATE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -159,14 +167,6 @@ export function catalogsDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
 
-      // will be removed once API is ready
-      // dispatch({
-      //   type: CATALOGS_DELETE_SUCCESS,
-      //   id
-      // });
-      // resolve(true);
-      // return;
-
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
@@ -180,15 +180,29 @@ export function catalogsDeleteRequest(id) {
                 id
               }
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_DELETED
+              }
+            });
             resolve(response.data);
           } else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: CATALOGS_DELETE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -223,10 +237,6 @@ export function catalogsGetByCategoryRequest(category_id) {
             }
           })
           .catch(error => {
-            dispatch({
-              type: CATALOGS_GET_FAIL,
-              error: error
-            });
             reject(error);
           })
           .finally(()=>{

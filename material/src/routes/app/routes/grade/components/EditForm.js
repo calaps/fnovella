@@ -29,8 +29,6 @@ class EditForm extends React.Component {
     this.onSubmit = this
       .onSubmit
       .bind(this);
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onChange = this
       .onChange
       .bind(this);
@@ -41,7 +39,12 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
+    if(this.state.isEditing){
+      this
+      .props
+      .actions
+      .programLocationByProgramIdGetRequest(this.state.programId);
+    }
     this
       .props
       .actions
@@ -156,8 +159,11 @@ class EditForm extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    if(e.target.name == "programId"){
-      this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
+    if (e.target.name == "programId") {
+      this
+        .props
+        .actions
+        .programLocationByProgramIdGetRequest(e.target.value);
     }
   }
 
@@ -170,14 +176,14 @@ class EditForm extends React.Component {
     //programLocations || location options
     let programLocationsOpt = () => {
       console.log(this.props.programLocations)
-      if(this.state.programId ){
-      let programLocations = this.props.programLocations.content || [];
-      return programLocations.map((location) => {
-        return <option key={location.location} value={location.location}>{location.locationData.name}</option>
-      });
-    } else{
-      return null;
-    }
+      if (this.state.programId) {
+        let programLocations = this.props.programLocations.content || [];
+        return programLocations.map((location) => {
+          return <option key={location.locationData.id} value={location.locationData.id}>{location.locationData.name}</option>
+        });
+      } else {
+        return null;
+      }
     };
     //Programs options
     let programsOpt = () => {
@@ -194,7 +200,7 @@ class EditForm extends React.Component {
     let catalogsOpt = () => {
       let catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
-        return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
+        return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
       });
     };
 

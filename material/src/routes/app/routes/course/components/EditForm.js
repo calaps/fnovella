@@ -31,14 +31,13 @@ class EditForm extends React.Component {
       programId: this.props.courseData.programId || '',
       section: this.props.courseData.section || '',
       errors: {},
-      isLoading: false
+      isLoading: false,
     };
     {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     self = this;
-    console.log("Data", this.props.courseData)
   }
 
   componentWillMount() {
@@ -134,17 +133,15 @@ class EditForm extends React.Component {
   onChange(e) {
     this.setState({[e.target.name]: e.target.value});
     if(e.target.name == "programId"){
-      this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
+      this.props.actions.programLocationByProgramIdGetRequest(e.target.value);
     }
   }
-
   render() {
 
     const {errors} = this.state;
 
     //programLocations || location options
     let programLocationsOpt = () => {
-      console.log(this.props.programLocations)
       if(this.state.programId ){
       let programLocations = this.props.programLocations.content || [];
       return programLocations.map((location) => {
