@@ -22,8 +22,12 @@ import {
   APP_USER_PASSWORD_UPDATE_SUCCESS,
   APP_USER_PASSWORD_UPDATE_FAIL,
   PROGRESS_ADD_REQUEST,
-  PROGRESS_REMOVE_REQUEST
+  PROGRESS_REMOVE_REQUEST,
+  SNACKBAR_REMOVE,
+  SNACKBAR_SHOW
 } from './../constants/ActionTypes';
+
+import snackBarMessages from '../constants/SnackBarMessages';
 
 export function loginRequest(data) {
   return function (dispatch) {
@@ -74,17 +78,31 @@ export function loginRequest(data) {
               type: LOGIN_SUCCESS,
               data: response.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.LOGIN_SUCCESS
+              }
+            });
             resolve(response.data);
           }
           else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.LOGIN_FAILURE
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           console.log("error: ",error);
           dispatch({
-            type: LOGIN_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.LOGIN_FAILURE
+            }
           });
           reject(error);
         })
@@ -191,6 +209,12 @@ export function getUserDetails(token){
               data: response.data.data
             });
             resolve(response.data);
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Got user details"
+              }
+            });
           }
           else{
             reject(response.data);

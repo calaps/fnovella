@@ -8,6 +8,8 @@ import {connect} from 'react-redux'; //to pass functions
 import {bindActionCreators} from 'redux';
 import {loginRequest} from '../../../actions'; //for use the Rest_API
 
+import SnackBar from 'components/SnackBar';
+
 let self;
 
 class Login extends React.Component {
@@ -142,6 +144,7 @@ class Page extends React.Component {
             </div>
           </QueueAnim>
         </div>
+        <SnackBar></SnackBar>
       </div>
     );
   }

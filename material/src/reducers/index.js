@@ -21,6 +21,7 @@ import sections from './sections';
 import programLocations from './programLocations';
 import programInstructors from './programInstructors';
 import progress from './progress';
+import snackBar from './snackBar';
 
 const reducers = {
   routing: routerReducer,
@@ -44,7 +45,8 @@ const reducers = {
   sections,
   programLocations,
   programInstructors,
-  progress
+  progress,
+  snackBar
 };
 
 module.exports = combineReducers(reducers);
