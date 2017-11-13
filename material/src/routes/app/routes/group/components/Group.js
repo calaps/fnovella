@@ -39,9 +39,9 @@ const MainOptions = () => (
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">school</i></a>
+                  <a href="javascript:;"><i className="material-icons">assignment</i></a>
                 </div>
-                <h3>Aprobación de Inscripciones</h3>
+                <h3>Alumnos inscritos</h3>
                 <p>Crear, eliminar y visualizar docentes. Los docentes son los instructures que se asigna a cada grado, curso o taller.</p>
               </div>
             </div>
@@ -52,9 +52,9 @@ const MainOptions = () => (
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">supervisor_account</i></a>
+                  <a href="javascript:;"><i className="material-icons">assignment</i></a>
                 </div>
-                <h3>Evaluación de Asistencia</h3>
+                <h3>Aprobación de inscripciones</h3>
                 <p>Los alumnos son los estudiantes asignados a las secciones, tallers, grados o cursos.</p>
               </div>
             </div>
@@ -67,7 +67,7 @@ const MainOptions = () => (
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">perm_identity</i></a>
+                  <a href="javascript:;"><i className="material-icons">assignment</i></a>
                 </div>
                 <h3>Evaluación de conocimiento</h3>
                 <p>Crear, eliminar y visualizar personal. (Eston son los usuarios de la aplicación, capaces de editar o modificar la información).</p>
