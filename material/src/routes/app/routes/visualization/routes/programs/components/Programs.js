@@ -3,12 +3,12 @@ import QueueAnim from 'rc-queue-anim';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  programGetRequest
+  programGetRequest,
+  getEntityByProgramId
 } from '../../../../../../../actions';
 
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-import LinearProgress from 'material-ui/LinearProgress';
 
 const Hero = () => (
   <section className="hero hero-bg-img" style={{backgroundImage: 'url(assets/images-demo/covers/photo-1438893761775-f1db119d27b2.jpg)'}}>
@@ -20,8 +20,52 @@ const Hero = () => (
   </section>
 );
 
-const CardExampleExpandable = (props) => (
-  <Card>
+function entityCard(entityType, courses, divisions, grades, workshops){
+  switch(entityType){
+    case 'course':
+      if(courses.content){
+        return (courses.content.map((course, index)=>{
+            return <CourseCard key={index} course={course}/>
+          })
+        );
+      }
+      break;
+    case 'division':
+      if(divisions.content){
+        return (divisions.content.map((division, index)=>{
+            return <DivisionCard key={index} division={division}/>
+          })
+        );
+      }
+      break;
+    case 'grades':
+      if(grades.content){
+        return (grades.content.map((grade, index)=>{
+            return <GradeCard key={index} grade={grade}/>
+          })
+        );
+      }
+      break;
+    case 'workshop':
+      if(workshops.content){
+        return (workshops.content.map((workshop, index)=>{
+            return <WorkshopCard key={index} workshop={workshop}/>
+          })
+        );
+      }
+      break;
+  }
+}
+
+const ProgramCard = (props) => (
+  <Card
+    expanded={props.program.id == props.currentExpandedProgramId}
+    onExpandChange={(isExpanded)=>{
+      if(props.onExpanded){
+        props.onExpanded(props.program, isExpanded);
+      }
+    }}
+  >
     <CardHeader
       title={props.program.name.toUpperCase()}
       subtitle={props.program.clasification.toUpperCase()
@@ -29,15 +73,84 @@ const CardExampleExpandable = (props) => (
       actAsExpander={true}
       showExpandableButton={true}
     />
-    {/*<CardActions>*/}
-      {/*<FlatButton label="Action1" />*/}
-      {/*<FlatButton label="Action2" />*/}
-    {/*</CardActions>*/}
     <CardText expandable={true}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-      Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-      Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+      {
+        entityCard(props.program.clasification, props.courses, props.divisions, props.grades, props.workshops)
+      }
+    </CardText>
+  </Card>
+);
+
+const CourseCard = (props) => (
+  <Card onExpandChange={(isExpanded)=>{
+    if(isExpanded && props.onExpanded){
+      props.onExpanded(props.course);
+    }
+  }}>
+    <CardHeader
+      title={props.course.name.toUpperCase()}
+
+      subtitle={props.course.description[0].toUpperCase() + props.course.description.substring(1)}
+      actAsExpander={true}
+      showExpandableButton={true}
+    />
+    <CardText expandable={true}>
+
+    </CardText>
+  </Card>
+);
+
+const DivisionCard = (props) => (
+  <Card onExpandChange={(isExpanded)=>{
+    if(isExpanded && props.onExpanded){
+      props.onExpanded(props.division);
+    }
+  }}>
+    <CardHeader
+      title={props.division.name.toUpperCase()}
+      subtitle={''}
+      actAsExpander={true}
+      showExpandableButton={true}
+    />
+    <CardText expandable={true}>
+
+    </CardText>
+  </Card>
+);
+
+const GradeCard = (props) => (
+  <Card onExpandChange={(isExpanded)=>{
+    if(isExpanded && props.onExpanded){
+      props.onExpanded(props.grade);
+    }
+  }}>
+    <CardHeader
+      title={props.grade.name.toUpperCase()}
+      subtitle={props.grade.level.toUpperCase()
+      + ' - ' + props.grade.description[0].toUpperCase() + props.grade.description.substring(1)}
+      actAsExpander={true}
+      showExpandableButton={true}
+    />
+    <CardText expandable={true}>
+
+    </CardText>
+  </Card>
+);
+
+const WorkshopCard = (props) => (
+  <Card onExpandChange={(isExpanded)=>{
+    if(isExpanded && props.onExpanded){
+      props.onExpanded(props.workshop);
+    }
+  }}>
+    <CardHeader
+      title={props.workshop.name.toUpperCase()}
+      subtitle={props.workshop.description[0].toUpperCase() + props.workshop.description.substring(1)}
+      actAsExpander={true}
+      showExpandableButton={true}
+    />
+    <CardText expandable={true}>
+
     </CardText>
   </Card>
 );
@@ -54,25 +167,41 @@ class Programs extends React.Component{
       size,
       number,
       incrementFactor: 10,
-      isLoading: true
+      currentExpandedProgramId: null
     };
     this.loadMore = this.loadMore.bind(this);
+    this.onProgramExpanded = this.onProgramExpanded.bind(this);
     self = this;
   }
 
   async componentWillMount() {
     // type: 2 reflects all programs
     let response = await this.props.actions.programGetRequest(this.state.number, this.state.size);
-    this.setState({isLoading: false});
   }
 
   async loadMore(){
-    this.setState({isLoading: true});
     await this.props.actions.programGetRequest(this.state.number, this.state.size+this.state.incrementFactor);
     this.setState({
-      isLoading: false,
       size: this.state.size+this.state.incrementFactor
     })
+  }
+
+  onProgramExpanded(program, isExpanded){
+    if(isExpanded){
+      let entity = program.clasification;
+      if(entity == 'grades'){
+        entity = entity.replace('s', '');
+      }
+      this.props.actions.getEntityByProgramId(program.id, entity);
+      this.setState({
+        currentExpandedProgramId: program.id
+      })
+    }
+    else{
+      this.setState({
+        currentExpandedProgramId: null
+      })
+    }
   }
 
   render(){
@@ -85,16 +214,21 @@ class Programs extends React.Component{
           <div key="2">
             {
               programs.map((program, index)=>{
-                return <CardExampleExpandable key={index} program={program}></CardExampleExpandable>;
+                return <ProgramCard
+                  key={index}
+                  program={program}
+                  onExpanded={self.onProgramExpanded}
+                  currentExpandedProgramId={self.state.currentExpandedProgramId}
+                  courses={self.props.courses}
+                  divisions={self.props.divisions}
+                  grades={self.props.grades}
+                  workshops={self.props.workshops}
+                />;
               })
             }
           </div>
           <div key="3" className="text-center">
-            {
-              (this.state.isLoading)?
-                <LinearProgress mode="indeterminate" />:
-                <FlatButton label="Load More" primary={true} onClick={this.loadMore}/>
-            }
+            <FlatButton label="Load More" primary={true} onClick={this.loadMore}/>
           </div>
         </QueueAnim>
       </section>
@@ -105,7 +239,11 @@ class Programs extends React.Component{
 function mapStateToProps(state) {
   //pass the providers
   return {
-    programs: state.programs
+    programs: state.programs,
+    courses: state.courses,
+    divisions: state.divisions,
+    grades: state.grades,
+    workshops: state.workshops
   }
 }
 
@@ -113,7 +251,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      programGetRequest
+      programGetRequest,
+      getEntityByProgramId
     }, dispatch)
   };
 }
