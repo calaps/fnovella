@@ -6,8 +6,11 @@ import java.util.List;
 import org.fnovella.project.inscriptions_inst_course.model.InscriptionsInstCourse;
 import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
 import org.fnovella.project.instructor.model.Instructor;
+import org.fnovella.project.instructor.model.InstructorProgram;
 import org.fnovella.project.instructor.model.InstructorSearch;
 import org.fnovella.project.instructor.repository.InstructorRepository;
+import org.fnovella.project.program_instructor.model.ProgramInstructor;
+import org.fnovella.project.program_instructor.repository.ProgramInstructorRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +29,8 @@ public class IntructorController {
 	private InstructorRepository instructorRepository;
 	@Autowired
 	private InscriptionsInstCourseRepository inscriptionsInstCourseRepository;
+	@Autowired
+	private ProgramInstructorRepository programInstructorRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
@@ -43,11 +48,19 @@ public class IntructorController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public APIResponse create(@RequestBody Instructor instructor, @RequestHeader("authorization") String authorization) {
-		ArrayList<String> errors = instructor.validate();
+	public APIResponse create(@RequestBody InstructorProgram instructorProgram, @RequestHeader("authorization") String authorization) {
+		ArrayList<String> errors = instructorProgram.validate();
 		if (errors.size() == 0) {
-			if (this.instructorRepository.findByEmail(instructor.getEmail()) == null) {
-				return new APIResponse(this.instructorRepository.save(instructor), null);	
+			if (this.instructorRepository.findByEmail(instructorProgram.getInstructor().getEmail()) == null) {
+				InstructorProgram saved = new InstructorProgram();
+				saved.setInstructor(this.instructorRepository.save(instructorProgram.getInstructor()));
+				if (instructorProgram.getProgramIds() != null && !instructorProgram.getProgramIds().isEmpty()) {
+					for (Integer programId : instructorProgram.getProgramIds()) {
+						this.programInstructorRepository.save(new ProgramInstructor(programId, saved.getInstructor().getId()));	
+					}
+					saved.setProgramIds(instructorProgram.getProgramIds());
+				}
+				return new APIResponse(saved, null);
 			} else {
 				errors.add("Email is already in use");
 			}
@@ -56,15 +69,26 @@ public class IntructorController {
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.PATCH)
-	public APIResponse update(@RequestBody Instructor instructor, @PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
-		ArrayList<String> errors = instructor.validate();
+	public APIResponse update(@RequestBody InstructorProgram instructorProgram, @PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		ArrayList<String> errors = instructorProgram.validate();
 		Instructor toUpdate = this.instructorRepository.findOne(id);
 		if (toUpdate != null) {
-			if ((toUpdate.getEmail().equals(instructor.getEmail())) || 
-					(!toUpdate.getEmail().equals(instructor.getEmail()) && this.instructorRepository.findByEmail(instructor.getEmail()) == null)) {
-				toUpdate.setUpdateFields(instructor);
+			if ((toUpdate.getEmail().equals(instructorProgram.getInstructor().getEmail())) || 
+					(!toUpdate.getEmail().equals(instructorProgram.getInstructor().getEmail()) && this.instructorRepository.findByEmail(instructorProgram.getInstructor().getEmail()) == null)) {
+				toUpdate.setUpdateFields(instructorProgram.getInstructor());
 				toUpdate = this.instructorRepository.saveAndFlush(toUpdate);
-				return new APIResponse(toUpdate, null);
+				InstructorProgram saved = new InstructorProgram();
+				saved.setInstructor(toUpdate);
+				if (!this.programInstructorRepository.findByInstructor(saved.getInstructor().getId()).isEmpty()) {
+					this.programInstructorRepository.deleteByInstructor(saved.getInstructor().getId());
+				}
+				if (instructorProgram.getProgramIds() != null && !instructorProgram.getProgramIds().isEmpty()) {
+					for (Integer programId : instructorProgram.getProgramIds()) {
+						this.programInstructorRepository.save(new ProgramInstructor(programId, saved.getInstructor().getId()));	
+					}
+					saved.setProgramIds(instructorProgram.getProgramIds());
+				}
+				return new APIResponse(saved, null);
 			} else {
 				errors.add("Email is already in use");
 			}

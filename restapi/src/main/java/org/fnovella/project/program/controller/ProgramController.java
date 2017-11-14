@@ -77,6 +77,26 @@ public class ProgramController {
 		return new APIResponse(this.programRepository.findOne(id), null);
 	}
 	
+	@RequestMapping(value = "{id}/workshop", method=RequestMethod.GET)
+	public APIResponse getWorkshops(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		return new APIResponse(this.workshopRepository.findByProgramId(id), null);
+	}
+	
+	@RequestMapping(value = "{id}/division", method=RequestMethod.GET)
+	public APIResponse getDivisions(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		return new APIResponse(this.divisionRepository.findByPrograma(id), null);
+	}
+	
+	@RequestMapping(value = "{id}/grade", method=RequestMethod.GET)
+	public APIResponse getGrades(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		return new APIResponse(this.gradeRepository.findByProgramId(id), null);
+	}
+	
+	@RequestMapping(value = "{id}/course", method=RequestMethod.GET)
+	public APIResponse getCourses(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		return new APIResponse(this.courseRepository.findByProgramId(id), null);
+	}
+	
 	@RequestMapping(value = "", method=RequestMethod.POST)
 	public APIResponse create(@RequestBody Program program, @RequestHeader("authorization") String authorization) {
 		ArrayList<String> errors = program.validate();

@@ -26,6 +26,12 @@ public class ProgramInstructorController {
 		return new APIResponse(this.programInstructorRepository.findAll(pageable), null);
 	}
 	
+	@RequestMapping(value = "{id}/instructor_id", method = RequestMethod.GET)
+	public APIResponse getByInstructorId(@RequestHeader("authorization") String authorization, Pageable pageable,
+			@PathVariable("id") Integer id) {
+		return new APIResponse(this.programInstructorRepository.findByInstructor(id, pageable), null);
+	}
+	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
 		ArrayList<String> errors = new ArrayList<String>();
