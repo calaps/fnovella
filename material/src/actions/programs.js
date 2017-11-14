@@ -14,7 +14,11 @@ import {
   PROGRAM_UPDATE_REQUEST,
   PROGRAM_UPDATE_SUCCESS,
   PROGRESS_ADD_REQUEST,
-  PROGRESS_REMOVE_REQUEST
+  PROGRESS_REMOVE_REQUEST,
+  COURSES_GET_SUCCESS,
+  DIVISIONS_GET_SUCCESS,
+  GRADES_GET_SUCCESS,
+  WORKSHOPS_GET_SUCCESS
 } from './../constants/ActionTypes';
 
 export function programGetRequest(number, size) {
@@ -26,15 +30,6 @@ export function programGetRequest(number, size) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_GET_REQUEST,
-        //   data: {
-        //   }
-        // });
-        // resolve(true);
-        // return;
-
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
@@ -73,15 +68,6 @@ export function programAddRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_ADD_SUCCESS,
-        //   data
-        // });
-        // resolve(true);
-        // return;
-
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
@@ -119,15 +105,6 @@ export function programUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_UPDATE_SUCCESS,
-        //   data
-        // });
-        // resolve(true);
-        // return;
-
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
@@ -166,15 +143,6 @@ export function programDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_DELETE_SUCCESS,
-        //   id: id
-        // });
-        // resolve(true);
-        // return;
-
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
@@ -207,5 +175,83 @@ export function programDeleteRequest(id) {
           })
       }
     })
+  }
+}
+
+export function getEntityByProgramId(programId, entity) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // First empty all the entities
+      dispatch({
+        type: COURSES_GET_SUCCESS,
+        data: {}
+      });
+      dispatch({
+        type: DIVISIONS_GET_SUCCESS,
+        data: {}
+      });
+      dispatch({
+        type: GRADES_GET_SUCCESS,
+        data: {}
+      });
+      dispatch({
+        type: WORKSHOPS_GET_SUCCESS,
+        data: {}
+      });
+      // API
+      HTTP('get', '/program/'+programId+'/'+entity, null,{authorization: localStorage.getItem('@fnovella:token')})
+        .then(function (response) {
+          if(response.data.errors===null){
+            switch(entity){
+              case 'course':
+                dispatch({
+                  type: COURSES_GET_SUCCESS,
+                  data: {
+                    content: response.data.data
+                  }
+                });
+                break;
+              case 'division':
+                dispatch({
+                  type: DIVISIONS_GET_SUCCESS,
+                  data: {
+                    content: response.data.data
+                  }
+                });
+                break;
+              case 'grade':
+                dispatch({
+                  type: GRADES_GET_SUCCESS,
+                  data: {
+                    content: response.data.data
+                  }
+                });
+                break;
+              case 'workshop':
+                dispatch({
+                  type: WORKSHOPS_GET_SUCCESS,
+                  data: {
+                    content: response.data.data
+                  }
+                });
+                break;
+            }
+            resolve(response.data);
+          }else {
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
   }
 }
