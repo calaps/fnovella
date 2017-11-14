@@ -136,7 +136,7 @@ class EditForm extends React.Component {
                 .changeView('VIEW_ELEMENT');
             }
           }, (error) => {
-            alert('fail');
+            // alert('fail');
             console.log("An Error occur with the Rest API");
             self.setState({
               errors: {
@@ -158,7 +158,7 @@ class EditForm extends React.Component {
                 .changeView('VIEW_ELEMENT');
             }
           }, (error) => {
-            alert('fail');
+            // alert('fail');
             console.log("An Error occur with the Rest API");
             self.setState({
               errors: {
