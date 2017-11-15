@@ -61,6 +61,22 @@ export function educatorsGetRequestBySearch(id,firstName,appCode) {
       }})
     }
   }
+export function educatorsShowError(){
+  return function (dispatch) {
+    return new Promise(async function(resolve, reject){{
+      
+            
+          dispatch({
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
+          });
+          reject(snackBarMessages.ERROR);
+        
+    }})
+  }
+}
 export function educatorsGetRequest(number, size) {
   let params = {};
   params.page = number;

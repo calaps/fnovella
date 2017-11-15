@@ -14,9 +14,10 @@ import {
   educatorsAddRequest,
   educatorsUpdateRequest,
   catalogsGetRequest,
-  programInstructorGetRequest,
+  programInstructorByInstructorIdGetRequest,
   programGetRequest,
-  privilegesGetAllRequest
+  privilegesGetAllRequest,
+  educatorsShowError
 } from '../../../../../actions';
 
 let self;
@@ -68,8 +69,8 @@ class EditForm extends React.Component {
       .bind(this);
     self = this;
     this.handleProgramChange = this
-    .handleProgramChange
-    .bind(this);
+      .handleProgramChange
+      .bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -119,79 +120,86 @@ class EditForm extends React.Component {
     if (this.isValid()) {
       //reset errros object and disable submit button
       this.setState({errors: {}, isLoading: true});
-      let data = {
-        firstName: this.state.firstName,
-        secondName: this.state.secondName,
-        firstLastname: this.state.firstLastname,
-        secondLastname: this.state.secondLastname,
-        bornDate: this.state.bornDate,
-        documentType: this.state.documentType || 'ABC',
-        documentValue: this.state.documentValue,
-        nacionality: this.state.nacionality,
-        department: this.state.department,
-        municipality: this.state.municipality,
-        community: this.state.community,
-        profession: this.state.profession,
-        address: this.state.address,
-        phone: this.state.phone,
-        cellphone: this.state.cellphone,
-        email: this.state.email,
-        appCode: this.state.appCode || 'abc',
-        gender: this.state.gender,
-        password: this.state.password,
-        colony: this.state.colony,
-        zone: this.state.zone,
-        privilege: this.state.privilege,
-        programIds: this.state.programIds
-      };
-      if (this.state.isEditing) {
-        data.id = this.state.id;
+      if (this.state.privilege != 2) {
+        let data = {
+          instructor: {
+            firstName: this.state.firstName,
+            secondName: this.state.secondName,
+            firstLastname: this.state.firstLastname,
+            secondLastname: this.state.secondLastname,
+            bornDate: this.state.bornDate,
+            documentType: this.state.documentType || 'ABC',
+            documentValue: this.state.documentValue,
+            nacionality: this.state.nacionality,
+            department: this.state.department,
+            municipality: this.state.municipality,
+            community: this.state.community,
+            profession: this.state.profession,
+            address: this.state.address,
+            phone: this.state.phone,
+            cellphone: this.state.cellphone,
+            email: this.state.email,
+            appCode: this.state.appCode || 'abc',
+            gender: this.state.gender,
+            password: this.state.password,
+            colony: this.state.colony,
+            zone: this.state.zone,
+            privilege: this.state.privilege
+          },
+          programIds: this.state.programIds
+        };
+        if (this.state.isEditing) {
+          data.id = this.state.id;
+        }
+        // ON SUCCESSS API
+        this.state.isEditing
+          ? this
+            .props
+            .actions
+            .educatorsUpdateRequest(data)
+            .then((response) => {
+              //Save the default object as a provider
+              if (response) {
+                self
+                  .props
+                  .changeView('VIEW_ELEMENT');
+              }
+            }, (error) => {
+              console.log("An Error occur with the Rest API");
+              self.setState({
+                errors: {
+                  ...self.state.errors,
+                  apiErrors: error.error
+                },
+                isLoading: false
+              });
+            })
+          : this
+            .props
+            .actions
+            .educatorsAddRequest(data)
+            .then((response) => {
+              //Save the default object as a provider
+              if (response) {
+                self
+                  .props
+                  .changeView('VIEW_ELEMENT');
+              }
+            }, (error) => {
+              //alert'fail');
+              console.log("An Error occur with the Rest API");
+              self.setState({
+                errors: {
+                  ...self.state.errors,
+                  apiErrors: error.error
+                },
+                isLoading: false
+              });
+            });
+      } else{
+        this.props.actions.educatorsShowError();
+        this.setState({isLoading: false})
       }
-      // ON SUCCESSS API
-      this.state.isEditing
-        ? this
-          .props
-          .actions
-          .educatorsUpdateRequest(data)
-          .then((response) => {
-            //Save the default object as a provider
-            if (response) {
-              self
-                .props
-                .changeView('VIEW_ELEMENT');
-            }
-          }, (error) => {
-            console.log("An Error occur with the Rest API");
-            self.setState({
-              errors: {
-                ...self.state.errors,
-                apiErrors: error.error
-              },
-              isLoading: false
-            });
-          })
-        : this
-          .props
-          .actions
-          .educatorsAddRequest(data)
-          .then((response) => {
-            //Save the default object as a provider
-            if (response) {
-              self
-                .props
-                .changeView('VIEW_ELEMENT');
-            }
-          }, (error) => {
-            //alert'fail');
-            console.log("An Error occur with the Rest API");
-            self.setState({
-              errors: {
-                ...self.state.errors,
-                apiErrors: error.error
-              },
-              isLoading: false
-            });
-          });
 
     } else {
 
@@ -210,21 +218,24 @@ class EditForm extends React.Component {
       .props
       .actions
       .programGetRequest(null, 1000);
-    this
-      .props
-      .actions
-      .programInstructorGetRequest().then(data=>{
-        if(!data.err && this.state.isEditing){
-          let programIds = [];
-          let programInstructors = this.props.programInstructors.content || [];
-          for(let i=0;i<programInstructors.length;i++){
-            if(programInstructors[i].instructor == this.state.id){
-              programIds.push(programInstructors[i].program)
+    if (this.state.isEditing) {
+      this
+        .props
+        .actions
+        .programInstructorByInstructorIdGetRequest(this.state.id)
+        .then(data => {
+          if (!data.err && this.state.isEditing) {
+            let programIds = [];
+            let programInstructors = this.props.programInstructors.content || [];
+            for (let i = 0; i < programInstructors.length; i++) {
+              if (programInstructors[i].instructor == this.state.id) {
+                programIds.push(programInstructors[i].program)
+              }
             }
+            this.setState({programIds: programIds})
           }
-          this.setState({programIds : programIds})
-        }
-      })
+        })
+    }
     this
       .props
       .actions
@@ -241,9 +252,8 @@ class EditForm extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    console.log(e.target.name +" : ",e.target.value)
   }
-  handleProgramChange(event, index, values){
+  handleProgramChange(event, index, values) {
     this.setState({programIds: values});
   }
   render() {
@@ -289,27 +299,17 @@ class EditForm extends React.Component {
     let programsOpt = () => {
       let programs = this.props.programs.content || [];
       let programInstructors = this.props.programInstructors.content || [];
-      if (this.state.isEditing) {
-        return programs.map((program) => {
-          return (<MenuItem
+      return programs.map((program) => {
+        return (<MenuItem
           key={program.id}
           insetChildren={true}
-          checked={this.state.programIds.indexOf(program) > -1}
+          checked={this
+          .state
+          .programIds
+          .indexOf(program) > -1}
           value={program.id}
-          primaryText={program.name}
-        />);
-        })
-      } else {
-        return programs.map((program) => {
-          return (<MenuItem
-          key={program.id}
-          insetChildren={true}
-          checked={this.state.programIds.indexOf(program) > -1}
-          value={program.id}
-          primaryText={program.name}
-        />);
-        })
-      }
+          primaryText={program.name}/>);
+      })
     };
     //Privilege options
     let privilegesOpt = () => {
@@ -740,11 +740,12 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       //    signUpRequest
       programGetRequest,
-      programInstructorGetRequest,
+      programInstructorByInstructorIdGetRequest,
       educatorsAddRequest,
       educatorsUpdateRequest,
       catalogsGetRequest,
-      privilegesGetAllRequest
+      privilegesGetAllRequest,
+      educatorsShowError
     }, dispatch)
   };
 }

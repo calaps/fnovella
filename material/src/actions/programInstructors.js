@@ -17,6 +17,47 @@ import {
   PROGRESS_REMOVE_REQUEST
 ,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
+
+export function programInstructorByInstructorIdGetRequest(instructorId) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/program_instructor/'+instructorId+"/instructor_id", null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              dispatch({
+                type: PROGRAM_INSTRUCTOR_GET_SUCCESS,
+                data: response.data.data
+              });
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            dispatch({
+              type: PROGRAM_INSTRUCTOR_GET_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
 export function programInstructorGetRequest(number, size) {
   let params = {};
   params.page = number;
