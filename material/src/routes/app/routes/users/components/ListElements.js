@@ -114,7 +114,6 @@ class ListElements extends React.Component {
                       value={this.state.searchValue}>
                       <option value="Name">por nombre</option>
                       <option value="Id">por ID</option>
-                      <option value="Code">por código</option>
                     </select>
                     <IconButton
                       iconStyle={{

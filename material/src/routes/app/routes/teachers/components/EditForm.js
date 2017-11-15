@@ -16,8 +16,7 @@ import {
   catalogsGetRequest,
   programInstructorByInstructorIdGetRequest,
   programGetRequest,
-  privilegesGetAllRequest,
-  educatorsShowError
+  privilegesGetAllRequest
 } from '../../../../../actions';
 
 let self;
@@ -120,86 +119,81 @@ class EditForm extends React.Component {
     if (this.isValid()) {
       //reset errros object and disable submit button
       this.setState({errors: {}, isLoading: true});
-      if (this.state.privilege != 2) {
-        let data = {
-          instructor: {
-            firstName: this.state.firstName,
-            secondName: this.state.secondName,
-            firstLastname: this.state.firstLastname,
-            secondLastname: this.state.secondLastname,
-            bornDate: this.state.bornDate,
-            documentType: this.state.documentType || 'ABC',
-            documentValue: this.state.documentValue,
-            nacionality: this.state.nacionality,
-            department: this.state.department,
-            municipality: this.state.municipality,
-            community: this.state.community,
-            profession: this.state.profession,
-            address: this.state.address,
-            phone: this.state.phone,
-            cellphone: this.state.cellphone,
-            email: this.state.email,
-            appCode: this.state.appCode || 'abc',
-            gender: this.state.gender,
-            password: this.state.password,
-            colony: this.state.colony,
-            zone: this.state.zone,
-            privilege: this.state.privilege
-          },
-          programIds: this.state.programIds
-        };
-        if (this.state.isEditing) {
-          data.id = this.state.id;
-        }
-        // ON SUCCESSS API
-        this.state.isEditing
-          ? this
-            .props
-            .actions
-            .educatorsUpdateRequest(data)
-            .then((response) => {
-              //Save the default object as a provider
-              if (response) {
-                self
-                  .props
-                  .changeView('VIEW_ELEMENT');
-              }
-            }, (error) => {
-              console.log("An Error occur with the Rest API");
-              self.setState({
-                errors: {
-                  ...self.state.errors,
-                  apiErrors: error.error
-                },
-                isLoading: false
-              });
-            })
-          : this
-            .props
-            .actions
-            .educatorsAddRequest(data)
-            .then((response) => {
-              //Save the default object as a provider
-              if (response) {
-                self
-                  .props
-                  .changeView('VIEW_ELEMENT');
-              }
-            }, (error) => {
-              //alert'fail');
-              console.log("An Error occur with the Rest API");
-              self.setState({
-                errors: {
-                  ...self.state.errors,
-                  apiErrors: error.error
-                },
-                isLoading: false
-              });
-            });
-      } else{
-        this.props.actions.educatorsShowError();
-        this.setState({isLoading: false})
+      let data = {
+        instructor: {
+          firstName: this.state.firstName,
+          secondName: this.state.secondName,
+          firstLastname: this.state.firstLastname,
+          secondLastname: this.state.secondLastname,
+          bornDate: this.state.bornDate,
+          documentType: this.state.documentType || 'ABC',
+          documentValue: this.state.documentValue,
+          nacionality: this.state.nacionality,
+          department: this.state.department,
+          municipality: this.state.municipality,
+          community: this.state.community,
+          profession: this.state.profession,
+          address: this.state.address,
+          phone: this.state.phone,
+          cellphone: this.state.cellphone,
+          email: this.state.email,
+          appCode: this.state.appCode || 'abc',
+          gender: this.state.gender,
+          password: this.state.password,
+          colony: this.state.colony,
+          zone: this.state.zone,
+          privilege: this.state.privilege
+        },
+        programIds: this.state.programIds
+      };
+      if (this.state.isEditing) {
+        data.id = this.state.id;
       }
+      // ON SUCCESSS API
+      this.state.isEditing
+        ? this
+          .props
+          .actions
+          .educatorsUpdateRequest(data)
+          .then((response) => {
+            //Save the default object as a provider
+            if (response) {
+              self
+                .props
+                .changeView('VIEW_ELEMENT');
+            }
+          }, (error) => {
+            console.log("An Error occur with the Rest API");
+            self.setState({
+              errors: {
+                ...self.state.errors,
+                apiErrors: error.error
+              },
+              isLoading: false
+            });
+          })
+        : this
+          .props
+          .actions
+          .educatorsAddRequest(data)
+          .then((response) => {
+            //Save the default object as a provider
+            if (response) {
+              self
+                .props
+                .changeView('VIEW_ELEMENT');
+            }
+          }, (error) => {
+            //alert'fail');
+            console.log("An Error occur with the Rest API");
+            self.setState({
+              errors: {
+                ...self.state.errors,
+                apiErrors: error.error
+              },
+              isLoading: false
+            });
+          });
 
     } else {
 
@@ -467,6 +461,7 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           value={this.state.nacionality}
                           className="form-control">
+                          <option value="" disabled>Selecciona el nacionalidad</option>
                           {nacionality}
                         </select>
                         {errors.nacionality && <span className="help-block text-danger">{errors.nacionality}</span>}
@@ -744,8 +739,7 @@ function mapDispatchToProps(dispatch) {
       educatorsAddRequest,
       educatorsUpdateRequest,
       catalogsGetRequest,
-      privilegesGetAllRequest,
-      educatorsShowError
+      privilegesGetAllRequest
     }, dispatch)
   };
 }

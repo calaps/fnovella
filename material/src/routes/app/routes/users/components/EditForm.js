@@ -48,7 +48,7 @@ class EditForm extends React.Component {
       colony: this.props.userData.colony || '',
       zone: this.props.userData.zone || '',
       id: this.props.userData.id || '',
-      appCode: this.props.userData.appCode || '',
+      appCode: this.props.userData.appCode || 'abc',
       phon: 1,
       errors: {},
       isLoading: false
@@ -618,21 +618,6 @@ class EditForm extends React.Component {
                           placeholder="eje: juan@gmail.com"/>
                         {errors.documentValue &&
                         <span className="help-block text-danger">{errors.documentValue}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">AppCode</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="appCode"
-                          name="appCode"
-                          value={this.state.appCode}
-                          onChange={this.onChange}
-                          placeholder="eje: appcode"/>
-                        {errors.appCode && <span className="help-block text-danger">{errors.appCode}</span>}
                       </div>
                     </div>
 
