@@ -132,7 +132,7 @@ export function divisionsUpdateRequest(data) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: snackBarMessages.ENTITY_ADDED
+                  message: snackBarMessages.ENTITY_UPDATED
                 }
               });
               resolve(response.data);
@@ -186,7 +186,7 @@ export function divisionsDeleteRequest(id) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: snackBarMessages.ENTITY_ADDED
+                  message: snackBarMessages.ENTITY_DELETED
                 }
               });
               resolve(response.data);

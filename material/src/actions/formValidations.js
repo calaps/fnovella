@@ -661,7 +661,7 @@ export function divisionValidator(data){
       errors.name = invalidData;
     }
   }
-  if(Validator.isEmpty(data.location)) {
+  if(Validator.isEmpty(data.location.toString())) {
     errors.location = required;
   }
   if(Validator.isEmpty(data.programa.toString())) {
