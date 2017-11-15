@@ -54,7 +54,7 @@ class ForgotPassword extends React.Component {
         (response) => {
           //Save the default object as a provider
           if (response) {
-            alert("An email has been sent tou you with password.");
+            //alert"An email has been sent tou you with password.");
             self.context.router.push('/app/login');
           }
         },

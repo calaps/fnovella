@@ -19,7 +19,7 @@ import {
   DIVISIONS_GET_SUCCESS,
   GRADES_GET_SUCCESS,
   WORKSHOPS_GET_SUCCESS
-} from './../constants/ActionTypes';
+,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
 export function programGetRequest(number, size) {
   let params = {};
@@ -74,20 +74,34 @@ export function programAddRequest(data) {
         // API
         HTTP('post', '/program/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: PROGRAM_ADD_SUCCESS,
                 data: response.data.data
               });
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: snackBarMessages.ENTITY_ADDED
+                }
+              });
               resolve(response.data);
             } else {
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: "Error: " + response.data.errors.join(', ')
+                }
+              });
               reject(response.data);
             }
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_ADD_FAIL,
-              error: error
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
             });
             reject(error);
           })
@@ -111,21 +125,34 @@ export function programUpdateRequest(data) {
         // API
         HTTP('patch', '/program/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: PROGRAM_UPDATE_SUCCESS,
                 data: response.data.data
               });
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: snackBarMessages.ENTITY_UPDATED
+                }
+              });
               resolve(response.data);
             } else {
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: "Error: " + response.data.errors.join(', ')
+                }
+              });
               reject(response.data);
             }
-
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_UPDATE_FAIL,
-              error: error
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
             });
             reject(error);
           })
@@ -149,22 +176,36 @@ export function programDeleteRequest(id) {
         // API
         HTTP('delete', '/program/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: PROGRAM_DELETE_SUCCESS,
                 data: {
                   id
                 }
               });
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: snackBarMessages.ENTITY_DELETED
+                }
+              });
               resolve(response.data);
             } else {
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: "Error: " + response.data.errors.join(', ')
+                }
+              });
               reject(response.data);
             }
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_DELETE_FAIL,
-              error: error
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
             });
             reject(error);
           })

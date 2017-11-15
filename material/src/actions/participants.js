@@ -13,9 +13,11 @@ import {
   PARTICIPANT_UPDATE_REQUEST,
   PARTICIPANT_UPDATE_SUCCESS,
   PROGRESS_ADD_REQUEST,
-  PROGRESS_REMOVE_REQUEST
+  PROGRESS_REMOVE_REQUEST,
+  SNACKBAR_REMOVE,
+  SNACKBAR_SHOW
 } from './../constants/ActionTypes';
-
+import snackBarMessages from '../constants/SnackBarMessages';
 
 export function participantsGetRequestBySearch(id,firstName,appCode) {
   return function (dispatch) {
@@ -66,13 +68,6 @@ export function participantGetRequest(number, size) {
 
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-      // will be removed once API is ready
-      // dispatch({
-      //   type: PARTICIPANT_GET_REQUEST,
-      //   data
-      // });
-      // resolve(true);
-      // return;
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
@@ -108,35 +103,40 @@ export function participantGetRequest(number, size) {
 export function participantAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: PARTICIPANT_ADD_SUCCESS,
-      //   data
-      // });
-      // resolve(true);
-      // return;
-
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/participant/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: PARTICIPANT_ADD_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_ADDED
+              }
+            });
             resolve(response.data);
           }else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: PARTICIPANT_ADD_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -152,35 +152,41 @@ export function participantAddRequest(data) {
 export function participantUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      /*dispatch({
-        type: PARTICIPANT_UPDATE_SUCCESS,
-        data
-      });
-      resolve(true);
-      return true;*/
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/participant/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: PARTICIPANT_UPDATE_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_UPDATED
+              }
+            });
             resolve(response.data);
           }else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data);
           }
 
         })
         .catch(error => {
           dispatch({
-            type: PARTICIPANT_UPDATE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -196,38 +202,42 @@ export function participantUpdateRequest(data) {
 export function participantDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: PARTICIPANT_DELETE_SUCCESS,
-      //   data : {
-      //     id
-      //   }
-      // });
-      // resolve(true);
-      // return;
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/participant/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: PARTICIPANT_DELETE_SUCCESS,
               data: {
                 id
               }
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_DELETED
+              }
+            });
             resolve(response.data);
           }else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: PARTICIPANT_DELETE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })

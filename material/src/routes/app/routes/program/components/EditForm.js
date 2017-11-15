@@ -30,7 +30,7 @@ class EditForm extends React.Component {
       id: this.props.programData.id || '',
       category: this.props.programData.category || '',
       genderAudience: this.props.programData.genderAudience || '',
-      "activationStatus": typeof this.props.programData.activationStatus === "boolean" ? this.props.programData.activationStatus : true,
+      "activationStatus": typeof this.props.programData.activationStatus === "boolean" ? this.props.programData.activationStatus : false,
       "audienceMax": typeof this.props.programData.audienceMax === "number" ? this.props.programData.audienceMax : 0,
       "audienceMin": typeof this.props.programData.audienceMin === "number" ? this.props.programData.audienceMin : 0,
       "evaluationPerformmance": typeof this.props.programData.evaluationPerformmance === "boolean" ? this.props.programData.evaluationPerformmance : true,
@@ -72,9 +72,7 @@ class EditForm extends React.Component {
         id: '',
         category: '',
         genderAudience: 'male',
-
-
-        "activationStatus": true,
+        "activationStatus": false,
         "audienceMax": 0,
         "audienceMin": 0,
         "evaluationPerformmance": true,
@@ -151,7 +149,7 @@ class EditForm extends React.Component {
             }
           },
           (error) => {
-            alert('fail');
+            //alert'fail');
             console.log("An Error occur with the Rest API");
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
@@ -163,7 +161,7 @@ class EditForm extends React.Component {
               self.props.changeView('VIEW_ELEMENT');
             }
           }, (error) => {
-            alert('fail');
+            //alert'fail');
             console.log("An Error occur with the Rest API");
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           });
@@ -438,8 +436,7 @@ class EditForm extends React.Component {
                           value={this.state.category}
                           className="form-control"
                         >
-                        <option value="1">Programa</option>
-                        <option value="2">Sistema</option>
+                          {categoriesOpt()}
                       </select>
                         {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
@@ -608,26 +605,26 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">EL programa esta activo?</label>
-                      {
-                        /* #change !!!
-                        description: HIDE THIS OPTION BY DEFAULT IS FALSE
-                      */
-                      }
-                      <div className="col-md-9">
-                        <select
-                          name="activationStatus"
-                          id="activationStatus"
-                          onChange={this.onChange}
-                          value={this.state.activationStatus}
-                          className="form-control"
-                        >
-                          <option value={false}>No</option>
-                        </select>
-                        {errors.activationStatus && <span className="help-block text-danger">{errors.activationStatus}</span>}
-                      </div>
-                    </div>
+                    {
+                      /* #change !!!
+                       description: HIDE THIS OPTION BY DEFAULT IS FALSE
+                       */
+                    }
+                    {/*<div className="form-group row">*/}
+                      {/*<label htmlFor="inputEmail3" className="col-md-3 control-label">EL programa esta activo?</label>*/}
+                      {/*<div className="col-md-9">*/}
+                        {/*<select*/}
+                          {/*name="activationStatus"*/}
+                          {/*id="activationStatus"*/}
+                          {/*onChange={this.onChange}*/}
+                          {/*value={this.state.activationStatus}*/}
+                          {/*className="form-control"*/}
+                        {/*>*/}
+                          {/*<option value={false}>No</option>*/}
+                        {/*</select>*/}
+                        {/*{errors.activationStatus && <span className="help-block text-danger">{errors.activationStatus}</span>}*/}
+                      {/*</div>*/}
+                    {/*</div>*/}
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">

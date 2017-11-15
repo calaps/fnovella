@@ -15,7 +15,7 @@ import {
   SECTIONS_UPDATE_SUCCESS,
   PROGRESS_ADD_REQUEST,
   PROGRESS_REMOVE_REQUEST
-} from './../constants/ActionTypes';
+,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
 export function sectionsGetRequest() {
   return function (dispatch) {
@@ -61,20 +61,34 @@ export function sectionsAddRequest(data) {
       // API
       HTTP('post', '/section/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: SECTIONS_ADD_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_ADDED
+              }
+            });
             resolve(response.data);
-          }else{
-            reject(response.data)
+          }else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
+            reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: SECTIONS_ADD_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -96,20 +110,34 @@ export function sectionsUpdateRequest(data) {
       // API
       HTTP('patch', '/section/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: SECTIONS_UPDATE_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_UPDATED
+              }
+            });
             resolve(response.data);
-          }else{
-            reject(response.data)
+          }else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
+            reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: SECTIONS_UPDATE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -138,15 +166,29 @@ export function sectionsDeleteRequest(id) {
                 id
               }
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_DELETED
+              }
+            });
             resolve(response.data);
-          }else{
+          }else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: SECTIONS_DELETE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })

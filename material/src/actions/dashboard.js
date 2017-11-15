@@ -6,21 +6,11 @@ import {
   DASHBOARD_STATBOXES_GET_SUCCESS,
   PROGRESS_ADD_REQUEST,
   PROGRESS_REMOVE_REQUEST
-} from './../constants/ActionTypes';
+,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
 export function dashboardStatBoxesGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: DASHBOARD_STATBOXES_GET_REQUEST,
-      //   data: {
-      //   }
-      // });
-      // resolve(true);
-      // return;
-
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });

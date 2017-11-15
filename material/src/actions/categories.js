@@ -14,21 +14,15 @@ import {
   CATEGORIES_UPDATE_REQUEST,
   CATEGORIES_UPDATE_SUCCESS,
   PROGRESS_ADD_REQUEST,
-  PROGRESS_REMOVE_REQUEST
+  PROGRESS_REMOVE_REQUEST,
+  SNACKBAR_REMOVE,
+  SNACKBAR_SHOW
 } from './../constants/ActionTypes';
+import snackBarMessages from '../constants/SnackBarMessages';
 
 export function categoriesGetRequest() {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-      // will be removed once API is ready
-      // dispatch({
-      //   type: PROGRAM_GET_REQUEST,
-      //   data: {
-      //   }
-      // });
-      // resolve(true);
-      // return;
-
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
@@ -64,13 +58,6 @@ export function categoriesGetRequest() {
 export function categoriesAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
-      // will be removed once API is ready
-      // dispatch({
-      //   type: CATEGORIES_ADD_SUCCESS,
-      //   data
-      // });
-      // resolve(true);
-      // return;
 
       dispatch({
         type: PROGRESS_ADD_REQUEST
@@ -78,20 +65,34 @@ export function categoriesAddRequest(data) {
       // API
       HTTP('post', '/category/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: CATEGORIES_ADD_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_ADDED
+              }
+            });
             resolve(response.data);
           }else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data)
           }
         })
         .catch(error => {
           dispatch({
-            type: CATEGORIES_ADD_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -107,35 +108,40 @@ export function categoriesAddRequest(data) {
 export function categoriesUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: CATEGORIES_UPDATE_SUCCESS,
-      //   id
-      // });
-      // resolve(true);
-      // return;
-
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/category/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: CATEGORIES_UPDATE_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_UPDATED
+              }
+            });
             resolve(response.data);
           }else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data)
           }
         })
         .catch(error => {
           dispatch({
-            type: CATEGORIES_UPDATE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -152,14 +158,6 @@ export function categoriesDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){
 
-      // will be removed once API is ready
-      // dispatch({
-      //   type: CATEGORIES_DELETE_SUCCESS,
-      //   id
-      // });
-      // resolve(true);
-      // return;
-
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
@@ -173,15 +171,29 @@ export function categoriesDeleteRequest(id) {
                 id
               }
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_DELETED
+              }
+            });
             resolve(response.data);
           }else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: CATEGORIES_DELETE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })

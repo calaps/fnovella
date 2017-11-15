@@ -15,7 +15,7 @@ import {
   SEDES_UPDATE_SUCCESS,
   PROGRESS_ADD_REQUEST,
   PROGRESS_REMOVE_REQUEST
-} from './../constants/ActionTypes';
+,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
 export function sedesGetRequest(number, size) {
   let params = {};
@@ -70,34 +70,40 @@ export function sedesGetRequest(number, size) {
 export function sedesAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: SEDES_ADD_SUCCESS,
-      //   data
-      // });
-      // resolve(true);
-      // return;
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('post', '/location/', data,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: SEDES_ADD_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_ADDED
+              }
+            });
             resolve(response.data);
-          }else{
-            reject(response.data)
+          }else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
+            reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: SEDES_ADD_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -113,36 +119,40 @@ export function sedesAddRequest(data) {
 export function sedesUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: SEDES_UPDATE_SUCCESS,
-      //   data: {
-      //     id
-      //   }
-      // });
-      // resolve(true);
-      // return;
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('patch', '/location/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(!response.data.errors){
+          if(response.data.errors === null){
             dispatch({
               type: SEDES_UPDATE_SUCCESS,
               data: response.data.data
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_UPDATED
+              }
+            });
             resolve(response.data);
-          }else{
+          }else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: SEDES_UPDATE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
@@ -158,38 +168,42 @@ export function sedesUpdateRequest(data) {
 export function sedesDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: SEDES_DELETE_SUCCESS,
-      //   data: {
-      //     id
-      //   }
-      // });
-      // resolve(true);
-      // return;
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
       HTTP('delete', '/location/'+id, null,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(!response.data.errors)  {
+          if(response.data.errors === null)  {
             dispatch({
               type: SEDES_DELETE_SUCCESS,
               data: {
                 id
               }
             });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_DELETED
+              }
+            });
             resolve(response.data);
-          }else{
+          }else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
             reject(response.data);
           }
         })
         .catch(error => {
           dispatch({
-            type: SEDES_DELETE_FAIL,
-            error: error
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })

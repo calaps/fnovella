@@ -94,7 +94,7 @@ class EditForm extends React.Component {
               self.props.changeView('VIEW_ELEMENT');
             }
           }, (error) => {
-            alert('fail');
+            //alert'fail');
             console.log("An Error occur with the Rest API");
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           });
