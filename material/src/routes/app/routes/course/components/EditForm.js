@@ -35,7 +35,6 @@ class EditForm extends React.Component {
       grade: this.props.courseData.grade || '',
       programId: this.props.courseData.programId || '',
       section: this.props.courseData.section || '',
-      showGrades: false,
       errors: {},
       isLoading: false
     };
@@ -50,9 +49,6 @@ class EditForm extends React.Component {
     this.handleCancel = this
       .handleCancel
       .bind(this);
-    this.checkGrades = this
-      .checkGrades
-      .bind(this);
     self = this;
   }
 
@@ -66,12 +62,7 @@ class EditForm extends React.Component {
     this
       .props
       .actions
-      .programGetRequest()
-      .then((res)=>{
-        if(!res.errors){
-          this.checkGrades(this.state.programId,this.state.openCourse)
-        }
-      })
+      .programGetRequest();
     this
       .props
       .actions
@@ -195,24 +186,9 @@ class EditForm extends React.Component {
         .props
         .actions
         .programLocationByProgramIdGetRequest(e.target.value);
-      this.checkGrades(e.target.value, this.state.openCourse);
-    } else if (e.target.name == "openCourse") {
-      this.checkGrades(this.state.programId, e.target.value)
     }
   }
-  checkGrades(programId, openCourse) {
-    let programs = this.props.programs.content || [];
-    for (let i = 0; i < programs.length; i++) {
-      if (programs[i].id == programId) {
-        console.log("AVD", programs[i].clasification)
-        this.setState({
-          showGrades: ((programs[i].clasification == 'grades') && (openCourse == 'false' || openCourse == false ))
-            ? true
-            : false
-        });
-      }
-    }
-  }
+
   render() {
     const {errors} = this.state;
 
@@ -260,7 +236,7 @@ class EditForm extends React.Component {
 
     }
     let showGrades = () => {
-      if (this.state.showGrades) {
+      if (this.state.openCourse == 'false' || this.state.openCourse == false) {
         return (
           <div>
             <div className="form-group row">
