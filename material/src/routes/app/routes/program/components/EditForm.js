@@ -72,8 +72,6 @@ class EditForm extends React.Component {
         id: '',
         category: '',
         genderAudience: 'male',
-
-
         "activationStatus": true,
         "audienceMax": 0,
         "audienceMin": 0,
@@ -438,8 +436,7 @@ class EditForm extends React.Component {
                           value={this.state.category}
                           className="form-control"
                         >
-                        <option value="Programa">Programa</option>
-                        <option value="Sistema">Sistema</option>
+                          {categoriesOpt()}
                       </select>
                         {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
