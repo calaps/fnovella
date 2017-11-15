@@ -1,7 +1,9 @@
 package org.fnovella.project.privilege.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import org.fnovella.project.instructor.repository.InstructorRepository;
 import org.fnovella.project.privilege.model.UserPrivileges;
 import org.fnovella.project.privilege.repository.PrivilegeRepository;
 import org.fnovella.project.user.model.AppUser;
@@ -23,12 +25,14 @@ public class PrivilegeController {
 	private PrivilegeRepository privilegeRepository;
 	private UserRepository userRepository;
 	private AppUserRepository appUserRepository;
+	private InstructorRepository instructorRepository;
 	
 	public PrivilegeController(PrivilegeRepository privilegeRepository, UserRepository userRepository, 
-			AppUserRepository appUserRepository) {
+			AppUserRepository appUserRepository, InstructorRepository instructorRepository) {
 		this.privilegeRepository = privilegeRepository;
 		this.userRepository = userRepository;
 		this.appUserRepository = appUserRepository;
+		this.instructorRepository = instructorRepository;
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -81,12 +85,36 @@ public class PrivilegeController {
 		ArrayList<String> errors = new ArrayList<String>();
 		UserPrivileges toDelete = this.privilegeRepository.findOne(id);
 		if (toDelete != null) {
-			this.userRepository.deleteByPrivilegeId(toDelete.getId());
+			this.delete(id, true);
 			this.privilegeRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}
 		errors.add("Privilege doesn' exist");
 		return new APIResponse(null, errors);
+	}
+	
+	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		return new APIResponse(this.delete(id, false), null);
+	}
+	
+	private boolean delete(Integer id, boolean delete) {
+		boolean toDelete = true;
+		List<?> list = this.userRepository.findByPrivilege(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.userRepository.deleteByPrivilegeId(id);
+			}
+		}
+		list = this.instructorRepository.findByPrivilege(id);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.instructorRepository.deleteByPrivilegeId(id);
+			}
+		}
+		return toDelete;
 	}
 	
 }

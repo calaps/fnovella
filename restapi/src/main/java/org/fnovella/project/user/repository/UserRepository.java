@@ -1,5 +1,7 @@
 package org.fnovella.project.user.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.fnovella.project.user.model.AppUser;
@@ -16,6 +18,7 @@ public interface UserRepository extends JpaRepository<AppUser, Integer> {
     @Transactional
     @Query("delete from AppUser where privilege = ?1")
 	void deleteByPrivilegeId(Integer privileId);
+	List<AppUser> findByPrivilege(Integer privileId);
 	AppUser findByEmailAndPassword(String email, String password);
 	AppUser findByEmail(String email);
 	Page<AppUser> findByFirstName(String firstName, Pageable pageable);

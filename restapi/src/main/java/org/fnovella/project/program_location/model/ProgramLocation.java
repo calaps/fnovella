@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.fnovella.project.location.model.Location;
 
 @Entity
 public class ProgramLocation {
@@ -15,7 +19,18 @@ public class ProgramLocation {
 	private Integer id;
 	private Integer program;
 	private Integer location;
+	@ManyToOne()
+	@JoinColumn(name="location", updatable=false, insertable=false)
+	private Location locaitonData;
 	
+	public Location getLocationData() {
+		return locaitonData;
+	}
+
+	public void setLocationData(Location locaitonData) {
+		this.locaitonData = locaitonData;
+	}
+
 	public Integer getId() {
 		return id;
 	}

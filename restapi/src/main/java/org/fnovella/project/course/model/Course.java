@@ -103,7 +103,6 @@ public class Course {
 		if (this.location == null || this.location <= 0) errors.add("Location is required");
 		if (this.grade == null || this.grade <= 0) errors.add("Grade is required");
 		if (this.programId == null || this.programId <= 0) errors.add("Program is required");
-		if (this.instructorId == null || this.instructorId <= 0) errors.add("Instructor is required");
 		return errors;
 	}
 	public void setUpdateFields(Course course) {

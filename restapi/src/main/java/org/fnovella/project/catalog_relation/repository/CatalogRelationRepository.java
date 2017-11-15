@@ -19,7 +19,7 @@ public interface CatalogRelationRepository extends JpaRepository<CatalogRelation
     @Query("delete from CatalogRelation where idProgram = ?1")
 	void deleteByIdProgram(Integer idProgram);
 	@Modifying
-    @Transactional
+	@Transactional
     @Query("delete from CatalogRelation where idCatalog = ?1")
 	void deleteByIdCatalog(Integer idCatalog);
 }

@@ -1,5 +1,7 @@
 package org.fnovella.project.workshop.repository;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.fnovella.project.workshop.model.Workshop;
@@ -14,4 +16,10 @@ public interface WorkshopRepository extends JpaRepository<Workshop, Integer> {
     @Transactional
     @Query("delete from Workshop where location = ?1")
 	void deleteByLocationId(Integer id);
+	
+	List<Workshop> findByProgramId(Integer programId);
+	@Modifying
+    @Transactional
+    @Query("delete from Workshop where programId = ?1")
+	void deleteByProgramId(Integer programId);
 }

@@ -4,14 +4,14 @@ import java.util.List;
 
 public class LoginResponse {
 
-	public AppUser user;
+	public Object user;
 	public String token;
 	public List<String> errors;
 	
-	public AppUser getUser() {
+	public Object getUser() {
 		return user;
 	}
-	public void setUser(AppUser user) {
+	public void setUser(Object user) {
 		this.user = user;
 	}
 	public String getToken() {
@@ -26,7 +26,7 @@ public class LoginResponse {
 	public void setError(List<String> errors) {
 		this.errors = errors;
 	}
-	public LoginResponse(AppUser user, String token, List<String> errors) {
+	public LoginResponse(Object user, String token, List<String> errors) {
 		super();
 		this.user = user;
 		this.token = token;

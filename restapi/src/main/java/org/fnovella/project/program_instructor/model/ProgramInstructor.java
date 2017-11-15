@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.fnovella.project.program.model.Program;
 
 @Entity
 public class ProgramInstructor {
@@ -15,9 +19,18 @@ public class ProgramInstructor {
 	private Integer id;
 	private Integer program;
 	private Integer instructor;
+	@ManyToOne()
+	@JoinColumn(name="program", updatable=false, insertable=false)
+	private Program programData;
+	
+	public Program getProgramData() {
+		return programData;
+	}
 
-	
-	
+	public void setProgramData(Program programData) {
+		this.programData = programData;
+	}
+
 	public Integer getId() {
 		return id;
 	}

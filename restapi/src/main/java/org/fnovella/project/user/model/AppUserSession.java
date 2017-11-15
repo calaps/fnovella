@@ -14,13 +14,7 @@ public class AppUserSession {
 	
 	private int idAppUser;
 	private String token;
-	/*private AppUser appUser;
-
-	@ManyToOne
-    @JoinColumn(name="id_app_user", nullable=false)
-	public AppUser getAppUser() {
-		return this.appUser;
-	}*/
+	private boolean isAppUser;
 	
 	public Integer getId() {
 		return id;
@@ -45,13 +39,22 @@ public class AppUserSession {
 	public void setToken(String token) {
 		this.token = token;
 	}
+	
+	public boolean isAppUser() {
+		return isAppUser;
+	}
 
-	public AppUserSession(int idAppUser, String token) {
+	public void setAppUser(boolean isAppUser) {
+		this.isAppUser = isAppUser;
+	}
+
+	public AppUserSession(int idAppUser, String token, boolean isAppUser) {
 		super();
 		this.idAppUser = idAppUser;
 		this.token = token;
+		this.isAppUser = isAppUser;
 	}
-	
+
 	public AppUserSession() {
 		super();
 	}

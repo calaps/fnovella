@@ -22,6 +22,58 @@ public class Division {
 	private Integer location;
 	private boolean createdGroup;
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getPrograma() {
+		return programa;
+	}
+
+	public void setPrograma(Integer programa) {
+		this.programa = programa;
+	}
+
+	public Integer getLocation() {
+		return location;
+	}
+
+	public void setLocation(Integer location) {
+		this.location = location;
+	}
+
+	public boolean isCreatedGroup() {
+		return createdGroup;
+	}
+
+	public void setCreatedGroup(boolean createdGroup) {
+		this.createdGroup = createdGroup;
+	}
+
+	public Division(String name, Integer programa, Integer location, boolean createdGroup) {
+		super();
+		this.name = name;
+		this.programa = programa;
+		this.location = location;
+		this.createdGroup = createdGroup;
+	}
+
+	public Division() {
+		super();
+	}
+
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Name is required");

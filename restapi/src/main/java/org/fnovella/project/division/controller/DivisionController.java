@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.fnovella.project.division.model.Division;
 import org.fnovella.project.division.repository.DivisionRepository;
 import org.fnovella.project.utility.model.APIResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/division/")
 public class DivisionController {
 	
+	@Autowired
 	private DivisionRepository divisionRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
