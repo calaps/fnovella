@@ -132,7 +132,7 @@ class UpdateForm extends React.Component {
           }
         },
         (error) => {
-          alert('fail');
+          //alert'fail');
           console.log("An Error occur with the Rest API");
           self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
         })

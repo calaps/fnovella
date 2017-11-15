@@ -73,7 +73,7 @@ export function gradesAddRequest(data) {
         // API
         HTTP('post', '/grade/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: GRADES_ADD_SUCCESS,
                 data: response.data.data
@@ -89,7 +89,7 @@ export function gradesAddRequest(data) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: "Error: " + response.data.errors[0]
+                  message: "Error: " + response.data.errors.join(', ')
                 }
               });
               reject(response.data);
@@ -124,7 +124,7 @@ export function gradesUpdateRequest(data) {
         // API
         HTTP('patch', '/grade/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: GRADES_UPDATE_SUCCESS,
                 data: response.data.data
@@ -140,7 +140,7 @@ export function gradesUpdateRequest(data) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: "Error: " + response.data.errors[0]
+                  message: "Error: " + response.data.errors.join(', ')
                 }
               });
               reject(response.data);
@@ -176,7 +176,7 @@ export function gradesDeleteRequest(id) {
         // API
         HTTP('delete', '/grade/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: GRADES_DELETE_SUCCESS,
                 data: {
@@ -194,7 +194,7 @@ export function gradesDeleteRequest(id) {
               dispatch({
                 type: SNACKBAR_SHOW,
                 data: {
-                  message: "Error: " + response.data.errors[0]
+                  message: "Error: " + response.data.errors.join(', ')
                 }
               });
               reject(response.data);

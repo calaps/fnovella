@@ -125,7 +125,7 @@ export function educatorsAddRequest(data) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: "Error: " + response.data.errors[0]
+                message: "Error: " + response.data.errors.join(', ')
               }
             });
             reject(response.data)
@@ -174,7 +174,7 @@ export function educatorsUpdateRequest(data) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: "Error: " + response.data.errors[0]
+                message: "Error: " + response.data.errors.join(', ')
               }
             });
             reject(response.data)
@@ -225,7 +225,7 @@ export function educatorsDeleteRequest(id) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: "Error: " + response.data.errors[0]
+                message: "Error: " + response.data.errors.join(', ')
               }
             });
             reject(response.data);

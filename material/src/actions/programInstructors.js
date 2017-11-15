@@ -15,7 +15,7 @@ import {
   PROGRAM_INSTRUCTOR_UPDATE_SUCCESS,
   PROGRESS_ADD_REQUEST,
   PROGRESS_REMOVE_REQUEST
-} from './../constants/ActionTypes';
+,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
 export function programInstructorGetRequest(number, size) {
   let params = {};
@@ -72,35 +72,40 @@ export function programInstructorAddRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_INSTRUCTOR_ADD_SUCCESS,
-        //   data
-        // });
-        // resolve(true);
-        // return;
-
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('post', '/program_instructor/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: PROGRAM_INSTRUCTOR_ADD_SUCCESS,
                 data: response.data.data
               });
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: snackBarMessages.ENTITY_ADDED
+                }
+              });
               resolve(response.data);
             } else {
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: "Error: " + response.data.errors.join(', ')
+                }
+              });
               reject(response.data);
             }
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_INSTRUCTOR_ADD_FAIL,
-              error: error
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
             });
             reject(error);
           })
@@ -118,35 +123,40 @@ export function programInstructorUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_INSTRUCTOR_UPDATE_SUCCESS,
-        //   data
-        // });
-        // resolve(true);
-        // return;
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('patch', '/program_instructor/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: PROGRAM_INSTRUCTOR_UPDATE_SUCCESS,
                 data: response.data.data
               });
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: snackBarMessages.ENTITY_UPDATED
+                }
+              });
               resolve(response.data);
             } else {
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: "Error: " + response.data.errors.join(', ')
+                }
+              });
               reject(response.data);
             }
-
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_INSTRUCTOR_UPDATE_FAIL,
-              error: error
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
             });
             reject(error);
           })
@@ -164,36 +174,42 @@ export function programInstructorDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PROGRAM_INSTRUCTOR_DELETE_SUCCESS,
-        //   id: id
-        // });
-        // resolve(true);
-        // return;
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('delete', '/program_instructor/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: PROGRAM_INSTRUCTOR_DELETE_SUCCESS,
                 data: {
                   id
                 }
               });
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: snackBarMessages.ENTITY_DELETED
+                }
+              });
               resolve(response.data);
             } else {
+              dispatch({
+                type: SNACKBAR_SHOW,
+                data: {
+                  message: "Error: " + response.data.errors.join(', ')
+                }
+              });
               reject(response.data);
             }
           })
           .catch(error => {
             dispatch({
-              type: PROGRAM_INSTRUCTOR_DELETE_FAIL,
-              error: error
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ERROR
+              }
             });
             reject(error);
           })

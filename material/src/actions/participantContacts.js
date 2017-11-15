@@ -17,21 +17,12 @@ import {
   PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_FAIL,
   PROGRESS_ADD_REQUEST,
   PROGRESS_REMOVE_REQUEST
-} from './../constants/ActionTypes';
+,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
 export function participantContactAddRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
-
-        // will be removed once API is ready
-        // dispatch({
-        //   type: PARTICIPANT_CONTACT_ADD_SUCCESS,
-        //   data
-        // });
-        // resolve(true);
-        // return;
-
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
@@ -39,7 +30,7 @@ export function participantContactAddRequest(data) {
         HTTP('post', '/participant_contacts/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             console.log("response: ", response);
-            if (!response.data.errors) {
+            if (response.data.errors === null) {
               dispatch({
                 type: PARTICIPANT_CONTACT_ADD_SUCCESS,
                 data: response.data.data
@@ -70,13 +61,6 @@ export function participantContactByParticipantIdGetRequest(id) {
 
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
-      // will be removed once API is ready
-      // dispatch({
-      //   type: PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_REQUEST,
-      //   data
-      // });
-      // resolve(true);
-      // return;
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });

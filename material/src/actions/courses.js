@@ -82,7 +82,7 @@ export function coursesAddRequest(data) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: "Error: " + response.data.errors[0]
+                message: "Error: " + response.data.errors.join(', ')
               }
             });
             reject(response.data)
@@ -131,7 +131,7 @@ export function coursesUpdateRequest(data) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: "Error: " + response.data.errors[0]
+                message: "Error: " + response.data.errors.join(', ')
               }
             });
             reject(response.data)
@@ -182,7 +182,7 @@ export function coursesDeleteRequest(id) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: "Error: " + response.data.errors[0]
+                message: "Error: " + response.data.errors.join(', ')
               }
             });
             reject(response.data);

@@ -73,7 +73,7 @@ export function catalogsAddRequest(data) {
       // API
       HTTP('post', '/catalog/', data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if (!response.data.errors) {
+          if (response.data.errors === null) {
             dispatch({
               type: CATALOGS_ADD_SUCCESS,
               data: response.data.data
@@ -89,7 +89,7 @@ export function catalogsAddRequest(data) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: snackBarMessages.ERROR
+                message: response.data.errors.join(', ')
               }
             });
             reject(response.data)
@@ -123,7 +123,7 @@ export function catalogsUpdateRequest(data) {
       // API
       HTTP('patch', '/catalog/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if (!response.data.errors) {
+          if (response.data.errors === null) {
             dispatch({
               type: CATALOGS_UPDATE_SUCCESS,
               data: response.data.data
@@ -139,7 +139,7 @@ export function catalogsUpdateRequest(data) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: snackBarMessages.ERROR
+                message: response.data.errors.join(', ')
               }
             });
             reject(response.data)
@@ -191,7 +191,7 @@ export function catalogsDeleteRequest(id) {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
-                message: snackBarMessages.ERROR
+                message: response.data.errors.join(', ')
               }
             });
             reject(response.data);

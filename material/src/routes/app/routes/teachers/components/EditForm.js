@@ -126,7 +126,7 @@ class EditForm extends React.Component {
         password: this.state.password,
         colony: this.state.colony,
         zone: this.state.zone,
-        privilege: this.state.privilege 
+        privilege: this.state.privilege
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -141,7 +141,7 @@ class EditForm extends React.Component {
             }
           },
           (error) => {
-            alert('fail');
+            //alert'fail');
             console.log("An Error occur with the Rest API");
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
@@ -153,7 +153,7 @@ class EditForm extends React.Component {
               self.props.changeView('VIEW_ELEMENT');
             }
           }, (error) => {
-            alert('fail');
+            //alert'fail');
             console.log("An Error occur with the Rest API");
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           });
@@ -170,7 +170,7 @@ class EditForm extends React.Component {
     this.props.actions.catalogsGetRequest();
     this.props.actions.programGetRequest(null,1000);
     this.props.actions.programInstructorGetRequest();
-    this.props.actions.privilegesGetAllRequest();    
+    this.props.actions.privilegesGetAllRequest();
   }
 
   handleCancel() {
@@ -223,7 +223,7 @@ class EditForm extends React.Component {
         }
       });
     };
-    
+
     let programsOpt = () => {
       // if no program return null
       if(this.state.id){
@@ -668,7 +668,7 @@ function mapStateToProps(state) {
     programs: state.programs,
     programInstructors : state.programInstructors,
     catalogs: state.catalogs,
-    privileges: state.privileges    
+    privileges: state.privileges
   }
 }
 

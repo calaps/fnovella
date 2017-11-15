@@ -153,14 +153,14 @@ class HorizontalLinearStepper extends React.Component {
                     this.props.changeView('VIEW_ELEMENT');
                   }
                 }, (error)=>{
-                  alert('fail');
+                  //alert'fail');
                   console.log('error occoured with rest api: ', error);
                 });
               // this.props.changeView('VIEW_ELEMENT');
 
             }
           }, (error) => {
-            alert('fail');
+            //alert'fail');
             console.log('error occoured with rest api: ', error);
           }
         );
