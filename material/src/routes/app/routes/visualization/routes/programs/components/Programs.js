@@ -7,8 +7,13 @@ import {
   getEntityByProgramId
 } from '../../../../../../../actions';
 
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+
+import CourseCard from './CourseCard';
+import WorkshopCard from './WorkshopCard';
+import DivisionCard from './DivisionCard';
+import GradeCard from './GradeCard';
 
 const Hero = () => (
   <section className="hero hero-bg-img" style={{backgroundImage: 'url(assets/images-demo/covers/photo-1438893761775-f1db119d27b2.jpg)'}}>
@@ -77,80 +82,6 @@ const ProgramCard = (props) => (
       {
         entityCard(props.program.clasification, props.courses, props.divisions, props.grades, props.workshops)
       }
-    </CardText>
-  </Card>
-);
-
-const CourseCard = (props) => (
-  <Card onExpandChange={(isExpanded)=>{
-    if(isExpanded && props.onExpanded){
-      props.onExpanded(props.course);
-    }
-  }}>
-    <CardHeader
-      title={props.course.name.toUpperCase()}
-
-      subtitle={props.course.description[0].toUpperCase() + props.course.description.substring(1)}
-      actAsExpander={true}
-      showExpandableButton={true}
-    />
-    <CardText expandable={true}>
-
-    </CardText>
-  </Card>
-);
-
-const DivisionCard = (props) => (
-  <Card onExpandChange={(isExpanded)=>{
-    if(isExpanded && props.onExpanded){
-      props.onExpanded(props.division);
-    }
-  }}>
-    <CardHeader
-      title={props.division.name.toUpperCase()}
-      subtitle={''}
-      actAsExpander={true}
-      showExpandableButton={true}
-    />
-    <CardText expandable={true}>
-
-    </CardText>
-  </Card>
-);
-
-const GradeCard = (props) => (
-  <Card onExpandChange={(isExpanded)=>{
-    if(isExpanded && props.onExpanded){
-      props.onExpanded(props.grade);
-    }
-  }}>
-    <CardHeader
-      title={props.grade.name.toUpperCase()}
-      subtitle={props.grade.level.toUpperCase()
-      + ' - ' + props.grade.description[0].toUpperCase() + props.grade.description.substring(1)}
-      actAsExpander={true}
-      showExpandableButton={true}
-    />
-    <CardText expandable={true}>
-
-    </CardText>
-  </Card>
-);
-
-const WorkshopCard = (props) => (
-  <Card onExpandChange={(isExpanded)=>{
-    if(isExpanded && props.onExpanded){
-      props.onExpanded(props.workshop);
-    }
-  }}>
-    <CardHeader
-      title={props.workshop.name.toUpperCase()}
-      subtitle={props.workshop.description[0].toUpperCase() + props.workshop.description.substring(1)}
-      actAsExpander={true}
-      showExpandableButton={true}
-    />
-    <CardText expandable={true}>
-
     </CardText>
   </Card>
 );

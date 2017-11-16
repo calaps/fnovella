@@ -61,6 +61,7 @@ export function educatorsGetRequestBySearch(id,firstName,appCode) {
       }})
     }
   }
+
 export function educatorsGetRequest(number, size) {
   let params = {};
   params.page = number;
@@ -238,6 +239,33 @@ export function educatorsDeleteRequest(id) {
               message: snackBarMessages.ERROR
             }
           });
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}
+
+export function educatorsGetByIdRequest(educatorId) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/instructor/'+educatorId, null,{authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(response.data.errors===null){
+            resolve(response.data);
+          }else {
+            reject(response.data);
+          }
+        })
+        .catch(error => {
           reject(error);
         })
         .finally(()=>{

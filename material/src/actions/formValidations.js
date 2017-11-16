@@ -218,7 +218,7 @@ export function courseValidator(data){
   if(Validator.isEmpty(data.programId.toString())) {
     errors.programId = required;
   }
- 
+
 
   //IsValid is just a boolean who return is errors is empty
   return {
@@ -323,12 +323,12 @@ export function studentValidator(data){
       errors.address = invalidData;
     }
   }
-  // if(Validator.isEmpty(data.bornDate)) {
-  //   errors.bornDate = required;
-  //   if(!Validator.isEmpty(data.bornDate) && !isDate(data.bornDate)){
-  //     errors.bornDate = invalidData;
-  //   }
-  // }
+  if(Validator.isEmpty(data.bornDate.toString())) {
+    errors.bornDate = required;
+    if(!Validator.isEmpty(data.bornDate) && !isDate(data.bornDate)){
+      errors.bornDate = invalidData;
+    }
+  }
   if(Validator.isEmpty(data.gender)) {
     errors.gender = required;
     if(!Validator.isEmpty(data.gender) && !Validator.isAlphanumeric(data.gender)){
@@ -506,7 +506,7 @@ export function userValidator(data){
       errors.address = invalidData;
     }
   }
-  if(Validator.isEmpty(data.bornDate)) {
+  if(Validator.isEmpty(data.bornDate.toString())) {
     errors.bornDate = required;
     if(!Validator.isEmpty(data.bornDate) && !isDate(data.bornDate)){
       errors.bornDate = invalidData;
