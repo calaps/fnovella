@@ -25,15 +25,6 @@ export function sedesGetRequest(number, size) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
 
-      console.log("params: ", params);
-
-      // will be removed once API is ready
-      // dispatch({
-      //   type: SEDES_GET_REQUEST,
-      //   data
-      // });
-      // resolve(true);
-      // return;
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
@@ -205,6 +196,33 @@ export function sedesDeleteRequest(id) {
               message: snackBarMessages.ERROR
             }
           });
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}
+
+export function sedesGetByIdRequest(locationId) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/location/'+locationId, null,{authorization: localStorage.getItem('@fnovella:token')})
+        .then(function (response) {
+          if(response.data.errors===null){
+            resolve(response.data);
+          }else{
+            reject(response.data)
+          }
+        })
+        .catch(error => {
           reject(error);
         })
         .finally(()=>{

@@ -1,6 +1,8 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import {programValidator} from "../../../../../actions/formValidations"; //form validations
@@ -10,7 +12,9 @@ import {
   programAddRequest,
   programUpdateRequest,
   categoriesGetRequest,
-  usersGetRequest
+  usersGetRequest,
+  sedesGetRequest,
+  programLocationByProgramIdGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -43,6 +47,7 @@ class EditForm extends React.Component {
       "indicatorsSatisfaction": typeof this.props.programData.indicatorsSatisfaction === "boolean" ? this.props.programData.indicatorsSatisfaction : true,
       "monthsTotal": typeof this.props.programData.monthsTotal === "number" ? this.props.programData.monthsTotal : 0,
       "responsable": typeof this.props.programData.responsable === "number" ? this.props.programData.responsable : 0,
+      locationIds: [],
       errors: {},
       isLoading: false
     };
@@ -50,12 +55,29 @@ class EditForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
     self = this;
   }
 
   componentWillMount(){
     this.props.actions.categoriesGetRequest();
     this.props.actions.usersGetRequest();
+    this.props.actions.sedesGetRequest();
+    // if update
+    if(this.state.isEditing){
+      // get program locations (ids)
+      this.props.actions.programLocationByProgramIdGetRequest()
+        .then(data=>{
+          if(!data.err){
+            let locationIds = [];
+            let programLocations = this.props.programLocations.content || [];
+            for(let i=0;i<programLocations.length;i++){
+              locationIds.push(programLocations[i].location)        // push id
+            }
+            this.setState({locationIds : locationIds})
+          }
+        })
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,13 +100,14 @@ class EditForm extends React.Component {
         "evaluationPerformmance": true,
         "evaluationPeriod": 0,
         "evaluationType": "string",
-        "gender": genderAudience,
+        "gender": 'male',
         "implementationLocation": "string",
         "indicatorsEvaluation": true,
         "indicatorsPerformmance": true,
         "indicatorsSatisfaction": true,
         "monthsTotal": 0,
         "responsable": 0,
+        locationIds: []
         // "updateFields": {}
 
       });
@@ -129,12 +152,13 @@ class EditForm extends React.Component {
         "evaluationPeriod": this.state.evaluationPeriod,
         "evaluationType": this.state.evaluationType,
         "gender": this.state.genderAudience,
-        "implementationLocation": this.state.implementationLocation,
+        // "implementationLocation": this.state.implementationLocation,
         "indicatorsEvaluation": this.state.indicatorsEvaluation,
         "indicatorsPerformmance": this.state.indicatorsPerformmance,
         "indicatorsSatisfaction": this.state.indicatorsSatisfaction,
         "monthsTotal": this.state.monthsTotal,
         "responsable": this.state.responsable,
+        locationIds: this.state.locationIds
       };
       if (this.state.isEditing) {
         data.id = this.state.id;
@@ -177,6 +201,10 @@ class EditForm extends React.Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
+  handleLocationChange(event, index, values){
+    this.setState({locationIds: values});
+  }
+
   render() {
 
     const {errors} = this.state;
@@ -187,6 +215,25 @@ class EditForm extends React.Component {
       return categories.map((category)=>{
         return <option key={category.id} value={category.id}>{category.name}</option>
       });
+    };
+
+    // location options
+    let locationOpt = () => {
+      let sedes = this.props.sedes.content;
+      if(sedes){
+        return sedes.map((sede) => {
+          return (<MenuItem
+            key={sede.id}
+            insetChildren={true}
+            checked={this.state.locationIds.indexOf(sede) > -1}
+            value={sede.id}
+            primaryText={sede.name}
+          />);
+        })
+      }
+      else{
+        return null;
+      }
     };
 
     //Programs options
@@ -356,15 +403,18 @@ class EditForm extends React.Component {
                           database name: program_location table
                         */
                         }
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="implementationLocation"
-                          name="implementationLocation"
-                          value={this.state.implementationLocation}
-                          onChange={this.onChange}
-                          placeholder="eje: implementationLocation"/>
-                        {errors.implementationLocation && <span className="help-block text-danger">{errors.implementationLocation}</span>}
+                        <SelectField
+                          multiple={true}
+                          hintText="Locations"
+                          name="locationIds"
+                          id="locationIds"
+                          onChange={this.handleLocationChange}
+                          value={this.state.locationIds}
+                          fullWidth={true}
+                          maxHeight={200}>
+                          {locationOpt()}
+                        </SelectField>
+                        {errors.locationIds && <span className="help-block text-danger">{errors.locationIds}</span>}
                       </div>
                     </div>
 
@@ -672,7 +722,9 @@ function mapStateToProps(state) {
   //pass the providers
   return {
     categories: state.categories,
-    users: state.users
+    users: state.users,
+    sedes: state.sedes,
+    programLocations: state.programLocations
   }
 }
 
@@ -684,7 +736,9 @@ function mapDispatchToProps(dispatch) {
       programAddRequest,
       programUpdateRequest,
       categoriesGetRequest,
-      usersGetRequest
+      usersGetRequest,
+      sedesGetRequest,
+      programLocationByProgramIdGetRequest
     }, dispatch)
   };
 }
