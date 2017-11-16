@@ -16,6 +16,6 @@ export function convertDateToHTMLInputDateValue(date){
   return (
     d.getFullYear() + '-' +
     getTwoDigitNumber(parseInt(d.getMonth()+1)) + '-' +
-    getTwoDigitNumber(parseInt(d.getDate()+1))
+    getTwoDigitNumber(parseInt(d.getDate()))
     );
 }

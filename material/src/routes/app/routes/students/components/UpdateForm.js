@@ -1,5 +1,6 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import FlatButton from 'material-ui/FlatButton';
 import map from "Lodash/map"; //to use map in a object
 import {personal_documents, gender, countries} from '../../../../../constants/data_types';
@@ -10,6 +11,8 @@ import {
   participantUpdateRequest,
   catalogsGetRequest
 } from '../../../../../actions';
+import { convertDateToHTMLInputDateValue } from '../../../../../utils/helpers';
+
 
 let self;
 
@@ -22,7 +25,8 @@ class UpdateForm extends React.Component {
       secondName: this.props.participantData.secondName || '',
       firstLastname: this.props.participantData.firstLastname || '',
       secondLastname: this.props.participantData.secondLastname || '',
-      bornDate: this.props.participantData.bornDate || '',
+      bornDate: (this.props.participantData.bornDate)? new Date(this.props.participantData.bornDate)
+        : new Date(),
       documentType: this.props.participantData.documentType || '',
       documentValue: this.props.participantData.documentValue || '',
       nacionality: this.props.participantData.nacionality || '',
@@ -61,7 +65,7 @@ class UpdateForm extends React.Component {
         secondName: '',
         firstLastname: '',
         secondLastname: '',
-        bornDate: '',
+        bornDate: new Date(),
         documentType: '',
         documentValue: '',
         nacionality: '',
@@ -106,7 +110,7 @@ class UpdateForm extends React.Component {
         secondName: this.state.secondName,
         firstLastname: this.state.firstLastname,
         secondLastname: this.state.secondLastname,
-        bornDate: this.state.bornDate,
+        bornDate: convertDateToHTMLInputDateValue(this.state.bornDate),
         documentType: this.state.documentType,
         documentValue: this.state.documentValue,
         nacionality: this.state.nacionality,
@@ -141,8 +145,14 @@ class UpdateForm extends React.Component {
     }
   }
 
-  onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+  onChange(e, value) {
+    if(!e){
+      // its a date field according datepicker component
+      this.setState({ bornDate: new Date(value)});
+    }
+    else{
+      this.setState({[e.target.name]: e.target.value});
+    }
   }
 
   render() {
@@ -277,14 +287,21 @@ class UpdateForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
                       <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="bornDate"
-                          name="bornDate"
+                        {/*<input*/}
+                          {/*type="date"*/}
+                          {/*className="form-control"*/}
+                          {/*id="bornDate"*/}
+                          {/*name="bornDate"*/}
+                          {/*value={this.state.bornDate}*/}
+                          {/*onChange={this.onChange}*/}
+                          {/*placeholder="eje: Durán"/>*/}
+
+                        <DatePicker
+                          hintText="eje: Durán"
                           value={this.state.bornDate}
                           onChange={this.onChange}
-                          placeholder="eje: Durán"/>
+                        />
+
                         {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
                       </div>
                     </div>

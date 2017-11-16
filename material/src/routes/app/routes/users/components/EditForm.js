@@ -28,8 +28,8 @@ class EditForm extends React.Component {
       firstLastName: this.props.userData.firstLastName || '',
       secondLastName: this.props.userData.secondLastName || '',
       privilege: this.props.userData.privilege || '',
-      bornDate: (this.props.userData.bornDate)? convertDateToHTMLInputDateValue(new Date(this.props.userData.bornDate))
-        : convertDateToHTMLInputDateValue(new Date()),
+      bornDate: (this.props.userData.bornDate)? new Date(this.props.userData.bornDate)
+        : new Date(),
       documentType: this.props.userData.documentType || '',
       documentValue: this.props.userData.documentValue || '',
       nationality: this.props.userData.nationality || '',
@@ -123,7 +123,7 @@ class EditForm extends React.Component {
         firstLastName: this.state.firstLastName,
         secondLastName: this.state.secondLastName,
         privilege: this.state.privilege,
-        bornDate: this.state.bornDate,
+        bornDate: convertDateToHTMLInputDateValue(this.state.bornDate),
         documentType: this.state.documentType || 'sometype',
         documentValue: this.state.documentValue,
         nationality: this.state.nationality,
@@ -184,8 +184,14 @@ class EditForm extends React.Component {
     }
   }
 
-  onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+  onChange(e, value) {
+    if(!e){
+      // its a date field according datepicker component
+      this.setState({ bornDate: new Date(value)});
+    }
+    else{
+      this.setState({[e.target.name]: e.target.value});
+    }
   }
 
   render() {
@@ -382,14 +388,21 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="bornDate" className="col-md-3 control-label">Fecha de nacimiento</label>
                       <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="bornDate"
-                          name="bornDate"
+                        {/*<input*/}
+                          {/*type="date"*/}
+                          {/*className="form-control"*/}
+                          {/*id="bornDate"*/}
+                          {/*name="bornDate"*/}
+                          {/*value={this.state.bornDate}*/}
+                          {/*onChange={this.onChange}*/}
+                          {/*placeholder="eje: Durán"/>*/}
+
+                        <DatePicker
+                          hintText="eje: Durán"
                           value={this.state.bornDate}
                           onChange={this.onChange}
-                          placeholder="eje: Durán"/>
+                        />
+
                         {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
                       </div>
                     </div>
