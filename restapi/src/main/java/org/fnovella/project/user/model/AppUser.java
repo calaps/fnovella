@@ -386,5 +386,7 @@ public class AppUser {
 			this.colony = appUser.colony;
 		if (APIUtility.isNotNullOrEmpty(appUser.zone))
 			this.zone = appUser.zone;
+		if (bornDate != null)
+			this.bornDate = appUser.bornDate;
 	}
 }

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fnovella.project.catalog_relation.repository.CatalogRelationRepository;
+import org.fnovella.project.program_aditional_fields.model.ProgramAditionalFields;
 import org.fnovella.project.course.repository.CourseRepository;
 import org.fnovella.project.division.repository.DivisionRepository;
 import org.fnovella.project.grade.repository.GradeRepository;
+import org.fnovella.project.program_location.model.ProgramLocation;
 import org.fnovella.project.program.model.Program;
+import org.fnovella.project.program.model.ProgramLocationCategory;
 import org.fnovella.project.program.repository.ProgramRepository;
 import org.fnovella.project.program_activation.repository.ProgramActivationRepository;
 import org.fnovella.project.program_aditional_fields.repository.ProgramAditionalFieldsRepository;
@@ -96,24 +99,80 @@ public class ProgramController {
 	public APIResponse getCourses(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
 		return new APIResponse(this.courseRepository.findByProgramId(id), null);
 	}
+
+	@RequestMapping(value = "{id}/category", method=RequestMethod.GET)
+	public APIResponse getCategories(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		return new APIResponse(this.programAditionalFieldsRepository.findByProgram(id), null);
+	}
+
+	@RequestMapping(value = "{id}/location", method=RequestMethod.GET)
+	public APIResponse getLocations(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+		return new APIResponse(this.programLocationRepository.findByProgram(id), null);
+	}
 	
 	@RequestMapping(value = "", method=RequestMethod.POST)
-	public APIResponse create(@RequestBody Program program, @RequestHeader("authorization") String authorization) {
-		ArrayList<String> errors = program.validate();
+	public APIResponse create(@RequestBody ProgramLocationCategory program, @RequestHeader("authorization") String authorization) {
+		ArrayList<String> errors = program.getProgram().validate();
 		if (errors.size() == 0) {
-			return new APIResponse(this.programRepository.save(program), null);
+			ProgramLocationCategory saved = new ProgramLocationCategory();
+			saved.setProgram(this.programRepository.save(program.getProgram()));
+			if (program.getLocationIds() != null && !program.getLocationIds().isEmpty()) {
+				for (Integer locationId : program.getLocationIds()) {
+					ProgramLocation pl = new ProgramLocation();
+					pl.setProgram(saved.getProgram().getId());
+					pl.setLocation(locationId);
+					this.programLocationRepository.save(pl);
+				}
+				saved.setLocationIds(program.getLocationIds());
+			}
+
+			if (program.getCategoryIds() != null && !program.getCategoryIds().isEmpty()) {
+				for (Integer categoryId : program.getCategoryIds()) {
+					ProgramAditionalFields paf = new ProgramAditionalFields();
+					paf.setProgram(saved.getProgram().getId());
+					paf.setCategory(categoryId);
+					this.programAditionalFieldsRepository.save(paf);
+				}
+				saved.setCategoryIds(program.getCategoryIds());
+			}
+
+			return new APIResponse(saved, null);
 		}
 		return new APIResponse(null, errors);
 	}
 
 	@RequestMapping(value = "{id}", method=RequestMethod.PATCH)
-	public APIResponse update(@RequestBody Program program, @RequestHeader("authorization") String authorization, 
+	public APIResponse update(@RequestBody ProgramLocationCategory program, @RequestHeader("authorization") String authorization, 
 			@PathVariable("id") Integer id) {
 		ArrayList<String> errors = new ArrayList<String>();
 		Program toUpdate = this.programRepository.findOne(id);
 		if (toUpdate != null) {
-			toUpdate.setUpdateFields(program);
-			return new APIResponse(this.programRepository.saveAndFlush(toUpdate), null);
+			toUpdate.setUpdateFields(program.getProgram());
+			ProgramLocationCategory saved = new ProgramLocationCategory();
+			saved.setProgram(this.programRepository.saveAndFlush(toUpdate));
+			this.programLocationRepository.deleteByProgram(toUpdate.getId());
+			this.programAditionalFieldsRepository.deleteByProgram(toUpdate.getId());
+			if (program.getLocationIds() != null && !program.getLocationIds().isEmpty()) {
+				for (Integer locationId : program.getLocationIds()) {
+					ProgramLocation pl = new ProgramLocation();
+					pl.setProgram(saved.getProgram().getId());
+					pl.setLocation(locationId);
+					this.programLocationRepository.save(pl);
+				}
+				saved.setLocationIds(program.getLocationIds());
+			}
+
+			if (program.getCategoryIds() != null && !program.getCategoryIds().isEmpty()) {
+				for (Integer categoryId : program.getCategoryIds()) {
+					ProgramAditionalFields paf = new ProgramAditionalFields();
+					paf.setProgram(saved.getProgram().getId());
+					paf.setCategory(categoryId);
+					this.programAditionalFieldsRepository.save(paf);
+				}
+				saved.setCategoryIds(program.getCategoryIds());
+			}
+
+			return new APIResponse(saved, null);
 		}
 		errors.add("Program doesn't exist");
 		return new APIResponse(null, errors);

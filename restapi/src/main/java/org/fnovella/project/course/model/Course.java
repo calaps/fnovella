@@ -23,6 +23,7 @@ public class Course {
 	private String description;
 	private boolean openCourse;
 	private Integer grade;
+	private Integer section;
 	private Integer programId;
 	private Integer instructorId;
 	private boolean createdGroup;
@@ -33,6 +34,14 @@ public class Course {
 	public void setGrade(Integer grade) {
 		this.grade = grade;
 	}
+
+	public Integer getSection() {
+		return section;
+	}
+	public void setSection(Integer section) {
+		this.section = section;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -82,7 +91,7 @@ public class Course {
 		this.createdGroup = createdGroup;
 	}
 	public Course(String name, Integer location, String description, boolean openCourse, Integer grade,
-			Integer programId, Integer instructorId, boolean createdGroup) {
+			Integer programId, Integer instructorId, boolean createdGroup, Integer section) {
 		super();
 		this.name = name;
 		this.location = location;
@@ -92,6 +101,7 @@ public class Course {
 		this.programId = programId;
 		this.instructorId = instructorId;
 		this.createdGroup = createdGroup;
+		this.section = section;
 	}
 	public Course() {
 		super();
@@ -101,7 +111,6 @@ public class Course {
 		if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Name is required");
 		if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Description is required");
 		if (this.location == null || this.location <= 0) errors.add("Location is required");
-		if (this.grade == null || this.grade <= 0) errors.add("Grade is required");
 		if (this.programId == null || this.programId <= 0) errors.add("Program is required");
 		return errors;
 	}
@@ -112,6 +121,7 @@ public class Course {
 		if (course.grade != null && course.grade > 0) this.grade = course.grade;
 		if (course.programId != null && course.programId > 0) this.programId = course.programId;
 		if (course.instructorId != null && course.instructorId > 0) this.instructorId = course.instructorId;
+		if (course.section != null && course.section > 0) this.section = course.section;
 		this.openCourse = course.openCourse;
 		this.createdGroup = course.createdGroup;
 	}

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository("courseRepository")
 public interface CourseRepository extends JpaRepository<Course, Integer> {
+	List<Course> findBySection(Integer section);
+
 	List<Course> findByGrade(Integer grade);
 	@Modifying
     @Transactional
