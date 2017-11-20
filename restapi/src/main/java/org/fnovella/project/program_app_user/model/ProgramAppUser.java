@@ -1,11 +1,10 @@
 package org.fnovella.project.program_app_user.model;
 
+import org.fnovella.project.user.model.AppUser;
+
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class ProgramAppUser {
@@ -14,7 +13,9 @@ public class ProgramAppUser {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private Integer program;
-	private Integer appUser;
+	@ManyToOne
+	@JoinColumn(name = "appUser")
+	private AppUser appUser;
 
 	
 	public Integer getId() {
@@ -33,15 +34,15 @@ public class ProgramAppUser {
 		this.program = program;
 	}
 
-	public Integer getAppUser() {
+	public AppUser getAppUser() {
 		return appUser;
 	}
 
-	public void setAppUser(Integer appUser) {
+	public void setAppUser(AppUser appUser) {
 		this.appUser = appUser;
 	}
 
-	public ProgramAppUser(Integer id, Integer program, Integer appUser) {
+	public ProgramAppUser(Integer id, Integer program, AppUser appUser) {
 		super();
 		this.id = id;
 		this.program = program;
@@ -56,13 +57,13 @@ public class ProgramAppUser {
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (this.program == null || this.program <= 0) errors.add("Program is required");
-		if (this.appUser == null || this.appUser <= 0) errors.add("App User is required");
+		if (this.appUser == null || this.appUser.getId() <= 0) errors.add("App User is required");
 		return errors;
 	}
 
 	public void setUpdateFields(ProgramAppUser programAppUser) {
 		if (programAppUser.program != null && programAppUser.program > 0) this.program = programAppUser.program;
-		if (programAppUser.appUser != null && programAppUser.appUser > 0) this.appUser = programAppUser.appUser;
+		if (programAppUser.appUser != null && programAppUser.appUser.getId() > 0) this.appUser = programAppUser.appUser;
 	}
 
 }

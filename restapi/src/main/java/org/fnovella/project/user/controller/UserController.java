@@ -144,7 +144,6 @@ public class UserController {
 		if (authorizedUser != null) {
 			AppUser appUser = this.userRepository.findOne(id);
 			if (appUser != null) {
-				this.delete(appUser.getId(), true);
 				this.appUserRepository.deleteByIdAppUser(appUser.getId());
 				this.userRepository.delete(appUser);
 				return new APIResponse(true, null);
