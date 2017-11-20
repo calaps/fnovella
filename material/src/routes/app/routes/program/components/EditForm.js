@@ -432,7 +432,7 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" >Selecciona la clasificación...</option>
-                          <option value="grade" >Grado</option>
+                          <option value="grades" >Grado</option>
                           <option value="workshop" >Taller</option>
                           <option value="course" >Curso</option>
                           <option value="division" >Categorias</option>
