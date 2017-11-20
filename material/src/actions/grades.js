@@ -53,7 +53,7 @@ export function gradesGetRequest(number, size) {
             });
             reject(error);
           })
-          .finally(()=>{
+          .finally(() => {
             dispatch({
               type: PROGRESS_REMOVE_REQUEST
             });
@@ -104,7 +104,7 @@ export function gradesAddRequest(data) {
             });
             reject(error);
           })
-          .finally(()=>{
+          .finally(() => {
             dispatch({
               type: PROGRESS_REMOVE_REQUEST
             });
@@ -156,7 +156,7 @@ export function gradesUpdateRequest(data) {
             });
             reject(error);
           })
-          .finally(()=>{
+          .finally(() => {
             dispatch({
               type: PROGRESS_REMOVE_REQUEST
             });
@@ -209,7 +209,7 @@ export function gradesDeleteRequest(id) {
             });
             reject(error);
           })
-          .finally(()=>{
+          .finally(() => {
             dispatch({
               type: PROGRESS_REMOVE_REQUEST
             });
@@ -221,27 +221,58 @@ export function gradesDeleteRequest(id) {
 
 export function gradeGetByIdRequest(gradeId) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){{
-      dispatch({
-        type: PROGRESS_ADD_REQUEST
-      });
-      // API
-      HTTP('get', '/grade/'+gradeId, null,{authorization: localStorage.getItem('@fnovella:token') })
-        .then(function (response) {
-          if(response.data.errors===null){
-            resolve(response.data);
-          }else {
-            reject(response.data);
-          }
-        })
-        .catch(error => {
-          reject(error);
-        })
-        .finally(()=>{
-          dispatch({
-            type: PROGRESS_REMOVE_REQUEST
-          });
-        })
-    }})
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/grade/' + gradeId, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function sectionsGetByGradeIdRequest(gradeId) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/grade/' + gradeId + '/sections', null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data)
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
   }
 }

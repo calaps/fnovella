@@ -19,49 +19,51 @@ import {
 
 export function sectionsGetRequest() {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){{
-      dispatch({
-        type: PROGRESS_ADD_REQUEST
-      });
-      // API
-      HTTP('get', '/section/',null,{authorization: localStorage.getItem('@fnovella:token') })
-        .then(function (response) {
-          if(response.data.errors === null){
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/section/', null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              dispatch({
+                type: SECTIONS_GET_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
             dispatch({
-              type: SECTIONS_GET_SUCCESS,
-              data: response.data.data
+              type: SECTIONS_GET_FAIL,
+              error: error
             });
-            resolve(response.data);
-          }else{
-            reject(response.data);
-          }
-        })
-        .catch(error => {
-          dispatch({
-            type: SECTIONS_GET_FAIL,
-            error: error
-          });
-          reject(error);
-        })
-        .finally(()=>{
-          dispatch({
-            type: PROGRESS_REMOVE_REQUEST
-          });
-        })
-    }})
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
   }
 }
 
 export function sectionsAddRequest(data) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('post', '/section/', data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('post', '/section/', data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(response.data.errors === null){
+          if (response.data.errors === null) {
             dispatch({
               type: SECTIONS_ADD_SUCCESS,
               data: response.data.data
@@ -73,7 +75,7 @@ export function sectionsAddRequest(data) {
               }
             });
             resolve(response.data);
-          }else {
+          } else {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
@@ -92,7 +94,7 @@ export function sectionsAddRequest(data) {
           });
           reject(error);
         })
-        .finally(()=>{
+        .finally(() => {
           dispatch({
             type: PROGRESS_REMOVE_REQUEST
           });
@@ -103,14 +105,14 @@ export function sectionsAddRequest(data) {
 
 export function sectionsUpdateRequest(data) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('patch', '/section/'+data.id, data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('patch', '/section/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(response.data.errors === null){
+          if (response.data.errors === null) {
             dispatch({
               type: SECTIONS_UPDATE_SUCCESS,
               data: response.data.data
@@ -122,7 +124,7 @@ export function sectionsUpdateRequest(data) {
               }
             });
             resolve(response.data);
-          }else {
+          } else {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
@@ -141,7 +143,7 @@ export function sectionsUpdateRequest(data) {
           });
           reject(error);
         })
-        .finally(()=>{
+        .finally(() => {
           dispatch({
             type: PROGRESS_REMOVE_REQUEST
           });
@@ -152,14 +154,14 @@ export function sectionsUpdateRequest(data) {
 
 export function sectionsDeleteRequest(id) {
   return function (dispatch) {
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('delete', '/section/'+id,null, {authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('delete', '/section/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
-          if(response.data.errors===null){
+          if (response.data.errors === null) {
             dispatch({
               type: SECTIONS_DELETE_SUCCESS,
               data: {
@@ -173,7 +175,7 @@ export function sectionsDeleteRequest(id) {
               }
             });
             resolve(response.data);
-          }else {
+          } else {
             dispatch({
               type: SNACKBAR_SHOW,
               data: {
@@ -192,11 +194,40 @@ export function sectionsDeleteRequest(id) {
           });
           reject(error);
         })
-        .finally(()=>{
+        .finally(() => {
           dispatch({
             type: PROGRESS_REMOVE_REQUEST
           });
         })
+    })
+  }
+}
+
+export function coursesGetBySectionIdRequest(sectionId) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/section/' + sectionId + '/courses', null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data)
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
     })
   }
 }
