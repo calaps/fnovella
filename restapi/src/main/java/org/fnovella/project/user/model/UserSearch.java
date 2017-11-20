@@ -30,19 +30,28 @@ public class UserSearch {
 	}
 	
 	public Page<AppUser> getResults(UserRepository userRepository, Pageable pageable) {
+		String normalizeText = APIUtility.normalizeText(this.firstName);
 		boolean useId = this.id != null && this.id > 0;
 		boolean useName = APIUtility.isNotNullOrEmpty(this.firstName);
 		boolean useAppCode = APIUtility.isNotNullOrEmpty(this.appCode);
 		if (useName && useAppCode && useId) {
-			return userRepository.findByFirstNameAndAppCodeAndId(this.firstName, this.appCode, this.id, pageable);
+			Page<AppUser> result = userRepository.findByFirstNameStartingWithAndAppCodeAndId(this.firstName, this.appCode, this.id, pageable);
+			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWithAndAppCodeAndId(normalizeText, this.appCode, this.id, pageable);
+			return APIUtility.mergePages(result, normalizedResult, pageable);
 		} else if (useName && useAppCode) {
-			return userRepository.findByFirstNameAndAppCode(this.firstName, this.appCode, pageable);
+			Page<AppUser> result = userRepository.findByFirstNameStartingWithAndAppCode(this.firstName, this.appCode, pageable);
+			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWithAndAppCode(normalizeText, this.appCode, pageable);
+			return APIUtility.mergePages(result, normalizedResult, pageable);
 		} else if (useName && useId) {
-			return userRepository.findByFirstNameAndId(this.firstName, this.id, pageable);
+			Page<AppUser> result = userRepository.findByFirstNameStartingWithAndId(this.firstName, this.id, pageable);
+			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWithAndId(normalizeText, this.id, pageable);
+			return APIUtility.mergePages(result, normalizedResult, pageable);
 		}  else if (useAppCode && useId) {
 			return userRepository.findByAppCodeAndId(this.appCode, this.id, pageable);
 		}  else if (useName) {
-			return userRepository.findByFirstName(this.firstName, pageable);
+			Page<AppUser> result = userRepository.findByFirstNameStartingWith(this.firstName, pageable);
+			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWith(normalizeText, pageable);
+			return APIUtility.mergePages(result, normalizedResult, pageable);
 		}  else if (useAppCode) {
 			return userRepository.findByAppCode(this.appCode, pageable);
 		}  else if (useId) {
@@ -51,5 +60,7 @@ public class UserSearch {
 			return userRepository.findAll(pageable);
 		}
 	}
-	
+
+
+
 }

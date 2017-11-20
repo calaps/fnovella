@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/instructor/")
-public class IntructorController {
+public class InstructorController {
 
 	@Autowired
 	private InstructorRepository instructorRepository;

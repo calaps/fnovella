@@ -21,11 +21,11 @@ public interface UserRepository extends JpaRepository<AppUser, Integer> {
 	List<AppUser> findByPrivilege(Integer privileId);
 	AppUser findByEmailAndPassword(String email, String password);
 	AppUser findByEmail(String email);
-	Page<AppUser> findByFirstName(String firstName, Pageable pageable);
+	Page<AppUser> findByFirstNameStartingWith(String firstName, Pageable pageable);
 	Page<AppUser> findByAppCode(String appCode, Pageable pageable);
 	Page<AppUser> findById(Integer id, Pageable pageable);
-	Page<AppUser> findByFirstNameAndId(String firstName, Integer id, Pageable pageable);
-	Page<AppUser> findByFirstNameAndAppCode(String firstName, String appCode, Pageable pageable);
-	Page<AppUser> findByFirstNameAndAppCodeAndId(String firstName, String appCode, Integer id, Pageable pageable);
+	Page<AppUser> findByFirstNameStartingWithAndId(String firstName, Integer id, Pageable pageable);
+	Page<AppUser> findByFirstNameStartingWithAndAppCode(String firstName, String appCode, Pageable pageable);
+	Page<AppUser> findByFirstNameStartingWithAndAppCodeAndId(String firstName, String appCode, Integer id, Pageable pageable);
 	Page<AppUser> findByAppCodeAndId(String appCode, Integer id, Pageable pageable);
 }
