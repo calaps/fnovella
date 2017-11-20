@@ -219,9 +219,13 @@ class EditForm extends React.Component {
     //Grades options
     let gradesOpt = () => {
       let grades = this.props.grades.content || [];
-      return grades.map((grade) => {
-        return <option key={grade.id} value={grade.id}>{grade.name}</option>
-      });
+      if(this.state.programId){
+        return grades.map((grade) => {
+          if(grade.programId == this.state.programId){
+            return <option key={grade.id} value={grade.id}>{grade.name}</option>
+          }
+        });
+      }
     };
     let sectionsOpt = () => {
       let sections = this.props.sections.content || [];
