@@ -219,9 +219,13 @@ class EditForm extends React.Component {
     //Grades options
     let gradesOpt = () => {
       let grades = this.props.grades.content || [];
-      return grades.map((grade) => {
-        return <option key={grade.id} value={grade.id}>{grade.name}</option>
-      });
+      if(this.state.programId){
+        return grades.map((grade) => {
+          if(grade.programId == this.state.programId){
+            return <option key={grade.id} value={grade.id}>{grade.name}</option>
+          }
+        });
+      }
     };
     let sectionsOpt = () => {
       let sections = this.props.sections.content || [];
@@ -237,43 +241,51 @@ class EditForm extends React.Component {
     }
 
     let showGrades = () => {
-      if (this.state.openCourse == 'false' || this.state.openCourse == false) {
-        return (
-          <div>
-            <div className="form-group row">
-              <label htmlFor="grade" className="col-md-3 control-label">Grado</label>
-              <div className="col-md-9">
-                <select
-                  name="grade"
-                  id="grade"
-                  onChange={this.onChange}
-                  value={this.state.grade}
-                  className="form-control">
-                  <option value="" disabled>Selecione el grado</option>
-                  {gradesOpt()}
-                </select>
-                {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
+      if(this.state.programId){
+        let selectedProgram;
+        let programs = this.props.programs.content || [];
+        for(let i=0;i<programs.length;i++){
+          if(this.state.programId == programs[i].id){
+            selectedProgram = programs[i];
+          }
+        }
+        if (this.state.openCourse.toString() == 'false' && selectedProgram && selectedProgram.clasification == "grades") {
+          return (
+            <div>
+              <div className="form-group row">
+                <label htmlFor="grade" className="col-md-3 control-label">Grado</label>
+                <div className="col-md-9">
+                  <select
+                    name="grade"
+                    id="grade"
+                    onChange={this.onChange}
+                    value={this.state.grade}
+                    className="form-control">
+                    <option value="" disabled>Selecione el grado</option>
+                    {gradesOpt()}
+                  </select>
+                  {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
+                </div>
+              </div>
+  
+              <div className="form-group row">
+                <label htmlFor="section" className="col-md-3 control-label">Section</label>
+                <div className="col-md-9">
+                  <select
+                    name="section"
+                    id="section"
+                    onChange={this.onChange}
+                    value={this.state.section}
+                    className="form-control">
+                    <option value="" disabled>Selecione el Section</option>
+                    {sectionsOpt()}
+                  </select>
+                  {errors.section && <span className="help-block text-danger">{errors.section}</span>}
+                </div>
               </div>
             </div>
-
-            <div className="form-group row">
-              <label htmlFor="section" className="col-md-3 control-label">Section</label>
-              <div className="col-md-9">
-                <select
-                  name="section"
-                  id="section"
-                  onChange={this.onChange}
-                  value={this.state.section}
-                  className="form-control">
-                  <option value="" disabled>Selecione el Section</option>
-                  {sectionsOpt()}
-                </select>
-                {errors.section && <span className="help-block text-danger">{errors.section}</span>}
-              </div>
-            </div>
-          </div>
-        )
-
+         )
+        }
       }
       return null;
     }
