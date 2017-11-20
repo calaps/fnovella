@@ -42,15 +42,12 @@ public class UserController {
 	@Autowired
 	private InstructorRepository instructorRepository;
 	@Autowired
-	private ProgramRepository programRepository;
-	@Autowired
-	private ProgramAppUserRepository programAppUserRepository;
-	@Autowired
 	public JavaMailSender emailSender;
-	
-	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+
+	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
 	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
-		return new APIResponse(this.delete(id, false), null);
+		AppUser appUser = this.userRepository.findOne(id);
+		return new APIResponse(appUser == null, null);
 	}
 	
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -153,25 +150,6 @@ public class UserController {
 		}
 		errors.add("Not authorizaded");
 		return new APIResponse(null, errors);
-	}
-	
-	private boolean delete(Integer appUserId, boolean delete) {
-		boolean toDelete = true;
-		List<?> list = this.programRepository.findByResponsable(appUserId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				this.programRepository.deleteByResponsable(appUserId);
-			}
-		}
-		list = this.programAppUserRepository.findByAppUser(appUserId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				this.programAppUserRepository.deleteByAppUser(appUserId);
-			}
-		}
-		return toDelete;
 	}
 	
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
