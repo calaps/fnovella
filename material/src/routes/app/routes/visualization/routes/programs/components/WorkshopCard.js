@@ -1,11 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
-  sedesGetByIdRequest
+  sedesGetByIdRequest,
+  workshopsDeleteRequest
 } from '../../../../../../../actions';
 
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 class WorkshopCard extends React.Component{
 
@@ -13,7 +16,9 @@ class WorkshopCard extends React.Component{
     super(props);
     this.state = {
       expanded: false
-    }
+    };
+    this.onEditWorkshop = this.onEditWorkshop.bind(this);
+    this.onDeleteWorkshop = this.onDeleteWorkshop.bind(this);
   }
 
   componentWillMount(){
@@ -26,6 +31,19 @@ class WorkshopCard extends React.Component{
           })
         })
     }
+  }
+
+  onEditWorkshop(workshop) {
+    this.context.router.push({
+      pathname: '/app/workshop',
+      query: {
+        id : workshop.id
+      }
+    })
+  }
+
+  onDeleteWorkshop(id) {
+    this.props.actions.workshopsDeleteRequest(id);
   }
 
   render(){
@@ -41,6 +59,15 @@ class WorkshopCard extends React.Component{
           actAsExpander={true}
           showExpandableButton={true}
         />
+        <CardActions
+          style={{float: 'right', marginTop: '-62px', marginRight: '50px'}}>
+          <FlatButton label="Editar" onClick={() => {
+            this.onEditWorkshop(this.props.workshop)
+          }}/>
+          <FlatButton label="Eliminar" onClick={() => {
+            this.onDeleteWorkshop(this.props.workshop.id)
+          }}/>
+        </CardActions>
         <CardText expandable={true}>
           <div><strong>Location: </strong> {(this.state.location)?this.state.location.name:this.props.workshop.location} </div>
         </CardText>
@@ -48,6 +75,11 @@ class WorkshopCard extends React.Component{
     )
   }
 }
+
+//To get the routers
+WorkshopCard.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   //pass the providers
@@ -59,7 +91,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      sedesGetByIdRequest
+      sedesGetByIdRequest,
+      workshopsDeleteRequest
     }, dispatch)
   };
 }

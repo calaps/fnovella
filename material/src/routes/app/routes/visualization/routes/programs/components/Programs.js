@@ -1,13 +1,16 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   programGetRequest,
-  getEntityByProgramId
+  getEntityByProgramId,
+  programDeleteRequest
 } from '../../../../../../../actions';
 
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import CourseCard from './CourseCard';
@@ -16,7 +19,8 @@ import DivisionCard from './DivisionCard';
 import GradeCard from './GradeCard';
 
 const Hero = () => (
-  <section className="hero hero-bg-img" style={{backgroundImage: 'url(assets/images-demo/covers/photo-1438893761775-f1db119d27b2.jpg)'}}>
+  <section className="hero hero-bg-img"
+           style={{backgroundImage: 'url(assets/images-demo/covers/photo-1438893761775-f1db119d27b2.jpg)'}}>
     <div className="hero-inner">
       <div className="hero-content">
         <h1 className="hero-title">Programs</h1>
@@ -25,35 +29,35 @@ const Hero = () => (
   </section>
 );
 
-function entityCard(entityType, courses, divisions, grades, workshops){
-  switch(entityType){
+function entityCard(entityType, courses, divisions, grades, workshops) {
+  switch (entityType) {
     case 'course':
-      if(courses.content){
-        return (courses.content.map((course, index)=>{
+      if (courses.content) {
+        return (courses.content.map((course, index) => {
             return <CourseCard key={index} course={course}/>
           })
         );
       }
       break;
     case 'division':
-      if(divisions.content){
-        return (divisions.content.map((division, index)=>{
+      if (divisions.content) {
+        return (divisions.content.map((division, index) => {
             return <DivisionCard key={index} division={division}/>
           })
         );
       }
       break;
     case 'grades':
-      if(grades.content){
-        return (grades.content.map((grade, index)=>{
+      if (grades.content) {
+        return (grades.content.map((grade, index) => {
             return <GradeCard key={index} grade={grade}/>
           })
         );
       }
       break;
     case 'workshop':
-      if(workshops.content){
-        return (workshops.content.map((workshop, index)=>{
+      if (workshops.content) {
+        return (workshops.content.map((workshop, index) => {
             return <WorkshopCard key={index} workshop={workshop}/>
           })
         );
@@ -64,9 +68,9 @@ function entityCard(entityType, courses, divisions, grades, workshops){
 
 const ProgramCard = (props) => (
   <Card
-    expanded={props.program.id == props.currentExpandedProgramId}
-    onExpandChange={(isExpanded)=>{
-      if(props.onExpanded){
+    expanded={props.program.id === props.currentExpandedProgramId}
+    onExpandChange={(isExpanded) => {
+      if (props.onExpanded) {
         props.onExpanded(props.program, isExpanded);
       }
     }}
@@ -78,6 +82,18 @@ const ProgramCard = (props) => (
       actAsExpander={true}
       showExpandableButton={true}
     />
+    <CardActions
+      style={{float: 'right', marginTop: '-62px', marginRight: '50px'}}>
+      <FlatButton label="Agregar" onClick={() => {
+        self.onAddNewProgram(props.program.clasification)
+      }}/>
+      <FlatButton label="Editar" onClick={() => {
+        self.onEditProgram(props.program)
+      }}/>
+      <FlatButton label="Eliminar" onClick={() => {
+        self.handleDialogBox(props.program)
+      }}/>
+    </CardActions>
     <CardText expandable={true}>
       {
         entityCard(props.program.clasification, props.courses, props.divisions, props.grades, props.workshops)
@@ -86,22 +102,33 @@ const ProgramCard = (props) => (
   </Card>
 );
 
+const customContentStyle = {
+  width: '50%',
+  maxWidth: 'none',
+};
+
 let self;
 let size = 10; //limit
 let number = 0; //page
 
-class Programs extends React.Component{
+class Programs extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       size,
       number,
       incrementFactor: 10,
-      currentExpandedProgramId: null
+      currentExpandedProgramId: null,
+      dialogBoxOpen: false,
+      programToBeDelete: ''
     };
     this.loadMore = this.loadMore.bind(this);
     this.onProgramExpanded = this.onProgramExpanded.bind(this);
+    this.handleDialogBox = this.handleDialogBox.bind(this);
+    this.onEditProgram = this.onEditProgram.bind(this);
+    this.onDeleteProgram = this.onDeleteProgram.bind(this);
+    this.onAddNewProgram = this.onAddNewProgram.bind(this);
     self = this;
   }
 
@@ -110,17 +137,17 @@ class Programs extends React.Component{
     let response = await this.props.actions.programGetRequest(this.state.number, this.state.size);
   }
 
-  async loadMore(){
-    await this.props.actions.programGetRequest(this.state.number, this.state.size+this.state.incrementFactor);
+  async loadMore() {
+    await this.props.actions.programGetRequest(this.state.number, this.state.size + this.state.incrementFactor);
     this.setState({
-      size: this.state.size+this.state.incrementFactor
+      size: this.state.size + this.state.incrementFactor
     })
   }
 
-  onProgramExpanded(program, isExpanded){
-    if(isExpanded){
+  onProgramExpanded(program, isExpanded) {
+    if (isExpanded) {
       let entity = program.clasification;
-      if(entity == 'grades'){
+      if (entity == 'grades') {
         entity = entity.replace('s', '');
       }
       this.props.actions.getEntityByProgramId(program.id, entity);
@@ -128,23 +155,69 @@ class Programs extends React.Component{
         currentExpandedProgramId: program.id
       })
     }
-    else{
+    else {
       this.setState({
         currentExpandedProgramId: null
       })
     }
   }
 
-  render(){
+  handleDialogBox(program) {
+    this.setState({
+      dialogBoxOpen: !this.state.dialogBoxOpen,
+      programToBeDelete: program,
+    });
+  }
+
+  onEditProgram(program) {
+    this.context.router.push({
+      pathname: '/app/program',
+      query: {
+        id : program.id
+      }
+    })
+  }
+
+  onDeleteProgram() {
+    this.props.actions.programDeleteRequest(this.state.programToBeDelete.id);
+    this.setState({
+      dialogBoxOpen: !this.state.dialogBoxOpen,
+      programToBeDelete: '',
+    });
+  }
+
+  onAddNewProgram(classification) {
+    this.context.router.push({
+      pathname: '/app/program',
+      query: {
+        classification : classification
+      }
+    })
+  }
+
+  render() {
     let programs = this.props.programs.content || [];
+
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onClick={this.handleDialogBox}
+      />,
+      <FlatButton
+        label="Delete"
+        primary={true}
+        onClick={this.onDeleteProgram}
+      />,
+    ];
 
     return (
       <section className="page-about chapter">
         <QueueAnim type="bottom" className="ui-animate">
-          <div key="1"><Hero /></div>
+          <div key="1"><Hero/></div>
           <div key="2">
             {
-              programs.map((program, index)=>{
+              programs.map((program, index) => {
                 return <ProgramCard
                   key={index}
                   program={program}
@@ -157,6 +230,17 @@ class Programs extends React.Component{
                 />;
               })
             }
+            <div>
+              <Dialog
+                title="Are you sure?"
+                actions={actions}
+                modal={true}
+                contentStyle={customContentStyle}
+                open={this.state.dialogBoxOpen}
+              >
+                Deleting this program will cause deletion of {this.state.programToBeDelete.clasification} too.
+              </Dialog>
+            </div>
           </div>
           <div key="3" className="text-center">
             <FlatButton label="Load More" primary={true} onClick={this.loadMore}/>
@@ -166,6 +250,11 @@ class Programs extends React.Component{
     )
   }
 }
+
+//To get the routers
+Programs.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   //pass the providers
@@ -183,7 +272,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       programGetRequest,
-      getEntityByProgramId
+      getEntityByProgramId,
+      programDeleteRequest
     }, dispatch)
   };
 }

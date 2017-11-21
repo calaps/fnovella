@@ -1,13 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   sedesGetByIdRequest,
   educatorsGetByIdRequest,
-  sectionsGetByGradeIdRequest
+  sectionsGetByGradeIdRequest,
+  gradesDeleteRequest
 } from '../../../../../../../actions';
 
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 import SectionCard from './SectionCard';
 
@@ -17,7 +20,9 @@ class GradeCard extends React.Component {
     super(props);
     this.state = {
       expanded: false
-    }
+    };
+    this.onEditGrade = this.onEditGrade.bind(this);
+    this.onDeleteGrade = this.onDeleteGrade.bind(this);
   }
 
   componentWillMount() {
@@ -48,6 +53,19 @@ class GradeCard extends React.Component {
     }
   }
 
+  onEditGrade(grade) {
+    this.context.router.push({
+      pathname: '/app/grade',
+      query: {
+        id : grade.id
+      }
+    })
+  }
+
+  onDeleteGrade(id) {
+    this.props.actions.gradesDeleteRequest(id);
+  }
+
   render() {
     let sections = this.state.sections || [];
 
@@ -64,6 +82,15 @@ class GradeCard extends React.Component {
           actAsExpander={true}
           showExpandableButton={true}
         />
+        <CardActions
+          style={{float: 'right', marginTop: '-62px', marginRight: '50px'}}>
+          <FlatButton label="Editar" onClick={() => {
+            this.onEditGrade(this.props.grade)
+          }}/>
+          <FlatButton label="Eliminar" onClick={() => {
+            this.onDeleteGrade(this.props.grade.id)
+          }}/>
+        </CardActions>
         <CardText expandable={true}>
           <div>
             <strong>Location: </strong> {(this.state.location) ? this.state.location.name : this.props.grade.location}
@@ -87,6 +114,11 @@ class GradeCard extends React.Component {
   }
 }
 
+//To get the routers
+GradeCard.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 function mapStateToProps(state) {
   //pass the providers
   return {}
@@ -98,7 +130,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       sedesGetByIdRequest,
       educatorsGetByIdRequest,
-      sectionsGetByGradeIdRequest
+      sectionsGetByGradeIdRequest,
+      gradesDeleteRequest
     }, dispatch)
   };
 }

@@ -1,12 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   sedesGetByIdRequest,
-  coursesGetBySectionIdRequest
+  coursesGetBySectionIdRequest,
+  sectionsDeleteRequest
 } from '../../../../../../../actions';
 
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 import CourseCard from './CourseCard';
 
@@ -16,7 +19,9 @@ class SectionCard extends React.Component{
     super(props);
     this.state = {
       expanded: false
-    }
+    };
+    this.onEditSection = this.onEditSection.bind(this);
+    this.onDeleteSection = this.onDeleteSection.bind(this);
   }
 
   componentWillMount(){
@@ -38,6 +43,19 @@ class SectionCard extends React.Component{
     }
   }
 
+  onEditSection(section) {
+    this.context.router.push({
+      pathname: '/app/section',
+      query: {
+        id : section.id
+      }
+    })
+  }
+
+  onDeleteSection(id) {
+    this.props.actions.sectionsDeleteRequest(id);
+  }
+
   render(){
     let courses = this.state.courses || [];
 
@@ -52,6 +70,15 @@ class SectionCard extends React.Component{
           actAsExpander={true}
           showExpandableButton={true}
         />
+        <CardActions
+          style={{float: 'right', marginTop: '-52px', marginRight: '50px'}}>
+          <FlatButton label="Editar" onClick={() => {
+            this.onEditSection(this.props.section)
+          }}/>
+          <FlatButton label="Eliminar" onClick={() => {
+            this.onDeleteSection(this.props.section.id)
+          }}/>
+        </CardActions>
         <CardText expandable={true}>
           <div><strong>Location: </strong> {(this.state.location)?this.state.location.name:this.props.section.location} </div>
           <div><strong>Jornada: </strong> {this.props.section.jornada} </div>
@@ -72,6 +99,11 @@ class SectionCard extends React.Component{
   }
 }
 
+//To get the routers
+SectionCard.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 function mapStateToProps(state) {
   //pass the providers
   return {
@@ -83,7 +115,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       sedesGetByIdRequest,
-      coursesGetBySectionIdRequest
+      coursesGetBySectionIdRequest,
+      sectionsDeleteRequest
     }, dispatch)
   };
 }

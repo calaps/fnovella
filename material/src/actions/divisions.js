@@ -218,3 +218,30 @@ export function divisionsDeleteRequest(id) {
     })
   }
 }
+
+export function divisionGetByIdRequest(divisionId) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/division/' + divisionId, null,{authorization: localStorage.getItem('@fnovella:token')})
+        .then(function (response) {
+          if(response.data.errors===null){
+            resolve(response.data);
+          }else{
+            reject(response.data)
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}

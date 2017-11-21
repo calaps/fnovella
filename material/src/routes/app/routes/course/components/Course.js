@@ -2,6 +2,11 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  courseGetByIdRequest,
+} from '../../../../../actions';
 
 const optionsName = "Curso";
 
@@ -89,6 +94,15 @@ class Course extends React.Component {
     this.changeView = this.changeView.bind(this); //bind this element
   }
 
+  componentWillMount(){
+    if(this.props.location.query.id){
+      this.props.actions.courseGetByIdRequest(this.props.location.query.id)
+        .then((response) => {
+          this.onEditCourse(response.data);
+        });
+    }
+  }
+
   onEditCourse (courseData){
     this.setState({courseData});
     this.changeView('ADD_ELEMENT',false);
@@ -126,4 +140,16 @@ class Course extends React.Component {
   }
 }
 
-module.exports = Course;
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      courseGetByIdRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  null,
+  mapDispatchToProps,
+)(Course);
