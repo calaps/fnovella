@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/participant/")
 public class ParticipantController {
 
+	public static final String LINE_START_ERROR = "Line ";
 	@Autowired
 	private ParticipantRepository participantRepository;
 	@Autowired
@@ -65,29 +66,42 @@ public class ParticipantController {
 
 	@RequestMapping(value = "load", method = RequestMethod.POST)
 	public APIResponse loadMassive(@RequestBody List<Participant> participants, @RequestHeader("authorization") String authorization) {
-		final List<String> allErrors = new ArrayList<>();
-		final List<Participant> listOfParticipantsToBeSaved = new ArrayList<>();
+		final List<String> errors = new ArrayList<>();
+		final List<Participant> participantsToBeSaved = new ArrayList<>();
 		int indexOfStudent[] = {1};
 		participants.stream()
 				.forEach(participant -> {
-					List<String> errors = participant.validate();
-					if (errors.size() == 0) {
-						if (this.participantRepository.findByEmail(participant.getEmail()) == null) {
-							listOfParticipantsToBeSaved.add(participant);
-						} else {
-							allErrors.add((indexOfStudent[0]++) + ":" + "Email is already in use");
-						}
+					List<String> errorsOfCurrentParticipant = fetchErrors(participant, indexOfStudent[0]);
+
+					if (errorsOfCurrentParticipant.size() == 0) {
+						participantsToBeSaved.add(participant);
 					} else {
-						List<String> currentErrors = errors.stream()
-								.map(error -> (indexOfStudent[0]++) + ":" + error)
-								.collect(Collectors.toList());
-						allErrors.addAll(currentErrors);
+						errors.addAll(errorsOfCurrentParticipant);
 					}
+					indexOfStudent[0]++;
 				});
-		if (!CollectionUtils.isEmpty(listOfParticipantsToBeSaved)) {
-			return new APIResponse(this.participantRepository.save(listOfParticipantsToBeSaved), allErrors);
+
+		return new APIResponse(saveParticipats(participantsToBeSaved), errors.isEmpty() ? null : errors);
+	}
+
+	private Object saveParticipats(List<Participant> participants) {
+		if(!participants.isEmpty()){
+			return this.participantRepository.save(participants);
 		}
-		return new APIResponse(null, allErrors);
+		return null;
+	}
+
+	private List<String> fetchErrors(Participant participant, int lineIndex) {
+		String startIndexError = LINE_START_ERROR + lineIndex + ":";
+		List<String> errors = participant.validate()
+				.stream()
+				.map(error -> startIndexError + error)
+				.collect(Collectors.toList());
+		Participant participantByEmail = this.participantRepository.findByEmail(participant.getEmail());
+		if (participantByEmail != null) {
+			errors.add(startIndexError + " Email is already used");
+		}
+		return errors;
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.PATCH)
