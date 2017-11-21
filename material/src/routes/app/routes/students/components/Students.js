@@ -5,7 +5,7 @@ import ListElements from './ListElements';
 import UpdateForm from './UpdateForm';
 import ViewEmergencyContact from './ViewEmergencyContact';
 
-const optionsName = "Estudiantes";
+const optionsName = "Participantes";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -35,6 +35,19 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
+                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                        <div className="ibox-icon">
+                          <a href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
+                        </div>
+                        <h6>Visualizar {optionsName}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-xl-4">
+                  <div className="box box-default">
+                    <div className="box-body">
                       <div onClick={() => this.props.changeView("ADD_ELEMENT")}
                            className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
@@ -52,19 +65,6 @@ class MainOptions extends React.Component {
                       <div className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
                           <a href="#/app/catalog"><i className="material-icons">dashboard</i></a>
-                        </div>
-                        <h6>Catalogos</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4">
-                  <div className="box box-default">
-                    <div className="box-body">
-                      <div className="icon-box ibox-plain ibox-center">
-                        <div className="ibox-icon">
-                          <a href="javascript:;"><i className="material-icons">dashboard</i></a>
                         </div>
                         <h6>Catalogos</h6>
                       </div>
