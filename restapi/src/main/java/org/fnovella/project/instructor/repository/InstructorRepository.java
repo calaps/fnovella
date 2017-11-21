@@ -16,12 +16,16 @@ import org.springframework.stereotype.Repository;
 public interface InstructorRepository extends JpaRepository<Instructor, Integer> {
 	Instructor findByEmail(String email);
 
-	Page<Instructor> findByFirstNameStartingWith(String firstName, Pageable pageable);
+	@Query(value = "SELECT * FROM INSTRUCTOR where first_name like ?1% COLLATE Latin1_General_CI_AI", nativeQuery = true)
+	List<Instructor> findByFirstNameStartingWith(String firstName);
 	Page<Instructor> findByAppCode(String appCode, Pageable pageable);
 	Page<Instructor> findById(Integer id, Pageable pageable);
-	Page<Instructor> findByFirstNameStartingWithAndId(String firstName, Integer id, Pageable pageable);
-	Page<Instructor> findByFirstNameStartingWithAndAppCode(String firstName, String appCode, Pageable pageable);
-	Page<Instructor> findByFirstNameStartingWithAndAppCodeAndId(String firstName, String appCode, Integer id, Pageable pageable);
+	@Query(value = "SELECT * FROM INSTRUCTOR where first_name like ?1% COLLATE Latin1_General_CI_AI AND id = ?2", nativeQuery = true)
+	List<Instructor> findByFirstNameStartingWithAndId(String firstName, Integer id);
+	@Query(value = "SELECT * FROM INSTRUCTOR where first_name like ?1% COLLATE Latin1_General_CI_AI AND app_code = ?2", nativeQuery = true)
+	List<Instructor> findByFirstNameStartingWithAndAppCode(String firstName, String appCode);
+	@Query(value = "SELECT * FROM INSTRUCTOR where first_name like ?1% COLLATE Latin1_General_CI_AI AND app_code = ?2 AND id = ?3", nativeQuery = true)
+	List<Instructor> findByFirstNameStartingWithAndAppCodeAndId(String firstName, String appCode, Integer id);
 	Page<Instructor> findByAppCodeAndId(String appCode, Integer id, Pageable pageable);
 	Instructor findByEmailAndPassword(String email, String password);
 	
