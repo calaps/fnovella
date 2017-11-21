@@ -2,11 +2,9 @@ package org.fnovella.project.program.model;
 
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import org.fnovella.project.user.model.AppUser;
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
 
@@ -38,7 +36,6 @@ public class Program {
 	private Integer audienceMax;
 	@Length(max=50)
 	private String implementationLocation;
-	private Integer responsable;
 	@Length(max=50)
 	private String evaluationType;
 	private boolean evaluationPerformmance;
@@ -47,6 +44,10 @@ public class Program {
 	private boolean indicatorsEvaluation;
 	private boolean indicatorsPerformmance;
 	private boolean indicatorsSatisfaction;
+	@ManyToOne
+	@JoinColumn(name = "responsable")
+	private AppUser responsable;
+
 	public Integer getId() {
 		return id;
 	}
@@ -128,6 +129,15 @@ public class Program {
 	public Integer getAudienceMax() {
 		return audienceMax;
 	}
+
+	public AppUser getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(AppUser responsable) {
+		this.responsable = responsable;
+	}
+
 	public void setAudienceMax(Integer audienceMax) {
 		this.audienceMax = audienceMax;
 	}
@@ -137,12 +147,7 @@ public class Program {
 	public void setImplementationLocation(String implementationLocation) {
 		this.implementationLocation = implementationLocation;
 	}
-	public Integer getResponsable() {
-		return responsable;
-	}
-	public void setResponsable(Integer responsable) {
-		this.responsable = responsable;
-	}
+
 	public String getEvaluationType() {
 		return evaluationType;
 	}
@@ -188,7 +193,7 @@ public class Program {
 	public Program(String name, String type, String audience, String description, boolean provider,
 			String clasification, boolean freeCourses, boolean activationStatus, String genderAudience, String gender,
 			Integer category, Integer audienceMin, Integer audienceMax, String implementationLocation,
-			Integer responsable, String evaluationType, boolean evaluationPerformmance, Integer monthsTotal,
+			AppUser responsable, String evaluationType, boolean evaluationPerformmance, Integer monthsTotal,
 			Integer evaluationPeriod, boolean indicatorsEvaluation, boolean indicatorsPerformmance,
 			boolean indicatorsSatisfaction) {
 		super();
@@ -230,7 +235,7 @@ public class Program {
 		 if (!APIUtility.isNotNullOrEmpty(this.evaluationType)) errors.add("Evaluation Type is required");
 		 if (this.audienceMin == null || this.audienceMin <= 0) errors.add("Audience Min is required");
 		 if (this.audienceMax == null || this.audienceMax <= 0) errors.add("Audience Max is required");
-		 if (this.responsable == null || this.responsable <= 0) errors.add("Responsable is required");
+		 if (this.responsable == null || this.responsable.getId() <= 0) errors.add("Responsable is required");
 		 if (this.monthsTotal == null || this.monthsTotal <= 0) errors.add("Months Total is required");
 		 if (this.evaluationPeriod == null || this.evaluationPeriod <= 0) errors.add("Evaluation Period is required");
 		 if (this.category == null || this.category <= 0) errors.add("Category is required");
@@ -248,7 +253,7 @@ public class Program {
 		if (APIUtility.isNotNullOrEmpty(program.evaluationType)) this.evaluationType = program.evaluationType;
 		if (program.audienceMin != null && this.audienceMin > 0) this.audienceMin = program.audienceMin;
 		if (program.audienceMax != null && this.audienceMax > 0) this.audienceMax = program.audienceMax;
-		if (program.responsable != null && this.responsable > 0) this.responsable = program.responsable;
+		if (program.responsable != null && this.responsable.getId() > 0) this.responsable = program.responsable;
 		if (program.monthsTotal != null && this.monthsTotal > 0) this.monthsTotal = program.monthsTotal;
 		if (program.evaluationPeriod != null && this.evaluationPeriod > 0) this.evaluationPeriod = program.evaluationPeriod;
 		if (program.category != null && program.category > 0) this.category = program.category; 

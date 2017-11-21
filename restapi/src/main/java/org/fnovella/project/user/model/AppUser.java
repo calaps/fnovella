@@ -2,13 +2,13 @@ package org.fnovella.project.user.model;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.fnovella.project.program.model.Program;
+import org.fnovella.project.program_app_user.model.ProgramAppUser;
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
 
@@ -64,13 +64,36 @@ public class AppUser {
 	private String colony;
 	@Length(max = 50)
 	private String zone;
-	
+	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private List<Program> programs;
+
+	@OneToMany(mappedBy = "appUser", cascade = CascadeType.REMOVE)
+	@JsonIgnore
+	private List<ProgramAppUser> programAppUsers;
+
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public List<ProgramAppUser> getProgramAppUsers() {
+		return programAppUsers;
+	}
+
+	public void setProgramAppUsers(List<ProgramAppUser> programAppUsers) {
+		this.programAppUsers = programAppUsers;
+	}
+
+	public List<Program> getPrograms() {
+		return programs;
+	}
+
+	public void setPrograms(List<Program> programs) {
+		this.programs = programs;
 	}
 
 	public String getFirstName() {
@@ -388,5 +411,20 @@ public class AppUser {
 			this.zone = appUser.zone;
 		if (bornDate != null)
 			this.bornDate = appUser.bornDate;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		AppUser appUser = (AppUser) o;
+
+		return id.equals(appUser.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
 	}
 }

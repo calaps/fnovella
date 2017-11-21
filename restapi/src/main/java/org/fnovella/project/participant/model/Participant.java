@@ -252,4 +252,19 @@ public class Participant {
 		if (participant.phone != null && participant.phone > 0) this.phone = participant.phone;
 		if (participant.cellPhone != null && participant.cellPhone > 0) this.cellPhone = participant.cellPhone;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Participant participant = (Participant) o;
+
+		return id.equals(participant.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
 }

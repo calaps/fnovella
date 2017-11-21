@@ -273,5 +273,19 @@ public class Instructor {
 		if (instructor.phone != null && instructor.phone > 0) this.phone = instructor.phone;
 		if (instructor.cellphone != null && instructor.cellphone > 0) this.cellphone = instructor.cellphone;
 	}
-	
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Instructor instructor = (Instructor) o;
+
+		return id.equals(instructor.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
 }
