@@ -2,6 +2,11 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  sectionGetByIdRequest,
+} from '../../../../../actions';
 
 const optionsName = "Sección";
 
@@ -91,6 +96,16 @@ class Section extends React.Component {
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditCatalog = this.onEditCatalog.bind(this);
   }
+
+  componentWillMount(){
+    if(this.props.location.query.id){
+      this.props.actions.sectionGetByIdRequest(this.props.location.query.id)
+        .then((response) => {
+          this.onEditCatalog(response.data);
+        });
+    }
+  }
+
   onEditCatalog (categoryData){
     this.setState({categoryData});
 
@@ -129,4 +144,16 @@ class Section extends React.Component {
   }
 }
 
-module.exports = Section;
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      sectionGetByIdRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  null,
+  mapDispatchToProps,
+)(Section);

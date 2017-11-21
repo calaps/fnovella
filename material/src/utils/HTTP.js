@@ -22,7 +22,7 @@ export async function HTTP(method, uri, data, headers = null, params = null) {
         query.params = params;
     }
 
-    if (method === 'post' || method === 'put' || method === 'delete' || method=='patch') {
+    if (method === 'post' || method === 'put' || method === 'delete' || method ==='patch') {
         query.data = data;
     }
 
@@ -30,7 +30,7 @@ export async function HTTP(method, uri, data, headers = null, params = null) {
 
     const response = await axios(query);
 
-    console.log("response from axios reveived: ");
+    console.log("response from axios received: ");
 
     return response;
 

@@ -2,6 +2,11 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  divisionGetByIdRequest,
+} from '../../../../../actions';
 
 const optionsName = "Division";
 
@@ -92,6 +97,15 @@ class Division extends React.Component {
     this.onEditProgram = this.onEditProgram.bind(this);
   }
 
+  componentWillMount(){
+    if(this.props.location.query.id){
+      this.props.actions.divisionGetByIdRequest(this.props.location.query.id)
+        .then((response) => {
+          this.onEditProgram(response.data);
+        });
+    }
+  }
+
   onEditProgram(divisionData) {
     this.setState({divisionData});
     this.changeView('ADD_ELEMENT', false);
@@ -130,4 +144,16 @@ class Division extends React.Component {
   }
 }
 
-module.exports = Division;
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      divisionGetByIdRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  null,
+  mapDispatchToProps,
+)(Division);

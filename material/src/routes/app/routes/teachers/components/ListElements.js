@@ -109,6 +109,7 @@ class ListElements extends React.Component {
                       value={this.state.searchValue}>
                       <option value="Name">por Nombre</option>
                       <option value="Id">por ID</option>
+                      <option value="Code">By App Code</option>
                     </select>
                     <IconButton
                       iconStyle={{
@@ -140,7 +141,7 @@ class ListElements extends React.Component {
                         <th className="mdl-data-table__cell--non-numeric">Genero</th>
                         <th className="mdl-data-table__cell--non-numeric">Departamento</th>
                         <th className="mdl-data-table__cell--non-numeric">Celular</th>
-
+                        <th className="mdl-data-table__cell--non-numeric">App Code</th>
                       </tr>
                     </thead>
                     <tbody>

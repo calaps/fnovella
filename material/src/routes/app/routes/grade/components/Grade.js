@@ -2,6 +2,11 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {
+  gradeGetByIdRequest,
+} from '../../../../../actions';
 
 const optionsName = "Grado";
 
@@ -93,6 +98,15 @@ class Grade extends React.Component {
     this.onEditProgram = this.onEditProgram.bind(this);
   }
 
+  componentWillMount(){
+    if(this.props.location.query.id){
+      this.props.actions.gradeGetByIdRequest(this.props.location.query.id)
+        .then((response) => {
+          this.onEditProgram(response.data);
+        });
+    }
+  }
+
   onEditProgram(gradeData) {
     this.setState({gradeData});
     this.changeView('ADD_ELEMENT', false);
@@ -131,4 +145,16 @@ class Grade extends React.Component {
   }
 }
 
-module.exports = Grade;
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      gradeGetByIdRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(
+  null,
+  mapDispatchToProps,
+)(Grade);

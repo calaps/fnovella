@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import map from "Lodash/map"; //to use map in a object
 import {courseValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   coursesAddRequest,
@@ -90,9 +91,11 @@ class EditForm extends React.Component {
   }
 
   handleCancel() {
-    self
-      .props
-      .changeView('VIEW_ELEMENT');
+    if (self.context.router.location.query.id) {
+      self.context.router.push('/app/visualization/programs')
+    }else{
+      self.props.changeView('VIEW_ELEMENT')
+    }
   }
 
   isValid() {
@@ -131,9 +134,11 @@ class EditForm extends React.Component {
           .then((response) => {
             //Save the default object as a provider
             if (response) {
-              self
-                .props
-                .changeView('VIEW_ELEMENT');
+              if (self.context.router.location.query.id) {
+                self.context.router.push('/app/visualization/programs')
+              }else{
+                self.props.changeView('VIEW_ELEMENT');
+              }
             }
           }, (error) => {
             // //alert'fail');
@@ -267,7 +272,7 @@ class EditForm extends React.Component {
                   {errors.grade && <span className="help-block text-danger">{errors.grade}</span>}
                 </div>
               </div>
-  
+
               <div className="form-group row">
                 <label htmlFor="section" className="col-md-3 control-label">Section</label>
                 <div className="col-md-9">
@@ -412,6 +417,11 @@ class EditForm extends React.Component {
     );
   }
 }
+
+//To get the routers
+EditForm.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   //pass the providers
