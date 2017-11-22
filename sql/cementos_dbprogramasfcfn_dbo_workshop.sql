@@ -1,3 +1,5 @@
 INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Cocina', 7, 'Taller de comidas de Guatemala ', 6, 2, 0);
 INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Flauta', 1, 'Musica para que aprendan a tocar flauta', 19, 4, 0);
 INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Carpienteria', 1, 'Contrucción de muebles', 6, 2, 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('program location relation', 30, 'working now', 51, null, 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Cocina', 30, 'Cocina', 51, null, 0);
