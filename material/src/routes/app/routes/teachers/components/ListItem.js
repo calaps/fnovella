@@ -11,6 +11,7 @@ class ListItem extends React.Component {
             <td className="mdl-data-table__cell--non-numeric" >{this.props.teacherData.gender}</td>
             <td className="mdl-data-table__cell--non-numeric" >{this.props.teacherData.department}</td>
             <td className="mdl-data-table__cell--non-numeric" >{this.props.teacherData.cellphone}</td>
+            <td className="mdl-data-table__cell--non-numeric" >{this.props.teacherData.appCode}</td>
 
             <td className="mdl-data-table__cell--non-numeric" >
               <button

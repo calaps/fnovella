@@ -7,6 +7,7 @@ import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import {programValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   programAddRequest,
@@ -30,9 +31,9 @@ class EditForm extends React.Component {
       provider: typeof this.props.programData.provider === "boolean" ? this.props.programData.provider : true,
       clasification: this.props.programData.clasification || '',
       freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
-      type: typeof this.props.programData.type === "boolean" ? this.props.programData.type : true,
+      type: this.props.programData.type || '',
       id: this.props.programData.id || '',
-      category: this.props.programData.category || '',
+      // category: this.props.programData.category || '',
       genderAudience: this.props.programData.genderAudience || '',
       "activationStatus": typeof this.props.programData.activationStatus === "boolean" ? this.props.programData.activationStatus : false,
       "audienceMax": typeof this.props.programData.audienceMax === "number" ? this.props.programData.audienceMax : 0,
@@ -48,35 +49,41 @@ class EditForm extends React.Component {
       "monthsTotal": typeof this.props.programData.monthsTotal === "number" ? this.props.programData.monthsTotal : 0,
       "responsable": typeof this.props.programData.responsable === "number" ? this.props.programData.responsable : 0,
       locationIds: [],
+      categoryIds: [],
       errors: {},
       isLoading: false
     };
-    {/* Makes a Bind of the actions, onChange, onSummit */}
+    {/* Makes a Bind of the actions, onChange, onSummit */
+    }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
     self = this;
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.actions.categoriesGetRequest();
     this.props.actions.usersGetRequest();
     this.props.actions.sedesGetRequest();
     // if update
-    if(this.state.isEditing){
+    if (this.state.isEditing) {
       // get program locations (ids)
       this.props.actions.programLocationByProgramIdGetRequest()
-        .then(data=>{
-          if(!data.err){
+        .then(data => {
+          if (!data.err) {
             let locationIds = [];
             let programLocations = this.props.programLocations.content || [];
-            for(let i=0;i<programLocations.length;i++){
+            for (let i = 0; i < programLocations.length; i++) {
               locationIds.push(programLocations[i].location)        // push id
             }
-            this.setState({locationIds : locationIds})
+            this.setState({locationIds: locationIds})
           }
         })
+    }
+    if (self.context.router.location.query.classification) {
+      this.setState({clasification: self.context.router.location.query.classification})
     }
   }
 
@@ -90,9 +97,9 @@ class EditForm extends React.Component {
         provider: true,
         clasification: '',
         freeCourses: true,
-        type: true,
+        type: 'type',
         id: '',
-        category: '',
+        // category: '',
         genderAudience: 'male',
         "activationStatus": false,
         "audienceMax": 0,
@@ -107,7 +114,8 @@ class EditForm extends React.Component {
         "indicatorsSatisfaction": true,
         "monthsTotal": 0,
         "responsable": 0,
-        locationIds: []
+        locationIds: [],
+        categoryIds: []
         // "updateFields": {}
 
       });
@@ -126,7 +134,11 @@ class EditForm extends React.Component {
   }
 
   handleCancel() {
-    self.props.changeView('VIEW_ELEMENT')
+    if (self.context.router.location.query.id || self.context.router.location.query.classification) {
+      self.context.router.push('/app/visualization/programs')
+    }else{
+      self.props.changeView('VIEW_ELEMENT')
+    }
   }
 
   onSubmit(e) {
@@ -136,32 +148,35 @@ class EditForm extends React.Component {
       this.setState({errors: {}, isLoading: true});
 
       let data = {
-        name: this.state.name,
-        type: this.state.type,
-        audience: this.state.audience,
-        description: this.state.description,
-        provider: this.state.provider,
-        clasification: this.state.clasification,
-        freeCourses: this.state.freeCourses,
-        category: this.state.category,
-        genderAudience: this.state.genderAudience,
-        "activationStatus": this.state.activationStatus,
-        "audienceMax": this.state.audienceMax,
-        "audienceMin": this.state.audienceMin,
-        "evaluationPerformmance": this.state.evaluationPerformmance,
-        "evaluationPeriod": this.state.evaluationPeriod,
-        "evaluationType": this.state.evaluationType,
-        "gender": this.state.genderAudience,
-        // "implementationLocation": this.state.implementationLocation,
-        "indicatorsEvaluation": this.state.indicatorsEvaluation,
-        "indicatorsPerformmance": this.state.indicatorsPerformmance,
-        "indicatorsSatisfaction": this.state.indicatorsSatisfaction,
-        "monthsTotal": this.state.monthsTotal,
-        "responsable": this.state.responsable,
-        locationIds: this.state.locationIds
+        locationIds: this.state.locationIds,
+        categoryIds: this.state.categoryIds,
+        program:{
+          name: this.state.name,
+          type: this.state.type,
+          audience: this.state.audience,
+          description: this.state.description,
+          provider: this.state.provider,
+          clasification: this.state.clasification,
+          freeCourses: this.state.freeCourses,
+          category: 1,
+          genderAudience: this.state.genderAudience,
+          "activationStatus": this.state.activationStatus,
+          "audienceMax": this.state.audienceMax,
+          "audienceMin": this.state.audienceMin,
+          "evaluationPerformmance": this.state.evaluationPerformmance,
+          "evaluationPeriod": this.state.evaluationPeriod,
+          "evaluationType": this.state.evaluationType,
+          "gender": this.state.genderAudience,
+          // "implementationLocation": this.state.implementationLocation,
+          "indicatorsEvaluation": this.state.indicatorsEvaluation,
+          "indicatorsPerformmance": this.state.indicatorsPerformmance,
+          "indicatorsSatisfaction": this.state.indicatorsSatisfaction,
+          "monthsTotal": this.state.monthsTotal,
+          "responsable": this.state.responsable
+        }
       };
       if (this.state.isEditing) {
-        data.id = this.state.id;
+        data.program.id = this.state.id;
       }
       // ON SUCCESS API
       this.state.isEditing ?
@@ -169,7 +184,11 @@ class EditForm extends React.Component {
           (response) => {
             //Save the default object as a provider
             if (response) {
-              self.props.changeView('VIEW_ELEMENT');
+              if (self.context.router.location.query.id) {
+                self.context.router.push('/app/visualization/programs')
+              }else{
+                self.props.changeView('VIEW_ELEMENT');
+              }
             }
           },
           (error) => {
@@ -201,8 +220,12 @@ class EditForm extends React.Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
-  handleLocationChange(event, index, values){
+  handleLocationChange(event, index, values) {
     this.setState({locationIds: values});
+  }
+
+  handleCategoryChange(event, index, values) {
+    this.setState({categoryIds: values});
   }
 
   render() {
@@ -210,17 +233,17 @@ class EditForm extends React.Component {
     const {errors} = this.state;
 
     //categories options
-    let categoriesOpt  = () => {
+    /*let categoriesOpt = () => {
       let {categories} = this.props;
-      return categories.map((category)=>{
+      return categories.map((category) => {
         return <option key={category.id} value={category.id}>{category.name}</option>
       });
-    };
+    };*/
 
     // location options
     let locationOpt = () => {
       let sedes = this.props.sedes.content;
-      if(sedes){
+      if (sedes) {
         return sedes.map((sede) => {
           return (<MenuItem
             key={sede.id}
@@ -231,7 +254,28 @@ class EditForm extends React.Component {
           />);
         })
       }
-      else{
+      else {
+        return null;
+      }
+    };
+
+    //multiple categories options
+    let categoryOpt = () => {
+      let categories = this.props.categories;
+      if (categories) {
+        return categories.map((category) => {
+          if(category.additionalField){
+            return (<MenuItem
+              key={category.id}
+              insetChildren={true}
+              checked={this.state.categoryIds.indexOf(category) > -1}
+              value={category.id}
+              primaryText={category.name}
+            />);
+          }
+        })
+      }
+      else {
         return null;
       }
     };
@@ -239,13 +283,13 @@ class EditForm extends React.Component {
     //Programs options
     let responsibleOpt = () => {
       // console.log("this.props.users: ", this.props.users);
-      if(this.props.users.content){
-      let users = this.props.users.content;
-      return users.map((user) => {
-        return <option key={user.id} value={user.id}>{user.firstName + ' ' + user.firstLastName}</option>
-      });
+      if (this.props.users.content) {
+        let users = this.props.users.content;
+        return users.map((user) => {
+          return <option key={user.id} value={user.id}>{user.firstName + ' ' + user.firstLastName}</option>
+        });
       }
-      else{
+      else {
         return null;
       }
     };
@@ -261,7 +305,8 @@ class EditForm extends React.Component {
                   <h5>Formulario: </h5>
                   <form onSubmit={this.onSubmit} role="form">
 
-                    <h6>Información general: </h6><hr />
+                    <h6>Información general: </h6>
+                    <hr/>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Nombre de programa</label>
@@ -277,6 +322,7 @@ class EditForm extends React.Component {
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Responsable</label>
                       <div className="col-md-9">
@@ -293,7 +339,8 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <h6>Audiencia: </h6><hr />
+                    <h6>Audiencia: </h6>
+                    <hr/>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero</label>
@@ -310,7 +357,8 @@ class EditForm extends React.Component {
                           <option value="female">Mujeres</option>
                           <option value="both">Mixto</option>
                         </select>
-                        {errors.genderAudience && <span className="help-block text-danger">{errors.genderAudience}</span>}
+                        {errors.genderAudience &&
+                        <span className="help-block text-danger">{errors.genderAudience}</span>}
                       </div>
                     </div>
 
@@ -359,7 +407,8 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <h6>Descripción: </h6><hr />
+                    <h6>Descripción: </h6>
+                    <hr/>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo</label>
@@ -371,7 +420,7 @@ class EditForm extends React.Component {
                           name="type"
                           value={this.state.type}
                           onChange={this.onChange}
-                          placeholder="eje: FISICO-FUTBOL" />
+                          placeholder="eje: FISICO-FUTBOL"/>
                         {errors.type && <span className="help-block text-danger">{errors.type}</span>}
                       </div>
                     </div>
@@ -391,7 +440,8 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <h6>Lugar de implementación: </h6><hr />
+                    <h6>Lugar de implementación: </h6>
+                    <hr/>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Lugar de implementación</label>
@@ -418,7 +468,8 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <h6>Clasificación: </h6><hr />
+                    <h6>Clasificación: </h6>
+                    <hr/>
 
                     <div className="form-group row">
 
@@ -431,11 +482,11 @@ class EditForm extends React.Component {
                           value={this.state.clasification}
                           className="form-control"
                         >
-                          <option value="" >Selecciona la clasificación...</option>
-                          <option value="grades" >Grado</option>
-                          <option value="workshop" >Taller</option>
-                          <option value="course" >Curso</option>
-                          <option value="division" >Categorias</option>
+                          <option value="">Selecciona la clasificación...</option>
+                          <option value="grades">Grado</option>
+                          <option value="workshop">Taller</option>
+                          <option value="course">Curso</option>
+                          <option value="division">Categorias</option>
                         </select>
                         {errors.clasification && <span className="help-block text-danger">{errors.clasification}</span>}
                       </div>
@@ -472,11 +523,12 @@ class EditForm extends React.Component {
                           <option value="conocimiento">Evaluación conocimiento</option>
                           <option value="continua">Evaluación de continua</option>
                         </select>
-                        {errors.evaluationType && <span className="help-block text-danger">{errors.evaluationType}</span>}
+                        {errors.evaluationType &&
+                        <span className="help-block text-danger">{errors.evaluationType}</span>}
                       </div>
                     </div>
 
-                    <div className="form-group row">
+                    {/*<div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Categoria</label>
                       <div className="col-md-9">
                         <select
@@ -487,10 +539,11 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           {categoriesOpt()}
-                      </select>
+                        </select>
                         {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
-                    </div>
+                    </div>*/}
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de desempeño</label>
                       <div className="col-md-9">
@@ -505,11 +558,13 @@ class EditForm extends React.Component {
                           <option value={false}>No</option>
                           <option value={true}>Si</option>
                         </select>
-                        {errors.evaluationPerformmance && <span className="help-block text-danger">{errors.evaluationPerformmance}</span>}
+                        {errors.evaluationPerformmance &&
+                        <span className="help-block text-danger">{errors.evaluationPerformmance}</span>}
                       </div>
                     </div>
 
-                    <h6>Temporalidad: </h6><hr />
+                    <h6>Temporalidad: </h6>
+                    <hr/>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de meses</label>
@@ -526,35 +581,35 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Periodo de evaluación (cada cuanto se evalua)</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Periodo de evaluación (cada cuanto
+                        se evalua)</label>
                       <div className="col-md-9">
-                      <select
-                      className="form-control"
-                      id="evaluationPeriod"
-                      name="evaluationPeriod"
-                      value={this.state.evaluationPeriod}
-                      onChange={this.onChange}
-                      >
-                      <option value="" disabled>Selecciona...</option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
-                      </select>
-                      {errors.evaluationPeriod && <span className="help-block text-danger">{errors.evaluationPeriod}</span>}
+                        <select
+                          className="form-control"
+                          id="evaluationPeriod"
+                          name="evaluationPeriod"
+                          value={this.state.evaluationPeriod}
+                          onChange={this.onChange}
+                        >
+                          <option value="" disabled>Selecciona...</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                        </select>
+                        {errors.evaluationPeriod &&
+                        <span className="help-block text-danger">{errors.evaluationPeriod}</span>}
                       </div>
-                      </div>
-
+                    </div>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tiene proveedor</label>
@@ -574,63 +629,69 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <h6>Indicadores: </h6><hr />
+                    <h6>Indicadores: </h6>
+                    <hr/>
 
-                      <div className="form-group row">
+                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Indicadores de evaluación</label>
                       <div className="col-md-9">
-                      <select
-                      name="indicatorsEvaluation"
-                      id="indicatorsEvaluation"
-                      onChange={this.onChange}
-                      value={this.state.indicatorsEvaluation}
-                      className="form-control"
-                      >
-                      <option value="" disabled>Selecciona...</option>
-                      <option value={false}>No</option>
-                      <option value={true}>Si</option>
-                      </select>
-                      {errors.indicatorsEvaluation && <span className="help-block text-danger">{errors.indicatorsEvaluation}</span>}
+                        <select
+                          name="indicatorsEvaluation"
+                          id="indicatorsEvaluation"
+                          onChange={this.onChange}
+                          value={this.state.indicatorsEvaluation}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona...</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
+                        </select>
+                        {errors.indicatorsEvaluation &&
+                        <span className="help-block text-danger">{errors.indicatorsEvaluation}</span>}
                       </div>
-                      </div>
+                    </div>
 
-                      <div className="form-group row">
+                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Indicadores de desempeño</label>
                       <div className="col-md-9">
-                      <select
-                      name="indicatorsPerformmance"
-                      id="indicatorsPerformmance"
-                      onChange={this.onChange}
-                      value={this.state.indicatorsPerformmance}
-                      className="form-control"
-                      >
-                      <option value="" disabled>Selecciona...</option>
-                      <option value={false}>No</option>
-                      <option value={true}>Si</option>
-                      </select>
-                      {errors.indicatorsPerformmance && <span className="help-block text-danger">{errors.indicatorsPerformmance}</span>}
+                        <select
+                          name="indicatorsPerformmance"
+                          id="indicatorsPerformmance"
+                          onChange={this.onChange}
+                          value={this.state.indicatorsPerformmance}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona...</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
+                        </select>
+                        {errors.indicatorsPerformmance &&
+                        <span className="help-block text-danger">{errors.indicatorsPerformmance}</span>}
                       </div>
-                      </div>
+                    </div>
 
-                      <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Indicadores de satisfacción</label>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Indicadores de
+                        satisfacción</label>
                       <div className="col-md-9">
-                      <select
-                      name="indicatorsSatisfaction"
-                      id="indicatorsSatisfaction"
-                      onChange={this.onChange}
-                      value={this.state.indicatorsSatisfaction}
-                      className="form-control"
-                      >
-                      <option value="" disabled>Selecciona...</option>
-                      <option value={false}>No</option>
-                      <option value={true}>Si</option>
-                      </select>
-                      {errors.indicatorsSatisfaction && <span className="help-block text-danger">{errors.indicatorsSatisfaction}</span>}
+                        <select
+                          name="indicatorsSatisfaction"
+                          id="indicatorsSatisfaction"
+                          onChange={this.onChange}
+                          value={this.state.indicatorsSatisfaction}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona...</option>
+                          <option value={false}>No</option>
+                          <option value={true}>Si</option>
+                        </select>
+                        {errors.indicatorsSatisfaction &&
+                        <span className="help-block text-danger">{errors.indicatorsSatisfaction}</span>}
                       </div>
-                      </div>
+                    </div>
 
-                    <h6>Información adicional: </h6><hr />
+                    <h6>Información adicional: </h6>
+                    <hr/>
 
                     <div className="form-group row">
                       {
@@ -642,16 +703,18 @@ class EditForm extends React.Component {
                       }
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Campos adicionales: </label>
                       <div className="col-md-9">
-                        <select
-                          name="freeCourses"
-                          id="freeCourses"
-                          onChange={this.onChange}
-                          value={this.state.freeCourses}
-                          className="form-control"
-                        >
-                          <option value="" >Selecciona la categoria...</option>
-                        </select>
-                        {errors.genderAudience && <span className="help-block text-danger">{errors.genderAudience}</span>}
+                        <SelectField
+                          multiple={true}
+                          hintText="Categories"
+                          name="categoryIds"
+                          id="categoryIds"
+                          onChange={this.handleCategoryChange}
+                          value={this.state.categoryIds}
+                          fullWidth={true}
+                          maxHeight={200}>
+                          {categoryOpt()}
+                        </SelectField>
+                        {errors.categoryIds && <span className="help-block text-danger">{errors.categoryIds}</span>}
                       </div>
                     </div>
 
@@ -661,19 +724,19 @@ class EditForm extends React.Component {
                        */
                     }
                     {/*<div className="form-group row">*/}
-                      {/*<label htmlFor="inputEmail3" className="col-md-3 control-label">EL programa esta activo?</label>*/}
-                      {/*<div className="col-md-9">*/}
-                        {/*<select*/}
-                          {/*name="activationStatus"*/}
-                          {/*id="activationStatus"*/}
-                          {/*onChange={this.onChange}*/}
-                          {/*value={this.state.activationStatus}*/}
-                          {/*className="form-control"*/}
-                        {/*>*/}
-                          {/*<option value={false}>No</option>*/}
-                        {/*</select>*/}
-                        {/*{errors.activationStatus && <span className="help-block text-danger">{errors.activationStatus}</span>}*/}
-                      {/*</div>*/}
+                    {/*<label htmlFor="inputEmail3" className="col-md-3 control-label">EL programa esta activo?</label>*/}
+                    {/*<div className="col-md-9">*/}
+                    {/*<select*/}
+                    {/*name="activationStatus"*/}
+                    {/*id="activationStatus"*/}
+                    {/*onChange={this.onChange}*/}
+                    {/*value={this.state.activationStatus}*/}
+                    {/*className="form-control"*/}
+                    {/*>*/}
+                    {/*<option value={false}>No</option>*/}
+                    {/*</select>*/}
+                    {/*{errors.activationStatus && <span className="help-block text-danger">{errors.activationStatus}</span>}*/}
+                    {/*</div>*/}
                     {/*</div>*/}
 
                     <div className="form-group row">
@@ -695,19 +758,19 @@ class EditForm extends React.Component {
               </div>
 
             </div>
-                      <div className="col-xl-3 col-lg-6">
-                      <div className="card bg-color-white">
-                      <div className="card-content">
-                      <span className="card-title">Uso de catalogos</span>
-                      <p>El siguiente foromulario hace uso de catalogos, para agregar nuevos catalogos deveras editarlos
-                      previamente
-                      en la sección de la página.</p>
-                      </div>
-                      <div className="card-action">
-                      <a href="#/app/catalog">Ver catalogos</a>
-                      </div>
-                      </div>
-                      </div>
+            <div className="col-xl-3 col-lg-6">
+              <div className="card bg-color-white">
+                <div className="card-content">
+                  <span className="card-title">Uso de catalogos</span>
+                  <p>El siguiente foromulario hace uso de catalogos, para agregar nuevos catalogos deveras editarlos
+                    previamente
+                    en la sección de la página.</p>
+                </div>
+                <div className="card-action">
+                  <a href="#/app/catalog">Ver catalogos</a>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -717,6 +780,10 @@ class EditForm extends React.Component {
   }
 }
 
+//To get the routers
+EditForm.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   //pass the providers

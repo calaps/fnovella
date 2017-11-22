@@ -1,11 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
-  sedesGetByIdRequest
+  sedesGetByIdRequest,
+  divisionsDeleteRequest
 } from '../../../../../../../actions';
 
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 class DivisionCard extends React.Component{
 
@@ -13,7 +16,9 @@ class DivisionCard extends React.Component{
     super(props);
     this.state = {
       expanded: false
-    }
+    };
+    this.onEditDivision = this.onEditDivision.bind(this);
+    this.onDeleteDivision = this.onDeleteDivision.bind(this);
   }
 
   componentWillMount(){
@@ -28,6 +33,19 @@ class DivisionCard extends React.Component{
     }
   }
 
+  onEditDivision(division) {
+    this.context.router.push({
+      pathname: '/app/division',
+      query: {
+        id : division.id
+      }
+    })
+  }
+
+  onDeleteDivision(id) {
+    this.props.actions.divisionsDeleteRequest(id);
+  }
+
   render(){
     return(
       <Card onExpandChange={(isExpanded)=>{
@@ -40,6 +58,15 @@ class DivisionCard extends React.Component{
           actAsExpander={true}
           showExpandableButton={true}
         />
+        <CardActions
+          style={{float: 'right', marginTop: '-52px', marginRight: '50px'}}>
+          <FlatButton label="Editar" onClick={() => {
+            this.onEditDivision(this.props.division)
+          }}/>
+          <FlatButton label="Eliminar" onClick={() => {
+            this.onDeleteDivision(this.props.division.id)
+          }}/>
+        </CardActions>
         <CardText expandable={true}>
           <div><strong>Location: </strong> {(this.state.location)?this.state.location.name:this.props.division.location} </div>
         </CardText>
@@ -47,6 +74,11 @@ class DivisionCard extends React.Component{
     )
   }
 }
+
+//To get the routers
+DivisionCard.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   //pass the providers
@@ -58,7 +90,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      sedesGetByIdRequest
+      sedesGetByIdRequest,
+      divisionsDeleteRequest
     }, dispatch)
   };
 }

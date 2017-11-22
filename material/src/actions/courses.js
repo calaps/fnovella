@@ -205,3 +205,30 @@ export function coursesDeleteRequest(id) {
     }})
   }
 }
+
+export function courseGetByIdRequest(courseId) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/course/' + courseId, null,{authorization: localStorage.getItem('@fnovella:token')})
+        .then(function (response) {
+          if(response.data.errors===null){
+            resolve(response.data);
+          }else{
+            reject(response.data)
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}

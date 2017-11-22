@@ -5,6 +5,7 @@ import data_types from '../../../../../constants/data_types';
 import map from "Lodash/map"; //to use map in a object
 import { workshopValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   workshopsAddRequest,
@@ -90,7 +91,11 @@ class EditForm extends React.Component {
           (response) => {
             //Save the default object as a provider
             if (response) {
-              self.props.changeView('VIEW_ELEMENT');
+              if (self.context.router.location.query.id) {
+                self.context.router.push('/app/visualization/programs')
+              }else{
+                self.props.changeView('VIEW_ELEMENT');
+              }
             }
           },
           (error) => {
@@ -119,7 +124,11 @@ class EditForm extends React.Component {
   }
 
   handleCancel() {
-    self.props.changeView('VIEW_ELEMENT')
+    if (self.context.router.location.query.id) {
+      self.context.router.push('/app/visualization/programs')
+    }else{
+      self.props.changeView('VIEW_ELEMENT')
+    }
   }
 
   onChange(e) {
@@ -284,6 +293,11 @@ function mapStateToProps(state) {
     programLocations: state.programLocations,
   }
 }
+
+//To get the routers
+EditForm.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {

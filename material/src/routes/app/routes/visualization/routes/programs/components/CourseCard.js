@@ -1,13 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   sedesGetByIdRequest,
   educatorsGetByIdRequest,
-  gradeGetByIdRequest
+  gradeGetByIdRequest,
+  coursesDeleteRequest
 } from '../../../../../../../actions';
 
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 class CourseCard extends React.Component{
 
@@ -15,7 +18,9 @@ class CourseCard extends React.Component{
     super(props);
     this.state = {
       expanded: false
-    }
+    };
+    this.onEditCourse = this.onEditCourse.bind(this);
+    this.onDeleteCourse = this.onDeleteCourse.bind(this);
   }
 
   componentWillMount(){
@@ -46,6 +51,19 @@ class CourseCard extends React.Component{
     }
   }
 
+  onEditCourse(course) {
+    this.context.router.push({
+      pathname: '/app/course',
+      query: {
+        id : course.id
+      }
+    })
+  }
+
+  onDeleteCourse(id) {
+    this.props.actions.coursesDeleteRequest(id);
+  }
+
   render(){
     return(
       <Card
@@ -61,6 +79,15 @@ class CourseCard extends React.Component{
           actAsExpander={true}
           showExpandableButton={true}
         />
+        <CardActions
+          style={{float: 'right', marginTop: '-62px', marginRight: '50px'}}>
+          <FlatButton label="Editar" onClick={() => {
+            this.onEditCourse(this.props.course)
+          }}/>
+          <FlatButton label="Eliminar" onClick={() => {
+            this.onDeleteCourse(this.props.course.id)
+          }}/>
+        </CardActions>
         <CardText expandable={true}>
           <div><strong>Location: </strong> {(this.state.location)?this.state.location.name:this.props.course.location} </div>
           <div><strong>Grade: </strong> {(this.state.grade)?this.state.grade.name:this.props.course.grade} </div>
@@ -72,6 +99,11 @@ class CourseCard extends React.Component{
     )
   }
 }
+
+//To get the routers
+CourseCard.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
   //pass the providers
@@ -85,7 +117,8 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       sedesGetByIdRequest,
       educatorsGetByIdRequest,
-      gradeGetByIdRequest
+      gradeGetByIdRequest,
+      coursesDeleteRequest
     }, dispatch)
   };
 }

@@ -67,9 +67,9 @@ const MainOptions = () => (
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">assignment</i></a>
+                  <a href="javascript:;"><i className="material-icons">assignment_turned_in</i></a>
                 </div>
-                <h3>Evaluación de conocimiento</h3>
+                <h3>Asistencia</h3>
                 <p>Crear, eliminar y visualizar personal. (Eston son los usuarios de la aplicación, capaces de editar o modificar la información).</p>
               </div>
             </div>
@@ -80,9 +80,9 @@ const MainOptions = () => (
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">help</i></a>
+                  <a href="javascript:;"><i className="material-icons">assignment_turned_in</i></a>
                 </div>
-                <h3>Rango de satisfacción</h3>
+                <h3>Aprobación de Asistencia</h3>
                 <p>Si necesitas ayuda acerca del funcionamiento de la aplicación puedes hacer click aqui para obtener respuesta a preguntas frecuentes</p>
               </div>
             </div>
@@ -95,7 +95,7 @@ const MainOptions = () => (
                 <div className="ibox-icon">
                   <a href="javascript:;"><i className="material-icons">dashboard</i></a>
                 </div>
-                <h3>Estructura de monitoreo</h3>
+                <h3>Evaluación Conomiento/Continua</h3>
                 <p>Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de datos con variables de información para el programa.</p>
               </div>
             </div>
@@ -109,9 +109,9 @@ const MainOptions = () => (
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">perm_identity</i></a>
+                  <a href="javascript:;"><i className="material-icons">assignment</i></a>
                 </div>
-                <h3>Encuesta de evaluación del instructor</h3>
+                <h3>Evaluación de Monitoreo</h3>
                 <p>Crear, eliminar y visualizar personal. (Eston son los usuarios de la aplicación, capaces de editar o modificar la información).</p>
               </div>
             </div>
@@ -124,7 +124,7 @@ const MainOptions = () => (
                 <div className="ibox-icon">
                   <a href="javascript:;"><i className="material-icons">help</i></a>
                 </div>
-                <h3>Rango de satisfacción</h3>
+                <h3>Evaluación de desempeño</h3>
                 <p>Si necesitas ayuda acerca del funcionamiento de la aplicación puedes hacer click aqui para obtener respuesta a preguntas frecuentes</p>
               </div>
             </div>
@@ -137,13 +137,14 @@ const MainOptions = () => (
                 <div className="ibox-icon">
                   <a href="javascript:;"><i className="material-icons">dashboard</i></a>
                 </div>
-                <h3>Estructura de monitoreo</h3>
+                <h3>Evaluación de satisfacción</h3>
                 <p>Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de datos con variables de información para el programa.</p>
               </div>
             </div>
           </div></a>
         </div>
       </div>
+
 
     </div>
 

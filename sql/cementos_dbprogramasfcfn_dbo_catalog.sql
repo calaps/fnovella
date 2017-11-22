@@ -19,3 +19,11 @@ INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES (
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Coeficiente intelectual', 'number', 11);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Palabras por minuto', 'number', 13);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Libros leidos', 'number', 13);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('diversificado', 'text', 9);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('IQ', 'number', 14);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Pre-Primaria', 'text', 9);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Chinautla', 'text', 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Peten', 'text', 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Peten', 'text', 2);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Altura', 'number', 15);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Habilidad culinaria', 'text', 16);

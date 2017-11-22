@@ -123,7 +123,7 @@ export function programUpdateRequest(data) {
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('patch', '/program/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('patch', '/program/' + data.program.id, data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (response.data.errors === null) {
               dispatch({
@@ -283,6 +283,33 @@ export function getEntityByProgramId(programId, entity) {
             resolve(response.data);
           }else {
             reject(response.data);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}
+
+export function programGetByIdRequest(programId) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/program/' + programId, null,{authorization: localStorage.getItem('@fnovella:token')})
+        .then(function (response) {
+          if(response.data.errors===null){
+            resolve(response.data);
+          }else{
+            reject(response.data)
           }
         })
         .catch(error => {
