@@ -9,6 +9,8 @@ const messages = {
   ENTITY_ADDED: "Successfully created",
   ENTITY_DELETED: "Successfully deleted",
   ENTITY_UPDATED: "Successfully updated",
+  ENTITY_UPLOADED: "Successfully uploaded",
+
 };
 
 module.exports = messages;

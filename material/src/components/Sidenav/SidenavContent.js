@@ -129,6 +129,7 @@ class SidebarContent extends React.Component {
             <li><FlatButton className="prepend-icon" href="#/app/teachers"><span>Educadores</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/students"><span>Alumnos</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/users"><span>Usuarios</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/upload"><span>CSV Upload</span></FlatButton></li>
           </ul>
         </li>
 
@@ -139,6 +140,7 @@ class SidebarContent extends React.Component {
         <li><FlatButton href="#/app/locations"><i className="nav-icon material-icons">add_location</i><span className="nav-text">Sedes</span></FlatButton></li>
         <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
         <li><FlatButton href="#/app/users"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton></li>
+        <li><FlatButton href="#/app/upload"><i className="nav-icon material-icons">file_upload</i><span className="nav-text">CSV Upload</span></FlatButton></li>
 
         <li className="nav-divider" />
         <li className="nav-header"><span>Menu de apoyo</span></li>

@@ -12,14 +12,18 @@ import {
   USERS_GET_SUCCESS,
   USERS_UPDATE_FAIL,
   USERS_UPDATE_REQUEST,
-  USERS_UPDATE_SUCCESS
+  USERS_UPDATE_SUCCESS,
+  USERS_CSV_UPLOAD
 } from './../constants/ActionTypes';
 
 import initialState from './../stores/initialState';
 
 const users_reducer = (state = initialState.users, action) => {
   let newState;
-  switch(action.type){
+  switch (action.type) {
+    case USERS_CSV_UPLOAD:
+      console.log(USERS_CSV_UPLOAD, [...state, action.data])
+      return [...state, action.data];
     case USERS_ADD_SUCCESS:
       console.log(USERS_ADD_SUCCESS, [...state, action.data])
       return [...state, action.data];
@@ -37,10 +41,10 @@ const users_reducer = (state = initialState.users, action) => {
       return state;
     case USERS_DELETE_SUCCESS:
       console.log(USERS_DELETE_SUCCESS);
-      newState = {...state};
+      newState = { ...state };
       console.log("new State: ", newState);
-      for(let i=0; i<newState.content.length; i++){
-        if(newState.content[i].id === action.data.id){
+      for (let i = 0; i < newState.content.length; i++) {
+        if (newState.content[i].id === action.data.id) {
           newState.content.splice(i, 1);
         }
       }
@@ -53,8 +57,8 @@ const users_reducer = (state = initialState.users, action) => {
       console.log(USERS_UPDATE_SUCCESS)
       newState = [...state];
       console.log("new State: ", newState);
-      for(let i=0; i<newState.length; i++){
-        if(newState[i].id === action.data.id){
+      for (let i = 0; i < newState.length; i++) {
+        if (newState[i].id === action.data.id) {
           newState[i] = action.data;
         }
       }
