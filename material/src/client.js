@@ -18,18 +18,13 @@ const store = createStore(
 
 const history = syncHistoryWithStore(hashHistory, store);
 
-
-{/* Check for user intial #session */}
-function checKuser() {
-  return('/login');
-}
 const rootRoute = {
   childRoutes: [{
     path: '/',
     component: require('./containers/App'),
     indexRoute: {
       onEnter: (nextState, replace) => {
-        replace('/login');
+        replace('/root');
       }
     },
     childRoutes: [
@@ -40,6 +35,7 @@ const rootRoute = {
       require('./routes/forgotPassword'),
       require('./routes/login'),
       require('./routes/signUp'),
+      require('./routes/root'),
       {
         path: '*',
         indexRoute: { onEnter: (nextState, replace) => replace('/404') },
