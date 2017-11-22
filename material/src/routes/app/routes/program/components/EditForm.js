@@ -33,7 +33,7 @@ class EditForm extends React.Component {
       freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
       type: this.props.programData.type || '',
       id: this.props.programData.id || '',
-      category: this.props.programData.category || '',
+      // category: this.props.programData.category || '',
       genderAudience: this.props.programData.genderAudience || '',
       "activationStatus": typeof this.props.programData.activationStatus === "boolean" ? this.props.programData.activationStatus : false,
       "audienceMax": typeof this.props.programData.audienceMax === "number" ? this.props.programData.audienceMax : 0,
@@ -99,7 +99,7 @@ class EditForm extends React.Component {
         freeCourses: true,
         type: 'type',
         id: '',
-        category: '',
+        // category: '',
         genderAudience: 'male',
         "activationStatus": false,
         "audienceMax": 0,
@@ -158,7 +158,7 @@ class EditForm extends React.Component {
           provider: this.state.provider,
           clasification: this.state.clasification,
           freeCourses: this.state.freeCourses,
-          category: this.state.category,
+          category: 1,
           genderAudience: this.state.genderAudience,
           "activationStatus": this.state.activationStatus,
           "audienceMax": this.state.audienceMax,
@@ -233,12 +233,12 @@ class EditForm extends React.Component {
     const {errors} = this.state;
 
     //categories options
-    let categoriesOpt = () => {
+    /*let categoriesOpt = () => {
       let {categories} = this.props;
       return categories.map((category) => {
         return <option key={category.id} value={category.id}>{category.name}</option>
       });
-    };
+    };*/
 
     // location options
     let locationOpt = () => {
@@ -264,13 +264,15 @@ class EditForm extends React.Component {
       let categories = this.props.categories;
       if (categories) {
         return categories.map((category) => {
-          return (<MenuItem
-            key={category.id}
-            insetChildren={true}
-            checked={this.state.categoryIds.indexOf(category) > -1}
-            value={category.id}
-            primaryText={category.name}
-          />);
+          if(category.additionalField){
+            return (<MenuItem
+              key={category.id}
+              insetChildren={true}
+              checked={this.state.categoryIds.indexOf(category) > -1}
+              value={category.id}
+              primaryText={category.name}
+            />);
+          }
         })
       }
       else {
@@ -526,7 +528,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <div className="form-group row">
+                    {/*<div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Categoria</label>
                       <div className="col-md-9">
                         <select
@@ -540,7 +542,7 @@ class EditForm extends React.Component {
                         </select>
                         {errors.category && <span className="help-block text-danger">{errors.category}</span>}
                       </div>
-                    </div>
+                    </div>*/}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de desempeño</label>
