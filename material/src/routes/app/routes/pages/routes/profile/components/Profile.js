@@ -229,7 +229,7 @@ class Info extends React.Component {
           <div className="row stat-container">
             <div className="col-md-3">
               <section className="stat-item">
-                <span className="stat-desc">{user?(user.firstName + ' ' + user.firstLastName || user.firstLastname):' '}</span>
+                <span className="stat-desc">{user?(user.firstName + ' ' + (user.firstLastName || user.firstLastname)):' '}</span>
               </section>
               <img className="calaps-profile" src="assets/images/dummyUser.png" alt="User profile pic" />
             </div>
@@ -241,7 +241,7 @@ class Info extends React.Component {
                     <span className="stat-desc">Información</span>
                   </section>
                   <strong>Tipo de privilegio: </strong><span>Administrador</span><br />
-                  <strong>Nombre completo: </strong><span>{user?(user.firstName + ' ' + user.firstLastName || user.firstLastname):' '}</span><br />
+                  <strong>Nombre completo: </strong><span>{user?(user.firstName + ' ' + (user.firstLastName || user.firstLastname)):' '}</span><br />
                   <strong>Email: </strong><span>{user?user.email:' '}</span><br />
                   <strong>Fecha de nacimiento: </strong><span>{user?user.bornDate:' '}</span><br />
                   <strong>Nacionalidad: </strong><span>{user?user.nationality:' '}</span><br />
