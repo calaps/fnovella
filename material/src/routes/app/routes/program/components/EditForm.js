@@ -233,12 +233,12 @@ class EditForm extends React.Component {
     const {errors} = this.state;
 
     //categories options
-    let categoriesOpt = () => {
+    /*let categoriesOpt = () => {
       let {categories} = this.props;
       return categories.map((category) => {
         return <option key={category.id} value={category.id}>{category.name}</option>
       });
-    };
+    };*/
 
     // location options
     let locationOpt = () => {
@@ -264,13 +264,15 @@ class EditForm extends React.Component {
       let categories = this.props.categories;
       if (categories) {
         return categories.map((category) => {
-          return (<MenuItem
-            key={category.id}
-            insetChildren={true}
-            checked={this.state.categoryIds.indexOf(category) > -1}
-            value={category.id}
-            primaryText={category.name}
-          />);
+          if(category.additionalField){
+            return (<MenuItem
+              key={category.id}
+              insetChildren={true}
+              checked={this.state.categoryIds.indexOf(category) > -1}
+              value={category.id}
+              primaryText={category.name}
+            />);
+          }
         })
       }
       else {
