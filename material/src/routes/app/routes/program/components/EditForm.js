@@ -31,7 +31,7 @@ class EditForm extends React.Component {
       provider: typeof this.props.programData.provider === "boolean" ? this.props.programData.provider : true,
       clasification: this.props.programData.clasification || '',
       freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
-      type: this.props.programData.type || 'type',
+      type: this.props.programData.type || '',
       id: this.props.programData.id || '',
       category: this.props.programData.category || '',
       genderAudience: this.props.programData.genderAudience || '',
