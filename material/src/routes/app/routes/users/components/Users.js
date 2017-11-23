@@ -3,6 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 const optionsName = "Usuario";
+import FileUpload from './File'; //FILE CSV Module integrated
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -63,11 +64,12 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("CSV_LOAD")}
+                           className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="#/app/catalog"><i className="material-icons">dashboard</i></a>
+                          <a href="javascript:;"><i className="material-icons">file_upload</i></a>
                         </div>
-                        <h6>Catalogos</h6>
+                        <h6>Carga masiva (CSV)</h6>
                       </div>
                     </div>
                   </div>
@@ -116,6 +118,8 @@ onEditUser (userData){
         return <EditForm changeView={this.changeView} userData={this.state.userData} />;
       case "VIEW_ELEMENT":
         return <ListElements onEdit={this.onEditUser} />;
+      case "CSV_LOAD":
+        return <FileUpload changeView={this.changeView} userData={this.state.userData} />;
       default:
         return null ;
     }
