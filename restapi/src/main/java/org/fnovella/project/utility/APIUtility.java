@@ -42,24 +42,4 @@ public class APIUtility {
 		return null;
 	}
 
-	public static String normalizeText(String text) {
-		if (text == null) return null;
-		String normalizedText = Normalizer.normalize(text, Normalizer.Form.NFD)
-				.replaceAll("[^\\p{ASCII}]", "");
-		return normalizedText;
-	}
-
-	public static <T> Page<T> mergePages(Page<T> result, Page<T> normalizedResult, Pageable pageable) {
-		List<T> resultList = new ArrayList<>();
-		resultList.addAll(result.getContent());
-		resultList.addAll(normalizedResult.getContent());
-		ArrayList<T> listWithoutDuplication = removeDuplication(resultList);
-		Page<T> all = new PageImpl<>(listWithoutDuplication, pageable, resultList.size());
-		return all;
-	}
-
-	private static <T> ArrayList<T> removeDuplication(List<T> resultList) {
-		Set<T> currentSet = new LinkedHashSet<>(resultList);
-		return new ArrayList<>(currentSet);
-	}
 }

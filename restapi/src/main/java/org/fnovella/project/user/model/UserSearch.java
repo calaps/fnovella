@@ -3,7 +3,10 @@ package org.fnovella.project.user.model;
 import org.fnovella.project.user.repository.UserRepository;
 import org.fnovella.project.utility.APIUtility;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public class UserSearch {
 
@@ -30,28 +33,24 @@ public class UserSearch {
 	}
 	
 	public Page<AppUser> getResults(UserRepository userRepository, Pageable pageable) {
-		String normalizeText = APIUtility.normalizeText(this.firstName);
+
 		boolean useId = this.id != null && this.id > 0;
 		boolean useName = APIUtility.isNotNullOrEmpty(this.firstName);
 		boolean useAppCode = APIUtility.isNotNullOrEmpty(this.appCode);
 		if (useName && useAppCode && useId) {
-			Page<AppUser> result = userRepository.findByFirstNameStartingWithAndAppCodeAndId(this.firstName, this.appCode, this.id, pageable);
-			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWithAndAppCodeAndId(normalizeText, this.appCode, this.id, pageable);
-			return APIUtility.mergePages(result, normalizedResult, pageable);
+			List<AppUser> users = userRepository.findByFirstNameStartingWithAndAppCodeAndId(this.firstName, this.appCode, this.id);
+			return new PageImpl<>(users, pageable, users.size());
 		} else if (useName && useAppCode) {
-			Page<AppUser> result = userRepository.findByFirstNameStartingWithAndAppCode(this.firstName, this.appCode, pageable);
-			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWithAndAppCode(normalizeText, this.appCode, pageable);
-			return APIUtility.mergePages(result, normalizedResult, pageable);
+			List<AppUser> users = userRepository.findByFirstNameStartingWithAndAppCode(this.firstName, this.appCode);
+			return new PageImpl<>(users, pageable, users.size());
 		} else if (useName && useId) {
-			Page<AppUser> result = userRepository.findByFirstNameStartingWithAndId(this.firstName, this.id, pageable);
-			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWithAndId(normalizeText, this.id, pageable);
-			return APIUtility.mergePages(result, normalizedResult, pageable);
+			List<AppUser> users = userRepository.findByFirstNameStartingWithAndId(this.firstName, this.id);
+			return new PageImpl<>(users, pageable, users.size());
 		}  else if (useAppCode && useId) {
 			return userRepository.findByAppCodeAndId(this.appCode, this.id, pageable);
 		}  else if (useName) {
-			Page<AppUser> result = userRepository.findByFirstNameStartingWith(this.firstName, pageable);
-			Page<AppUser> normalizedResult = userRepository.findByFirstNameStartingWith(normalizeText, pageable);
-			return APIUtility.mergePages(result, normalizedResult, pageable);
+			List<AppUser> users = userRepository.findByFirstNameStartingWith(this.firstName);
+			return new PageImpl<>(users, pageable, users.size());
 		}  else if (useAppCode) {
 			return userRepository.findByAppCode(this.appCode, pageable);
 		}  else if (useId) {
