@@ -198,14 +198,11 @@ public class UserController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public APIResponse logout(@RequestHeader("authorization") String authorization) {
 		ArrayList<String> errors = new ArrayList<String>();
-		AppUser authorizedUser = APIUtility.authorizeAppUser(authorization, this.appUserRepository, this.userRepository);
-		if (authorizedUser != null) {
-			AppUserSession session = appUserRepository.findByToken(authorization);
+		AppUserSession session = appUserRepository.findByToken(authorization);
 			if (session != null) {
 				this.appUserRepository.delete(session);
 				return new APIResponse(true, null);
 			}
-		}
 		errors.add("Not authorizaded");
 		return new APIResponse(null, errors);
 	}
