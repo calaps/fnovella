@@ -28,7 +28,7 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.getAll(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.logout(..)) "
 			+ "|| execution(* org.fnovella.project.catalog.controller.CatalogController.*(..)) "
-			+ "|| execution(* org.fnovella.project.instructor.controller.InstructorController.*(..)) "
+			+ "|| execution(* org.fnovella.project.instructor.controller.IntructorController.*(..)) "
 			+ "|| execution(* org.fnovella.project.participant.controller.ParticipantController.*(..)) "
 			+ "|| execution(* org.fnovella.project.privilege.controller.PrivilegeController.*(..)) "
 			+ "|| execution(* org.fnovella.project.program.controller.ProgramController.*(..)) "
@@ -51,6 +51,13 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.program_instructor.controller.ProgramInstructorController.*(..))"
 			+ "|| execution(* org.fnovella.project.program_location.controller.ProgramLocationController.*(..))"
 			+ "|| execution(* org.fnovella.project.program_aditional_fields.controller.ProgramAditionalFieldsController.*(..))"
+			+ "|| execution(* org.fnovella.project.evaluation_activity.controller.EvaluationActivityController.*(..))"
+			+ "|| execution(* org.fnovella.project.evaluation_activity_instructor.controller.EvaluationActivityInstructorController.*(..))"
+			+ "|| execution(* org.fnovella.project.evaluation_activity_participant.controller.EvaluationActivityParticipantController.*(..))"
+			+ "|| execution(* org.fnovella.project.evaluation_actvitiy_participant_instructor.controller.EvaluationActivityParticipantInstructorController.*(..))"
+			+ "|| execution(* org.fnovella.project.evaluation_range.controller.EvaluationRangeController.*(..))"
+			+ "|| execution(* org.fnovella.project.evaluation_type.controller.EvaluationTypeController.*(..))"
+			+ "|| execution(* org.fnovella.project.evaluation_subtype.controller.EvaluationSubtypeController.*(..))"
 			+ "|| execution(* org.fnovella.project.program_app_user.controller.ProgramAppUserController.*(..))")
 	public void authorizeUser(JoinPoint joinPoint) throws NotAuthorizedException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
