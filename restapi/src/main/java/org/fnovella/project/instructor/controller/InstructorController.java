@@ -106,6 +106,10 @@ public class InstructorController {
 			List<InscriptionsInstCourse> list = this.inscriptionsInstCourseRepository.findByInstructorId(id);
 			if (list != null && !list.isEmpty())
 				this.inscriptionsInstCourseRepository.deleteByInstructorId(id);
+			List<ProgramInstructor> programInstructors = this.programInstructorRepository.findByInstructor(id);
+			if(programInstructors != null && !programInstructors.isEmpty()){
+				this.programInstructorRepository.deleteByInstructor(id);
+			}
 			this.instructorRepository.delete(toDelete);
 			return new APIResponse(true, null);
 		}
