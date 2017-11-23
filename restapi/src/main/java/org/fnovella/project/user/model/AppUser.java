@@ -64,13 +64,7 @@ public class AppUser {
 	private String colony;
 	@Length(max = 50)
 	private String zone;
-	@OneToMany(mappedBy = "responsable", cascade = CascadeType.REMOVE)
-	@JsonIgnore
-	private List<Program> programs;
 
-	@OneToMany(mappedBy = "appUser", cascade = CascadeType.REMOVE)
-	@JsonIgnore
-	private List<ProgramAppUser> programAppUsers;
 
 	public Integer getId() {
 		return id;
@@ -78,22 +72,6 @@ public class AppUser {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public List<ProgramAppUser> getProgramAppUsers() {
-		return programAppUsers;
-	}
-
-	public void setProgramAppUsers(List<ProgramAppUser> programAppUsers) {
-		this.programAppUsers = programAppUsers;
-	}
-
-	public List<Program> getPrograms() {
-		return programs;
-	}
-
-	public void setPrograms(List<Program> programs) {
-		this.programs = programs;
 	}
 
 	public String getFirstName() {
