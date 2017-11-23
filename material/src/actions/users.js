@@ -3,6 +3,7 @@ import {HTTP} from './../utils/HTTP';
 import {
   USERS_ADD_REQUEST,
   USERS_ADD_SUCCESS,
+  USERS_CSV_UPLOAD,
   USERS_ADD_FAIL,
   USERS_DELETE_FAIL,
   USERS_DELETE_REQUEST,
@@ -126,6 +127,57 @@ export function usersAddRequest(data) {
               type: SNACKBAR_SHOW,
               data: {
                 message: snackBarMessages.ENTITY_ADDED
+              }
+            });
+            resolve(response.data);
+          }
+          else {
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
+          });
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        });
+    }});
+  }
+}
+
+
+export function usersUploadRequest(data) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('post', '/user/load', data, {authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(response.data.errors === null){
+            dispatch({
+              type: USERS_CSV_UPLOAD,
+              data: response.data.user
+            });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_UPLOADED
               }
             });
             resolve(response.data);
