@@ -12,6 +12,7 @@ import {
   PARTICIPANT_UPDATE_FAIL,
   PARTICIPANT_UPDATE_REQUEST,
   PARTICIPANT_UPDATE_SUCCESS,
+  PARTICIPANT_LOAD_SUCCESS,
   PROGRESS_ADD_REQUEST,
   PROGRESS_REMOVE_REQUEST,
   SNACKBAR_REMOVE,
@@ -88,6 +89,55 @@ export function participantGetRequest(number, size) {
           dispatch({
             type: PARTICIPANT_GET_FAIL,
             error: error
+          });
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}
+
+export function participantUploadRequest(data) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('post', '/participant/load', data,{authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(response.data.errors === null){
+            dispatch({
+              type: PARTICIPANT_LOAD_SUCCESS,
+              data: response.data.data
+            });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.ENTITY_UPLOADED
+              }
+            });
+            resolve(response.data);
+          }else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: "Error: " + response.data.errors.join(', ')
+              }
+            });
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.ERROR
+            }
           });
           reject(error);
         })
