@@ -8,7 +8,6 @@ module.exports = {
         require('./routes/pageLayouts'), // simple page Layout
         require('./routes/pages'), // App core pages
         require('./routes/catalog'), // Calaps App catalog
-        require('./routes/upload'), // Calaps App Users
         require('./routes/users'), // Calaps App Users
         require('./routes/program'), // Calaps App Program
         require('./routes/students'), // Calaps App Students
