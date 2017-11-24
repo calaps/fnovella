@@ -28,7 +28,9 @@ let initialState = {
     open: false,
     message: '',
     autoHideDuration: 4000
-  }
+  },
+  programAdditionalFields:{},
+  groups:{}
 
 };
 

@@ -22,7 +22,7 @@ const MainOptions = () => (
     <div className="with-maxwidth">
       <div className="row">
         <div className="col-xl-4">
-          <a href="#/app/program"><div className="box box-default">
+          <a href="#/app/inscription"><div className="box box-default">
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
