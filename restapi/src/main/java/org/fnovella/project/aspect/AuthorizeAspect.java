@@ -50,6 +50,7 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.section.controller.SectionController.*(..))"
 			+ "|| execution(* org.fnovella.project.program_instructor.controller.ProgramInstructorController.*(..))"
 			+ "|| execution(* org.fnovella.project.program_location.controller.ProgramLocationController.*(..))"
+			+ "|| execution(* org.fnovella.project.participant_aditional_fields.controller.ParticipantAditionalFieldsController.*(..))"
 			+ "|| execution(* org.fnovella.project.program_aditional_fields.controller.ProgramAditionalFieldsController.*(..))"
 			+ "|| execution(* org.fnovella.project.evaluation_activity.controller.EvaluationActivityController.*(..))"
 			+ "|| execution(* org.fnovella.project.evaluation_activity_instructor.controller.EvaluationActivityInstructorController.*(..))"
