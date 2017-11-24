@@ -92,3 +92,54 @@ export function participantContactByParticipantIdGetRequest(id) {
     }})
   }
 }
+
+export function participantContactUpdateRequest(data) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('patch', '/participant_contacts/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token') })
+        .then(function (response) {
+          if(response.data.errors === null){
+            dispatch({
+              type: PARTICIPANT_CONTACT_UPDATE_SUCCESS,
+              data: response.data.data
+            });
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.SUCCESS
+              }
+            });
+            resolve(response.data);
+          }
+          else{
+            dispatch({
+              type: SNACKBAR_SHOW,
+              data: {
+                message: snackBarMessages.FAILURE
+              }
+            });
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          dispatch({
+            type: SNACKBAR_SHOW,
+            data: {
+              message: snackBarMessages.FAILURE
+            }
+          });
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        });
+    }})
+  }
+}
