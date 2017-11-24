@@ -4,6 +4,7 @@ import HorizontalLinearStepper from './HorizontalLinearStepper';
 import ListElements from './ListElements';
 import UpdateForm from './UpdateForm';
 import ViewEmergencyContact from './ViewEmergencyContact';
+import FileUpload from './File'; //FILE CSV Module integrated
 
 const optionsName = "Participantes";
 
@@ -35,7 +36,7 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("VIEW_ELEMENT")} className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
                           <a href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
                         </div>
@@ -49,7 +50,7 @@ class MainOptions extends React.Component {
                   <div className="box box-default">
                     <div className="box-body">
                       <div onClick={() => this.props.changeView("ADD_ELEMENT")}
-                           className="icon-box ibox-plain ibox-center">
+                        className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
                           <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
@@ -62,11 +63,12 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("CSV_LOAD")}
+                        className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="#/app/catalog"><i className="material-icons">dashboard</i></a>
+                          <a href="javascript:;"><i className="material-icons">file_upload</i></a>
                         </div>
-                        <h6>Catalogos</h6>
+                        <h6>Carga masiva (CSV)</h6>
                       </div>
                     </div>
                   </div>
@@ -93,38 +95,40 @@ class Student extends React.Component {
     };
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditStudent = this.onEditStudent.bind(this); //bind this element
-    this.handleCancel=this.handleCancel.bind(this);
-    this.onEmergencyView=this.onEmergencyView.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
+    this.onEmergencyView = this.onEmergencyView.bind(this);
   }
 
   changeView(data) {
-    this.setState({active: data});
+    this.setState({ active: data });
   }
 
   onEditStudent(participantData) {
-    this.setState({participantData});
+    this.setState({ participantData });
     this.changeView('UPDATE_ELEMENT', false);
   }
 
-  onEmergencyView(participantId){
-    this.setState({participantId});
-    this.changeView('VIEW_EMERGENCY',false);
+  onEmergencyView(participantId) {
+    this.setState({ participantId });
+    this.changeView('VIEW_EMERGENCY', false);
   }
 
-  handleCancel(){
-    this.changeView('VIEW_ELEMENT',false);
+  handleCancel() {
+    this.changeView('VIEW_ELEMENT', false);
   }
 
   activeView() {
     switch (this.state.active) {
       case 'ADD_ELEMENT':
-        return <HorizontalLinearStepper changeView={this.changeView} participantData={this.state.participantData}/>;
+        return <HorizontalLinearStepper changeView={this.changeView} participantData={this.state.participantData} />;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditStudent} onEmergencyView={this.onEmergencyView}/>;
+        return <ListElements onEdit={this.onEditStudent} onEmergencyView={this.onEmergencyView} />;
       case "UPDATE_ELEMENT":
-        return <UpdateForm participantData={this.state.participantData} changeView={this.changeView} onCancel={this.handleCancel}/>;
+        return <UpdateForm participantData={this.state.participantData} changeView={this.changeView} onCancel={this.handleCancel} />;
       case "VIEW_EMERGENCY":
-        return <ViewEmergencyContact participantId={this.state.participantId}/>;
+        return <ViewEmergencyContact participantId={this.state.participantId} />;
+      case "CSV_LOAD":
+        return <FileUpload changeView={this.changeView} />;
       default:
         return null;
     }
@@ -135,8 +139,8 @@ class Student extends React.Component {
       <div className="container-fluid no-breadcrumbs page-dashboard">
 
         <QueueAnim type="bottom" className="ui-animate">
-          <div key="1"><MainOptions changeView={this.changeView}/></div>
-          <hr/>
+          <div key="1"><MainOptions changeView={this.changeView} /></div>
+          <hr />
           <div key="2">{this.activeView()}</div>
         </QueueAnim>
 

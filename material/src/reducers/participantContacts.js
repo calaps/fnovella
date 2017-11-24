@@ -21,7 +21,7 @@ import {
 import initialState from './../stores/initialState';
 
 const participants_contacts_reducer = (state = initialState.participantContacts, action) => {
-  // let newState;
+  let newState;
   switch(action.type){
     case PARTICIPANT_CONTACT_ADD_SUCCESS:
       console.log(PARTICIPANT_CONTACT_ADD_SUCCESS);
@@ -36,6 +36,19 @@ const participants_contacts_reducer = (state = initialState.participantContacts,
         ...action.data
       };
     case PARTICIPANT_CONTACT_GET_BY_PARTICIPANTID_FAIL:
+      // TODO: some alert may be
+      return state;
+    case PARTICIPANT_CONTACT_UPDATE_SUCCESS:
+      console.log(PARTICIPANT_CONTACT_UPDATE_SUCCESS);
+      newState = [...state];
+      for(let i=0; i<newState.length; i++){
+        if(newState[i].id === action.data.id){
+          newState[i] = action.data;
+        }
+      }
+      return newState;
+    case PARTICIPANT_CONTACT_UPDATE_FAIL:
+      console.log(PARTICIPANT_CONTACT_UPDATE_FAIL);
       // TODO: some alert may be
       return state;
     default:
