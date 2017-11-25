@@ -30,7 +30,8 @@ let initialState = {
     autoHideDuration: 4000
   },
   programAdditionalFields:{},
-  groups:{}
+  groups:{},
+  participantAdditionalFields: {}
 
 };
 

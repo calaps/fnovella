@@ -17,7 +17,7 @@ import {
   PROGRESS_REMOVE_REQUEST
 ,  SNACKBAR_REMOVE,  SNACKBAR_SHOW } from './../constants/ActionTypes'; import snackBarMessages from '../constants/SnackBarMessages';
 
-export function programaAdditionalFieldsGetRequest() {
+export function programAdditionalFieldsGetRequest() {
   let params = {};
 
   return function (dispatch) {

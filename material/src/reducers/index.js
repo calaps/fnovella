@@ -24,6 +24,7 @@ import progress from './progress';
 import snackBar from './snackBar';
 import programAdditionalFields from './programAdditionalFields';
 import groups from './groups';
+import participantAdditionalFiels from './participantAdditionalFields';
 
 const reducers = {
   routing: routerReducer,
@@ -50,7 +51,8 @@ const reducers = {
   progress,
   snackBar,
   programAdditionalFields,
-  groups
+  groups,
+  participantAdditionalFiels
 };
 
 module.exports = combineReducers(reducers);

@@ -45,3 +45,4 @@ export * from './programInstructors';
 export * from './snackBar';
 export * from './programAdditionalFields';
 export * from './groups';
+export * from './participantAdditionalFields';
