@@ -8,16 +8,19 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.courseData.name}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.courseData.description}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
-          <button
-            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
+          {
+            (this.props.courseData.createdGroup)
+              ?
+              <button
+                onClick={()=>{this.props.onViewGroup(this.props.courseData.id)}}
 
-            type="submit" className="btn btn-primary">visualizar grupo</button>
-          &nbsp;
-          &nbsp;
-          <button
-            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
+                type="submit" className="btn btn-primary">Visualizar grupo</button>
+              :
+              <button
+                onClick={()=>{this.props.onCreateGroup(this.props.courseData.id)}}
 
-            type="submit" className="btn btn-primary">Crear grupo</button>
+                type="submit" className="btn btn-primary">Crear grupo</button>
+          }
           &nbsp;
           &nbsp;
           <button
