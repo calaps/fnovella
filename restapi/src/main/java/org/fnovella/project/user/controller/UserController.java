@@ -228,7 +228,7 @@ public class UserController {
 				this.appUserRepository.delete(session);
 				return new APIResponse(true, null);
 			}
-		errors.add("Not authorizaded");
+		errors.add("Not authorized");
 		return new APIResponse(null, errors);
 	}
 	
