@@ -91,7 +91,7 @@ class Section extends React.Component {
     super(props);
     this.state = {
       active: "VIEW_ELEMENT",
-      categoryData: {}
+      sectionData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditCatalog = this.onEditCatalog.bind(this);
@@ -106,15 +106,15 @@ class Section extends React.Component {
     }
   }
 
-  onEditCatalog (categoryData){
-    this.setState({categoryData});
+  onEditCatalog (sectionData){
+    this.setState({sectionData});
 
     this.changeView('ADD_ELEMENT',false);
   }
 
   changeView(data,reset=true){
     if(reset){
-      this.setState({ categoryData: {} })
+      this.setState({ sectionData: {} })
     }
     this.setState({ active: data });
   }
@@ -122,7 +122,7 @@ class Section extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm changeView={this.changeView} sectionData={this.state.categoryData} />;
+        return <EditForm changeView={this.changeView} sectionData={this.state.sectionData} />;
       case "VIEW_ELEMENT":
         return <ListElements onEdit={this.onEditCatalog}  />;
       default:

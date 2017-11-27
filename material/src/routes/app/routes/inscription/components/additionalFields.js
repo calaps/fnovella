@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import {programaAdditionalFieldsGetRequest, programGetRequest, catalogsGetByCategoryRequest ,groupsGetRequest} from '../../../../../actions';
+import {programAdditionalFieldsGetRequest, programGetRequest, catalogsGetByCategoryRequest, groupsGetRequest, participantAdditionalFieldsAddRequest} from '../../../../../actions';
 
 class AdditionalFieldsForm extends React.Component {
     constructor(props) {
@@ -11,11 +11,11 @@ class AdditionalFieldsForm extends React.Component {
         this.state = {
             programId: '',
             participantData: this.props.participantData,
-            additionalFields: {},
+            additionalFields: [],
             calatog: '',
             group: '',
             period: '',
-            year: '',
+            year: new Date().getFullYear(),
             isLoading: false,
             errors: {}
         };
@@ -38,12 +38,15 @@ class AdditionalFieldsForm extends React.Component {
         this
             .props
             .actions
-            .programaAdditionalFieldsGetRequest();
+            .programAdditionalFieldsGetRequest();
         this
             .props
             .actions
             .programGetRequest(null, 1000);
-        this.props.actions.groupsGetRequest();
+        this
+            .props
+            .actions
+            .groupsGetRequest();
     }
 
     _handleCancel() {
@@ -66,9 +69,17 @@ class AdditionalFieldsForm extends React.Component {
         e.preventDefault();
         // if (this.isValid()) {     //reset errors object and disable submit button
         // this.setState({errors: {}, isLoading: true}); let data = {}; this     .props
-        //    .changeView('VIEW_ELEMENT'); // }
-        let data = this.state.additionalFields;
+        //   .changeView('VIEW_ELEMENT'); // }
+        let data = {
+            catalog : this.state.calatog,
+            group: this.state.group,
+            participant: this.state.participantData.id,
+            period: this.state.period,
+            year: this.state.year,
+            values: this.state.additionalFields
+        };
         console.log("Additional Fields :", data);
+        this.props.actions.participantAdditionalFieldsAddRequest(data);
     }
 
     onChange(e, value) {
@@ -77,19 +88,35 @@ class AdditionalFieldsForm extends React.Component {
         });
         if (e.target.name == "programId") {
             let programs = this.props.programs.content || [];
-
-            for (let i = 0; i < programs.length; i++) {
-                if (e.target.value == programs[i].id) {
-                    this
-                        .props
-                        .actions
-                        .catalogsGetByCategoryRequest(programs[i].category);
-                    break;
+            let programId = e.target.value;
+            let program = programs.find((program) => {
+                return programId == program.id;
+            })
+            this
+                .props
+                .actions
+                .catalogsGetByCategoryRequest(program.category);
+            let programAdditionalFields = this.props.programAdditionalFields.content || [];
+            let additionalFields = [];
+            for(let i=0;i<programAdditionalFields.length;i++){
+                if(programAdditionalFields[i].program == programId){
+                    additionalFields.push({
+                        additional_field_id: programAdditionalFields[i].id,
+                        initial_value: programAdditionalFields[i].categoryData.name,
+                        final_value: ''
+                    });
                 }
             }
+            this.setState({additionalFields});
         } else if (e.target.name == "additional_fields") {
             let fields = this.state.additionalFields;
-            fields[e.target.id] = e.target.value;
+            fields = fields.map((field)=>{
+                if(field.additional_field_id == e.target.id){
+                    field.final_value = e.target.value;
+                    return field;
+                }
+                return field;
+            })
             this.setState({additionalFields: fields})
         }
     }
@@ -104,32 +131,22 @@ class AdditionalFieldsForm extends React.Component {
             })
         }
         let renderAdditionalFields = () => {
-            let programAdditionalFields = this.props.programAdditionalFields.content || [];
-            if (programAdditionalFields.length > 0) {
-                {
-                    return programAdditionalFields.map((item) => {
-                        if (item.program == this.state.programId) {
+            let additionalFields = this.state.additionalFields;
+                    return additionalFields.map((field) => {
                             return (
-                                <div className="form-group row" key={item.id}>
-                                    <label htmlFor={item.id} className="col-md-3 control-label">{item.categoryData.name}</label>
+                                <div className="form-group row" key={field.additional_field_id}>
+                                    <label htmlFor={field.additional_field_id} className="col-md-3 control-label">{field.initial_value}</label>
                                     <div className="col-md-9">
                                         <input
                                             type="text"
                                             className="form-control"
-                                            id={item
-                                            .categoryData
-                                            .name
-                                            .toLowerCase()}
+                                            id={field.additional_field_id}
                                             name="additional_fields"
-                                            onChange={this.onChange}
-                                            placeholder={item.categoryData.description}/>
+                                            onChange={this.onChange}/>
                                     </div>
                                 </div>
                             )
-                        }
                     })
-                }
-            }
         };
         let calatogsOpt = () => {
             let catalogs = this.props.catalogs.content || [];
@@ -137,9 +154,9 @@ class AdditionalFieldsForm extends React.Component {
                 return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
             })
         }
-        let groupsOpt = ()=>{
+        let groupsOpt = () => {
             let groups = this.props.groups.content || [];
-            return groups.map((group)=>{
+            return groups.map((group) => {
                 return <option key={group.id} value={group.id}>{group.correlativo}</option>
             })
         }
@@ -222,6 +239,7 @@ class AdditionalFieldsForm extends React.Component {
                                                     name="year"
                                                     onChange={this.onChange}
                                                     value={this.state.year}
+                                                    disabled={true}
                                                     placeholder="Enter Year"/>
                                             </div>
                                         </div>
@@ -256,10 +274,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            programaAdditionalFieldsGetRequest,
+            programAdditionalFieldsGetRequest,
             programGetRequest,
             catalogsGetByCategoryRequest,
-            groupsGetRequest
+            groupsGetRequest,
+            participantAdditionalFieldsAddRequest
         }, dispatch)
     };
 }
