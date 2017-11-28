@@ -2,8 +2,8 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  coursesGetRequest,
-  coursesDeleteRequest,
+  groupsGetRequest,
+  groupsDeleteRequest,
 } from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
@@ -21,19 +21,19 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.coursesGetRequest(number, size);
+    this.props.actions.groupsGetRequest(number, size);
   }
 
   onDeleteButton(id) {
     console.log("id: ", id);
-    this.props.actions.coursesDeleteRequest(id);
+    this.props.actions.groupsDeleteRequest(id);
   }
 
   render() {
     let i = 1;
     return (
       <article className="article">
-        <h2 className="article-title">Lista de cursos</h2>
+        <h2 className="article-title">Lista de grupos</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
@@ -44,27 +44,27 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Nombre</th>
-                      <th className="mdl-data-table__cell--non-numeric">Descripción</th>
+                      <th className="mdl-data-table__cell--non-numeric">Correlativo</th>
+                      <th className="mdl-data-table__cell--non-numeric">Type</th>
                     </tr>
                     </thead>
                     <tbody>
 
                     {
-                      this.props.courses.content ? this.props.courses.content.map((course) => {
-                        return <ListItem key={course.id} onDelete={this.onDeleteButton}
+                      this.props.groups.content ? this.props.groups.content.map((group) => {
+                        return <ListItem key={group.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
-                                         courseData={course}/>
+                                         groupData={group}/>
                       }) : null
                     }
 
                     </tbody>
                   </table>
                   <Pagination
-                    totalPages={this.props.courses.totalPages}
-                    totalElements={this.props.courses.totalElements}
-                    getRequest={this.props.actions.coursesGetRequest}
+                    totalPages={this.props.groups.totalPages}
+                    totalElements={this.props.groups.totalElements}
+                    getRequest={this.props.actions.groupsGetRequest}
                   />
                 </div>
 
@@ -74,13 +74,14 @@ class ListElements extends React.Component {
         </div>
       </article>
     );
+
   }
 }
 
 function mapStateToProps(state) {
   //pass the providers
   return {
-    courses: state.courses
+    groups: state.groups
   }
 }
 
@@ -88,8 +89,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      coursesGetRequest,
-      coursesDeleteRequest
+      groupsGetRequest,
+      groupsDeleteRequest
     }, dispatch)
   };
 }

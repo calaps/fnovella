@@ -707,3 +707,44 @@ export function sectionsValidator(data){
   };
 
 }
+
+export function groupValidator(data){
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if(Validator.isEmpty(data.correlativo)) {
+    errors.correlativo = required;
+    if(!Validator.isEmpty(data.correlativo) && !Validator.isAlphanumeric(data.correlativo)){
+      errors.correlativo = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.courseId.toString())) {
+    errors.courseId = required;
+  }
+  if(Validator.isEmpty(data.divisionId.toString())) {
+    errors.divisionId = required;
+  }
+  if(Validator.isEmpty(data.instructor.toString())) {
+    errors.instructor = required;
+  }
+  if(Validator.isEmpty(data.section.toString())) {
+    errors.section = required;
+  }
+  if(Validator.isEmpty(data.typeCategory)) {
+    errors.typeCategory = required;
+    if(!Validator.isEmpty(data.typeCategory) && !Validator.isAlphanumeric(data.typeCategory)){
+      errors.typeCategory = invalidData;
+    }
+  }
+  if(Validator.isEmpty(data.workshopId.toString())) {
+    errors.workshopId = required;
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+
+}

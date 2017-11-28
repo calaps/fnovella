@@ -11,7 +11,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Curso";
+const optionsName = "Grupo";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -90,21 +90,21 @@ class Create_group extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT",
-      courseData:{}
+      active: "VIEW_ELEMENT",
+      groupData:{}
     };
-    this.onEditCourse=this.onEditCourse.bind(this);
+    this.onEditGroup=this.onEditGroup.bind(this);
     this.changeView = this.changeView.bind(this); //bind this element
   }
 
-  onEditCourse (courseData){
-    this.setState({courseData});
+  onEditGroup (groupData){
+    this.setState({groupData});
     this.changeView('ADD_ELEMENT',false);
   }
 
   changeView(data,reset=true){
     if(reset){
-      this.setState({courseData: {}})
+      this.setState({groupData: {}})
     }
     this.setState({ active: data });
   }
@@ -112,9 +112,9 @@ class Create_group extends React.Component {
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm changeView={this.changeView} courseData={this.state.courseData}/>;
+        return <EditForm changeView={this.changeView} groupData={this.state.groupData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditCourse}/>;
+        return <ListElements onEdit={this.onEditGroup}/>;
       default:
         return null;
     }
@@ -124,7 +124,7 @@ class Create_group extends React.Component {
         <div className="container-fluid no-breadcrumbs page-dashboard">
 
           <QueueAnim type="bottom" className="ui-animate">
-            <div key="1"></div>
+            <div key="1"><MainOptions changeView={ this.changeView } /></div>
             <hr/>
             <div key="2">{ this.activeView() }</div>
           </QueueAnim>
