@@ -5,29 +5,17 @@ class ListItem extends React.Component {
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.courseData.name}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.courseData.description}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.groupData.correlativo}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.groupData.typeCategory}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
           <button
-            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
-
-            type="submit" className="btn btn-primary">visualizar grupo/sección</button>
-          &nbsp;
-          &nbsp;
-          <button
-            onClick={()=>{this.props.onDelete(this.props.programData.id)}}
-
-            type="submit" className="btn btn-primary">Crear sección/Grupo</button>
-          &nbsp;
-          &nbsp;
-          <button
-            onClick={()=>{this.props.onDelete(this.props.courseData.id)}}
+            onClick={()=>{this.props.onDelete(this.props.groupData.id)}}
 
             type="submit" className="btn btn-primary">Eliminar</button>
           &nbsp;
           &nbsp;
           <button
-            onClick={()=>{this.props.onEdit(this.props.courseData)}}
+            onClick={()=>{this.props.onEdit(this.props.groupData)}}
 
             type="submit" className="btn btn-primary">Editar</button>
         </td>
