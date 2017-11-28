@@ -1,5 +1,7 @@
 package org.fnovella.project.inscriptions.controller;
 
+import org.fnovella.project.group.model.Group;
+import org.fnovella.project.group.repository.GroupRepository;
 import org.fnovella.project.inscriptions.model.Inscription;
 import org.fnovella.project.inscriptions.repository.InscriptionRepository;
 import org.fnovella.project.utility.model.APIResponse;
@@ -16,6 +18,8 @@ public class InscriptionController {
 
     @Autowired
     private InscriptionRepository inscriptionRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -44,9 +48,18 @@ public class InscriptionController {
     public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody Inscription inscriptions) {
         ArrayList<String> errors = inscriptions.validate();
         if (errors.size() == 0) {
-            return new APIResponse(this.inscriptionRepository.save(inscriptions), null);
+            if (isGroupExist(inscriptions.getGroup())) {
+                return new APIResponse(this.inscriptionRepository.save(inscriptions), null);
+            } else {
+                errors.add("Group does not exist");
+            }
         }
         return new APIResponse(null, errors);
+    }
+
+    private boolean isGroupExist(Integer groupId) {
+        Group group = groupRepository.findOne(groupId);
+        return group != null;
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PATCH)

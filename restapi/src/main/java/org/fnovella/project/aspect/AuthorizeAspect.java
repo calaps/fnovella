@@ -37,6 +37,7 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.grade.controller.GradeController.*(..)) "
 			+ "|| execution(* org.fnovella.project.evaluation.controller.EvaluationController.*(..)) "
 			+ "|| execution(* org.fnovella.project.workshop.controller.WorkshopController.*(..)) "
+			+ "|| execution(* org.fnovella.project.inscriptions.controller.InscriptionController.*(..)) "
 			+ "|| execution(* org.fnovella.project.inscriptions_inst_course.controller.InscriptionsInstCourseController.*(..))"
 			+ "|| execution(* org.fnovella.project.inscriptions_inst_grade.controller.InscriptionsInstGradeController.*(..))"
 			+ "|| execution(* org.fnovella.project.inscriptions_inst_workshop.controller.InscriptionsInstWorkshopController.*(..)) "
