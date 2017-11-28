@@ -2,13 +2,9 @@ package org.fnovella.project.program_instructor.model;
 
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.fnovella.project.program.model.Program;
 
 @Entity
@@ -19,6 +15,8 @@ public class ProgramInstructor {
 	private Integer id;
 	private Integer program;
 	private Integer instructor;
+	@Transient
+	private String instructorName;
 	@ManyToOne()
 	@JoinColumn(name="program", updatable=false, insertable=false)
 	private Program programData;
@@ -59,6 +57,14 @@ public class ProgramInstructor {
 		super();
 		this.program = program;
 		this.instructor = instructor;
+	}
+
+	public String getInstructorName() {
+		return instructorName;
+	}
+
+	public void setInstructorName(String instructorName) {
+		this.instructorName = instructorName;
 	}
 
 	public ProgramInstructor() {
