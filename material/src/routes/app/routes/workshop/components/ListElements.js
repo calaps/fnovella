@@ -58,6 +58,7 @@ class ListElements extends React.Component {
                         return <ListItem key={workshop.id} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
+                                         onCreateGroup={this.props.onCreateGroup}
                                          workshopData={workshop}/>
                       }) : null
                     }

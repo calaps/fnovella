@@ -57,6 +57,7 @@ class ListElements extends React.Component {
                         return <ListItem key={i} onDelete={this.onDeleteButton}
                                          number={i++}
                                          onEdit={this.props.onEdit}
+                                         onCreateGroup={this.props.onCreateGroup}
                                          divisionData={division}/>
                       }) : null
                     }

@@ -17,8 +17,9 @@ class MainOptions extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
-    return(
+    return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
           <div className="row">
@@ -40,7 +41,8 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("VIEW_ELEMENT")}
+                           className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
                           <a href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
                         </div>
@@ -53,7 +55,9 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("ADD_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                      {/*<div onClick={() => this.props.changeView("ADD_ELEMENT")}*/}
+                      <div
+                        className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
                           <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
@@ -91,26 +95,32 @@ class Create_group extends React.Component {
     super(props);
     this.state = {
       active: "VIEW_ELEMENT",
-      groupData:{}
+      groupData: {}
     };
-    this.onEditGroup=this.onEditGroup.bind(this);
+    this.onEditGroup = this.onEditGroup.bind(this);
     this.changeView = this.changeView.bind(this); //bind this element
   }
 
-  onEditGroup (groupData){
-    this.setState({groupData});
-    this.changeView('ADD_ELEMENT',false);
+  componentWillMount() {
+    if (this.props.location.query.typeCategory) {
+      this.changeView('ADD_ELEMENT', false);
+    }
   }
 
-  changeView(data,reset=true){
-    if(reset){
+  onEditGroup(groupData) {
+    this.setState({groupData});
+    this.changeView('ADD_ELEMENT', false);
+  }
+
+  changeView(data, reset = true) {
+    if (reset) {
       this.setState({groupData: {}})
     }
-    this.setState({ active: data });
+    this.setState({active: data});
   }
 
   activeView() {
-    switch(this.state.active) {
+    switch (this.state.active) {
       case 'ADD_ELEMENT':
         return <EditForm changeView={this.changeView} groupData={this.state.groupData}/>;
       case "VIEW_ELEMENT":
@@ -119,18 +129,19 @@ class Create_group extends React.Component {
         return null;
     }
   }
+
   render() {
-      return (
-        <div className="container-fluid no-breadcrumbs page-dashboard">
+    return (
+      <div className="container-fluid no-breadcrumbs page-dashboard">
 
-          <QueueAnim type="bottom" className="ui-animate">
-            <div key="1"><MainOptions changeView={ this.changeView } /></div>
-            <hr/>
-            <div key="2">{ this.activeView() }</div>
-          </QueueAnim>
+        <QueueAnim type="bottom" className="ui-animate">
+          <div key="1"><MainOptions changeView={this.changeView}/></div>
+          <hr/>
+          <div key="2">{this.activeView()}</div>
+        </QueueAnim>
 
-        </div>
-      );
+      </div>
+    );
   }
 }
 

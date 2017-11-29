@@ -3,6 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   workshopGetByIdRequest,
@@ -95,6 +96,7 @@ class Workshop extends React.Component {
     };
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditProgram = this.onEditProgram.bind(this);
+    this.onCreateGroup = this.onCreateGroup.bind(this);
   }
 
   componentWillMount(){
@@ -118,12 +120,22 @@ class Workshop extends React.Component {
     this.setState({active: data});
   }
 
+  onCreateGroup(workshopId){
+    this.context.router.push({
+      pathname: '/app/create_group',
+      query: {
+        workshopId : workshopId,
+        typeCategory : 'workshop'
+      }
+    })
+  }
+
   activeView() {
     switch (this.state.active) {
       case 'ADD_ELEMENT':
         return <EditForm changeView={this.changeView} workshopData={this.state.workshopData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditProgram}/>;
+        return <ListElements onEdit={this.onEditProgram} onCreateGroup={this.onCreateGroup}/>;
       default:
         return null;
     }
@@ -143,6 +155,12 @@ class Workshop extends React.Component {
       );
   }
 }
+
+//To get the routers
+Workshop.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
