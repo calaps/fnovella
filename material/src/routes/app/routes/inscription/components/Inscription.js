@@ -2,6 +2,7 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import ListElements from './ListElements';
 import AdditionalFieldsForm from './additionalFields';
+import EditForm from './EditForm';
 
 const optionsName = "INSCRIPCIONES";
 
@@ -80,9 +81,12 @@ class Inscription extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            active: (this.props.location.query.add)? "VIEW_ELEMENT" :"VIEW_INSCRIPTIONS",
+            active: (this.props.location.query.add)
+                ? "VIEW_ELEMENT"
+                : "VIEW_INSCRIPTIONS",
             participantData: {},
-            participantId: ''
+            participantId: '',
+            inscriptionParticipantId:''
         };
         this.changeView = this
             .changeView
@@ -92,6 +96,9 @@ class Inscription extends React.Component {
             .bind(this); //bind this element
         this.handleCancel = this
             .handleCancel
+            .bind(this);
+        this.onEdit = this
+            .onEdit
             .bind(this);
     }
 
@@ -104,20 +111,34 @@ class Inscription extends React.Component {
         this.changeView('ADD_ELEMENT', false);
     }
     handleCancel() {
-        this.changeView('VIEW_ELEMENT', false);
+        this.changeView('VIEW_INSCRIPTIONS', false);
     }
-
+    onEdit(inscriptionParticipantId) {
+        this.setState({inscriptionParticipantId});
+        this.changeView('EDIT_VIEW', false);
+    }
     activeView() {
         switch (this.state.active) {
             case "VIEW_INSCRIPTIONS":
-                return <ListElements onInscribe={this.onInscribeStudent} showInscriptions={true}/>;
+                return <ListElements
+                    onInscribe={this.onInscribeStudent}
+                    onEdit={this.onEdit}
+                    showInscriptions={true}/>;
             case "VIEW_ELEMENT":
-                return <ListElements onInscribe={this.onInscribeStudent} showInscriptions={false}/>;
+                return <ListElements
+                    onInscribe={this.onInscribeStudent}
+                    onEdit={this.onEdit}
+                    showInscriptions={false}/>;
             case "ADD_ELEMENT":
                 return <AdditionalFieldsForm
                     participantData={this.state.participantData}
                     changeView={this.changeView}
                     onCancel={this.handleCancel}/>;
+            case "EDIT_VIEW":
+                return <EditForm 
+                        inscriptionParticipantId={this.state.inscriptionParticipantId}
+                        changeView={this.changeView}
+                        handleCancel={this.handleCancel}/>
             default:
                 return null;
         }

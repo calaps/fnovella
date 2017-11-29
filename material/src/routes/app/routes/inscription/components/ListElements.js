@@ -107,6 +107,8 @@ class ListElements extends React.Component {
             onInscribe={this.props.onInscribe}
             participantData={participant}
             inscriptionData={inscription}
+            inscriptionParticipantId={inscriptionParticipant.id}
+            onEdit={this.props.onEdit}
             showInscriptions={showInscriptions}/>
         }
       })

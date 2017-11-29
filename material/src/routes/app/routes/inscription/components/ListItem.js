@@ -11,8 +11,13 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.email}</td>
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.gender}</td>
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.department}</td>
-        <td className="mdl-data-table__cell--non-numeric" >{(this.props.inscriptionData.status == 0) ? 'True': 'False'}</td>
+        <td className="mdl-data-table__cell--non-numeric" >{(this.props.inscriptionData.status == 1) ? 'True': 'False'}</td>
+        <td className="mdl-data-table__cell--non-numeric" >
+          <button
+            onClick={()=>{this.props.onEdit(this.props.inscriptionParticipantId)}}
 
+            type="submit" className="btn btn-primary">Visualizar participante</button>
+        </td>
       </tr>
       );
     }

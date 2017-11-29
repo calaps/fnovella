@@ -95,6 +95,34 @@ export function inscriptionGetRequest(number, size) {
   }
 }
 
+export function inscriptionGetRequestById(id) {
+
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/inscription/'+id,null,{authorization: localStorage.getItem('@fnovella:token')})
+        .then(function (response) {
+          if(response.data.errors === null){
+            resolve(response.data);
+          }else{
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}
+
 export function inscriptionAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
