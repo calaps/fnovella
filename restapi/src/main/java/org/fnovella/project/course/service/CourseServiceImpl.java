@@ -12,10 +12,10 @@ public class CourseServiceImpl implements CourseService{
     @Autowired
     private CourseRepository courseRepository;
     @Override
-    public void updateCreatedGroup(Group group) {
+    public void updateCreatedGroup(Group group, boolean createdGroup) {
         Course course = courseRepository.findOne(group.getCourseId());
         if (course != null) {
-            course.setCreatedGroup(true);
+            course.setCreatedGroup(createdGroup);
             courseRepository.save(course);
         }
     }

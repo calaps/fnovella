@@ -12,10 +12,10 @@ public class WorkshopServiceImpl implements WorkshopService {
     private WorkshopRepository workshopRepository;
 
     @Override
-    public void updateCreatedGroup(Group group) {
+    public void updateCreatedGroup(Group group, boolean createdGroup) {
         Workshop workshop = workshopRepository.findOne(group.getWorkshopId());
         if (workshop != null) {
-            workshop.setCreatedGroup(true);
+            workshop.setCreatedGroup(createdGroup);
             workshopRepository.save(workshop);
         }
     }

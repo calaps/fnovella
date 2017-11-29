@@ -45,7 +45,7 @@ public class GroupController {
 	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody Group group) {
 		ArrayList<String> errors = group.validate();
 		if (errors.isEmpty()) {
-			groupService.updateCategoryStructure(group);
+			groupService.updateCategoryStructureAfterCreate(group);
 			return new APIResponse(this.groupRepository.save(group), null);
 		}
 		return new APIResponse(null, errors);
@@ -71,6 +71,7 @@ public class GroupController {
 		Group group = this.groupRepository.findOne(id);
 		if (group != null) {
 			this.groupRepository.delete(group);
+			this.groupService.updateCategoryStructureAfterDelete(group);
 			return new APIResponse(true, null);
 		}
 		errors.add("Group doesn't exist");

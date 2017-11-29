@@ -13,10 +13,10 @@ public class DivisionServiceImpl implements DivisionService {
     private DivisionRepository divisionRepository;
 
     @Override
-    public void updateCreatedGroup(Group group) {
+    public void updateCreatedGroup(Group group, boolean createdGroup) {
         Division division = divisionRepository.findOne(group.getDivisionId());
         if (division != null) {
-            division.setCreatedGroup(true);
+            division.setCreatedGroup(createdGroup);
             divisionRepository.save(division);
         }
     }
