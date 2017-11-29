@@ -55,6 +55,7 @@ const reducers = {
   programAdditionalFields,
   groups,
   participantAdditionalFiels,
+  inscriptions,
   inscriptionParticipants
 };
 

@@ -2,6 +2,20 @@ import React from 'react';
 
 class ListItem extends React.Component {
   render () {
+    let {showInscriptions} = this.props;
+    if(showInscriptions){
+      return (
+        <tr>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.firstName}</td>
+        <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.email}</td>
+        <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.gender}</td>
+        <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.department}</td>
+        <td className="mdl-data-table__cell--non-numeric" >{(this.props.inscriptionData.status == 0) ? 'True': 'False'}</td>
+
+      </tr>
+      );
+    }
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
