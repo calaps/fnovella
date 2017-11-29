@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.fnovella.project.catalog_relation.repository.CatalogRelationRepository;
+import org.fnovella.project.category.repository.CategoryRepository;
+import org.fnovella.project.location.repository.LocationRepository;
 import org.fnovella.project.program_aditional_fields.model.ProgramAditionalFields;
 import org.fnovella.project.course.repository.CourseRepository;
 import org.fnovella.project.division.repository.DivisionRepository;
@@ -56,6 +58,10 @@ public class ProgramController {
 	private ProgramLocationRepository programLocationRepository;
 	@Autowired
 	private WorkshopRepository workshopRepository;
+	@Autowired
+	private LocationRepository locationRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@RequestMapping(value = "", method=RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, @RequestParam("type") int type, 
@@ -116,25 +122,7 @@ public class ProgramController {
 		if (errors.size() == 0) {
 			ProgramLocationCategory saved = new ProgramLocationCategory();
 			saved.setProgram(this.programRepository.save(program.getProgram()));
-			if (program.getLocationIds() != null && !program.getLocationIds().isEmpty()) {
-				for (Integer locationId : program.getLocationIds()) {
-					ProgramLocation pl = new ProgramLocation();
-					pl.setProgram(saved.getProgram().getId());
-					pl.setLocation(locationId);
-					this.programLocationRepository.save(pl);
-				}
-				saved.setLocationIds(program.getLocationIds());
-			}
-
-			if (program.getCategoryIds() != null && !program.getCategoryIds().isEmpty()) {
-				for (Integer categoryId : program.getCategoryIds()) {
-					ProgramAditionalFields paf = new ProgramAditionalFields();
-					paf.setProgram(saved.getProgram().getId());
-					paf.setCategory(categoryId);
-					this.programAditionalFieldsRepository.save(paf);
-				}
-				saved.setCategoryIds(program.getCategoryIds());
-			}
+			createProgramLocationAndAditionalFieldsRelation(program, saved);
 
 			return new APIResponse(saved, null);
 		}
@@ -152,32 +140,38 @@ public class ProgramController {
 			saved.setProgram(this.programRepository.saveAndFlush(toUpdate));
 			this.programLocationRepository.deleteByProgram(toUpdate.getId());
 			this.programAditionalFieldsRepository.deleteByProgram(toUpdate.getId());
-			if (program.getLocationIds() != null && !program.getLocationIds().isEmpty()) {
-				for (Integer locationId : program.getLocationIds()) {
-					ProgramLocation pl = new ProgramLocation();
-					pl.setProgram(saved.getProgram().getId());
-					pl.setLocation(locationId);
-					this.programLocationRepository.save(pl);
-				}
-				saved.setLocationIds(program.getLocationIds());
-			}
-
-			if (program.getCategoryIds() != null && !program.getCategoryIds().isEmpty()) {
-				for (Integer categoryId : program.getCategoryIds()) {
-					ProgramAditionalFields paf = new ProgramAditionalFields();
-					paf.setProgram(saved.getProgram().getId());
-					paf.setCategory(categoryId);
-					this.programAditionalFieldsRepository.save(paf);
-				}
-				saved.setCategoryIds(program.getCategoryIds());
-			}
+			createProgramLocationAndAditionalFieldsRelation(program, saved);
 
 			return new APIResponse(saved, null);
 		}
 		errors.add("Program doesn't exist");
 		return new APIResponse(null, errors);
 	}
-	
+
+	private void createProgramLocationAndAditionalFieldsRelation(@RequestBody ProgramLocationCategory program, ProgramLocationCategory saved) {
+		if (program.getLocationIds() != null && !program.getLocationIds().isEmpty()) {
+            for (Integer locationId : program.getLocationIds()) {
+                ProgramLocation pl = new ProgramLocation();
+                pl.setProgram(saved.getProgram().getId());
+                pl.setLocation(locationId);
+                pl.setLocationData(this.locationRepository.findOne(locationId));
+                this.programLocationRepository.save(pl);
+            }
+            saved.setLocationIds(program.getLocationIds());
+        }
+
+		if (program.getCategoryIds() != null && !program.getCategoryIds().isEmpty()) {
+            for (Integer categoryId : program.getCategoryIds()) {
+                ProgramAditionalFields paf = new ProgramAditionalFields();
+                paf.setProgram(saved.getProgram().getId());
+                paf.setCategory(categoryId);
+                paf.setCategoryData(this.categoryRepository.findOne(categoryId));
+                this.programAditionalFieldsRepository.save(paf);
+            }
+            saved.setCategoryIds(program.getCategoryIds());
+        }
+	}
+
 	@RequestMapping(value = "{id}", method=RequestMethod.DELETE)
 	public APIResponse delete(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
 		this.delete(id, true);

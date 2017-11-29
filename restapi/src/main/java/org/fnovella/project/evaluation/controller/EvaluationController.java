@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-//@RestController
-//@RequestMapping("/evaluation/")
+@RestController
+@RequestMapping("/evaluation/")
 public class EvaluationController {
 
-	/*@Autowired
+	@Autowired
 	private EvaluationRepository evaluationRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
@@ -68,5 +68,5 @@ public class EvaluationController {
 		}
 		errors.add("Evaluation doesn't exist");
 		return new APIResponse(null, errors);
-	}*/
+	}
 }

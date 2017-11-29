@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.fnovella.project.group.model.Group;
 import org.fnovella.project.group.repository.GroupRepository;
+import org.fnovella.project.group.service.GroupService;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/group/")
 public class GroupController {
 
+
 	@Autowired
 	private GroupRepository groupRepository;
+	@Autowired
+	private GroupService groupService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
@@ -41,11 +45,13 @@ public class GroupController {
 	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody Group group) {
 		ArrayList<String> errors = group.validate();
 		if (errors.isEmpty()) {
+			groupService.updateCategoryStructure(group);
 			return new APIResponse(this.groupRepository.save(group), null);
 		}
 		return new APIResponse(null, errors);
 	}
-	
+
+
 	@RequestMapping(value = "{id}", method = RequestMethod.PATCH)
 	public APIResponse update(@RequestHeader("authorization") String authorization, @RequestBody Group group,
 			@PathVariable("id") Integer id) {

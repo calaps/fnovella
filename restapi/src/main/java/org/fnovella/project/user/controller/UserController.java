@@ -8,6 +8,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.fnovella.project.instructor.model.Instructor;
 import org.fnovella.project.instructor.repository.InstructorRepository;
+import org.fnovella.project.program.repository.ProgramRepository;
+import org.fnovella.project.program_app_user.repository.ProgramAppUserRepository;
 import org.fnovella.project.user.model.AppUser;
 import org.fnovella.project.user.model.AppUserSession;
 import org.fnovella.project.user.model.Login;
@@ -42,12 +44,15 @@ public class UserController {
 	@Autowired
 	private InstructorRepository instructorRepository;
 	@Autowired
+	private ProgramRepository programRepository;
+	@Autowired
+	private ProgramAppUserRepository programAppUserRepository;
+	@Autowired
 	public JavaMailSender emailSender;
 
 	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
 	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
-		AppUser appUser = this.userRepository.findOne(id);
-		return new APIResponse(appUser == null, null);
+		return new APIResponse(this.delete(id, false), null);
 	}
 	
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -184,6 +189,7 @@ public class UserController {
 		if (authorizedUser != null) {
 			AppUser appUser = this.userRepository.findOne(id);
 			if (appUser != null) {
+				this.delete(appUser.getId(), true);
 				this.appUserRepository.deleteByIdAppUser(appUser.getId());
 				this.userRepository.delete(appUser);
 				return new APIResponse(true, null);
@@ -194,19 +200,35 @@ public class UserController {
 		errors.add("Not authorizaded");
 		return new APIResponse(null, errors);
 	}
+
+	private boolean delete(Integer appUserId, boolean delete) {
+		boolean toDelete = true;
+		List<?> list = this.programRepository.findByResponsable(appUserId);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.programRepository.deleteByResponsable(appUserId);
+			}
+		}
+		list = this.programAppUserRepository.findByAppUser(appUserId);
+		if (!list.isEmpty()) {
+			toDelete = false;
+			if (delete) {
+				this.programAppUserRepository.deleteByAppUser(appUserId);
+			}
+		}
+		return toDelete;
+	}
 	
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public APIResponse logout(@RequestHeader("authorization") String authorization) {
 		ArrayList<String> errors = new ArrayList<String>();
-		AppUser authorizedUser = APIUtility.authorizeAppUser(authorization, this.appUserRepository, this.userRepository);
-		if (authorizedUser != null) {
-			AppUserSession session = appUserRepository.findByToken(authorization);
+		AppUserSession session = appUserRepository.findByToken(authorization);
 			if (session != null) {
 				this.appUserRepository.delete(session);
 				return new APIResponse(true, null);
 			}
-		}
-		errors.add("Not authorizaded");
+		errors.add("Not authorized");
 		return new APIResponse(null, errors);
 	}
 	

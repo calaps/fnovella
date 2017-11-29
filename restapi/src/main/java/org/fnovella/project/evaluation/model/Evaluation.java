@@ -1,81 +1,107 @@
 package org.fnovella.project.evaluation.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.fnovella.project.utility.APIUtility;
-import org.hibernate.validator.constraints.Length;
-
-//@Entity
+@Entity
 public class Evaluation {
 
-	/*@Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@Length(max = 50)
-	private String item;
-	@Length(max = 50)
-	private String subject;
-	@Length(max = 50)
-	private String practice;
-	@Column(name="column_5")
-	private Integer column5;
+	private Integer group;
+	private Integer session;
+	private Integer evaluationType;
+	private Integer evaluationSubtype;
+	private Date dateStart;
+	private Date dateEnd;
+	private Integer range;
+	
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getItem() {
-		return item;
+	public Integer getGroup() {
+		return group;
 	}
-	public void setItem(String item) {
-		this.item = item;
+	public void setGroup(Integer group) {
+		this.group = group;
 	}
-	public String getSubject() {
-		return subject;
+	public Integer getSession() {
+		return session;
 	}
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setSession(Integer session) {
+		this.session = session;
 	}
-	public String getPractice() {
-		return practice;
+	public Integer getEvaluationType() {
+		return evaluationType;
 	}
-	public void setPractice(String practice) {
-		this.practice = practice;
+	public void setEvaluationType(Integer evaluationType) {
+		this.evaluationType = evaluationType;
 	}
-	public Integer getColumn5() {
-		return column5;
+	public Integer getEvaluationSubtype() {
+		return evaluationSubtype;
 	}
-	public void setColumn5(Integer column5) {
-		this.column5 = column5;
+	public void setEvaluationSubtype(Integer evaluationSubtype) {
+		this.evaluationSubtype = evaluationSubtype;
 	}
-	public Evaluation(String item, String subject, String practice, Integer column5) {
-		super();
-		this.item = item;
-		this.subject = subject;
-		this.practice = practice;
-		this.column5 = column5;
+	public Date getDateStart() {
+		return dateStart;
+	}
+	public void setDateStart(Date dateStart) {
+		this.dateStart = dateStart;
+	}
+	public Date getDateEnd() {
+		return dateEnd;
+	}
+	public void setDateEnd(Date dateEnd) {
+		this.dateEnd = dateEnd;
+	}
+	public Integer getRange() {
+		return range;
+	}
+	public void setRange(Integer range) {
+		this.range = range;
 	}
 	public Evaluation() {
 		super();
 	}
+	public Evaluation(Integer group, Integer session, Integer evaluationType, Integer evaluationSubtype, Date dateStart,
+			Date dateEnd, Integer range) {
+		super();
+		this.group = group;
+		this.session = session;
+		this.evaluationType = evaluationType;
+		this.evaluationSubtype = evaluationSubtype;
+		this.dateStart = dateStart;
+		this.dateEnd = dateEnd;
+		this.range = range;
+	}
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
-		if (!APIUtility.isNotNullOrEmpty(this.item)) errors.add("Item is required");
-		if (!APIUtility.isNotNullOrEmpty(this.subject)) errors.add("Subject is required");
-		if (!APIUtility.isNotNullOrEmpty(this.practice)) errors.add("Practice is required");
+		if (this.group == null || this.group < 0) errors.add("Group is required");
+		if (this.session == null || this.session < 0) errors.add("Session is required");
+		if (this.evaluationType == null || this.evaluationType < 0) errors.add("Evaluation Type is required");
+		if (this.evaluationSubtype == null || this.evaluationSubtype < 0) errors.add("Evaluation Sub Type is required");
+		if (this.range == null || this.range < 0) errors.add("Range is required");
+		if (this.dateStart == null) errors.add("Date Start is required");
+		if (this.dateEnd == null) errors.add("Date End is required");
 		return errors;
 	}
 	public void setUpdateFields(Evaluation evaluation) {
-		if (APIUtility.isNotNullOrEmpty(evaluation.item)) this.item = evaluation.item;
-		if (APIUtility.isNotNullOrEmpty(evaluation.subject)) this.subject = evaluation.subject;
-		if (APIUtility.isNotNullOrEmpty(evaluation.practice)) this.practice = evaluation.practice;
-		if (evaluation.column5 != null && evaluation.column5 > 0) this.column5 = evaluation.column5;
-	}*/
+		if (evaluation.group != null && evaluation.group > 0) this.group = evaluation.group;
+		if (evaluation.session != null && evaluation.session > 0) this.session = evaluation.session;
+		if (evaluation.evaluationType != null && evaluation.evaluationType > 0) this.evaluationType = evaluation.evaluationType;
+		if (evaluation.evaluationSubtype != null && evaluation.evaluationSubtype > 0) this.evaluationSubtype = evaluation.evaluationSubtype;
+		if (evaluation.range != null && evaluation.range > 0) this.range = evaluation.range;
+		if (evaluation.dateStart != null) this.dateStart = evaluation.dateStart;
+		if (evaluation.dateEnd != null) this.dateEnd = evaluation.dateEnd;
+	}
 }

@@ -1,18 +1,15 @@
 package org.fnovella.project.program_instructor.controller;
 
-import java.util.ArrayList;
-
 import org.fnovella.project.program_instructor.model.ProgramInstructor;
 import org.fnovella.project.program_instructor.repository.ProgramInstructorRepository;
+import org.fnovella.project.program_instructor.service.ProgramInstructorService;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/program_instructor/")
@@ -20,16 +17,23 @@ public class ProgramInstructorController {
 
 	@Autowired
 	private ProgramInstructorRepository programInstructorRepository;
+
+	@Autowired
+	private ProgramInstructorService programInstructorService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
-		return new APIResponse(this.programInstructorRepository.findAll(pageable), null);
+		Page<ProgramInstructor> programInstructors = this.programInstructorRepository.findAll(pageable);
+		programInstructorService.addNameInstructorTo(programInstructors);
+		return new APIResponse(programInstructors, null);
 	}
 	
 	@RequestMapping(value = "{id}/instructor_id", method = RequestMethod.GET)
 	public APIResponse getByInstructorId(@RequestHeader("authorization") String authorization, Pageable pageable,
 			@PathVariable("id") Integer id) {
-		return new APIResponse(this.programInstructorRepository.findByInstructor(id, pageable), null);
+		Page<ProgramInstructor> programInstructors = this.programInstructorRepository.findByInstructor(id, pageable);
+		programInstructorService.addNameInstructorTo(programInstructors);
+		return new APIResponse(programInstructors, null);
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -37,6 +41,7 @@ public class ProgramInstructorController {
 		ArrayList<String> errors = new ArrayList<String>();
 		ProgramInstructor programInstructor = this.programInstructorRepository.findOne(id);
 		if (programInstructor != null) {
+			programInstructorService.setInstructorNameFor(programInstructor);
 			return new APIResponse(programInstructor, null);
 		}
 		errors.add("Program Instructor doesn't exist");
@@ -47,7 +52,9 @@ public class ProgramInstructorController {
 	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody ProgramInstructor programInstructor) {
 		ArrayList<String> errors = programInstructor.validate();
 		if (errors.size() == 0) {
-			return new APIResponse(this.programInstructorRepository.save(programInstructor), null);
+			ProgramInstructor savedProgramInstructor = this.programInstructorRepository.save(programInstructor);
+			programInstructorService.setInstructorNameFor(savedProgramInstructor);
+			return new APIResponse(savedProgramInstructor, null);
 		}
 		return new APIResponse(null, errors);
 	}
@@ -59,7 +66,9 @@ public class ProgramInstructorController {
 		ProgramInstructor toUpdate = this.programInstructorRepository.findOne(id);
 		if (toUpdate != null) {
 			toUpdate.setUpdateFields(programInstructor);
-			return new APIResponse(this.programInstructorRepository.saveAndFlush(toUpdate), null);
+			ProgramInstructor updatedProgramInstructor = this.programInstructorRepository.saveAndFlush(toUpdate);
+			programInstructorService.setInstructorNameFor(updatedProgramInstructor);
+			return new APIResponse(updatedProgramInstructor, null);
 		}
 		errors.add("Program Instructor doesn't exist");
 		return new APIResponse(null, errors);
