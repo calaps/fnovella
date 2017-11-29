@@ -68,13 +68,13 @@ public class InscriptionParticipantController {
 
     private boolean isInscriptionExist(InscriptionParticipant inscriptionParticipant, ArrayList<String> errors) {
         Inscription inscription = inscriptionRepository.findOne(inscriptionParticipant.getInscription());
-        errors.add("Inscription doesn't exist");
+        if(inscription == null) errors.add("Inscription doesn't exist");
         return inscription != null;
     }
 
     private boolean isParticipantExist(InscriptionParticipant inscriptionParticipant, ArrayList<String> errors) {
         Participant participant = participantRepository.findOne(inscriptionParticipant.getParticipant());
-        errors.add("Participant doesn't exist");
+        if(participant == null) errors.add("Participant doesn't exist");
         return participant != null;
     }
 
