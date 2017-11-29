@@ -31,7 +31,9 @@ let initialState = {
   },
   programAdditionalFields:{},
   groups:{},
-  participantAdditionalFields: {}
+  participantAdditionalFields: {},
+  inscriptions: {},
+  inscriptionParticipants: {}
 
 };
 
