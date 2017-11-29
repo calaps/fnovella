@@ -1,18 +1,18 @@
 import {HTTP} from './../utils/HTTP';
 import {
-  PARTICIPANT_ADD_REQUEST,
-  PARTICIPANT_ADD_SUCCESS,
-  PARTICIPANT_ADD_FAIL,
-  PARTICIPANT_DELETE_FAIL,
-  PARTICIPANT_DELETE_REQUEST,
-  PARTICIPANT_DELETE_SUCCESS,
-  PARTICIPANT_GET_FAIL,
-  PARTICIPANT_GET_REQUEST,
-  PARTICIPANT_GET_SUCCESS,
-  PARTICIPANT_UPDATE_FAIL,
-  PARTICIPANT_UPDATE_REQUEST,
-  PARTICIPANT_UPDATE_SUCCESS,
-  PARTICIPANT_LOAD_SUCCESS,
+  INSCRIPTION_ADD_REQUEST,
+  INSCRIPTION_ADD_SUCCESS,
+  INSCRIPTION_ADD_FAIL,
+  INSCRIPTION_DELETE_FAIL,
+  INSCRIPTION_DELETE_REQUEST,
+  INSCRIPTION_DELETE_SUCCESS,
+  INSCRIPTION_GET_FAIL,
+  INSCRIPTION_GET_REQUEST,
+  INSCRIPTION_GET_SUCCESS,
+  INSCRIPTION_UPDATE_FAIL,
+  INSCRIPTION_UPDATE_REQUEST,
+  INSCRIPTION_UPDATE_SUCCESS,
+  INSCRIPTION_LOAD_SUCCESS,
   PROGRESS_ADD_REQUEST,
   PROGRESS_REMOVE_REQUEST,
   SNACKBAR_REMOVE,
@@ -20,23 +20,18 @@ import {
 } from './../constants/ActionTypes';
 import snackBarMessages from '../constants/SnackBarMessages';
 
-export function participantsGetRequestBySearch(id,firstName,appCode) {
+export function inscriptionsGetRequestByGroup(group) {
   return function (dispatch) {
       return new Promise(async function(resolve, reject){{
-        let params= {
-        id,
-        firstName,
-        appCode
-        };
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('post', '/participant/search', null, {authorization:localStorage.getItem('@fnovella:token')},params)
+        HTTP('get', '/inscription/by-group/'+group, null, {authorization:localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if(response.data.errors === null){
                dispatch({
-                type: PARTICIPANT_GET_SUCCESS,
+                type: INSCRIPTION_GET_SUCCESS,
                 data: response.data.data
               });
               resolve(response.data);
@@ -47,7 +42,7 @@ export function participantsGetRequestBySearch(id,firstName,appCode) {
           })
           .catch(error => {
             dispatch({
-              type: PARTICIPANT_GET_FAIL,
+              type: INSCRIPTION_GET_FAIL,
               error: error
             });
             reject(error);
@@ -61,11 +56,10 @@ export function participantsGetRequestBySearch(id,firstName,appCode) {
     }
   }
 
-export function participantGetRequest(number, size) {
+export function inscriptionGetRequest(number, size) {
   let params = {};
   params.page = number;
   params.size = size;
-  params.type = 2;
 
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
@@ -73,11 +67,11 @@ export function participantGetRequest(number, size) {
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('get', '/participant/',null,{authorization: localStorage.getItem('@fnovella:token')},params)
+      HTTP('get', '/inscription/',null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
-              type: PARTICIPANT_GET_SUCCESS,
+              type: INSCRIPTION_GET_SUCCESS,
               data: response.data.data
             });
             resolve(response.data);
@@ -87,7 +81,7 @@ export function participantGetRequest(number, size) {
         })
         .catch(error => {
           dispatch({
-            type: PARTICIPANT_GET_FAIL,
+            type: INSCRIPTION_GET_FAIL,
             error: error
           });
           reject(error);
@@ -101,14 +95,15 @@ export function participantGetRequest(number, size) {
   }
 }
 
-export function participantGetRequestById(id) {
+export function inscriptionGetRequestById(id) {
+
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('get', '/participant/'+id,null,{authorization: localStorage.getItem('@fnovella:token')})
+      HTTP('get', '/inscription/'+id,null,{authorization: localStorage.getItem('@fnovella:token')})
         .then(function (response) {
           if(response.data.errors === null){
             resolve(response.data);
@@ -128,67 +123,18 @@ export function participantGetRequestById(id) {
   }
 }
 
-export function participantUploadRequest(data) {
+export function inscriptionAddRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('post', '/participant/load', data,{authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('post', '/inscription/', data,{authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
-              type: PARTICIPANT_LOAD_SUCCESS,
-              data: response.data.data
-            });
-            dispatch({
-              type: SNACKBAR_SHOW,
-              data: {
-                message: snackBarMessages.ENTITY_UPLOADED
-              }
-            });
-            resolve(response.data);
-          }else{
-            dispatch({
-              type: SNACKBAR_SHOW,
-              data: {
-                message: "Error: " + response.data.errors.join(', ')
-              }
-            });
-            reject(response.data);
-          }
-        })
-        .catch(error => {
-          dispatch({
-            type: SNACKBAR_SHOW,
-            data: {
-              message: snackBarMessages.ERROR
-            }
-          });
-          reject(error);
-        })
-        .finally(()=>{
-          dispatch({
-            type: PROGRESS_REMOVE_REQUEST
-          });
-        })
-    }})
-  }
-}
-
-export function participantAddRequest(data) {
-  return function (dispatch) {
-    return new Promise(function(resolve, reject){{
-      dispatch({
-        type: PROGRESS_ADD_REQUEST
-      });
-      // API
-      HTTP('post', '/participant/', data,{authorization: localStorage.getItem('@fnovella:token') })
-        .then(function (response) {
-          if(response.data.errors === null){
-            dispatch({
-              type: PARTICIPANT_ADD_SUCCESS,
+              type: INSCRIPTION_ADD_SUCCESS,
               data: response.data.data
             });
             dispatch({
@@ -226,18 +172,18 @@ export function participantAddRequest(data) {
   }
 }
 
-export function participantUpdateRequest(data) {
+export function inscriptionUpdateRequest(data) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('patch', '/participant/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('patch', '/inscription/'+data.id, data , { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
-              type: PARTICIPANT_UPDATE_SUCCESS,
+              type: INSCRIPTION_UPDATE_SUCCESS,
               data: response.data.data
             });
             dispatch({
@@ -276,18 +222,18 @@ export function participantUpdateRequest(data) {
   }
 }
 
-export function participantDeleteRequest(id) {
+export function inscriptionDeleteRequest(id) {
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('delete', '/participant/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
+      HTTP('delete', '/inscription/'+id, null, { authorization: localStorage.getItem('@fnovella:token') })
         .then(function (response) {
           if(response.data.errors === null){
             dispatch({
-              type: PARTICIPANT_DELETE_SUCCESS,
+              type: INSCRIPTION_DELETE_SUCCESS,
               data: {
                 id
               }

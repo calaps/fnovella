@@ -4,11 +4,12 @@ import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import map from "Lodash/map"; //to use map in a object
 import {groupValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   coursesGetRequest,
   divisionsGetRequest,
-  educatorsGetRequest,
+  programInstructorGetRequest,
   sectionsGetRequest,
   workshopsGetRequest,
   groupsAddRequest,
@@ -44,9 +45,28 @@ class EditForm extends React.Component {
   componentWillMount() {
     this.props.actions.coursesGetRequest();
     this.props.actions.divisionsGetRequest();
-    this.props.actions.educatorsGetRequest();
+    this.props.actions.programInstructorGetRequest();
     this.props.actions.sectionsGetRequest();
     this.props.actions.workshopsGetRequest();
+    if (self.context.router.location.query.typeCategory) {
+      this.setState({typeCategory: self.context.router.location.query.typeCategory});
+      switch (self.context.router.location.query.typeCategory){
+        case 'workshop':
+          this.setState({workshopId: self.context.router.location.query.workshopId});
+          break;
+        case 'section':
+          this.setState({section: self.context.router.location.query.sectionId});
+          break;
+        case 'division':
+          this.setState({divisionId: self.context.router.location.query.divisionId});
+          break;
+        case 'course':
+          this.setState({courseId: self.context.router.location.query.courseId});
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -67,7 +87,26 @@ class EditForm extends React.Component {
   }
 
   handleCancel(){
-    self.props.changeView('VIEW_ELEMENT');
+    if (self.context.router.location.query.typeCategory) {
+      switch (self.context.router.location.query.typeCategory){
+        case 'workshop':
+          self.context.router.push('/app/workshop');
+          break;
+        case 'section':
+          self.context.router.push('/app/section');
+          break;
+        case 'division':
+          self.context.router.push('/app/division');
+          break;
+        case 'course':
+          self.context.router.push('/app/course');
+          break;
+        default:
+          break;
+      }
+    }else{
+      self.props.changeView('VIEW_ELEMENT')
+    }
   }
 
   isValid() {
@@ -117,7 +156,26 @@ class EditForm extends React.Component {
           (response) => {
             //Save the default object as a provider
             if (response) {
-              self.props.changeView('VIEW_ELEMENT');
+              if (self.context.router.location.query.typeCategory) {
+                switch (self.context.router.location.query.typeCategory){
+                  case 'workshop':
+                    self.context.router.push('/app/workshop');
+                    break;
+                  case 'section':
+                    self.context.router.push('/app/section');
+                    break;
+                  case 'division':
+                    self.context.router.push('/app/division');
+                    break;
+                  case 'course':
+                    self.context.router.push('/app/course');
+                    break;
+                  default:
+                    break;
+                }
+              }else{
+                self.props.changeView('VIEW_ELEMENT')
+              }
             }
           }, (error) => {
             //alert'fail');
@@ -157,9 +215,9 @@ class EditForm extends React.Component {
     };
     //Educators options
     let educatorsOpt = () => {
-      let educators = this.props.educators.content || [];
+      let educators = this.props.programInstructors.content || [];
       return educators.map((educator) => {
-        return <option key={educator.id} value={educator.id}>{educator.firstName}</option>
+        return <option key={educator.instructor} value={educator.instructor}>{educator.instructorName}</option>
       });
     };
     //Sections options
@@ -189,9 +247,10 @@ class EditForm extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de grupo</label>
+                      <label htmlFor="typeCategory" className="col-md-3 control-label">Tipo de grupo</label>
                       <div className="col-md-9">
                         <input
+                          disabled
                           type="text"
                           className="form-control"
                           id="typeCategory"
@@ -203,7 +262,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Correlativo</label>
+                      <label htmlFor="correlativo" className="col-md-3 control-label">Correlativo</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -217,7 +276,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Instructor</label>
+                      <label htmlFor="instructor" className="col-md-3 control-label">Instructor</label>
                       <div className="col-md-9">
                         <select
                           name="instructor"
@@ -225,7 +284,7 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           value={this.state.instructor}
                           className="form-control"
-                        >`
+                        >
                           <option value="" disabled>Selecione la instructor</option>
                           {educatorsOpt()}
                         </select>
@@ -233,7 +292,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sección</label>
+                      <label htmlFor="section" className="col-md-3 control-label">Sección</label>
                       <div className="col-md-9">
                         <select
                           name="section"
@@ -249,7 +308,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Workshop</label>
+                      <label htmlFor="workshopId" className="col-md-3 control-label">Workshop</label>
                       <div className="col-md-9">
                         <select
                           name="workshopId"
@@ -265,7 +324,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Course</label>
+                      <label htmlFor="courseId" className="col-md-3 control-label">Course</label>
                       <div className="col-md-9">
                         <select
                           name="courseId"
@@ -281,7 +340,7 @@ class EditForm extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Division</label>
+                      <label htmlFor="divisionId" className="col-md-3 control-label">Division</label>
                       <div className="col-md-9">
                         <select
                           name="divisionId"
@@ -322,12 +381,16 @@ class EditForm extends React.Component {
   }
 }
 
+EditForm.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 function mapStateToProps(state) {
   //pass the providers
   return {
     courses: state.courses,
     divisions: state.divisions,
-    educators: state.educators,
+    programInstructors: state.programInstructors,
     sections: state.sections,
     workshops: state.workshops
   }
@@ -339,7 +402,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       coursesGetRequest,
       divisionsGetRequest,
-      educatorsGetRequest,
+      programInstructorGetRequest,
       sectionsGetRequest,
       workshopsGetRequest,
       groupsAddRequest,

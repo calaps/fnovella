@@ -3,7 +3,16 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import {programAdditionalFieldsGetRequest, programGetRequest, catalogsGetByCategoryRequest, groupsGetRequest, participantAdditionalFieldsAddRequest} from '../../../../../actions';
+import {
+    programAdditionalFieldsGetRequest,
+    programGetRequest,
+    catalogsGetByCategoryRequest,
+    groupsGetRequest,
+    participantAdditionalFieldsAddRequest,
+    inscriptionAddRequest,
+    inscriptionParticipantAddRequest
+} from '../../../../../actions';
+import {ParticipantAdditionalFieldsValidator} from "../../../../../actions/formValidations"; //form validations
 
 class AdditionalFieldsForm extends React.Component {
     constructor(props) {
@@ -11,7 +20,7 @@ class AdditionalFieldsForm extends React.Component {
         this.state = {
             programId: '',
             participantData: this.props.participantData,
-            additionalFields: [],
+            participantAditionalFieldsValues: [],
             calatog: '',
             group: '',
             period: '',
@@ -57,7 +66,7 @@ class AdditionalFieldsForm extends React.Component {
 
     isValid() {
         //local validation
-        const {errors, isValid} = studentValidator(this.state);
+        const {errors, isValid} = ParticipantAdditionalFieldsValidator(this.state);
         if (!isValid) {
             this.setState({errors});
             return false;
@@ -67,19 +76,60 @@ class AdditionalFieldsForm extends React.Component {
 
     onSubmit(e) {
         e.preventDefault();
-        // if (this.isValid()) {     //reset errors object and disable submit button
-        // this.setState({errors: {}, isLoading: true}); let data = {}; this     .props
-        //   .changeView('VIEW_ELEMENT'); // }
-        let data = {
-            catalog : this.state.calatog,
-            group: this.state.group,
-            participant: this.state.participantData.id,
-            period: this.state.period,
-            year: this.state.year,
-            values: this.state.additionalFields
-        };
-        console.log("Additional Fields :", data);
-        this.props.actions.participantAdditionalFieldsAddRequest(data);
+        if (this.isValid()) {
+            this.setState({errors: {}, isLoading: true});
+            let additionalFieldData = {
+                participantAditionalFields: {
+                    catalog: this.state.calatog,
+                    group: this.state.group,
+                    participant: this.state.participantData.id,
+                    period: this.state.period,
+                    year: this.state.year
+                },
+                participantAditionalFieldsValues: this.state.participantAditionalFieldsValues
+            };
+            console.log("Additional Fields :", additionalFieldData);
+            this
+                .props
+                .actions
+                .participantAdditionalFieldsAddRequest(additionalFieldData)
+                .then((data, err) => {
+                    if (data && data.data) {
+                        let inscription = {
+                            group: this.state.group,
+                            period: this.state.period,
+                            year: this.state.year,
+                            status: 1
+                        }
+                        this
+                            .props
+                            .actions
+                            .inscriptionAddRequest(inscription)
+                            .then((res_data, error) => {
+                                if (res_data && res_data.data) {
+                                    let inscriptionParticipant = {
+                                        inscription: res_data.data.id,
+                                        participant: this.state.participantData.id
+                                    }
+                                    this
+                                        .props
+                                        .actions
+                                        .inscriptionParticipantAddRequest(inscriptionParticipant)
+                                        .then((response) => {
+                                            if (response && response.data) {
+                                                this
+                                                    .props
+                                                    .changeView('VIEW_ELEMENT');
+                                            }
+                                        })
+                                }
+                            })
+                    }
+
+                })
+
+        }
+
     }
 
     onChange(e, value) {
@@ -98,26 +148,22 @@ class AdditionalFieldsForm extends React.Component {
                 .catalogsGetByCategoryRequest(program.category);
             let programAdditionalFields = this.props.programAdditionalFields.content || [];
             let additionalFields = [];
-            for(let i=0;i<programAdditionalFields.length;i++){
-                if(programAdditionalFields[i].program == programId){
-                    additionalFields.push({
-                        additional_field_id: programAdditionalFields[i].id,
-                        initial_value: programAdditionalFields[i].categoryData.name,
-                        final_value: ''
-                    });
+            for (let i = 0; i < programAdditionalFields.length; i++) {
+                if (programAdditionalFields[i].program == programId) {
+                    additionalFields.push({additional_field_id: programAdditionalFields[i].id, initial_value: programAdditionalFields[i].categoryData.name, final_value: ''});
                 }
             }
-            this.setState({additionalFields});
+            this.setState({participantAditionalFieldsValues: additionalFields});
         } else if (e.target.name == "additional_fields") {
-            let fields = this.state.additionalFields;
-            fields = fields.map((field)=>{
-                if(field.additional_field_id == e.target.id){
+            let fields = this.state.participantAditionalFieldsValues;
+            fields = fields.map((field) => {
+                if (field.additional_field_id == e.target.id) {
                     field.final_value = e.target.value;
                     return field;
                 }
                 return field;
             })
-            this.setState({additionalFields: fields})
+            this.setState({participantAditionalFieldsValues: fields})
         }
     }
 
@@ -131,22 +177,22 @@ class AdditionalFieldsForm extends React.Component {
             })
         }
         let renderAdditionalFields = () => {
-            let additionalFields = this.state.additionalFields;
-                    return additionalFields.map((field) => {
-                            return (
-                                <div className="form-group row" key={field.additional_field_id}>
-                                    <label htmlFor={field.additional_field_id} className="col-md-3 control-label">{field.initial_value}</label>
-                                    <div className="col-md-9">
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id={field.additional_field_id}
-                                            name="additional_fields"
-                                            onChange={this.onChange}/>
-                                    </div>
-                                </div>
-                            )
-                    })
+            let additionalFields = this.state.participantAditionalFieldsValues;
+            return additionalFields.map((field) => {
+                return (
+                    <div className="form-group row" key={field.additional_field_id}>
+                        <label htmlFor={field.additional_field_id} className="col-md-3 control-label">{field.initial_value}</label>
+                        <div className="col-md-9">
+                            <input
+                                type="text"
+                                className="form-control"
+                                id={field.additional_field_id}
+                                name="additional_fields"
+                                onChange={this.onChange}/> {errors.additionalFields && <span className="help-block text-danger">{errors.additionalFields}</span>}
+                        </div>
+                    </div>
+                )
+            })
         };
         let calatogsOpt = () => {
             let catalogs = this.props.catalogs.content || [];
@@ -198,7 +244,7 @@ class AdditionalFieldsForm extends React.Component {
                                                     <option value="" disabled>Selecione el Catalogos</option>
                                                     {calatogsOpt()}
                                                 </select>
-                                                {errors.calatogId && <span className="help-block text-danger">{errors.calatogId}</span>}
+                                                {errors.calatog && <span className="help-block text-danger">{errors.calatog}</span>}
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -226,7 +272,7 @@ class AdditionalFieldsForm extends React.Component {
                                                     name="period"
                                                     onChange={this.onChange}
                                                     value={this.state.period}
-                                                    placeholder="Enter Perid"/>
+                                                    placeholder="Enter Perid"/> {errors.calatog && <span className="help-block text-danger">{errors.calatog}</span>}
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -278,7 +324,9 @@ function mapDispatchToProps(dispatch) {
             programGetRequest,
             catalogsGetByCategoryRequest,
             groupsGetRequest,
-            participantAdditionalFieldsAddRequest
+            participantAdditionalFieldsAddRequest,
+            inscriptionAddRequest,
+            inscriptionParticipantAddRequest
         }, dispatch)
     };
 }

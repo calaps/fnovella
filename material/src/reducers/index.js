@@ -25,6 +25,8 @@ import snackBar from './snackBar';
 import programAdditionalFields from './programAdditionalFields';
 import groups from './groups';
 import participantAdditionalFiels from './participantAdditionalFields';
+import inscriptions from './inscriptions';
+import inscriptionParticipants from './inscriptionParticipants';
 
 const reducers = {
   routing: routerReducer,
@@ -52,7 +54,9 @@ const reducers = {
   snackBar,
   programAdditionalFields,
   groups,
-  participantAdditionalFiels
+  participantAdditionalFiels,
+  inscriptions,
+  inscriptionParticipants
 };
 
 module.exports = combineReducers(reducers);

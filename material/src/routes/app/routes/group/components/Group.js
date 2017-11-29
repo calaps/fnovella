@@ -22,7 +22,7 @@ const MainOptions = () => (
     <div className="with-maxwidth">
       <div className="row">
         <div className="col-xl-4">
-          <a href="#/app/inscription"><div className="box box-default">
+          <a href="#/app/inscription?add=true"><div className="box box-default">
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
@@ -35,11 +35,11 @@ const MainOptions = () => (
           </div></a>
         </div>
         <div className="col-xl-4">
-          <a href="#/app/teachers"><div className="box box-default">
+          <a href="#/app/inscription"><div className="box box-default">
             <div className="box-body">
               <div className="icon-box ibox-plain ibox-center">
                 <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">assignment</i></a>
+                  <i className="material-icons">assignment</i>
                 </div>
                 <h3>Alumnos inscritos</h3>
                 <p>Crear, eliminar y visualizar docentes. Los docentes son los instructures que se asigna a cada grado, curso o taller.</p>
