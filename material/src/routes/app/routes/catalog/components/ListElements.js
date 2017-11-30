@@ -45,7 +45,8 @@ class ListElements extends React.Component {
       case "category":
         let categories = this.props.categories;
         for(let i=0;i<categories.length;i++){
-          if(categories[i].name == this.state.inputValue.toLowerCase()){
+          if(categories[i].name.toLowerCase() == this.state.inputValue.toLowerCase()){
+            console.log('in search',this.state.inputValue)            
             this.props.actions.catalogsGetByCategoryRequest(categories[i].id);
           }
         }

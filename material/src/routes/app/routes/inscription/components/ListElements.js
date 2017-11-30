@@ -41,6 +41,10 @@ class ListElements extends React.Component {
         .participantGetRequest(0, 1000);
     } else {
       this
+      .props
+      .actions
+      .inscriptionParticipantGetRequest(0, 1000);
+      this
         .props
         .actions
         .participantGetRequest(number, size);
@@ -112,6 +116,13 @@ class ListElements extends React.Component {
             showInscriptions={showInscriptions}/>
         }
       })
+    }
+    let hideInscribe = (participantId)=>{
+      let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
+      let find = inscriptionParticipants.find(inscriptionParticipant =>{
+        return inscriptionParticipant.participant == participantId;
+      })
+      return ( (find)? true : false );
     }
     if (showInscriptions) {
       return (
@@ -236,7 +247,8 @@ class ListElements extends React.Component {
                               number={i++}
                               onInscribe={this.props.onInscribe}
                               participantData={participant}
-                              showInscriptions={showInscriptions}/>
+                              showInscriptions={showInscriptions}
+                              hideInscribe={hideInscribe(participant.id)}/>
                           })
                         : null
 }
