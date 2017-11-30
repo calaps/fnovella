@@ -6,7 +6,7 @@ class ListItem extends React.Component {
     if(showInscriptions){
       return (
         <tr>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.id}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.firstName}</td>
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.email}</td>
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.gender}</td>
@@ -23,7 +23,7 @@ class ListItem extends React.Component {
     }
     return (
       <tr>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.id}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.firstName}</td>
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.email}</td>
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.gender}</td>
@@ -31,10 +31,10 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.cellPhone}</td>
 
         <td className="mdl-data-table__cell--non-numeric" >
-          <button
+          {this.props.hideInscribe? null: <button
             onClick={()=>{this.props.onInscribe(this.props.participantData , this.props.participantData.id )}}
 
-            type="submit" className="btn btn-primary">Inscribe</button>
+            type="submit" className="btn btn-primary">Inscribe</button>}
         </td>
       </tr>
     );

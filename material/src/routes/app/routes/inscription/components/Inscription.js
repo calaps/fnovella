@@ -19,9 +19,7 @@ class MainOptions extends React.Component {
                         <div className="col-xl-3">
 
                             <div className="box-body">
-                                <div
-                                    onClick={() => this.props.changeView("VIEW_INSCRIPTIONS")}
-                                    className="icon-box ibox-plain ibox-center">
+                                <div className="icon-box ibox-plain ibox-center">
                                     <div className="ibox-icon">
                                         <a href="javascript:;">
                                             <i className="material-icons">supervisor_account</i>
@@ -38,9 +36,7 @@ class MainOptions extends React.Component {
                                 <div className="col-xl-4">
                                     <div className="box box-default">
                                         <div className="box-body">
-                                            <div
-                                                onClick={() => this.props.changeView("VIEW_ELEMENT")}
-                                                className="icon-box ibox-plain ibox-center">
+                                            <div className="icon-box ibox-plain ibox-center">
                                                 <div className="ibox-icon">
                                                     <a href="javascript:;">
                                                         <i className="material-icons">add_circle_outline</i>
@@ -54,9 +50,7 @@ class MainOptions extends React.Component {
                                 <div className="col-xl-4">
                                     <div className="box box-default">
                                         <div className="box-body">
-                                            <div
-                                                onClick={() => this.props.changeView("VIEW_INSCRIPTIONS")}
-                                                className="icon-box ibox-plain ibox-center">
+                                            <div className="icon-box ibox-plain ibox-center">
                                                 <div className="ibox-icon">
                                                     <a href="javascript:;">
                                                         <i className="material-icons">remove_red_eye</i>

@@ -659,27 +659,27 @@ export function groupValidator(data) {
       errors.correlativo = invalidData;
     }
   }
-  if (Validator.isEmpty(data.courseId.toString())) {
+  /*if (Validator.isEmpty(data.courseId.toString())) {
     errors.courseId = required;
   }
   if (Validator.isEmpty(data.divisionId.toString())) {
     errors.divisionId = required;
-  }
+  }*/
   if (Validator.isEmpty(data.instructor.toString())) {
     errors.instructor = required;
   }
-  if (Validator.isEmpty(data.section.toString())) {
+  /*if (Validator.isEmpty(data.section.toString())) {
     errors.section = required;
-  }
+  }*/
   if (Validator.isEmpty(data.typeCategory)) {
     errors.typeCategory = required;
     if (!Validator.isEmpty(data.typeCategory) && !Validator.isAlphanumeric(data.typeCategory)) {
       errors.typeCategory = invalidData;
     }
   }
-  if (Validator.isEmpty(data.workshopId.toString())) {
+  /*if (Validator.isEmpty(data.workshopId.toString())) {
     errors.workshopId = required;
-  }
+  }*/
 
   //IsValid is just a boolean who return is errors is empty
   return {errors, isValid: isEmpty(errors)};

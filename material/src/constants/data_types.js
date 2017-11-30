@@ -278,3 +278,10 @@ export var countries = {
   "Zambia": "Zambia",
   "Zimbabue": "Zimbabwe"
 };
+
+export var typeCategory = {
+  "division": "division",
+  "section": "section",
+  "workshop": "workshop",
+  "course": "course"
+};

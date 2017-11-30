@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import {
     programAdditionalFieldsGetRequest,
     programGetRequest,
-    catalogsGetByCategoryRequest,
+    catalogsGetRequest,
     groupsGetRequest,
     participantAdditionalFieldsAddRequest,
     inscriptionAddRequest,
@@ -56,6 +56,10 @@ class AdditionalFieldsForm extends React.Component {
             .props
             .actions
             .groupsGetRequest();
+        this
+            .props
+            .actions
+            .catalogsGetRequest(null, 1000);
     }
 
     _handleCancel() {
@@ -142,15 +146,16 @@ class AdditionalFieldsForm extends React.Component {
             let program = programs.find((program) => {
                 return programId == program.id;
             })
-            this
-                .props
-                .actions
-                .catalogsGetByCategoryRequest(program.category);
+            let catalogs = this.props.catalogs.content || [];
             let programAdditionalFields = this.props.programAdditionalFields.content || [];
             let additionalFields = [];
             for (let i = 0; i < programAdditionalFields.length; i++) {
                 if (programAdditionalFields[i].program == programId) {
-                    additionalFields.push({additional_field_id: programAdditionalFields[i].id, initial_value: programAdditionalFields[i].categoryData.name, final_value: ''});
+                    for(let catalog of catalogs){
+                        if(catalog.category == programAdditionalFields[i].category){
+                            additionalFields.push({additional_field_id: catalog.id, initial_value: catalog.name, final_value: '', type: catalog.type});
+                        }
+                    }
                 }
             }
             this.setState({participantAditionalFieldsValues: additionalFields});
@@ -184,7 +189,7 @@ class AdditionalFieldsForm extends React.Component {
                         <label htmlFor={field.additional_field_id} className="col-md-3 control-label">{field.initial_value}</label>
                         <div className="col-md-9">
                             <input
-                                type="text"
+                                type={field.type}
                                 className="form-control"
                                 id={field.additional_field_id}
                                 name="additional_fields"
@@ -196,8 +201,15 @@ class AdditionalFieldsForm extends React.Component {
         };
         let calatogsOpt = () => {
             let catalogs = this.props.catalogs.content || [];
+            let programs = this.props.programs.content || [];
+            let programId = this.state.programId;
+            let program = programs.find((program) => {
+                return programId == program.id;
+            })
             return catalogs.map((catalog) => {
-                return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
+                if (program && (catalog.category == program.category)) {
+                    return <option key={catalog.id} value={catalog.id}>{catalog.name}</option>
+                }
             })
         }
         let groupsOpt = () => {
@@ -322,7 +334,7 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({
             programAdditionalFieldsGetRequest,
             programGetRequest,
-            catalogsGetByCategoryRequest,
+            catalogsGetRequest,
             groupsGetRequest,
             participantAdditionalFieldsAddRequest,
             inscriptionAddRequest,
