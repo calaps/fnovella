@@ -105,6 +105,8 @@ class Workshop extends React.Component {
         .then((response) => {
           this.onEditProgram(response.data);
         });
+    }else if(this.props.location.query.add){
+      this.changeView('ADD_ELEMENT', false);
     }
   }
 
