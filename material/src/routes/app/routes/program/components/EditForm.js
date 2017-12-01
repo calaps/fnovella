@@ -15,7 +15,8 @@ import {
   categoriesGetRequest,
   usersGetRequest,
   sedesGetRequest,
-  programLocationByProgramIdGetRequest
+  programLocationByProgramIdGetRequest,
+  programAdditionalFieldsGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -70,7 +71,7 @@ class EditForm extends React.Component {
     // if update
     if (this.state.isEditing) {
       // get program locations (ids)
-      this.props.actions.programLocationByProgramIdGetRequest()
+      this.props.actions.programLocationByProgramIdGetRequest(this.state.id)
         .then(data => {
           if (!data.err) {
             let locationIds = [];
@@ -80,7 +81,20 @@ class EditForm extends React.Component {
             }
             this.setState({locationIds: locationIds})
           }
-        })
+        });
+      this.props.actions.programAdditionalFieldsGetRequest()
+        .then(data => {
+          if (!data.err) {
+            let categoryIds = [];
+            let programCategories = this.props.programAdditionalFields.content || [];
+            for (let i = 0; i < programCategories.length; i++) {
+              if(programCategories[i].program === this.state.id) {
+                categoryIds.push(programCategories[i].category)      // push id
+              }
+            }
+            this.setState({categoryIds: categoryIds})
+          }
+        });
     }
     if (self.context.router.location.query.classification) {
       this.setState({clasification: self.context.router.location.query.classification})
@@ -791,7 +805,8 @@ function mapStateToProps(state) {
     categories: state.categories,
     users: state.users,
     sedes: state.sedes,
-    programLocations: state.programLocations
+    programLocations: state.programLocations,
+    programAdditionalFields: state.programAdditionalFields
   }
 }
 
@@ -805,7 +820,8 @@ function mapDispatchToProps(dispatch) {
       categoriesGetRequest,
       usersGetRequest,
       sedesGetRequest,
-      programLocationByProgramIdGetRequest
+      programLocationByProgramIdGetRequest,
+      programAdditionalFieldsGetRequest
     }, dispatch)
   };
 }
