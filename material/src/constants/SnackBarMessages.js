@@ -1,15 +1,15 @@
 const messages = {
-  SUCCESS: "Success",
-  FAILURE: "Provided information is not correct",
-  ERROR: "Something went wrong, try again later",
-  LOGIN_SUCCESS: "Successfully login",
-  LOGIN_FAILURE: "Credentials are not correct",
-  SIGNUP_SUCCESS: "Successfully signup",
-  SIGNUP_FAILURE: "Credentials are not correct",
-  ENTITY_ADDED: "Successfully created",
-  ENTITY_DELETED: "Successfully deleted",
-  ENTITY_UPDATED: "Successfully updated",
-  ENTITY_UPLOADED: "Successfully uploaded",
+  SUCCESS: "Exito!",
+  FAILURE: "La información ingresada no es correcta",
+  ERROR: "Ha oucrrido un error, Por favor intenta de nuevo",
+  LOGIN_SUCCESS: "Credenciales correctas",
+  LOGIN_FAILURE: "Las credenciales son incorrectas",
+  SIGNUP_SUCCESS: "Ingreso correcto",
+  SIGNUP_FAILURE: "Ingreso incorrecto",
+  ENTITY_ADDED: "Creado exitosamente",
+  ENTITY_DELETED: "Eliminado",
+  ENTITY_UPDATED: "Actualizado correctamente",
+  ENTITY_UPLOADED: "Editado exitosamente",
 
 };
 

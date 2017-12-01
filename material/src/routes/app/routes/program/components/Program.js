@@ -68,9 +68,9 @@ class MainOptions extends React.Component {
                     <div className="box-body">
                       <div className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="#/app/catalog"><i className="material-icons">dashboard</i></a>
+                          <a href="#/app/visualization/programs"><i className="material-icons">sort</i></a>
                         </div>
-                        <h6>Catalogos</h6>
+                        <h6>Vista árbol</h6>
                       </div>
                     </div>
                   </div>

@@ -80,7 +80,7 @@ class SectionCard extends React.Component{
           }}/>
         </CardActions>
         <CardText expandable={true}>
-          <div><strong>Location: </strong> {(this.state.location)?this.state.location.name:this.props.section.location} </div>
+          <div><strong>Ubicación: </strong> {(this.state.location)?this.state.location.name:this.props.section.location} </div>
           <div><strong>Jornada: </strong> {this.props.section.jornada} </div>
           <div><strong>Code: </strong> {this.props.section.code} </div>
           <div>

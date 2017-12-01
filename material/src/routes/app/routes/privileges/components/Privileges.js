@@ -60,9 +60,9 @@ class MainOptions extends React.Component {
                     <div className="box-body">
                       <div className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="javascript:;"><i className="material-icons">remove</i></a>
+                          <a href="#/app/page/faqs"><i className="material-icons">help_outline</i></a>
                         </div>
-                        <h6>Eliminar {optionsName}</h6>
+                        <h6>FAQ</h6>
                       </div>
                     </div>
                   </div>

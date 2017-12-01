@@ -89,8 +89,8 @@ class CourseCard extends React.Component{
           }}/>
         </CardActions>
         <CardText expandable={true}>
-          <div><strong>Location: </strong> {(this.state.location)?this.state.location.name:this.props.course.location} </div>
-          <div><strong>Grade: </strong> {(this.state.grade)?this.state.grade.name:this.props.course.grade} </div>
+          <div><strong>Ubicación: </strong> {(this.state.location)?this.state.location.name:this.props.course.location} </div>
+          <div><strong>Grado: </strong> {(this.state.grade)?this.state.grade.name:this.props.course.grade} </div>
           <div><strong>Instructor: </strong> {(this.state.instructor)?(this.state.instructor.firstName + ' ' + this.state.instructor.firstLastname)
             :(this.props.course.instructorId)?this.props.course.instructorId:'N/A'} </div>
           <div><strong>Open Course: </strong> {this.props.course.openCourse?'Yes':'No'} </div>

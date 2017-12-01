@@ -159,17 +159,14 @@ class File extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
 
                   <div className="form-group row">
-                    <label htmlFor="cemproCode" className="col-md-3 control-label"></label>
-                    <div className="col-md-9">
+                    <div className="col-md-10">
                       <span style={this.styles.span}>
                         <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
                           <RaisedButton
-                            label="Seleeciona el archivo CSV"
+                            icon={<i className="material-icons" style={{ color: '#66BB6A' }}>find_in_page</i>}
+                            label="Seleecionar archivo CSV"
                             labelPosition="before"
-                            style={this.styles.button}
-                            containerElement="label"
-                            labelColor="#66BB6A"
-                          ></RaisedButton>
+                            containerElement="label"> </RaisedButton>
                         </ReactFileReader>
                       </span>
                       <span style={this.styles.selected}>{this.state.fileName}</span>
@@ -177,12 +174,13 @@ class File extends React.Component {
                   </div>
 
                   <div className="form-group row">
-                    <div className="offset-md-3 col-md-10">
+                    <div className="col-md-10">
                       <RaisedButton disabled={this.state.isLoading}
                         icon={<i className="material-icons" style={{ color: '#66BB6A' }}>file_upload</i>}
                         label="Subir"
                         onClick={this.onUpload}
                         disabled={this.state.isLoading}
+                        labelColor="#66BB6A"
                         className="btn-w-md"> </RaisedButton>
                     </div>
                   </div>

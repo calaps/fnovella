@@ -424,7 +424,7 @@ class EditForm extends React.Component {
                       <div className="col-md-9">
                         <Toggle
                           checked={this.state.pinformationEntry}
-                          label="Edición de información"
+                          label="Edición de información de participantes"
                           id="pinformationEntry"
                           name="pinformationEntry"
                           style={styles.toggle}
@@ -495,7 +495,7 @@ class EditForm extends React.Component {
                       <div className="col-md-9">
                         <Toggle
                           checked={this.state.pstructureEntry}
-                          label="Creación y modificación de estructura"
+                          label="Creación y modificación de estructura de grupo"
                           id="pstructureEntry"
                           name="pstructureEntry"
                           style={styles.toggle}

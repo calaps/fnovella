@@ -34,7 +34,7 @@ class ListElements extends React.Component {
     let i = 1;
     return (
       <article className="article">
-        <h2 className="article-title">Lista de talleres</h2>
+        <h2 className="article-title">Lista de divisiones</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
@@ -45,8 +45,8 @@ class ListElements extends React.Component {
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Name</th>
-                      <th className="mdl-data-table__cell--non-numeric">Description</th>
+                      <th className="mdl-data-table__cell--non-numeric">Nombre</th>
+                      <th className="mdl-data-table__cell--non-numeric">Descripción</th>
                     </tr>
                     </thead>
 

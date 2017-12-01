@@ -69,7 +69,7 @@ class WorkshopCard extends React.Component{
           }}/>
         </CardActions>
         <CardText expandable={true}>
-          <div><strong>Location: </strong> {(this.state.location)?this.state.location.name:this.props.workshop.location} </div>
+          <div><strong>Ubicación: </strong> {(this.state.location)?this.state.location.name:this.props.workshop.location} </div>
         </CardText>
       </Card>
     )

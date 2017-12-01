@@ -93,7 +93,7 @@ class GradeCard extends React.Component {
         </CardActions>
         <CardText expandable={true}>
           <div>
-            <strong>Location: </strong> {(this.state.location) ? this.state.location.name : this.props.grade.location}
+            <strong>Ubicación: </strong> {(this.state.location) ? this.state.location.name : this.props.grade.location}
           </div>
           <div>
             <strong>Instructor: </strong> {(this.state.instructor) ? (this.state.instructor.firstName + ' ' + this.state.instructor.firstLastname)

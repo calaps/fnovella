@@ -23,7 +23,7 @@ const Hero = () => (
            style={{backgroundImage: 'url(assets/images-demo/covers/photo-1438893761775-f1db119d27b2.jpg)'}}>
     <div className="hero-inner">
       <div className="hero-content">
-        <h1 className="hero-title">Programs</h1>
+        <h1 className="hero-title">Programas</h1>
       </div>
     </div>
   </section>
@@ -200,12 +200,12 @@ class Programs extends React.Component {
 
     const actions = [
       <FlatButton
-        label="Cancel"
+        label="Cancelar"
         primary={true}
         onClick={this.handleDialogBox}
       />,
       <FlatButton
-        label="Delete"
+        label="Si, comprendo y deseo eliminar todo"
         primary={true}
         onClick={this.onDeleteProgram}
       />,
@@ -232,18 +232,21 @@ class Programs extends React.Component {
             }
             <div>
               <Dialog
-                title="Are you sure?"
+                title="¿Estaá seguro?"
                 actions={actions}
                 modal={true}
                 contentStyle={customContentStyle}
                 open={this.state.dialogBoxOpen}
               >
-                Deleting this program will cause deletion of {this.state.programToBeDelete.clasification} too.
+                <div className="alert alert-danger">
+                  <strong>Alerta!</strong> Esta opción no se puede deshacer.
+                </div>
+                Al eliminar este programa eliminaras {this.state.programToBeDelete.clasification} tambien.
               </Dialog>
             </div>
           </div>
           <div key="3" className="text-center">
-            <FlatButton label="Load More" primary={true} onClick={this.loadMore}/>
+            <FlatButton label="Cargar más" primary={true} onClick={this.loadMore}/>
           </div>
         </QueueAnim>
       </section>
