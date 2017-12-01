@@ -355,7 +355,7 @@ public class AppUser {
 			this.firstLastName = appUser.firstLastName; 
 		if (APIUtility.isNotNullOrEmpty(appUser.secondLastName))
 			this.secondLastName = appUser.secondLastName;
-		if (this.privilege != null && this.privilege >= 0)
+		if (appUser.privilege != null && appUser.privilege > 0)
 			this.privilege = appUser.privilege;
 		if (APIUtility.isNotNullOrEmpty(appUser.documentType))
 			this.documentType = appUser.documentType;
@@ -377,7 +377,7 @@ public class AppUser {
 			this.municipality = appUser.municipality;
 		if (APIUtility.isNotNullOrEmpty(appUser.comunity))
 			this.comunity = appUser.comunity;
-		if (this.phone != null && this.phone >= 0)
+		if (appUser.phone != null && appUser.phone > 0)
 			this.phone= appUser.phone;
 		if (APIUtility.isNotNullOrEmpty(appUser.appCode))
 			this.appCode= appUser.appCode;
@@ -387,7 +387,7 @@ public class AppUser {
 			this.colony = appUser.colony;
 		if (APIUtility.isNotNullOrEmpty(appUser.zone))
 			this.zone = appUser.zone;
-		if (bornDate != null)
+		if (appUser.bornDate != null)
 			this.bornDate = appUser.bornDate;
 	}
 
