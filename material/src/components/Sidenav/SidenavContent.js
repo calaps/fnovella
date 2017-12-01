@@ -2,9 +2,29 @@ import React from 'react';
 import { Link, hashHistory } from 'react-router';
 import FlatButton from 'material-ui/FlatButton';
 import 'jquery-slimscroll/jquery.slimscroll.min';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { privilegesGetRequest, privilegesGetAllRequest } from '../../actions';
 
 
 class SidebarContent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      permission: ''
+    }
+  };
+  componentWillMount() {
+    console.log("running component will mount");
+
+    // API action
+    this
+      .props
+      .actions
+      .privilegesGetRequest().then(data => {
+        this.setState({ permission: data.data });
+      });
+  };
 
   componentDidMount() {
     const nav = this.nav;
@@ -89,6 +109,7 @@ class SidebarContent extends React.Component {
 
   render() {
 
+    console.log('permission========', this.state.permission.pcatalogsEntry);
     return (
       <ul className="nav" ref={(c) => { this.nav = c; }}>
         <li className="nav-header"><span>Menu de Programa: </span></li>
@@ -108,10 +129,11 @@ class SidebarContent extends React.Component {
             <li><FlatButton className="prepend-icon" href="#/app/division"><span>Division</span></FlatButton></li>
           </ul>
         </li>
-
+      {this.state.permission.pprogramActivation &&
         <li>
           <FlatButton href="#/app/activation"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activaciones</span></FlatButton>
         </li>
+      }
         <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
         <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>
         <li><FlatButton href="#/app/group"><i className="nav-icon material-icons">group_work</i><span className="nav-text">Grupo</span></FlatButton></li>
@@ -135,7 +157,9 @@ class SidebarContent extends React.Component {
 
         <li className="nav-divider" />
         <li className="nav-header"><span>Menu de aplicación</span></li>
-        <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Catalogos</span></FlatButton></li>
+        {this.state.permission.pcatalogsEntry &&
+          <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Catalogos</span></FlatButton></li>
+        }
         <li><FlatButton href="#/app/category"><i className="nav-icon material-icons">list</i><span className="nav-text">Categorias</span></FlatButton></li>
         <li><FlatButton href="#/app/locations"><i className="nav-icon material-icons">add_location</i><span className="nav-text">Sedes</span></FlatButton></li>
         <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
@@ -150,4 +174,18 @@ class SidebarContent extends React.Component {
   }
 }
 
-module.exports = SidebarContent;
+function mapStateToProps(state) {
+  //pass the providers
+  return { permission: state.permission }
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      privilegesGetRequest,
+      privilegesGetAllRequest
+    }, dispatch)
+  };
+}
+module.exports = connect(mapStateToProps, mapDispatchToProps)(SidebarContent);
