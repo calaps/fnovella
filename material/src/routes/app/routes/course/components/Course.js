@@ -105,6 +105,8 @@ class Course extends React.Component {
         .then((response) => {
           this.onEditCourse(response.data);
         });
+    }else if(this.props.location.query.add){
+      this.changeView('ADD_ELEMENT', false);
     }
   }
 

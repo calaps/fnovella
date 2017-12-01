@@ -187,12 +187,21 @@ class Programs extends React.Component {
   }
 
   onAddNewProgram(classification) {
-    this.context.router.push({
-      pathname: '/app/program',
-      query: {
-        classification : classification
-      }
-    })
+    if(classification !== 'grades'){
+      this.context.router.push({
+        pathname: '/app/' + classification,
+        query: {
+          add : true
+        }
+      })
+    }else{
+      this.context.router.push({
+        pathname: '/app/grade',
+        query: {
+          add : true
+        }
+      })
+    }
   }
 
   render() {

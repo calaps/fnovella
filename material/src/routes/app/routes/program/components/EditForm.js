@@ -96,9 +96,6 @@ class EditForm extends React.Component {
           }
         });
     }
-    if (self.context.router.location.query.classification) {
-      this.setState({clasification: self.context.router.location.query.classification})
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -148,7 +145,7 @@ class EditForm extends React.Component {
   }
 
   handleCancel() {
-    if (self.context.router.location.query.id || self.context.router.location.query.classification) {
+    if (self.context.router.location.query.id) {
       self.context.router.push('/app/visualization/programs')
     }else{
       self.props.changeView('VIEW_ELEMENT')
@@ -793,11 +790,6 @@ class EditForm extends React.Component {
     );
   }
 }
-
-//To get the routers
-EditForm.contextTypes = {
-  router: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
   //pass the providers
