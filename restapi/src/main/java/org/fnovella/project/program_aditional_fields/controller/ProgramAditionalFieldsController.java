@@ -36,7 +36,12 @@ public class ProgramAditionalFieldsController {
 		errors.add("Program Aditional Field doesn't exist");
 		return new APIResponse(null, errors);
 	}
-	
+
+	@RequestMapping(value = "by_program_id/{programId}", method = RequestMethod.GET)
+	public APIResponse getByProgramId(@RequestHeader("authorization") String authorization, @PathVariable("programId") Integer programId) {
+		return new APIResponse(this.programAditionalFieldsRepository.findByProgram(programId), null);
+	}
+
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody ProgramAditionalFields programAditionalFields) {
 		ArrayList<String> errors = programAditionalFields.validate();

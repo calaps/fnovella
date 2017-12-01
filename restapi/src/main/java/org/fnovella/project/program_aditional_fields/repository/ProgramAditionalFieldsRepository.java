@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository("programAditionalFieldsRepository")
 public interface ProgramAditionalFieldsRepository extends JpaRepository<ProgramAditionalFields, Integer> {
-	List<ProgramAditionalFields> findByProgram(Integer programId);
+	List<ProgramAditionalFields> findByProgram(Integer program);
 	@Modifying
     @Transactional
     @Query("delete from ProgramAditionalFields where program = ?1")
