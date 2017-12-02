@@ -22,18 +22,17 @@ class GeneralConfiguration extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: (this.props.groupData.id) ? true : false,
-      id: this.props.groupData.id || '',
-      courseId: this.props.groupData.courseId || '',
-      divisionId: this.props.groupData.divisionId || '',
-      instructor: this.props.groupData.instructor || '',
-      section: this.props.groupData.section || '',
-      type: this.props.groupData.type || 1,
-      typeCategory: this.props.groupData.typeCategory || '',
-      workshopId: this.props.groupData.workshopId || '',
-      correlativo: this.props.groupData.correlativo || '',
-      inscriptionsEnd: this.props.groupData.inscriptionsEnd || new Date(),
-      inscriptionsStart: this.props.groupData.inscriptionsStart || new Date(),
+      id: '',
+      courseId: '',
+      divisionId: '',
+      instructor: '',
+      section: '',
+      type:  1,
+      typeCategory: '',
+      workshopId: '',
+      correlativo: '',
+      inscriptionsEnd:  new Date(),
+      inscriptionsStart: new Date(),
       errors: {},
       isLoading: false,
       selectedType: ''
@@ -86,10 +85,9 @@ class GeneralConfiguration extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  /*componentWillReceiveProps(nextProps) {
     if (this.props.groupData !== nextProps.groupData) {
       this.setState({
-        isEditing: false,
         id: '',
         courseId: '',
         divisionId: '',
@@ -103,33 +101,11 @@ class GeneralConfiguration extends React.Component {
         inscriptionsEnd: '',
       })
     }
-  }
-
-  handleCancel() {
-    if (self.context.router.location.query.typeCategory) {
-      switch (self.context.router.location.query.typeCategory) {
-        case 'workshop':
-          self.context.router.push('/app/workshop');
-          break;
-        case 'section':
-          self.context.router.push('/app/section');
-          break;
-        case 'division':
-          self.context.router.push('/app/division');
-          break;
-        case 'course':
-          self.context.router.push('/app/course');
-          break;
-        default:
-          break;
-      }
-    } else {
-      self.props.changeView('VIEW_ELEMENT')
-    }
-  }
+  }*/
 
   isValid() {
     //local validation
+    return true;
     const {errors, isValid} = groupValidator(this.state);
     if (!isValid) {
       this.setState({errors});
@@ -211,7 +187,6 @@ class GeneralConfiguration extends React.Component {
               </div>
             </div>
           );
-          break;
         case 'section':
           return (
             <div className="form-group row">
@@ -231,7 +206,6 @@ class GeneralConfiguration extends React.Component {
               </div>
             </div>
           );
-          break;
         case 'division':
           return (
             <div className="form-group row">
@@ -251,7 +225,6 @@ class GeneralConfiguration extends React.Component {
               </div>
             </div>
           );
-          break;
         case 'course':
           return (
             <div className="form-group row">
@@ -271,7 +244,6 @@ class GeneralConfiguration extends React.Component {
               </div>
             </div>
           );
-          break;
       }
     };
 

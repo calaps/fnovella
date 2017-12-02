@@ -54,3 +54,41 @@ export function programAdditionalFieldsGetRequest() {
     })
   }
 }
+
+export function programAdditionalFieldsByProgramIdGetRequest(programId) {
+  let params = {};
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        HTTP('get', '/program_aditional_fields/by_program_id/' + programId, null, {authorization: localStorage.getItem('@fnovella:token')}, params)
+          .then(function (response) {
+            if (response.data.errors === null) {
+              dispatch({
+                type: PROGRAM_ADDTIONAL_FIELD_GET_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            dispatch({
+              type: PROGRAM_ADDTIONAL_FIELD_GET_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
