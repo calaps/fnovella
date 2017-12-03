@@ -6,6 +6,7 @@ import org.fnovella.project.inscriptions.model.Inscription;
 import org.fnovella.project.inscriptions.repository.InscriptionRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,12 @@ public class AssistanceController {
     public APIResponse checkDeletion(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
         Assistance assistance = this.assistanceRepository.findOne(id);
         return new APIResponse(assistance == null, null);
+    }
+
+    @RequestMapping(value = "by-inscription/{inscription}", method = RequestMethod.GET)
+    public APIResponse getAssistanceByInscription(@PathVariable("inscription") Integer inscription, Pageable pageable ,@RequestHeader("authorization") String authorization) {
+        Page<Assistance> assistances = this.assistanceRepository.findByInscription(inscription, pageable);
+        return new APIResponse(assistances, null);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)

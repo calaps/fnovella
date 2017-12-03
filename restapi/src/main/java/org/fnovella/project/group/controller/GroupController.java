@@ -24,10 +24,40 @@ public class GroupController {
 	private GroupRepository groupRepository;
 	@Autowired
 	private GroupService groupService;
-	
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.groupRepository.findAll(pageable), null);
+	}
+
+	@RequestMapping(value = "by-course/{course}", method = RequestMethod.GET)
+	public APIResponse getGroupByCourse(@RequestHeader("authorization") String authorization, @PathVariable("course") Integer course , Pageable pageable) {
+
+		return new APIResponse(this.groupRepository.findByCourseId(course, pageable), null);
+	}
+
+	@RequestMapping(value = "by-workshop/{workshop}", method = RequestMethod.GET)
+	public APIResponse getGroupByWorkshop(@RequestHeader("authorization") String authorization, @PathVariable("workshop") Integer workshop , Pageable pageable) {
+
+		return new APIResponse(this.groupRepository.findByWorkshopId(workshop, pageable), null);
+	}
+
+	@RequestMapping(value = "by-division/{division}", method = RequestMethod.GET)
+	public APIResponse getGroupByDivision(@RequestHeader("authorization") String authorization, @PathVariable("division") Integer division , Pageable pageable) {
+
+		return new APIResponse(this.groupRepository.findByDivisionId(division, pageable), null);
+	}
+
+	@RequestMapping(value = "by-section/{section}", method = RequestMethod.GET)
+	public APIResponse getGroupBySection(@RequestHeader("authorization") String authorization, @PathVariable("section") Integer section , Pageable pageable) {
+
+		return new APIResponse(this.groupRepository.findBySection(section, pageable), null);
+	}
+
+	@RequestMapping(value = "by-instructor/{instructor}", method = RequestMethod.GET)
+	public APIResponse getGroupByInstructor(@RequestHeader("authorization") String authorization, @PathVariable("instructor") Integer instructor , Pageable pageable) {
+
+		return new APIResponse(this.groupRepository.findByInstructor(instructor, pageable), null);
 	}
 
 	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
