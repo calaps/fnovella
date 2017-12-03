@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/dashboard/")
-public class DashboardController {
+public class
+DashboardController {
 
 	@Autowired
 	private ProgramRepository programRepository;

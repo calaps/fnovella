@@ -30,6 +30,12 @@ public class AssistanceController {
         return new APIResponse(this.assistanceRepository.findOne(id), null);
     }
 
+    @RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
+    public APIResponse checkDeletion(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
+        Assistance assistance = this.assistanceRepository.findOne(id);
+        return new APIResponse(assistance == null, null);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.POST)
     public APIResponse create(@RequestBody Assistance assistance, @RequestHeader("authorization") String authorization) {
         ArrayList<String> errors = assistance.validate();

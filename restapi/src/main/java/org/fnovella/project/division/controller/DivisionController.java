@@ -25,13 +25,19 @@ public class DivisionController {
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.divisionRepository.findAll(pageable), null);
 	}
-	
+
+	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		Division division = this.divisionRepository.findOne(id);
+		return new APIResponse(division == null, null);
+	}
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public APIResponse getOne(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
 		ArrayList<String> errors = new ArrayList<String>();
 		Division division = this.divisionRepository.findOne(id);
 		if (division != null) {
-			return new APIResponse(this.divisionRepository.findOne(id), null);	
+			return new APIResponse(this.divisionRepository.findOne(id), null);
 		}
 		errors.add("Division doesn't exist");
 		return new APIResponse(null, errors);
@@ -60,7 +66,7 @@ public class DivisionController {
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-	public APIResponse dlete(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+	public APIResponse delete(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
 		ArrayList<String> errors = new ArrayList<String>();
 		Division toDelete = this.divisionRepository.findOne(id);
 		if (toDelete != null) {

@@ -29,7 +29,13 @@ public class GroupController {
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.groupRepository.findAll(pageable), null);
 	}
-	
+
+	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		Group group = this.groupRepository.findOne(id);
+		return new APIResponse(group == null, null);
+	}
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public APIResponse getOne(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
 		ArrayList<String> errors = new ArrayList<String>();
