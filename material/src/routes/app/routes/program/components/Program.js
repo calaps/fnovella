@@ -107,9 +107,6 @@ class Program extends React.Component {
           this.onEditProgram(response.data);
         });
     }
-    else if(this.props.location.query.classification){
-      this.changeView('ADD_ELEMENT', false);
-    }
   }
 
   onEditProgram(programData) {

@@ -13,6 +13,7 @@ import {bindActionCreators} from 'redux';
 import {
 
 } from '../../../../../actions';
+import PropTypes from "prop-types";
 
 
 class HorizontalLinearStepper extends React.Component {
@@ -22,23 +23,23 @@ class HorizontalLinearStepper extends React.Component {
       finished: false,
       stepIndex: 0,
       errors: {},
-      isLoading: false,
-      formData: {},
-      groupData: {}
+      isLoading: false
     };
     this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleCancel() {
-    this.props.changeView("VIEW_ELEMENT");
     this.setState({
       finished: false,
       stepIndex: 0,
       errors: {},
-      isLoading: false,
-      formData: {},
-      groupData: {}
+      isLoading: false
     });
+    if (this.context.router.location.query.typeCategory) {
+      this.context.router.push('/app/'+this.context.router.location.query.typeCategory);
+    } else {
+      self.props.changeView('VIEW_ELEMENT')
+    }
   }
 
   handlePrev = () => {
@@ -52,13 +53,11 @@ class HorizontalLinearStepper extends React.Component {
     switch (stepIndex) {
       case 0:
         return <GeneralConfiguration
-          groupData={this.state.groupData}
           handleCancel={this.handleCancel}
           handleNext={this.handleNext}
         />;
       case 1:
         return <EvaluationStructure
-          groupData={this.state.groupData}
           handlePrev={this.handlePrev}
           handleNext={this.handleNext}
         />;
@@ -223,6 +222,11 @@ class HorizontalLinearStepper extends React.Component {
     );
   }
 }
+
+HorizontalLinearStepper.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {

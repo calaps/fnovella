@@ -16,7 +16,7 @@ import {
   usersGetRequest,
   sedesGetRequest,
   programLocationByProgramIdGetRequest,
-  programAdditionalFieldsGetRequest
+  programAdditionalFieldsByProgramIdGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -82,22 +82,17 @@ class EditForm extends React.Component {
             this.setState({locationIds: locationIds})
           }
         });
-      this.props.actions.programAdditionalFieldsGetRequest()
+      this.props.actions.programAdditionalFieldsByProgramIdGetRequest(this.state.id)
         .then(data => {
           if (!data.err) {
             let categoryIds = [];
             let programCategories = this.props.programAdditionalFields.content || [];
             for (let i = 0; i < programCategories.length; i++) {
-              if(programCategories[i].program === this.state.id) {
-                categoryIds.push(programCategories[i].category)      // push id
-              }
+              categoryIds.push(programCategories[i].category)      // push id
             }
             this.setState({categoryIds: categoryIds})
           }
         });
-    }
-    if (self.context.router.location.query.classification) {
-      this.setState({clasification: self.context.router.location.query.classification})
     }
   }
 
@@ -148,7 +143,7 @@ class EditForm extends React.Component {
   }
 
   handleCancel() {
-    if (self.context.router.location.query.id || self.context.router.location.query.classification) {
+    if (self.context.router.location.query.id) {
       self.context.router.push('/app/visualization/programs')
     }else{
       self.props.changeView('VIEW_ELEMENT')
@@ -821,7 +816,7 @@ function mapDispatchToProps(dispatch) {
       usersGetRequest,
       sedesGetRequest,
       programLocationByProgramIdGetRequest,
-      programAdditionalFieldsGetRequest
+      programAdditionalFieldsByProgramIdGetRequest
     }, dispatch)
   };
 }

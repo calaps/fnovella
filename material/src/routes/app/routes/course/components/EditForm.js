@@ -91,10 +91,10 @@ class EditForm extends React.Component {
   }
 
   handleCancel() {
-    if (self.context.router.location.query.id) {
+    if (self.context.router.location.query.id || self.context.router.location.query.add) {
       self.context.router.push('/app/visualization/programs')
     }else{
-      self.props.changeView('VIEW_ELEMENT')
+        self.props.changeView('VIEW_ELEMENT')
     }
   }
 
