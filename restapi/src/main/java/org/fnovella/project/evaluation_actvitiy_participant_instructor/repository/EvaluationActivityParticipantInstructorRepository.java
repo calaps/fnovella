@@ -4,7 +4,7 @@ import org.fnovella.project.evaluation_actvitiy_participant_instructor.model.Eva
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("evaluationActivityParticipantInstructorRepository")
+@Repository
 public interface EvaluationActivityParticipantInstructorRepository extends JpaRepository<EvaluationActivityParticipantInstructor, Integer> {
 
 }

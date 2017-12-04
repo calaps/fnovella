@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.fnovella.project.evaluation_type.model.EvaluationType;
 import org.fnovella.project.evaluation_type.repository.EvaluationTypeRepository;
 import org.fnovella.project.utility.model.APIResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/evaluation_type/")
 public class EvaluationTypeController {
 
+	@Autowired
 	private EvaluationTypeRepository evaluationTypeRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
