@@ -70,9 +70,7 @@ export function workshopsGetRequest(number, size) {
 
 export function workshopsAddRequest(data) {
   return function (dispatch) {
-    return new Promise(function (resolve, reject) {
-      {
-x
+    return new Promise(function (resolve, reject) {      
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
@@ -115,7 +113,6 @@ x
               type: PROGRESS_REMOVE_REQUEST
             });
           })
-      }
     })
   }
 }
