@@ -17,17 +17,22 @@ class ListItem extends React.Component {
 
             type="submit" className="btn btn-primary">Contacto de emergencia</button>
           &nbsp;
-          &nbsp;
+          {/* &nbsp; */}
           <button
             onClick={()=>{this.props.onDelete(this.props.participantData.id)}}
 
             type="submit" className="btn btn-primary">Eliminar</button>
           &nbsp;
-          &nbsp;
+          {/* &nbsp; */}
           <button
             onClick={()=>{this.props.onEdit(this.props.participantData)}}
 
             type="submit" className="btn btn-primary">Editar</button>
+            &nbsp;
+          {/* &nbsp; */}
+          <button
+            onClick={()=>{this.props.onView(this.props.participantData)}}
+            type="submit" className="btn btn-primary">Visualizar</button>
         </td>
       </tr>
     );

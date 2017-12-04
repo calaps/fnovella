@@ -4,7 +4,8 @@ import HorizontalLinearStepper from './HorizontalLinearStepper';
 import ListElements from './ListElements';
 import UpdateForm from './UpdateForm';
 import ViewEmergencyContact from './ViewEmergencyContact';
-import FileUpload from './File'; //FILE CSV Module integrated
+import ViewStudentInfo from './ViewStudentInfo';
+import FileUpload from './File';//FILE CSV Module integrated
 
 const optionsName = "Participantes";
 
@@ -97,6 +98,7 @@ class Student extends React.Component {
     this.onEditStudent = this.onEditStudent.bind(this); //bind this element
     this.handleCancel = this.handleCancel.bind(this);
     this.onEmergencyView = this.onEmergencyView.bind(this);
+    this.onViewStudent = this.onViewStudent.bind(this);
   }
 
   changeView(data) {
@@ -112,7 +114,10 @@ class Student extends React.Component {
     this.setState({ participantId });
     this.changeView('VIEW_EMERGENCY', false);
   }
-
+  onViewStudent(participantData){
+    this.setState({participantData});
+    this.changeView("READ_ONLY");
+  }
   handleCancel() {
     this.changeView('VIEW_ELEMENT', false);
   }
@@ -122,13 +127,15 @@ class Student extends React.Component {
       case 'ADD_ELEMENT':
         return <HorizontalLinearStepper changeView={this.changeView} participantData={this.state.participantData} />;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditStudent} onEmergencyView={this.onEmergencyView} />;
+        return <ListElements onEdit={this.onEditStudent} onView={this.onViewStudent} onEmergencyView={this.onEmergencyView} />;
       case "UPDATE_ELEMENT":
         return <UpdateForm participantData={this.state.participantData} changeView={this.changeView} onCancel={this.handleCancel} />;
       case "VIEW_EMERGENCY":
         return <ViewEmergencyContact participantId={this.state.participantId} />;
       case "CSV_LOAD":
         return <FileUpload changeView={this.changeView} />;
+      case "READ_ONLY":
+        return <ViewStudentInfo participantData={this.state.participantData} />
       default:
         return null;
     }

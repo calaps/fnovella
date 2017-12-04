@@ -49,7 +49,7 @@ class EditForm extends React.Component {
     this
       .props
       .actions
-      .programGetRequest();
+      .programGetRequest(0,10000);
     this
       .props
       .actions
@@ -173,7 +173,6 @@ class EditForm extends React.Component {
   }
 
   render() {
-
     const {errors} = this.state;
 
     const options = map(data_types, (val, key) => <option key={val} value={val}>{key}</option>
