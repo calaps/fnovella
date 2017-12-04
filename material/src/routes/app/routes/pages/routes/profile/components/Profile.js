@@ -561,12 +561,15 @@ class Info extends React.Component {
 
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
-                          <FlatButton disabled={this.state.isLoading}
+                          <FlatButton 
+                          disabled={this.state.isLoading}
                                       label='Cancelar'
                                       style={{marginRight: 12}}
                                       onTouchTap={this.handleCancel}
                                       secondary className="btn-w-md"/>
-                          <RaisedButton disabled={this.state.isLoading} type="submit"
+                          <RaisedButton 
+                            disabled={this.state.isLoading} 
+                            type="submit"
                                         label={'Actualizar'}
                                         onTouchTap={this.onProfileSubmit}
                                         secondary className="btn-w-md"/>
@@ -596,12 +599,15 @@ class Info extends React.Component {
 
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
-                          <FlatButton disabled={this.state.isLoading}
+                          <FlatButton 
+                          //disabled={this.state.isLoading}
                                       label='Cancelar'
                                       style={{marginRight: 12}}
                                       onTouchTap={this.handleCancel}
-                                      secondary className="btn-w-md"/>
-                          <RaisedButton disabled={this.state.isLoading} type="submit"
+                                      secondary className="btn-w-md"/> 
+                          <RaisedButton 
+                          //disabled={this.state.isLoading}
+                           type="submit"
                                         label={'Actualizar'}
                                         onTouchTap={this.onPasswordSubmit}
                                         secondary className="btn-w-md"/>
