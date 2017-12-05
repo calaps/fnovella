@@ -2,6 +2,7 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import ListElements from './ListElements';
 import AdditionalFieldsForm from './additionalFields';
+import HorizontalLinearStepper from './HorizontalLinearStepper';
 import EditForm from './EditForm';
 
 const optionsName = "INSCRIPCIONES";
@@ -124,10 +125,15 @@ class Inscription extends React.Component {
                     onEdit={this.onEdit}
                     showInscriptions={false}/>;
             case "ADD_ELEMENT":
-                return <AdditionalFieldsForm
+                return <HorizontalLinearStepper 
                     participantData={this.state.participantData}
                     changeView={this.changeView}
-                    onCancel={this.handleCancel}/>;
+                />
+            // case "ADD_ELEMENT":
+            //     return <AdditionalFieldsForm
+            //         participantData={this.state.participantData}
+            //        changeView={this.changeView}
+            //         onCancel={this.handleCancel}/>;
             case "EDIT_VIEW":
                 return <EditForm 
                         inscriptionParticipantId={this.state.inscriptionParticipantId}

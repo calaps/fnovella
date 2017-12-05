@@ -7,14 +7,14 @@ import {
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import EditForm from './EditForm';
-import EmergencyContact from './EmergencyContact';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   participantAddRequest,
   participantContactAddRequest
 } from '../../../../../actions';
-
+import AdditionalFieldsForm from './additionalFields';
+import SecondForm from './SecondForm';
 
 class HorizontalLinearStepper extends React.Component {
   constructor(props){
@@ -22,8 +22,7 @@ class HorizontalLinearStepper extends React.Component {
     this.state = {
       finished: false,
       stepIndex: 0,
-      studentData: {},
-      emergencyData: {}
+      data: {},
     };
     this.handleCancel=this.handleCancel.bind(this);
     this.handleNext=this.handleNext.bind(this);
@@ -39,133 +38,51 @@ class HorizontalLinearStepper extends React.Component {
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <EditForm
+        return <AdditionalFieldsForm
+          participantData={this.props.participantData}
           handleCancel={this.handleCancel}
           handleNext={this.handleNext}
         />;
       case 1:
-        return <EmergencyContact
-          handlePrev={this.handlePrev}
-          handleNext={this.handleNext}
+        return <SecondForm 
+        participantData={this.props.participantData}
+        inscription={this.state.data}
+        handleNext={this.handleNext}
         />;
-      case 2:
-        return 'Resumen de activación';
+        case 2:
+        return "Inscription Completed!";
       default:
         return 'You\'re a long way from home sonny jim!';
     }
   }
 
   handleNext = (data) => {
-    // console.log(data);
     const {stepIndex} = this.state;
     switch (stepIndex) {
       case 0:
         this.setState({
-          studentData:{
-            address: data.address,
-            appCode: data.appCode,
-            bornDate: data.bornDate,
-            cellPhone: data.cellPhone,
-            community: data.community,
-            documentType: data.documentType,
-            documentValue: data.documentValue,
-            department: data.department,
-            email: data.email,
-            firstLastname: data.firstLastname,
-            firstName: data.firstName,
-            gender: data.gender,
-            municipality: data.municipality,
-            nacionality: data.nacionality,
-            phone: data.phone,
-            profession: data.profession,
-            secondLastname: data.secondLastname,
-            secondName: data.secondName,
-            colony: data.colony,
-            zone: data.zone
-          },
+          data,
           stepIndex: stepIndex + 1,
           finished: stepIndex >= 2
         });
         break;
       case 1:
         this.setState({
-          emergencyData: {
-            address: data.address,
-            cellphone: data.cellphone,
-            documentType: data.documentType,
-            documentValue: data.documentValue,
-            email: data.email,
-            firstLastname: data.firstLastname,
-            firstName: data.firstName,
-            participantId: '',
-            secondLastname: data.secondLastname,
-            secondName: data.secondName,
-            tellphone: data.tellphone
-          },
+          data,
           stepIndex: stepIndex + 1,
           finished: stepIndex >= 2
         });
         break;
-      case 2:
-        let studentData ={
-          address: this.state.studentData.address,
-          appCode: this.state.studentData.appCode,
-          bornDate: this.state.studentData.bornDate,
-          cellPhone: this.state.studentData.cellPhone,
-          community: this.state.studentData.community,
-          documentType: this.state.studentData.documentType,
-          documentValue: this.state.studentData.documentValue,
-          department: this.state.studentData.department,
-          email: this.state.studentData.email,
-          firstLastname: this.state.studentData.firstLastname,
-          firstName: this.state.studentData.firstName,
-          gender: this.state.studentData.gender,
-          municipality: this.state.studentData.municipality,
-          nacionality: this.state.studentData.nacionality,
-          phone: this.state.studentData.phone,
-          profession: this.state.studentData.profession,
-          secondLastname: this.state.studentData.secondLastname,
-          secondName: this.state.studentData.secondName,
-          colony: this.state.studentData.colony,
-          zone: this.state.studentData.zone
-        };
-        this.props.actions.participantAddRequest(studentData).then(
-          (response) => {
-            if(response){
-              // console.log(response);
-              let emergencyData = {
-                address: this.state.emergencyData.address,
-                cellphone: this.state.emergencyData.cellphone,
-                documentType: this.state.emergencyData.documentType,
-                documentValue: this.state.emergencyData.documentValue,
-                email: this.state.emergencyData.email,
-                firstLastname: this.state.emergencyData.firstLastname,
-                firstName: this.state.emergencyData.firstName,
-                participantId: response.data.id,
-                secondLastname: this.state.emergencyData.secondLastname,
-                secondName: this.state.emergencyData.secondName,
-                tellphone: this.state.emergencyData.tellphone
-              };
-              this.props.actions.participantContactAddRequest(emergencyData).then(
-                (response)=>{
-                  // console.log("response: ", response);
-                  if(response){
-                    this.props.changeView('VIEW_ELEMENT');
-                  }
-                }, (error)=>{
-                  //alert'fail');
-                  console.log('error occoured with rest api: ', error);
-                });
-              // this.props.changeView('VIEW_ELEMENT');
+        
+        case 2:
+        this.setState({
+          participantData:data,
+          stepIndex: stepIndex + 1,
+          finished: stepIndex >= 2
+        });
+        break;
 
-            }
-          }, (error) => {
-            //alert'fail');
-            console.log('error occoured with rest api: ', error);
-          }
-        );
-        return 'Resumen de activación';
-      default:
+        default:
         return 'You\'re a long way from home sonny jim!';
     }
   };
@@ -175,15 +92,13 @@ class HorizontalLinearStepper extends React.Component {
     this.setState({
       finished: false,
       stepIndex: 0,
-      studentData: {},
-      emergencyData: {}
+      data: {}
     });
   }
 
   render() {
     const {finished, stepIndex} = this.state;
     const contentStyle = {margin: '0 16px'};
-
     return (
       <article className="article">
         <h2 className="article-title">Agreegar nuevo participante</h2>
@@ -222,15 +137,10 @@ class HorizontalLinearStepper extends React.Component {
                       {
                         stepIndex === 2 ?
                           <div style={{marginTop: 12}}>
-                            <FlatButton
-                              label='Atras'
-                              onTouchTap={this.handlePrev}
-                              style={{marginRight: 12}}
-                            />
                             <RaisedButton
                               label='Crear'
                               primary
-                              onTouchTap={this.handleNext}
+                              onTouchTap={()=>this.props.changeView('VIEW_ELEMENT')}
                             />
                           </div>
                           : null
@@ -240,10 +150,6 @@ class HorizontalLinearStepper extends React.Component {
                 )}
               </div>
 
-              <div className="callout callout-info">
-                <p>Acticación de programas para que se puedan crear grados, cursos o talleres.</p>
-                <p>Nota: Este formulario necesita de los catalogos para poder funcionar.</p>
-              </div>
             </div>
 
           </div>
@@ -262,6 +168,15 @@ function mapDispatchToProps(dispatch) {
     }, dispatch)
   };
 }
+
+
+// function mapStateToProps(state) {
+//   return {
+//     programAdditionalFields: state.programAdditionalFields,
+//     programs: state.programs, 
+//     catalogs: state.catalogs, 
+//     groups: state.groups};
+// }
 
 export default connect(
   null,
