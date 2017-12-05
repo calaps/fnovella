@@ -32,7 +32,7 @@ export function programGetRequest(number, size) {
       {
         dispatch({
           type: PROGRESS_ADD_REQUEST
-        });
+        });        
         // API
         HTTP('get', '/program/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {

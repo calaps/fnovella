@@ -16,7 +16,7 @@ import {
   usersGetRequest,
   sedesGetRequest,
   programLocationByProgramIdGetRequest,
-  programAdditionalFieldsGetRequest
+  programAdditionalFieldsByProgramIdGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -82,15 +82,13 @@ class EditForm extends React.Component {
             this.setState({locationIds: locationIds})
           }
         });
-      this.props.actions.programAdditionalFieldsGetRequest()
+      this.props.actions.programAdditionalFieldsByProgramIdGetRequest(this.state.id)
         .then(data => {
           if (!data.err) {
             let categoryIds = [];
             let programCategories = this.props.programAdditionalFields.content || [];
             for (let i = 0; i < programCategories.length; i++) {
-              if(programCategories[i].program === this.state.id) {
-                categoryIds.push(programCategories[i].category)      // push id
-              }
+              categoryIds.push(programCategories[i].category)      // push id
             }
             this.setState({categoryIds: categoryIds})
           }
@@ -791,6 +789,11 @@ class EditForm extends React.Component {
   }
 }
 
+//To get the routers
+EditForm.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 function mapStateToProps(state) {
   //pass the providers
   return {
@@ -813,7 +816,7 @@ function mapDispatchToProps(dispatch) {
       usersGetRequest,
       sedesGetRequest,
       programLocationByProgramIdGetRequest,
-      programAdditionalFieldsGetRequest
+      programAdditionalFieldsByProgramIdGetRequest
     }, dispatch)
   };
 }

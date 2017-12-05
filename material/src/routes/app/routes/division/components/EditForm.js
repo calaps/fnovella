@@ -43,7 +43,7 @@ class EditForm extends React.Component {
 
   componentWillMount() {
     // this.props.actions.sedesGetRequest();
-    this.props.actions.programGetRequest();
+    this.props.actions.programGetRequest(0,10000);
   }
 
   componentWillReceiveProps(nextProps) {

@@ -17,14 +17,21 @@ class ListItem extends React.Component {
 
             type="submit" className="btn btn-primary">Contacto de emergencia</button>
           &nbsp;
+<<<<<<< HEAD
           &nbsp;
           {this.props.permission.pinformationEntry &&
             <button
               onClick={() => { this.props.onDelete(this.props.participantData.id) }}
+=======
+          {/* &nbsp; */}
+          <button
+            onClick={()=>{this.props.onDelete(this.props.participantData.id)}}
+>>>>>>> 8c0163b4cf3cbe33fd4ae46c81c9ed1f3b56db35
 
               type="submit" className="btn btn-primary">Eliminar</button>
           }
           &nbsp;
+<<<<<<< HEAD
           &nbsp;
           {this.props.permission.pinformationEntry &&
             <button
@@ -32,6 +39,18 @@ class ListItem extends React.Component {
 
               type="submit" className="btn btn-primary">Editar</button>
           }
+=======
+          {/* &nbsp; */}
+          <button
+            onClick={()=>{this.props.onEdit(this.props.participantData)}}
+
+            type="submit" className="btn btn-primary">Editar</button>
+            &nbsp;
+          {/* &nbsp; */}
+          <button
+            onClick={()=>{this.props.onView(this.props.participantData)}}
+            type="submit" className="btn btn-primary">Visualizar</button>
+>>>>>>> 8c0163b4cf3cbe33fd4ae46c81c9ed1f3b56db35
         </td>
       </tr>
     );

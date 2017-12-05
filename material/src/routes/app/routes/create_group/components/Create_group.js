@@ -42,13 +42,9 @@ class Create_group extends React.Component {
       active: "VIEW_ELEMENT",
       groupData: {}
     };
-    this.handleCancel = this.handleCancel.bind(this);
     this.onEditGroup = this.onEditGroup.bind(this);
+    this.onViewGroup = this.onViewGroup.bind(this);
     this.changeView = this.changeView.bind(this); //bind this element
-  }
-
-  handleCancel(){
-    this.changeView('VIEW_ELEMENT',false);
   }
 
   componentWillMount() {
@@ -58,8 +54,13 @@ class Create_group extends React.Component {
   }
 
   onEditGroup(groupData) {
-    this.setState({groupData});
-    this.changeView('ADD_ELEMENT', false);
+    /*this.setState({groupData});
+    this.changeView('ADD_ELEMENT', false);*/
+  }
+
+  onViewGroup(id) {
+    /*this.setState({groupData});
+    this.changeView('ADD_ELEMENT', false);*/
   }
 
   changeView(data, reset = true) {
@@ -74,7 +75,7 @@ class Create_group extends React.Component {
       case 'ADD_ELEMENT':
         return <HorizontalLinearStepper changeView={this.changeView} groupData={this.state.groupData} />;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditGroup}/>;
+        return <ListElements onEdit={this.onEditGroup} onView={this.onViewGroup}/>;
       default:
         return null;
     }

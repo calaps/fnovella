@@ -9,6 +9,12 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.groupData.typeCategory}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
           <button
+            onClick={()=>{this.props.onView(this.props.groupData.id)}}
+
+            type="submit" className="btn btn-primary">View</button>
+          &nbsp;
+          &nbsp;
+          <button
             onClick={()=>{this.props.onDelete(this.props.groupData.id)}}
 
             type="submit" className="btn btn-primary">Eliminar</button>
