@@ -105,29 +105,7 @@ class AdditionalFieldsForm extends React.Component {
                             year: this.state.year,
                             status: 1
                         }
-                        this
-                            .props
-                            .actions
-                            .inscriptionAddRequest(inscription)
-                            .then((res_data, error) => {
-                                if (res_data && res_data.data) {
-                                    let inscriptionParticipant = {
-                                        inscription: res_data.data.id,
-                                        participant: this.state.participantData.id
-                                    }
-                                    this
-                                        .props
-                                        .actions
-                                        .inscriptionParticipantAddRequest(inscriptionParticipant)
-                                        .then((response) => {
-                                            if (response && response.data) {
-                                                this
-                                                    .props
-                                                    .changeView('VIEW_ELEMENT');
-                                            }
-                                        })
-                                }
-                            })
+                        this.props.handleNext(inscription);
                     }
 
                 })
@@ -325,7 +303,12 @@ class AdditionalFieldsForm extends React.Component {
 }
 
 function mapStateToProps(state) {
-    return {programAdditionalFields: state.programAdditionalFields, programs: state.programs, catalogs: state.catalogs, groups: state.groups};
+    return {
+        programAdditionalFields: state.programAdditionalFields, 
+        programs: state.programs, 
+        catalogs: state.catalogs, 
+        groups: state.groups
+    };
 }
 
 /* Map Actions to Props */

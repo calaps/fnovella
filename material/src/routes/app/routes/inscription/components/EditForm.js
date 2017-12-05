@@ -210,7 +210,7 @@ class EditForm extends React.Component {
                           {participant.gender}
                         </div>
                       </div>
-                      <div className="form-group row">
+                      {/* <div className="form-group row">
                         <label htmlFor="status" className="col-md-3 control-label">Status</label>
                         <div className="col-md-9">
                           <select
@@ -232,7 +232,7 @@ class EditForm extends React.Component {
                         style={{
                         marginRight: 12
                       }}/>
-                      <RaisedButton label='Siguiente' primary type='Crear'/>
+                      <RaisedButton label='Siguiente' primary type='Crear'/> */}
 
                     </form>
 
