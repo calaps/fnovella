@@ -1,7 +1,7 @@
 import React from 'react';
 
 class ListItem extends React.Component {
-  render () {
+  render() {
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
@@ -13,21 +13,25 @@ class ListItem extends React.Component {
 
         <td className="mdl-data-table__cell--non-numeric" >
           <button
-            onClick={()=>{this.props.onEmergencyView(this.props.participantData.id)}}
+            onClick={() => { this.props.onEmergencyView(this.props.participantData.id) }}
 
             type="submit" className="btn btn-primary">Contacto de emergencia</button>
           &nbsp;
           &nbsp;
-          <button
-            onClick={()=>{this.props.onDelete(this.props.participantData.id)}}
+          {this.props.permission.pinformationEntry &&
+            <button
+              onClick={() => { this.props.onDelete(this.props.participantData.id) }}
 
-            type="submit" className="btn btn-primary">Eliminar</button>
+              type="submit" className="btn btn-primary">Eliminar</button>
+          }
           &nbsp;
           &nbsp;
-          <button
-            onClick={()=>{this.props.onEdit(this.props.participantData)}}
+          {this.props.permission.pinformationEntry &&
+            <button
+              onClick={() => { this.props.onEdit(this.props.participantData) }}
 
-            type="submit" className="btn btn-primary">Editar</button>
+              type="submit" className="btn btn-primary">Editar</button>
+          }
         </td>
       </tr>
     );
