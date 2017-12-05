@@ -13,14 +13,14 @@ class ListItem extends React.Component {
               <button
                 onClick={()=>{this.props.onDelete(this.props.locationData.id)}}
 
-                type="submit" className="btn btn-primary" >Delete
+                type="submit" className="btn btn-danger" >Eliminar
               </button>
               &nbsp;
               &nbsp;
               <button
                 onClick={()=>{this.props.onEdit(this.props.locationData)}}
 
-                type="submit" className="btn btn-primary">Edit</button>
+                type="submit" className="btn btn-primary">Editar</button>
             </td>
           </tr>
           );

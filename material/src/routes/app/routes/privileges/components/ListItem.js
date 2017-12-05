@@ -10,7 +10,7 @@ class ListItem extends React.Component {
               <button
                 onClick={()=>{this.props.onDelete(this.props.privilegeData.id)}}
 
-                type="submit" className="btn btn-primary">Eliminar
+                type="submit" className="btn btn-danger">Eliminar
               </button>
             &nbsp;&nbsp;
               <button
