@@ -141,6 +141,29 @@ class EvaluationStructure extends React.Component {
       })
     };
 
+    let togglePercentage = ()=>{
+      if(this.state.assistance === "true"){
+        return(
+          <div className="form-group row">
+            <label htmlFor="correlativo" className="col-md-3 control-label">Percentage</label>
+            <div className="col-md-9">
+              <input
+                type="text"
+                className="form-control"
+                id="percentage"
+                name="percentage"
+                value={this.state.percentage}
+                onChange={this.onChange}
+                placeholder="eje: 1 - 100"/>
+              {errors.percentage && <span className="help-block text-danger">{errors.percentage}</span>}
+            </div>
+          </div>
+        )
+      }else{
+        return null;
+      }
+    };
+
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -168,24 +191,12 @@ class EvaluationStructure extends React.Component {
                         {errors.assistance && <span className="help-block text-danger">{errors.assistance}</span>}
                       </div>
                     </div>
-                    <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Percentage</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="percentage"
-                          name="percentage"
-                          value={this.state.percentage}
-                          onChange={this.onChange}
-                          placeholder="eje: 1 - 100"/>
-                        {errors.percentage && <span className="help-block text-danger">{errors.percentage}</span>}
-                      </div>
-                    </div>
+                    {togglePercentage()}
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
                       <div className="col-md-9">
                         <select
+                          disabled
                           className="form-control"
                           id="evaluationType"
                           name="evaluationType"
