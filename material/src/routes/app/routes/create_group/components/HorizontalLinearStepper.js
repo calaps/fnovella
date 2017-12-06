@@ -170,10 +170,19 @@ class HorizontalLinearStepper extends React.Component {
             <div style={{width: '100%', maxWidth: 900, margin: 'auto'}}>
               <Stepper activeStep={stepIndex}>
                 <Step>
-                  <StepLabel>General Configuration</StepLabel>
+                  <StepLabel>Configuración general</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Evaluation Structure</StepLabel>
+                  <StepLabel>Estructura de evaluación</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Satisfacción</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Monitoreo</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Desempeño</StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>Activar</StepLabel>

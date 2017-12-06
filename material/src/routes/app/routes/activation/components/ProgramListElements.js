@@ -17,7 +17,7 @@ import {
   TableFooter
 } from 'material-ui/Table';
 
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 
 class ProgramsListElements extends React.Component {
@@ -52,7 +52,6 @@ class ProgramsListElements extends React.Component {
       tableRows.push(
         <TableRow key={i} selected={this.state.selectedRow.indexOf(i) !== -1}>
           <TableRowColumn>{[i + 1]}</TableRowColumn>
-          <TableRowColumn>{this.props.programs.content[i].id}</TableRowColumn>
           <TableRowColumn>{this.props.programs.content[i].name}</TableRowColumn>
           <TableRowColumn>{this.props.programs.content[i].description}</TableRowColumn>
         </TableRow>
@@ -64,7 +63,6 @@ class ProgramsListElements extends React.Component {
           <TableHeader>
             <TableRow>
               <TableHeaderColumn>#</TableHeaderColumn>
-              <TableHeaderColumn>ID</TableHeaderColumn>
               <TableHeaderColumn>Nombre</TableHeaderColumn>
               <TableHeaderColumn>Descripción</TableHeaderColumn>
             </TableRow>
@@ -84,12 +82,12 @@ class ProgramsListElements extends React.Component {
         </Table>
         <div style={{marginTop: 12}}>
           <FlatButton
-            label='Cancel'
+            label='Cancelar'
             style={{marginRight: 12}}
             onTouchTap={this.props.handleCancel}
           />
           <RaisedButton
-            label='Next'
+            label='Continuar'
             primary
             onTouchTap={() => {
               this.props.handleNext(data)

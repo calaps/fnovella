@@ -12,7 +12,7 @@ class ListItem extends React.Component {
               <button
                 onClick={()=>{this.props.onDelete(this.props.categoryData.id)}}
 
-                type="submit" className="btn btn-primary">Eliminar</button>
+                type="submit" className="btn btn-danger">Eliminar</button>
               &nbsp;
               &nbsp;
               <button

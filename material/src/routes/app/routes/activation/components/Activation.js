@@ -33,11 +33,11 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("ADD_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="javascript:;"><i className="material-icons">add</i></a>
+                          <a><i className="material-icons">assignment</i></a>
                         </div>
-                        <h6>Activaciones</h6>
+                        <h6>Ver programas</h6>
                       </div>
                     </div>
                   </div>
@@ -46,11 +46,11 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                      <div onClick={() => this.props.changeView("ADD_ELEMENT") } className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a><i className="material-icons">assignment</i></a>
+                          <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
-                        <h6>Programas</h6>
+                        <h6>Nueva activación</h6>
                       </div>
                     </div>
                   </div>
