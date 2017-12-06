@@ -33,6 +33,18 @@ class GeneralConfiguration extends React.Component {
       correlativo: '',
       inscriptionsEnd:  new Date(),
       inscriptionsStart: new Date(),
+      nsJan: '',
+      nsFeb: '',
+      nsMar: '',
+      nsApr: '',
+      nsMay: '',
+      nsJun: '',
+      nsJul: '',
+      nsAug: '',
+      nsSep: '',
+      nsOct: '',
+      nsNov: '',
+      nsDec: '',
       errors: {},
       isLoading: false,
       selectedType: ''
@@ -85,24 +97,6 @@ class GeneralConfiguration extends React.Component {
     }
   }
 
-  /*componentWillReceiveProps(nextProps) {
-    if (this.props.groupData !== nextProps.groupData) {
-      this.setState({
-        id: '',
-        courseId: '',
-        divisionId: '',
-        instructor: '',
-        section: '',
-        type: '',
-        typeCategory: '',
-        workshopId: '',
-        correlativo: '',
-        inscriptionsStart: '',
-        inscriptionsEnd: '',
-      })
-    }
-  }*/
-
   isValid() {
     //local validation
     return true;
@@ -129,7 +123,19 @@ class GeneralConfiguration extends React.Component {
         workshopId: this.state.workshopId,
         correlativo: this.state.correlativo,
         inscriptionsStart: this.state.inscriptionsStart,
-        inscriptionsEnd: this.state.inscriptionsEnd
+        inscriptionsEnd: this.state.inscriptionsEnd,
+        nsJan: this.state.nsJan,
+        nsFeb: this.state.nsFeb,
+        nsMar: this.state.nsMar,
+        nsApr: this.state.nsApr,
+        nsMay: this.state.nsMay,
+        nsJun: this.state.nsJun,
+        nsJul: this.state.nsJul,
+        nsAug: this.state.nsAug,
+        nsSep: this.state.nsSep,
+        nsOct: this.state.nsOct,
+        nsNov: this.state.nsNov,
+        nsDec: this.state.nsDec
       };
       this.props.handleNext(data);
     }
