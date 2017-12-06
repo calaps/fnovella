@@ -163,9 +163,8 @@ class HorizontalLinearStepper extends React.Component {
 
     return (
       <article className="article">
-        <h2 className="article-title">Activación de grupo</h2>
         <div className="box box-default">
-          <div className="box-body padding-xl">
+          <div className="box-body">
 
             <div style={{width: '100%', maxWidth: 900, margin: 'auto'}}>
               <Stepper activeStep={stepIndex}>

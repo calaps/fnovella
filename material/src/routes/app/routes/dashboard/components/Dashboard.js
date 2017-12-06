@@ -2,7 +2,7 @@ import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import KPIsChart from './KPIsChart';
 import AquisitionChart from './AquisitionChart';
-import StatBoxes from './StatBoxes';
+import StatBoxes from './statboxes';
 import EngagementStats from './EngagementStats';
 import BenchmarkChart from './BenchmarkChart';
 

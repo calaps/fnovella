@@ -3,7 +3,7 @@ import HorizontalLinearStepper from './HorizontalLinearStepper';
 import QueueAnim from 'rc-queue-anim';
 import ListElements from './ListElements';
 
-const optionsName = "Grupo";
+const optionsName = "Activación de grupo";
 
 class MainOptions extends React.Component {
   constructor(props) {

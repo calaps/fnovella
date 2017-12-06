@@ -177,6 +177,27 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
+
+                    <div className="form-group row">
+                      {/*  add this  */}
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de
+                        divisiones</label>
+                      <div className="col-md-9">
+                        <input
+                          type="date"
+                          className="form-control"
+                          id="calPeriodsWorkshop"
+                          name="calPeriodsWorkshop"
+                          value={this.state.calPeriodsWorkshop}
+                          onChange={this.onChange}
+                          placeholder="eje: El Progreso"/>
+                        {errors.calPeriodsWorkshop &&
+                        <span className="help-block text-danger">{errors.calPeriodsWorkshop}</span>}
+                      </div>
+                    </div>
+
+                    {/* Delete this is no longer necesary
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Instructor responsable</label>
                       <div className="col-md-9">
@@ -256,6 +277,8 @@ class EditForm extends React.Component {
                         {errors.location && <span className="help-block text-danger">{errors.location}</span>}
                       </div>
                     </div>
+
+                    */}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Ofrece cursos libres?</label>

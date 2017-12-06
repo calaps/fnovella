@@ -1,7 +1,7 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
-import map from "Lodash/map"; //to use map in a object
+import map from 'Lodash/map'; //to use map in a object
 import {personal_documents, gender, countries, privileges} from '../../../../../constants/data_types';
 import {userValidator} from "../../../../../actions/formValidations"; //form validations
 //import { signUpRequest } from './../../../../../actions'; //for use the Rest_API
