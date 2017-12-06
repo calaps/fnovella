@@ -1,16 +1,14 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
-import DatePicker from 'material-ui/DatePicker'; // Datepicker
+import IconButton from 'material-ui/IconButton';
 import map from "Lodash/map"; //to use map in a object
-import {typeCategory} from '../../../../../constants/data_types';
 import {groupValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
+import uuid from "uuid";
 import {bindActionCreators} from 'redux';
-import {
-
-} from '../../../../../actions';
+import {} from '../../../../../actions';
 
 let self;
 
@@ -23,7 +21,9 @@ class EvaluationStructure extends React.Component {
       percentage: '',
       approvalPercentage: '',
       evaluationType: 'conocimiento' || '',
-      evaluateCategory: 'division' || '',
+      evaluateCategory: [],
+      evaluateCategoryName: null,
+      evaluateCategoryPercentage: null,
       maximumNote: '',
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
@@ -33,6 +33,10 @@ class EvaluationStructure extends React.Component {
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeEvaluateCategoryAndPercentage = this.onChangeEvaluateCategoryAndPercentage.bind(this);
+    this.onAddEvaluateCategoryAndPercentage = this.onAddEvaluateCategoryAndPercentage.bind(this);
+    this.isEvaluateCategoryAndPercentageNull = this.isEvaluateCategoryAndPercentageNull.bind(this);
+    this.onRemoveEvaluateCategoryAndPercentage = this.onRemoveEvaluateCategoryAndPercentage.bind(this);
     self = this;
   }
 
@@ -92,9 +96,69 @@ class EvaluationStructure extends React.Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
+  onChangeEvaluateCategoryAndPercentage(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
+  onAddEvaluateCategoryAndPercentage() {
+    let obj = {
+      id: uuid(),
+      name: this.state.evaluateCategoryName,
+      percentage: this.state.evaluateCategoryPercentage
+    };
+    console.log(obj);
+    this.setState({
+      evaluateCategory: [
+        ...this.state.evaluateCategory, obj
+      ]
+    });
+  }
+
+  onRemoveEvaluateCategoryAndPercentage(cat) {
+    for (let i = 0; i < this.state.evaluateCategory.length; i++) {
+      if (this.state.evaluateCategory[i].id === cat.id) {
+        this.setState({
+          ...this.state.evaluateCategory.splice(i, 1)
+        })
+      }
+    }
+  }
+
+  isEvaluateCategoryAndPercentageNull() {
+    if (this.state.evaluateCategoryName !== null && this.state.evaluateCategoryPercentage !== null) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
 
+    let i = 0;
+
     const {errors} = this.state;
+
+    let evaluateCategoryAndPercentageMapping = () => {
+      return this.state.evaluateCategory.map((cat) => {
+        return (
+          <div className="row" key={i++}>
+            <label htmlFor="inputEmail3" className="col-md-3 control-label"> </label>
+            <div className="col-md-4">
+              <label>{cat.name}</label>s
+            </div>
+            <div className="col-md-4">
+              <label>{cat.percentage}</label>
+            </div>
+            <IconButton
+              iconClassName="col-md-1 material-icons"
+              onTouchTap={() => this.onRemoveEvaluateCategoryAndPercentage(cat)}
+            >remove
+            </IconButton>
+          </div>
+        )
+      })
+    };
 
     return (
       <article className="article padding-lg-v article-bordered">
@@ -165,26 +229,45 @@ class EvaluationStructure extends React.Component {
                           value={this.state.approvalPercentage}
                           onChange={this.onChange}
                           placeholder="eje: 1 - 100"/>
-                        {errors.approvalPercentage && <span className="help-block text-danger">{errors.approvalPercentage}</span>}
+                        {errors.approvalPercentage &&
+                        <span className="help-block text-danger">{errors.approvalPercentage}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Select the categories to evaluate</label>
-                      <div className="col-md-9">
-                        <select
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Select the categories to
+                        evaluate</label>
+                      <div className="col-md-4">
+                        <input
+                          type="text"
                           className="form-control"
-                          id="evaluateCategory"
-                          name="evaluateCategory"
-                          value={this.state.evaluateCategory}
-                          onChange={this.onChange}
-                        >
-                          <option value="division">Division</option>
-                          <option value="multiplication">Multiplication</option>
-                        </select>
-                        {errors.evaluateCategory &&
-                        <span className="help-block text-danger">{errors.evaluateCategory}</span>}
+                          id="evaluateCategoryName"
+                          name="evaluateCategoryName"
+                          value={this.state.evaluateCategoryName}
+                          onChange={this.onChangeEvaluateCategoryAndPercentage}
+                          placeholder="Category"/>
+                        {errors.evaluateCategoryName &&
+                        <span className="help-block text-danger">{errors.evaluateCategoryName}</span>}
                       </div>
+                      <div className="col-md-4">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="evaluateCategoryPercentage"
+                          name="evaluateCategoryPercentage"
+                          value={this.state.evaluateCategoryPercentage}
+                          onChange={this.onChangeEvaluateCategoryAndPercentage}
+                          placeholder="Percentage"/>
+                        {errors.evaluateCategoryPercentage &&
+                        <span className="help-block text-danger">{errors.evaluateCategoryPercentage}</span>}
+                      </div>
+                      <IconButton
+                        iconClassName="col-md-1 material-icons"
+                        disabled={!this.isEvaluateCategoryAndPercentageNull()}
+                        onTouchTap={this.onAddEvaluateCategoryAndPercentage}
+                      >add
+                      </IconButton>
                     </div>
+                    {evaluateCategoryAndPercentageMapping()}
                     <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
                       <div className="col-md-9">
@@ -248,17 +331,13 @@ EvaluationStructure.contextTypes = {
 
 function mapStateToProps(state) {
   //pass the providers
-  return {
-
-  }
+  return {}
 }
 
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({
-
-    }, dispatch)
+    actions: bindActionCreators({}, dispatch)
   };
 }
 

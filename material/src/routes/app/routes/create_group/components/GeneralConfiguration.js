@@ -260,7 +260,7 @@ class GeneralConfiguration extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="typeCategory" className="col-md-3 control-label">Tipo de grupo</label>
                       <div className="col-md-9">
-                        <select
+                        <select disabled
                           name="typeCategory"
                           id="typeCategory"
                           onChange={this.onChange}
