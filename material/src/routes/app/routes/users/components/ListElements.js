@@ -12,7 +12,7 @@ import Pagination from '../../../../../components/Pagination'
  * Fake element list render....
  * */
 
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 class ListElements extends React.Component {
   constructor(props) {
@@ -135,7 +135,7 @@ class ListElements extends React.Component {
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
+                  <table className="mdl-data-table table-striped">
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>

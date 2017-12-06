@@ -104,6 +104,7 @@ class MainOptions extends React.Component {
                     <p>Si necesitas ayuda acerca del funcionamiento de la aplicación puedes hacer click aqui para obtener respuesta a preguntas frecuentes</p>
                   </div>
                 </div>
+
               </div></a>
             </div>
             {this.props.permission.pnotesEntry &&
@@ -152,6 +153,7 @@ class MainOptions extends React.Component {
                 </div>
               </div></a>
             </div>
+
             {this.props.permission.pevaluationEntry &&
               <div className="col-xl-4">
                 <a href="#/app/page/catalog"><div className="box box-default">
