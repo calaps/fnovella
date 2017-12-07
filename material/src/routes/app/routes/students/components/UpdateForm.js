@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import FlatButton from 'material-ui/FlatButton';
-import map from "Lodash/map"; //to use map in a object
+import map from "lodash-es/map"; //to use map in a object
 import {personal_documents, gender, countries} from '../../../../../constants/data_types';
 import {studentValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
