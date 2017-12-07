@@ -12,15 +12,12 @@ import {} from '../../../../../actions';
 
 let self;
 
-class EvaluationStructure extends React.Component {
+class PerformanceStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       id: '',
-      assistance: '',
-      percentage: '',
       approvalPercentage: '',
-      evaluationType: 'conocimiento' || '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
@@ -44,6 +41,24 @@ class EvaluationStructure extends React.Component {
 
   }
 
+  /*componentWillReceiveProps(nextProps) {
+    if (this.props.groupData !== nextProps.groupData) {
+      this.setState({
+        id: '',
+        courseId: '',
+        divisionId: '',
+        instructor: '',
+        section: '',
+        type: '',
+        typeCategory: '',
+        workshopId: '',
+        correlativo: '',
+        inscriptionsStart: '',
+        inscriptionsEnd: '',
+      })
+    }
+  }*/
+
   isValid() {
     //local validation
     return true;
@@ -61,10 +76,7 @@ class EvaluationStructure extends React.Component {
       //reset errors object and disable submit button
       this.setState({errors: {}, isLoading: true});
       let data = {
-        assistance: this.state.assistance,
-        percentage: this.state.percentage,
         approvalPercentage: this.state.approvalPercentage,
-        evaluationType: this.state.evaluationType,
         evaluateCategory: this.state.evaluateCategory,
         maximumNote: this.state.maximumNote,
         calculateMultipleSelection: this.state.calculateMultipleSelection,
@@ -141,29 +153,6 @@ class EvaluationStructure extends React.Component {
       })
     };
 
-    let togglePercentage = ()=>{
-      if(this.state.assistance === "true"){
-        return(
-          <div className="form-group row">
-            <label htmlFor="correlativo" className="col-md-3 control-label">Percentage</label>
-            <div className="col-md-9">
-              <input
-                type="text"
-                className="form-control"
-                id="percentage"
-                name="percentage"
-                value={this.state.percentage}
-                onChange={this.onChange}
-                placeholder="eje: 1 - 100"/>
-              {errors.percentage && <span className="help-block text-danger">{errors.percentage}</span>}
-            </div>
-          </div>
-        )
-      }else{
-        return null;
-      }
-    };
-
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -174,42 +163,6 @@ class EvaluationStructure extends React.Component {
                 <div className="box-body padding-md">
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Assistance required?</label>
-                      <div className="col-md-9">
-                        <select
-                          name="assistance"
-                          id="assistance"
-                          onChange={this.onChange}
-                          value={this.state.assistance}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value={true}>Yes</option>
-                          <option value={false}>No</option>
-                        </select>
-                        {errors.assistance && <span className="help-block text-danger">{errors.assistance}</span>}
-                      </div>
-                    </div>
-                    {togglePercentage()}
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
-                      <div className="col-md-9">
-                        <select
-                          disabled
-                          className="form-control"
-                          id="evaluationType"
-                          name="evaluationType"
-                          value={this.state.evaluationType}
-                          onChange={this.onChange}
-                        >
-                          <option value="conocimiento">Evaluación conocimiento</option>
-                          <option value="continua">Evaluación de continua</option>
-                        </select>
-                        {errors.evaluationType &&
-                        <span className="help-block text-danger">{errors.evaluationType}</span>}
-                      </div>
-                    </div>
                     <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
                       <div className="col-md-9">
@@ -317,7 +270,7 @@ class EvaluationStructure extends React.Component {
   }
 }
 
-EvaluationStructure.contextTypes = {
+PerformanceStructure.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
@@ -336,5 +289,5 @@ function mapDispatchToProps(dispatch) {
 module.exports = connect(
   mapStateToProps,
   mapDispatchToProps
-)(EvaluationStructure);
+)(PerformanceStructure);
 
