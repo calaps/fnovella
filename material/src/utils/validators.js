@@ -1,7 +1,7 @@
 /* Put all the validations here */
 
 import Validator from "validator"; //for validate data
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash-es/isEmpty";
 
 function isDate(date){
   try{

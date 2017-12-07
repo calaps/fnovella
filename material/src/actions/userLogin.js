@@ -3,7 +3,7 @@
  * **/
 
 import Validator from "validator"; //for validate data
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash-es/isEmpty";
 
 export default function validateinput(data){
 

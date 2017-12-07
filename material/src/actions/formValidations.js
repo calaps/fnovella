@@ -1,6 +1,6 @@
 // Rest of the forms validations
 import Validator from "validator"; //for validate data
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash-es/isEmpty";
 
 //Messages
 const required = "Este campo es requerido";
