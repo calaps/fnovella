@@ -16,7 +16,6 @@ public class Inscription {
     private Integer group;
 
     public Inscription() {
-        this.status = 0;
     }
 
     public Inscription(Integer period, Integer year, Integer status, Integer group) {
@@ -70,15 +69,15 @@ public class Inscription {
         ArrayList<String> errors = new ArrayList<>();
         if (this.period == null || this.period <= 0) errors.add("Period is required");
         if (this.year == null || this.year <= 0) errors.add("Year is required");
-        if (this.status == null) this.status = 0;
+        if (this.status == null || this.status < 0) errors.add("Status is required");
         if (this.group == null || this.group <= 0) errors.add("Group is required");
         return errors;
     }
 
     public void setUpdateFields(Inscription inscriptions) {
-        if (inscriptions.period != null && this.period > 0) this.period = inscriptions.period;
-        if (inscriptions.year != null && this.year > 0) this.year = inscriptions.year;
-        if (inscriptions.status != null && this.status > 0) this.status = inscriptions.status;
-        if (inscriptions.group != null && this.group > 0) this.group = inscriptions.group;
+        if (inscriptions.period != null && inscriptions.period > 0) this.period = inscriptions.period;
+        if (inscriptions.year != null && inscriptions.year > 0) this.year = inscriptions.year;
+        if (inscriptions.status != null && inscriptions.status >= 0) this.status = inscriptions.status;
+        if (inscriptions.group != null && inscriptions.group > 0) this.group = inscriptions.group;
     }
 }

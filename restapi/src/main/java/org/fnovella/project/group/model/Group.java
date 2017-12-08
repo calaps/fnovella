@@ -136,12 +136,12 @@ public class Group {
 	public void setUpdateFields(Group group) {
 		if (APIUtility.isNotNullOrEmpty(group.typeCategory)) this.typeCategory = group.typeCategory;
 		if (APIUtility.isNotNullOrEmpty(group.correlativo)) this.correlativo = group.correlativo;
-		if (group.type != null && this.type > 0) this.type = group.type;
-		if (group.courseId != null && this.courseId > 0) this.courseId = group.courseId;
-		if (group.workshopId != null && this.workshopId > 0) this.workshopId = group.workshopId;
-		if (group.divisionId != null && this.divisionId > 0) this.divisionId = group.divisionId;
-		if (group.section != null && this.section > 0) this.section = group.section;
-		if (group.instructor != null && this.instructor > 0) this.instructor = group.instructor;
+		if (group.type != null && group.type > 0) this.type = group.type;
+		if (group.courseId != null && group.courseId > 0) this.courseId = group.courseId;
+		if (group.workshopId != null && group.workshopId > 0) this.workshopId = group.workshopId;
+		if (group.divisionId != null && group.divisionId > 0) this.divisionId = group.divisionId;
+		if (group.section != null && group.section > 0) this.section = group.section;
+		if (group.instructor != null && group.instructor > 0) this.instructor = group.instructor;
 	}
 
 }
