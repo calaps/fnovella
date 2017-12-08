@@ -22,6 +22,7 @@ class Inscription_participant extends React.Component{
         this.props.actions.participantGetRequest();
     }
     render(){
+      var i= 0;
         console.log('dasda',this.props.inscriptionParticipants);
             return (
                 <article className="article">
@@ -38,10 +39,8 @@ class Inscription_participant extends React.Component{
                                 <tr>
                                   <th className="mdl-data-table__cell--non-numeric">#</th>
                                   <th className="mdl-data-table__cell--non-numeric">ID</th>
-                                  <th className="mdl-data-table__cell--non-numeric">Group</th>
-                                  <th className="mdl-data-table__cell--non-numeric">Period</th>
-                                  <th className="mdl-data-table__cell--non-numeric">Year</th>
-                                  <th className="mdl-data-table__cell--non-numeric">Status</th>
+                                  <th className="mdl-data-table__cell--non-numeric">Inscription</th>
+                                  <th className="mdl-data-table__cell--non-numeric">Participant</th>
                                 </tr>
                               </thead>
                               <tbody>
