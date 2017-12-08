@@ -3,7 +3,7 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import IconButton from 'material-ui/IconButton';
 import map from "lodash-es/map"; //to use map in a object
-import {groupValidator} from "../../../../../actions/formValidations"; //form validations
+import {satisfactionStructureValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import uuid from "uuid";
@@ -22,6 +22,7 @@ class SatisfactionStructure extends React.Component {
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
       maximumNote: '',
+      totalEvaluateCategory: 0,
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
       isLoading: false
@@ -41,28 +42,9 @@ class SatisfactionStructure extends React.Component {
 
   }
 
-  /*componentWillReceiveProps(nextProps) {
-    if (this.props.groupData !== nextProps.groupData) {
-      this.setState({
-        id: '',
-        courseId: '',
-        divisionId: '',
-        instructor: '',
-        section: '',
-        type: '',
-        typeCategory: '',
-        workshopId: '',
-        correlativo: '',
-        inscriptionsStart: '',
-        inscriptionsEnd: '',
-      })
-    }
-  }*/
-
   isValid() {
     //local validation
-    return true;
-    const {errors, isValid} = groupValidator(this.state);
+    const {errors, isValid} = satisfactionStructureValidator(this.state);
     if (!isValid) {
       this.setState({errors});
       return false;
@@ -80,7 +62,7 @@ class SatisfactionStructure extends React.Component {
         evaluateCategory: this.state.evaluateCategory,
         maximumNote: this.state.maximumNote,
         calculateMultipleSelection: this.state.calculateMultipleSelection,
-
+        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory
       };
       this.props.handleNext(data);
     }
@@ -105,7 +87,8 @@ class SatisfactionStructure extends React.Component {
     this.setState({
       evaluateCategory: [
         ...this.state.evaluateCategory, obj
-      ]
+      ],
+      totalEvaluateCategory: this.state.totalEvaluateCategory + parseInt(obj.percentage)
     });
   }
 
@@ -113,6 +96,7 @@ class SatisfactionStructure extends React.Component {
     for (let i = 0; i < this.state.evaluateCategory.length; i++) {
       if (this.state.evaluateCategory[i].id === cat.id) {
         this.setState({
+          totalEvaluateCategory: this.state.totalEvaluateCategory - parseInt(cat.percentage),
           ...this.state.evaluateCategory.splice(i, 1)
         })
       }
@@ -195,7 +179,9 @@ class SatisfactionStructure extends React.Component {
                       </div>
                       <div className="col-md-4">
                         <input
-                          type="text"
+                          type="number"
+                          min="1"
+                          max="100"
                           className="form-control"
                           id="evaluateCategoryPercentage"
                           name="evaluateCategoryPercentage"
@@ -213,6 +199,13 @@ class SatisfactionStructure extends React.Component {
                       </IconButton>
                     </div>
                     {evaluateCategoryAndPercentageMapping()}
+                    {errors.evaluateCategory &&
+                      <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
+                    <div className="form-group row">
+                      <label htmlFor="totalEvaluateCategory" className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                      <div className="col-md-3">{errors.totalEvaluateCategory &&
+                      <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
+                    </div>
                     <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
                       <div className="col-md-9">

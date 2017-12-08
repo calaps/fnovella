@@ -719,20 +719,46 @@ export function evaluationStructureValidator(data) {
   if (Validator.isEmpty(data.assistance.toString())) {
     errors.assistance = required;
   }
+  if (Validator.isEmpty(data.approvalPercentage.toString())) {
+    errors.approvalPercentage = required;
+  }
+  if (Validator.isEmpty(data.maximumNote.toString())) {
+    errors.maximumNote = required;
+  }
   if(data.assistance === "true"){
     if (Validator.isEmpty(data.percentage.toString())) {
       errors.percentage = required;
     }
   }
-  // if (Validator.isEmpty(data.divisionId.toString())) {
-  //   errors.divisionId = required;
-  // }
-  /*if (Validator.isEmpty(data.section.toString())) {
-    errors.section = required;
-  }*/
-  /*if (Validator.isEmpty(data.workshopId.toString())) {
-    errors.workshopId = required;
-  }*/
+  if (data.evaluateCategory.length === 0) {
+    errors.evaluateCategory = "Add at least one category!";
+  }
+  if (data.totalEvaluateCategory !== 100) {
+    errors.totalEvaluateCategory = "Total should be 100!";
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {errors, isValid: isEmpty(errors)};
+
+}
+
+export function satisfactionStructureValidator(data) {
+  console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if (Validator.isEmpty(data.approvalPercentage.toString())) {
+    errors.approvalPercentage = required;
+  }
+  if (Validator.isEmpty(data.maximumNote.toString())) {
+    errors.maximumNote = required;
+  }
+  if (data.evaluateCategory.length === 0) {
+    errors.evaluateCategory = "Add at least one category!";
+  }
+  if (data.totalEvaluateCategory !== 100) {
+    errors.totalEvaluateCategory = "Total should be 100!";
+  }
 
   //IsValid is just a boolean who return is errors is empty
   return {errors, isValid: isEmpty(errors)};

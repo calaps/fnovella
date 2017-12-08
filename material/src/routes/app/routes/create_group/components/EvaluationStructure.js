@@ -31,6 +31,7 @@ class EvaluationStructure extends React.Component {
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
+      totalEvaluateCategory: 0,
       maximumNote: '',
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
@@ -168,19 +169,19 @@ class EvaluationStructure extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      // //reset errors object and disable submit button
-      // this.setState({errors: {}, isLoading: true});
-      // let data = {
-      //   assistance: this.state.assistance,
-      //   percentage: this.state.percentage,
-      //   approvalPercentage: this.state.approvalPercentage,
-      //   evaluationType: this.state.evaluationType,
-      //   evaluateCategory: this.state.evaluateCategory,
-      //   maximumNote: this.state.maximumNote,
-      //   calculateMultipleSelection: this.state.calculateMultipleSelection,
-
-      // };
-      // this.props.handleNext(data);
+      //reset errors object and disable submit button
+      this.setState({errors: {}, isLoading: true});
+      let data = {
+        assistance: this.state.assistance,
+        percentage: this.state.percentage,
+        approvalPercentage: this.state.approvalPercentage,
+        evaluationType: this.state.evaluationType,
+        evaluateCategory: this.state.evaluateCategory,
+        maximumNote: this.state.maximumNote,
+        calculateMultipleSelection: this.state.calculateMultipleSelection,
+        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory
+      };
+      this.props.handleNext(data);
     }
   }
 
@@ -203,7 +204,8 @@ class EvaluationStructure extends React.Component {
     this.setState({
       evaluateCategory: [
         ...this.state.evaluateCategory, obj
-      ]
+      ],
+      totalEvaluateCategory: this.state.totalEvaluateCategory + parseInt(obj.percentage)
     });
   }
 
@@ -211,6 +213,7 @@ class EvaluationStructure extends React.Component {
     for (let i = 0; i < this.state.evaluateCategory.length; i++) {
       if (this.state.evaluateCategory[i].id === cat.id) {
         this.setState({
+          totalEvaluateCategory: this.state.totalEvaluateCategory - parseInt(cat.percentage),
           ...this.state.evaluateCategory.splice(i, 1)
         })
       }
@@ -352,7 +355,9 @@ class EvaluationStructure extends React.Component {
                       </div>
                       <div className="col-md-4">
                         <input
-                          type="text"
+                          type="number"
+                          min="1"
+                          max="100"
                           className="form-control"
                           id="evaluateCategoryPercentage"
                           name="evaluateCategoryPercentage"
@@ -370,6 +375,13 @@ class EvaluationStructure extends React.Component {
                       </IconButton>
                     </div>
                     {evaluateCategoryAndPercentageMapping()}
+                    {errors.evaluateCategory &&
+                      <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
+                    <div className="form-group row">
+                      <label htmlFor="totalEvaluateCategory" className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                      <div className="col-md-3">{errors.totalEvaluateCategory &&
+                      <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
+                    </div>
                     <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
                       <div className="col-md-9">
