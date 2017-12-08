@@ -23,16 +23,16 @@ class EvaluationStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
       assistance: '',
       percentage: '',
       approvalPercentage: '',
-      evaluationType: '' || '',
+      evaluationType: '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
       totalEvaluateCategory: 0,
       maximumNote: '',
+      minimumNote: '',
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
       isLoading: false
@@ -52,104 +52,104 @@ class EvaluationStructure extends React.Component {
     switch (self.context.router.location.query.typeCategory) {
       case 'workshop':
         this.props.actions.workshopGetByIdRequest(self.context.router.location.query.workshopId)
-        .then(
-          (response) => {
-            if (response) {
-              this.props.actions.programGetByIdRequest(response.data.programId)
-              .then(
-                (response) => {
-                  if (response) {
-                    this.setState({
-                      evaluationType:response.data.evaluationType
+          .then(
+            (response) => {
+              if (response) {
+                this.props.actions.programGetByIdRequest(response.data.programId)
+                  .then(
+                    (response) => {
+                      if (response) {
+                        this.setState({
+                          evaluationType: response.data.evaluationType
+                        })
+                      }
+                    },
+                    (error) => {
+                      console.log("An Error occur with the Rest API");
                     })
-                  }
-                },
-                (error) => {
-                  console.log("An Error occur with the Rest API");
-                })
-            }
-          },
-          (error) => {
-            console.log("An Error occur with the Rest API");
-          })
+              }
+            },
+            (error) => {
+              console.log("An Error occur with the Rest API");
+            });
         break;
       case 'section':
         this.props.actions.sectionGetByIdRequest(self.context.router.location.query.sectionId)
-        .then(
-          (response) => {
-            if (response) {
-              this.props.actions.gradeGetByIdRequest(response.data.grade)
-              .then(
-                (response) => {
-                  if (response) {
-                    this.props.actions.programGetByIdRequest(response.data.programId)
-                    .then(
-                      (response) => {
-                        if (response) {
-                          this.setState({
-                            evaluationType:response.data.evaluationType
-                          })
-                        }
-                      },
-                      (error) => {
-                        console.log("An Error occur with the Rest API");
-                      })
-                  }
-                },
-                (error) => {
-                  console.log("An Error occur with the Rest API");
-                })
-            }
-          },
-          (error) => {
-            console.log("An Error occur with the Rest API");
-          })
+          .then(
+            (response) => {
+              if (response) {
+                this.props.actions.gradeGetByIdRequest(response.data.grade)
+                  .then(
+                    (response) => {
+                      if (response) {
+                        this.props.actions.programGetByIdRequest(response.data.programId)
+                          .then(
+                            (response) => {
+                              if (response) {
+                                this.setState({
+                                  evaluationType: response.data.evaluationType
+                                })
+                              }
+                            },
+                            (error) => {
+                              console.log("An Error occur with the Rest API");
+                            })
+                      }
+                    },
+                    (error) => {
+                      console.log("An Error occur with the Rest API");
+                    })
+              }
+            },
+            (error) => {
+              console.log("An Error occur with the Rest API");
+            });
         break;
       case 'division':
         this.props.actions.divisionGetByIdRequest(self.context.router.location.query.divisionId)
-        .then(
-          (response) => {
-            if (response) {
-              this.props.actions.programGetByIdRequest(response.data.programa)
-              .then(
-                (response) => {
-                  if (response) {
-                    this.setState({
-                      evaluationType:response.data.evaluationType
+          .then(
+            (response) => {
+              if (response) {
+                this.props.actions.programGetByIdRequest(response.data.programa)
+                  .then(
+                    (response) => {
+                      if (response) {
+                        this.setState({
+                          evaluationType: response.data.evaluationType
+                        })
+                      }
+                    },
+                    (error) => {
+                      console.log("An Error occur with the Rest API");
                     })
-                  }
-                },
-                (error) => {
-                  console.log("An Error occur with the Rest API");
-                })
-            }
-          },
-          (error) => {
-            console.log("An Error occur with the Rest API");
-          })
+              }
+            },
+            (error) => {
+              console.log("An Error occur with the Rest API");
+            });
         break;
       case 'course':
         this.props.actions.courseGetByIdRequest(self.context.router.location.query.courseId)
-        .then(
-          (response) => {
-            if (response) {
-              this.props.actions.programGetByIdRequest(response.data.programId)
-              .then(
-                (response) => {
-                  if (response) {
-                    this.setState({
-                      evaluationType:response.data.evaluationType
+          .then(
+            (response) => {
+              if (response) {
+                this.props.actions.programGetByIdRequest(response.data.programId)
+                  .then(
+                    (response) => {
+                      if (response) {
+                        this.setState({
+                          evaluationType: response.data.evaluationType
+                        })
+                      }
+                    },
+                    (error) => {
+                      console.log("An Error occur with the Rest API");
                     })
-                  }
-                },
-                (error) => {
-                  console.log("An Error occur with the Rest API");
-                })
-            }
-          },
-          (error) => {
-            console.log("An Error occur with the Rest API");
-          })
+              }
+            },
+            (error) => {
+              console.log("An Error occur with the Rest API");
+            });
         break;
       default:
         break;
@@ -175,12 +175,18 @@ class EvaluationStructure extends React.Component {
         assistance: this.state.assistance,
         percentage: this.state.percentage,
         approvalPercentage: this.state.approvalPercentage,
-        evaluationType: this.state.evaluationType,
         evaluateCategory: this.state.evaluateCategory,
+        minimumNote: this.state.minimumNote,
         maximumNote: this.state.maximumNote,
         calculateMultipleSelection: this.state.calculateMultipleSelection,
-        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory
+        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory,
+        evaluationSubtype: 1,
       };
+      if (this.state.evaluationType === 'continua') {
+        data.evaluationType = 2;
+      } else {
+        data.evaluationType = 1;
+      }
       this.props.handleNext(data);
     }
   }
@@ -254,14 +260,15 @@ class EvaluationStructure extends React.Component {
       })
     };
 
-    let togglePercentage = ()=>{
-      if(this.state.assistance === "true"){
-        return(
+    let togglePercentage = () => {
+      if (this.state.assistance === "true") {
+        return (
           <div className="form-group row">
-            <label htmlFor="correlativo" className="col-md-3 control-label">Percentage</label>
+            <label htmlFor="percentage" className="col-md-3 control-label">Percentage</label>
             <div className="col-md-9">
               <input
-                type="text"
+                type="number"
+                min="1" max="100"
                 className="form-control"
                 id="percentage"
                 name="percentage"
@@ -272,7 +279,7 @@ class EvaluationStructure extends React.Component {
             </div>
           </div>
         )
-      }else{
+      } else {
         return null;
       }
     };
@@ -327,7 +334,8 @@ class EvaluationStructure extends React.Component {
                       <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="approvalPercentage"
                           name="approvalPercentage"
@@ -356,8 +364,7 @@ class EvaluationStructure extends React.Component {
                       <div className="col-md-4">
                         <input
                           type="number"
-                          min="1"
-                          max="100"
+                          min="1" max="100"
                           className="form-control"
                           id="evaluateCategoryPercentage"
                           name="evaluateCategoryPercentage"
@@ -376,17 +383,34 @@ class EvaluationStructure extends React.Component {
                     </div>
                     {evaluateCategoryAndPercentageMapping()}
                     {errors.evaluateCategory &&
-                      <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
+                    <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
                     <div className="form-group row">
-                      <label htmlFor="totalEvaluateCategory" className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                      <label htmlFor="totalEvaluateCategory"
+                             className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
+                      <label htmlFor="minimumNote" className="col-md-3 control-label">Minimum note</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
+                          className="form-control"
+                          id="minimumNote"
+                          name="minimumNote"
+                          value={this.state.minimumNote}
+                          onChange={this.onChange}
+                          placeholder="eje: 1 - 100"/>
+                        {errors.minimumNote && <span className="help-block text-danger">{errors.minimumNote}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="maximumNote" className="col-md-3 control-label">Maximum note</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="maximumNote"
                           name="maximumNote"

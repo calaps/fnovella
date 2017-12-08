@@ -16,12 +16,12 @@ class MonitoringStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
       approvalPercentage: '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
       maximumNote: '',
+      minimumNote: '',
       totalEvaluateCategory: 0,
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
@@ -60,9 +60,11 @@ class MonitoringStructure extends React.Component {
       let data = {
         approvalPercentage: this.state.approvalPercentage,
         evaluateCategory: this.state.evaluateCategory,
+        minimumNote: this.state.minimumNote,
         maximumNote: this.state.maximumNote,
         calculateMultipleSelection: this.state.calculateMultipleSelection,
-        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory
+        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory,
+        evaluationSubtype: 2,
       };
       this.props.handleNext(data);
     }
@@ -151,7 +153,8 @@ class MonitoringStructure extends React.Component {
                       <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="approvalPercentage"
                           name="approvalPercentage"
@@ -163,54 +166,70 @@ class MonitoringStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                    <label htmlFor="inputEmail3" className="col-md-3 control-label">Select the categories to
-                      evaluate</label>
-                    <div className="col-md-4">
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="evaluateCategoryName"
-                        name="evaluateCategoryName"
-                        value={this.state.evaluateCategoryName}
-                        onChange={this.onChangeEvaluateCategoryAndPercentage}
-                        placeholder="Category"/>
-                      {errors.evaluateCategoryName &&
-                      <span className="help-block text-danger">{errors.evaluateCategoryName}</span>}
-                    </div>
-                    <div className="col-md-4">
-                      <input
-                        type="number"
-                        min="1"
-                        max="100"
-                        className="form-control"
-                        id="evaluateCategoryPercentage"
-                        name="evaluateCategoryPercentage"
-                        value={this.state.evaluateCategoryPercentage}
-                        onChange={this.onChangeEvaluateCategoryAndPercentage}
-                        placeholder="Percentage"/>
-                      {errors.evaluateCategoryPercentage &&
-                      <span className="help-block text-danger">{errors.evaluateCategoryPercentage}</span>}
-                    </div>
-                    <IconButton
-                      iconClassName="col-md-1 material-icons"
-                      disabled={!this.isEvaluateCategoryAndPercentageNull()}
-                      onTouchTap={this.onAddEvaluateCategoryAndPercentage}
-                    >add
-                    </IconButton>
-                  </div>
-                  {evaluateCategoryAndPercentageMapping()}
-                  {errors.evaluateCategory &&
-                    <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
-                  <div className="form-group row">
-                    <label htmlFor="totalEvaluateCategory" className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
-                    <div className="col-md-3">{errors.totalEvaluateCategory &&
-                    <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
-                  </div>
-                    <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
-                      <div className="col-md-9">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Select the categories to
+                        evaluate</label>
+                      <div className="col-md-4">
                         <input
                           type="text"
+                          className="form-control"
+                          id="evaluateCategoryName"
+                          name="evaluateCategoryName"
+                          value={this.state.evaluateCategoryName}
+                          onChange={this.onChangeEvaluateCategoryAndPercentage}
+                          placeholder="Category"/>
+                        {errors.evaluateCategoryName &&
+                        <span className="help-block text-danger">{errors.evaluateCategoryName}</span>}
+                      </div>
+                      <div className="col-md-4">
+                        <input
+                          type="number"
+                          min="1" max="100"
+                          className="form-control"
+                          id="evaluateCategoryPercentage"
+                          name="evaluateCategoryPercentage"
+                          value={this.state.evaluateCategoryPercentage}
+                          onChange={this.onChangeEvaluateCategoryAndPercentage}
+                          placeholder="Percentage"/>
+                        {errors.evaluateCategoryPercentage &&
+                        <span className="help-block text-danger">{errors.evaluateCategoryPercentage}</span>}
+                      </div>
+                      <IconButton
+                        iconClassName="col-md-1 material-icons"
+                        disabled={!this.isEvaluateCategoryAndPercentageNull()}
+                        onTouchTap={this.onAddEvaluateCategoryAndPercentage}
+                      >add
+                      </IconButton>
+                    </div>
+                    {evaluateCategoryAndPercentageMapping()}
+                    {errors.evaluateCategory &&
+                    <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
+                    <div className="form-group row">
+                      <label htmlFor="totalEvaluateCategory"
+                             className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                      <div className="col-md-3">{errors.totalEvaluateCategory &&
+                      <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="minimumNote" className="col-md-3 control-label">Minimum note</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          min="1" max="100"
+                          className="form-control"
+                          id="minimumNote"
+                          name="minimumNote"
+                          value={this.state.minimumNote}
+                          onChange={this.onChange}
+                          placeholder="eje: 1 - 100"/>
+                        {errors.minimumNote && <span className="help-block text-danger">{errors.minimumNote}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="maximumNote" className="col-md-3 control-label">Maximum note</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="maximumNote"
                           name="maximumNote"
