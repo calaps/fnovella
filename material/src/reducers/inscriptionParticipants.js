@@ -49,10 +49,10 @@ import {
         return state;
       case INSCRIPTION_PARTICIPANT_UPDATE_SUCCESS:
         console.log(INSCRIPTION_PARTICIPANT_UPDATE_SUCCESS);
-        newState = [...state];
-        for(let i=0; i<newState.length; i++){
-          if(newState[i].id === action.data.id){
-            newState[i] = action.data;
+        newState = {...state};
+        for(let i=0; i<newState.content.length; i++){
+          if(newState.content[i].id === action.data.id){
+            newState.content[i] = action.data;
           }
         }
         return newState;
