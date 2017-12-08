@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import org.fnovella.project.utility.APIUtility;
 
 @Entity
 public class EvaluationActivity {
@@ -15,7 +16,7 @@ public class EvaluationActivity {
 	private Integer id;
 	private Integer evaluation;
 	private Integer percentage;
-	private Integer name;
+	private String name;
 	private Integer range;
 	private Integer parentId;
 	public Integer getId() {
@@ -30,10 +31,10 @@ public class EvaluationActivity {
 	public void setPercentage(Integer percentage) {
 		this.percentage = percentage;
 	}
-	public Integer getName() {
+	public String getName() {
 		return name;
 	}
-	public void setName(Integer name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public Integer getRange() {
@@ -54,7 +55,7 @@ public class EvaluationActivity {
 	public void setEvaluation(Integer evaluation) {
 		this.evaluation = evaluation;
 	}
-	public EvaluationActivity(Integer evaluation, Integer percentage, Integer name, Integer range, Integer parentId) {
+	public EvaluationActivity(Integer evaluation, Integer percentage, String name, Integer range, Integer parentId) {
 		super();
 		this.evaluation = evaluation;
 		this.percentage = percentage;
@@ -69,7 +70,7 @@ public class EvaluationActivity {
 		ArrayList<String> errors = new ArrayList<String>();
 		if (this.evaluation == null || this.evaluation < 0) errors.add("Evaluation is required");
 		if (this.percentage == null || this.percentage < 0) errors.add("Percentage is required");
-		if (this.name == null || this.name < 0) errors.add("Name is required");
+		if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Name is required");
 		if (this.range == null || this.range < 0) errors.add("Range is required");
 		return errors;
 	}
@@ -78,7 +79,7 @@ public class EvaluationActivity {
 			this.evaluation = evaluationActivity.evaluation;
 		if (evaluationActivity.percentage != null && evaluationActivity.percentage > 0)
 			this.percentage = evaluationActivity.percentage;
-		if (evaluationActivity.name != null && evaluationActivity.name > 0)
+		if (APIUtility.isNotNullOrEmpty(evaluationActivity.name))
 			this.name = evaluationActivity.name;
 		if (evaluationActivity.range != null && evaluationActivity.range > 0)
 			this.range = evaluationActivity.range;
