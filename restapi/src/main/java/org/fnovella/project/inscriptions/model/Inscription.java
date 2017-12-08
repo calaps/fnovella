@@ -16,6 +16,7 @@ public class Inscription {
     private Integer group;
 
     public Inscription() {
+        this.status = 0;
     }
 
     public Inscription(Integer period, Integer year, Integer status, Integer group) {
@@ -69,7 +70,7 @@ public class Inscription {
         ArrayList<String> errors = new ArrayList<>();
         if (this.period == null || this.period <= 0) errors.add("Period is required");
         if (this.year == null || this.year <= 0) errors.add("Year is required");
-        if (this.status == null || this.status <= 0) errors.add("Status is required");
+        if (this.status == null) this.status = 0;
         if (this.group == null || this.group <= 0) errors.add("Group is required");
         return errors;
     }

@@ -3,10 +3,7 @@ package org.fnovella.project.evaluation.model;
 import java.sql.Date;
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Evaluation {
@@ -14,6 +11,7 @@ public class Evaluation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@Column(name = "`group`")
 	private Integer group;
 	private Integer session;
 	private Integer evaluationType;

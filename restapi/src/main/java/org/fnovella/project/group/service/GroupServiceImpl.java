@@ -22,23 +22,32 @@ public class GroupServiceImpl implements GroupService {
     private SectionService sectionService;
 
     @Override
-    public void updateCategoryStructure(Group group) {
+    public void updateCategoryStructureAfterCreate(Group group) {
+        updateCategoryStructure(group, true);
+
+    }
+
+    private void updateCategoryStructure(Group group, boolean createdGroup) {
         TypeCategory typeCategory = TypeCategory.valueOf(group.getTypeCategory().toUpperCase());
         switch (typeCategory) {
             case WORKSHOP:
-                workshopService.updateCreatedGroup(group);
+                workshopService.updateCreatedGroup(group, createdGroup);
                 break;
             case DIVISION:
-                divisionService.updateCreatedGroup(group);
+                divisionService.updateCreatedGroup(group, createdGroup);
                 break;
             case COURSE:
-                courseService.updateCreatedGroup(group);
+                courseService.updateCreatedGroup(group, createdGroup);
                 break;
             case SECTION:
-                sectionService.updateCreatedGroup(group);
+                sectionService.updateCreatedGroup(group, createdGroup);
                 break;
         }
+    }
 
+    @Override
+    public void updateCategoryStructureAfterDelete(Group group) {
+        updateCategoryStructure(group, false);
     }
 
     enum TypeCategory {

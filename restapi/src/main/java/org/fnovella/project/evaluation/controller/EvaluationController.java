@@ -37,7 +37,7 @@ public class EvaluationController {
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public APIResponse get(@RequestHeader("authorization") String authorization, @RequestBody Evaluation evaluation) {
+	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody Evaluation evaluation) {
 		ArrayList<String> errors = evaluation.validate();
 		if (errors.size() == 0) {
 			return new APIResponse(this.evaluationRepository.save(evaluation), null);

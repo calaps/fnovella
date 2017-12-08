@@ -38,6 +38,12 @@ public class InscriptionController {
         return new APIResponse(null, errors);
     }
 
+    @RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
+    public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+        Inscription inscription = this.inscriptionRepository.findOne(id);
+        return new APIResponse(inscription == null, null);
+    }
+
     @RequestMapping(value = "by-group/{group}", method = RequestMethod.GET)
     public APIResponse getByGroup(@RequestHeader("authorization") String authorization, @PathVariable("group") Integer group) {
         List<Inscription> inscriptions = this.inscriptionRepository.findByGroup(group);

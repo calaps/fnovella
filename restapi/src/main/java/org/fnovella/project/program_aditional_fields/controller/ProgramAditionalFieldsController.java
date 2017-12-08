@@ -1,11 +1,13 @@
 package org.fnovella.project.program_aditional_fields.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.fnovella.project.program_aditional_fields.model.ProgramAditionalFields;
 import org.fnovella.project.program_aditional_fields.repository.ProgramAditionalFieldsRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +38,13 @@ public class ProgramAditionalFieldsController {
 		errors.add("Program Aditional Field doesn't exist");
 		return new APIResponse(null, errors);
 	}
-	
+
+	@RequestMapping(value = "by_program_id/{programId}", method = RequestMethod.GET)
+	public APIResponse getByProgramId(@RequestHeader("authorization") String authorization, Pageable pageable , @PathVariable("programId") Integer programId) {
+        List<ProgramAditionalFields> programAditionalFields = this.programAditionalFieldsRepository.findByProgram(programId);
+        return new APIResponse(new PageImpl<>(programAditionalFields, pageable, programAditionalFields.size()), null);
+	}
+
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody ProgramAditionalFields programAditionalFields) {
 		ArrayList<String> errors = programAditionalFields.validate();

@@ -27,12 +27,22 @@ public class WorkshopController {
 	private InscriptionsInstWorkshopRepository inscriptionsInstWorkshopRepository;
 	@Autowired
 	private InscriptionsPartWorkshopRepository inscriptionsPartWorkshopRepository;
-	
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.workshopRepository.findAll(pageable), null);
 	}
-	
+
+	@RequestMapping(value = "by-location/{location}", method = RequestMethod.GET)
+	public APIResponse getWorkshopByLocation(@RequestHeader("authorization") String authorization,@PathVariable("location") Integer location, Pageable pageable) {
+		return new APIResponse(this.workshopRepository.findByLocation(location, pageable), null);
+	}
+
+	@RequestMapping(value = "by-program/{programId}", method = RequestMethod.GET)
+	public APIResponse getWorkshopByProgramId(@RequestHeader("authorization") String authorization,@PathVariable("programId") Integer programId, Pageable pageable) {
+		return new APIResponse(this.workshopRepository.findByProgramId(programId, pageable), null);
+	}
+
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
 		ArrayList<String> errors = new ArrayList<String>();
@@ -42,6 +52,12 @@ public class WorkshopController {
 		}
 		errors.add("Workshop doesn't exist");
 		return new APIResponse(null, errors);
+	}
+
+	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
+	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		Workshop workshop = this.workshopRepository.findOne(id);
+		return new APIResponse(workshop == null, null);
 	}
 	
 	@RequestMapping(value = "", method = RequestMethod.POST)

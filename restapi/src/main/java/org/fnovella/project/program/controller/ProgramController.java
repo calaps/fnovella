@@ -174,79 +174,116 @@ public class ProgramController {
 
 	@RequestMapping(value = "{id}", method=RequestMethod.DELETE)
 	public APIResponse delete(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
-		this.delete(id, true);
+		List<String> errors = new ArrayList<>();
+		this.delete(id, true, errors);
 		this.programRepository.delete(id);
-		return new APIResponse(true, null);
+		return new APIResponse(true, errors.isEmpty() ? null : errors);
 	}
 	
 	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
 	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
-		return new APIResponse(this.delete(id, false), null);
+		return new APIResponse(this.delete(id, false, null), null);
 	}
 	
-	private boolean delete(Integer programId, boolean delete) {
+	private boolean delete(Integer programId, boolean delete, List<String> errors) {
 		boolean toDelete = true;
 		List<?> list = this.catalogRelationRepository.findByIdProgram(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.catalogRelationRepository.deleteByIdProgram(programId);
+				try {
+					this.catalogRelationRepository.deleteByIdProgram(programId);
+				}catch (Exception ex){
+					errors.add("Cannot delete Catalog Relation : "+ex);
+				}
 			}
 		}
 		list = this.courseRepository.findByProgramId(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.courseRepository.deleteByProgramId(programId);
+				try {
+					this.courseRepository.deleteByProgramId(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Course: "+ex);
+				}
 			}
 		}
 		list = this.divisionRepository.findByPrograma(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.divisionRepository.deleteByPrograma(programId);
+				try {
+					this.divisionRepository.deleteByPrograma(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Division: "+ex);
+				}
 			}
 		}
 		list = this.gradeRepository.findByProgramId(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.gradeRepository.deleteByProgramId(programId);
+				try {
+					this.gradeRepository.deleteByProgramId(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Grade: "+ex);
+				}
 			}
 		}
 		list = this.programActivationRepository.findByProgramId(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.programActivationRepository.deleteByProgramId(programId);
+				try {
+					this.programActivationRepository.deleteByProgramId(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Program Activation Grade: "+ex);
+				}
 			}
 		}
 		list = this.programAditionalFieldsRepository.findByProgram(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.programAditionalFieldsRepository.deleteByProgram(programId);
+				try {
+					this.programAditionalFieldsRepository.deleteByProgram(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Adional Program Fields: "+ex);
+				}
 			}
 		}
 		list = this.programAppUserRepository.findByProgram(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.programAppUserRepository.deleteByProgram(programId);
+				try {
+					this.programAppUserRepository.deleteByProgram(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Program App User: "+ex);
+				}
 			}
 		}
 		list = this.programInstructorRepository.findByProgram(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.programInstructorRepository.deleteByProgram(programId);
+				try {
+					this.programInstructorRepository.deleteByProgram(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Program Instructor: "+ex);
+				}
 			}
 		}
 		list = this.programLocationRepository.findByProgram(programId);
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.programLocationRepository.deleteByProgram(programId);
+				try {
+					this.programLocationRepository.deleteByProgram(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Program Location: "+ex);
+				}
 			}
 		}
 		
@@ -254,7 +291,11 @@ public class ProgramController {
 		if (!list.isEmpty()) {
 			toDelete = false;
 			if (delete) {
-				this.workshopRepository.deleteByProgramId(programId);
+				try {
+					this.workshopRepository.deleteByProgramId(programId);
+				} catch (Exception ex) {
+					errors.add("Cannot delete Workshop: "+ex);
+				}
 			}
 		}
 		

@@ -13,10 +13,10 @@ public class SectionServiceImpl implements SectionService {
     private SectionRepository sectionRepository;
 
     @Override
-    public void updateCreatedGroup(Group group) {
+    public void updateCreatedGroup(Group group, boolean createdGroup) {
         Section section = sectionRepository.findOne(group.getSection());
         if (section != null) {
-            section.setCreatedGroup(true);
+            section.setCreatedGroup(createdGroup);
             sectionRepository.save(section);
         }
     }
