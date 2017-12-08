@@ -12,30 +12,20 @@ class ListItem extends React.Component {
   
   render () {
     let {showInscriptions} = this.props;
+    var renderParticipant = () => {
+      for (let i=0;i<=this.props.participantData.content.length;i++){
+          if(this.props.inscriptionParticipant.participant===this.props.participantData.content[i].id){
+            return <td className="mdl-data-table__cell--non-numeric" >{
+              this.props.participantData.content[i].firstName + " " + this.props.participantData.content[i].firstLastname
+            }</td>            
+          }
+      }
+    }
     return (
       <tr>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.id}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.group}</td>
-        <td className="mdl-data-table__cell--non-numeric" >{this.props.inscriptionData.period}</td>
-        <td className="mdl-data-table__cell--non-numeric" >{this.props.inscriptionData.year}</td>
-        <td className="mdl-data-table__cell--non-numeric" >{this.props.inscriptionData.status?"True":"False"}</td>
-        <td className="mdl-data-table__cell--non-numeric" >
-          <button
-            onClick={()=>{this.props.handleInscriptionParticipant(this.props.inscriptionData.id)}}
-            type="submit" className="btn btn-primary">Enrolled Students Visualization</button>
-          
-          &nbsp;
-          &nbsp;
-          {
-          this.props.inscriptionData.status?null:
-          <button
-          onClick={this.submitApprove}
-
-          className="btn btn-primary">Approve Inscription</button>
-        }
-          
-        </td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionParticipant.id}</td>
+        <td className="mdl-data-table__cell--non-numeric" >{this.props.inscriptionParticipant.inscription}</td>
+        {renderParticipant()}
       </tr>
     );
   }

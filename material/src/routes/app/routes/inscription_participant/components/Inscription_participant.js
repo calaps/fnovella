@@ -51,6 +51,8 @@ class Inscription_participant extends React.Component{
                                     .inscriptionParticipants.content
                                     .map((inscriptionParticipant) => {
                                       return <ListItem
+                                      participantData= {this.props.participants}
+                                      inscriptionParticipant={inscriptionParticipant}
                                         key={inscriptionParticipant.id}
                                         number={i++}
                                         /> 
@@ -79,7 +81,8 @@ function mapStateToProps(state) {
     //pass the providers
     return {
       inscriptions: state.inscriptions, 
-      inscriptionParticipants: state.inscriptionParticipants
+      inscriptionParticipants: state.inscriptionParticipants,
+      participanst:state.participants
     }
   }
   
