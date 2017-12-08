@@ -8,6 +8,7 @@ import org.fnovella.project.participant.model.Participant;
 import org.fnovella.project.participant.repository.ParticipantRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,14 +45,14 @@ public class InscriptionParticipantController {
     }
 
     @RequestMapping(value = "by-inscription/{inscription}", method = RequestMethod.GET)
-    public APIResponse getByInscription(@RequestHeader("authorization") String authorization, @PathVariable("inscription") Integer inscription) {
-        List<InscriptionParticipant> inscriptionParticipants = this.inscriptionParticipantRepository.findByInscription(inscription);
+    public APIResponse getByInscription(@RequestHeader("authorization") String authorization, @PathVariable("inscription") Integer inscription, Pageable pageable) {
+        Page<InscriptionParticipant> inscriptionParticipants = this.inscriptionParticipantRepository.findByInscription(inscription, pageable);
         return new APIResponse(inscriptionParticipants, null);
     }
 
     @RequestMapping(value = "by-participant/{participant}", method = RequestMethod.GET)
-    public APIResponse getByParticipant(@RequestHeader("authorization") String authorization, @PathVariable("participant") Integer participant) {
-        List<InscriptionParticipant> inscriptionParticipants = this.inscriptionParticipantRepository.findByParticipant(participant);
+    public APIResponse getByParticipant(@RequestHeader("authorization") String authorization, @PathVariable("participant") Integer participant, Pageable pageable) {
+        Page<InscriptionParticipant> inscriptionParticipants = this.inscriptionParticipantRepository.findByParticipant(participant, pageable);
         return new APIResponse(inscriptionParticipants, null);
     }
 
