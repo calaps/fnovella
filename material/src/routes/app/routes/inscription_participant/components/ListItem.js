@@ -11,6 +11,7 @@ class ListItem extends React.Component {
   }
   
   render () {
+    console.log(this.props.participantData.content);
     let {showInscriptions} = this.props;
     var renderParticipant = () => {
       for (let i=0;i<=this.props.participantData.content.length;i++){

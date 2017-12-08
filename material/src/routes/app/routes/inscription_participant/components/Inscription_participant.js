@@ -4,21 +4,25 @@ import {
     participantsGetRequestBySearch,
     participantGetRequest, 
     inscriptionParticipantGetRequest,
-    getInscriptionParticipantByInscriptionId, 
+    inscriptionParticipantsGetRequestByInscription, 
     inscriptionGetRequest,
     inscriptionUpdateRequest
   } from '../../../../../actions';
 import {bindActionCreators} from 'redux';
+import ListItem from './ListItem';
+
+
 class Inscription_participant extends React.Component{
     constructor(props){
         super(props);
     }
     componentWillMount(){
         if (this.props.location.query.inscriptionId){
-            this.props.actions.getInscriptionParticipantByInscriptionId(this.props.location.query.inscriptionId);        
+            this.props.actions.inscriptionParticipantsGetRequestByInscription(this.props.location.query.inscriptionId,0,1000);        
         console.log(true);
+        }else {
+            this.props.actions.inscriptionParticipantGetRequest(0,1000);
         }
-
         this.props.actions.participantGetRequest();
     }
     render(){
@@ -81,7 +85,7 @@ function mapStateToProps(state) {
     return {
       inscriptions: state.inscriptions, 
       inscriptionParticipants: state.inscriptionParticipants,
-      participanst:state.participants
+      participants:state.participants
     }
   }
   
@@ -92,7 +96,7 @@ function mapStateToProps(state) {
         participantGetRequest,
         participantsGetRequestBySearch,
         inscriptionParticipantGetRequest,
-        getInscriptionParticipantByInscriptionId,
+        inscriptionParticipantsGetRequestByInscription,
         inscriptionUpdateRequest,
         inscriptionGetRequest
       }, dispatch)
