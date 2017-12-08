@@ -30,7 +30,6 @@ class GeneralConfiguration extends React.Component {
       type:  1,
       typeCategory: '',
       workshopId: '',
-      correlativo: '',
       inscriptionsEnd:  new Date(),
       inscriptionsStart: new Date(),
       nsJan: '',
@@ -99,7 +98,6 @@ class GeneralConfiguration extends React.Component {
 
   isValid() {
     //local validation
-    return true;
     const {errors, isValid} = groupValidator(this.state);
     if (!isValid) {
       this.setState({errors});
@@ -114,29 +112,40 @@ class GeneralConfiguration extends React.Component {
       //reset errors object and disable submit button
       this.setState({errors: {}, isLoading: true});
       let data = {
-        courseId: this.state.courseId,
-        divisionId: this.state.divisionId,
         instructor: this.state.instructor,
-        section: this.state.section,
         type: this.state.type,
         typeCategory: this.state.typeCategory,
-        workshopId: this.state.workshopId,
-        correlativo: this.state.correlativo,
         inscriptionsStart: this.state.inscriptionsStart,
         inscriptionsEnd: this.state.inscriptionsEnd,
-        nsJan: this.state.nsJan,
-        nsFeb: this.state.nsFeb,
-        nsMar: this.state.nsMar,
-        nsApr: this.state.nsApr,
-        nsMay: this.state.nsMay,
-        nsJun: this.state.nsJun,
-        nsJul: this.state.nsJul,
-        nsAug: this.state.nsAug,
-        nsSep: this.state.nsSep,
-        nsOct: this.state.nsOct,
-        nsNov: this.state.nsNov,
-        nsDec: this.state.nsDec
+        nsJan: this.state.nsJan || 0,
+        nsFeb: this.state.nsFeb || 0,
+        nsMar: this.state.nsMar || 0,
+        nsApr: this.state.nsApr || 0,
+        nsMay: this.state.nsMay || 0,
+        nsJun: this.state.nsJun || 0,
+        nsJul: this.state.nsJul || 0,
+        nsAug: this.state.nsAug || 0,
+        nsSep: this.state.nsSep || 0,
+        nsOct: this.state.nsOct || 0,
+        nsNov: this.state.nsNov || 0,
+        nsDec: this.state.nsDec || 0
       };
+      switch (self.context.router.location.query.typeCategory) {
+        case 'workshop':
+          data.workshopId = this.state.workshopId;
+          break;
+        case 'section':
+        data.section = this.state.section;
+          break;
+        case 'division':
+        data.divisionId = this.state.divisionId;
+          break;
+        case 'course':
+        data.courseId = this.state.courseId;
+          break;
+        default:
+          break;
+      }
       this.props.handleNext(data);
     }
   }

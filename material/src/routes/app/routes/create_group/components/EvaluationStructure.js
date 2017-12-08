@@ -3,12 +3,19 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import IconButton from 'material-ui/IconButton';
 import map from "lodash-es/map"; //to use map in a object
-import {groupValidator} from "../../../../../actions/formValidations"; //form validations
+import {evaluationStructureValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import uuid from "uuid";
 import {bindActionCreators} from 'redux';
-import {} from '../../../../../actions';
+import {
+  workshopGetByIdRequest,
+  programGetByIdRequest,
+  sectionGetByIdRequest,
+  gradeGetByIdRequest,
+  divisionGetByIdRequest,
+  courseGetByIdRequest
+} from '../../../../../actions';
 
 let self;
 
@@ -20,7 +27,7 @@ class EvaluationStructure extends React.Component {
       assistance: '',
       percentage: '',
       approvalPercentage: '',
-      evaluationType: 'conocimiento' || '',
+      evaluationType: '' || '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
@@ -41,13 +48,116 @@ class EvaluationStructure extends React.Component {
   }
 
   componentWillMount() {
-
+    switch (self.context.router.location.query.typeCategory) {
+      case 'workshop':
+        this.props.actions.workshopGetByIdRequest(self.context.router.location.query.workshopId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.programGetByIdRequest(response.data.programId)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.setState({
+                      evaluationType:response.data.evaluationType
+                    })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      case 'section':
+        this.props.actions.sectionGetByIdRequest(self.context.router.location.query.sectionId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.gradeGetByIdRequest(response.data.grade)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.props.actions.programGetByIdRequest(response.data.programId)
+                    .then(
+                      (response) => {
+                        if (response) {
+                          this.setState({
+                            evaluationType:response.data.evaluationType
+                          })
+                        }
+                      },
+                      (error) => {
+                        console.log("An Error occur with the Rest API");
+                      })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      case 'division':
+        this.props.actions.divisionGetByIdRequest(self.context.router.location.query.divisionId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.programGetByIdRequest(response.data.programa)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.setState({
+                      evaluationType:response.data.evaluationType
+                    })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      case 'course':
+        this.props.actions.courseGetByIdRequest(self.context.router.location.query.courseId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.programGetByIdRequest(response.data.programId)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.setState({
+                      evaluationType:response.data.evaluationType
+                    })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      default:
+        break;
+    }
   }
 
   isValid() {
     //local validation
-    return true;
-    const {errors, isValid} = groupValidator(this.state);
+    const {errors, isValid} = evaluationStructureValidator(this.state);
     if (!isValid) {
       this.setState({errors});
       return false;
@@ -58,19 +168,19 @@ class EvaluationStructure extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      //reset errors object and disable submit button
-      this.setState({errors: {}, isLoading: true});
-      let data = {
-        assistance: this.state.assistance,
-        percentage: this.state.percentage,
-        approvalPercentage: this.state.approvalPercentage,
-        evaluationType: this.state.evaluationType,
-        evaluateCategory: this.state.evaluateCategory,
-        maximumNote: this.state.maximumNote,
-        calculateMultipleSelection: this.state.calculateMultipleSelection,
+      // //reset errors object and disable submit button
+      // this.setState({errors: {}, isLoading: true});
+      // let data = {
+      //   assistance: this.state.assistance,
+      //   percentage: this.state.percentage,
+      //   approvalPercentage: this.state.approvalPercentage,
+      //   evaluationType: this.state.evaluationType,
+      //   evaluateCategory: this.state.evaluateCategory,
+      //   maximumNote: this.state.maximumNote,
+      //   calculateMultipleSelection: this.state.calculateMultipleSelection,
 
-      };
-      this.props.handleNext(data);
+      // };
+      // this.props.handleNext(data);
     }
   }
 
@@ -329,7 +439,14 @@ function mapStateToProps(state) {
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({}, dispatch)
+    actions: bindActionCreators({
+      workshopGetByIdRequest,
+      programGetByIdRequest,
+      sectionGetByIdRequest,
+      gradeGetByIdRequest,
+      divisionGetByIdRequest,
+      courseGetByIdRequest
+    }, dispatch)
   };
 }
 
