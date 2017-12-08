@@ -3,12 +3,19 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import IconButton from 'material-ui/IconButton';
 import map from "lodash-es/map"; //to use map in a object
-import {groupValidator} from "../../../../../actions/formValidations"; //form validations
+import {evaluationStructureValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import uuid from "uuid";
 import {bindActionCreators} from 'redux';
-import {} from '../../../../../actions';
+import {
+  workshopGetByIdRequest,
+  programGetByIdRequest,
+  sectionGetByIdRequest,
+  gradeGetByIdRequest,
+  divisionGetByIdRequest,
+  courseGetByIdRequest
+} from '../../../../../actions';
 
 let self;
 
@@ -20,10 +27,11 @@ class EvaluationStructure extends React.Component {
       assistance: '',
       percentage: '',
       approvalPercentage: '',
-      evaluationType: 'conocimiento' || '',
+      evaluationType: '' || '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
+      totalEvaluateCategory: 0,
       maximumNote: '',
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
@@ -41,13 +49,116 @@ class EvaluationStructure extends React.Component {
   }
 
   componentWillMount() {
-
+    switch (self.context.router.location.query.typeCategory) {
+      case 'workshop':
+        this.props.actions.workshopGetByIdRequest(self.context.router.location.query.workshopId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.programGetByIdRequest(response.data.programId)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.setState({
+                      evaluationType:response.data.evaluationType
+                    })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      case 'section':
+        this.props.actions.sectionGetByIdRequest(self.context.router.location.query.sectionId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.gradeGetByIdRequest(response.data.grade)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.props.actions.programGetByIdRequest(response.data.programId)
+                    .then(
+                      (response) => {
+                        if (response) {
+                          this.setState({
+                            evaluationType:response.data.evaluationType
+                          })
+                        }
+                      },
+                      (error) => {
+                        console.log("An Error occur with the Rest API");
+                      })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      case 'division':
+        this.props.actions.divisionGetByIdRequest(self.context.router.location.query.divisionId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.programGetByIdRequest(response.data.programa)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.setState({
+                      evaluationType:response.data.evaluationType
+                    })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      case 'course':
+        this.props.actions.courseGetByIdRequest(self.context.router.location.query.courseId)
+        .then(
+          (response) => {
+            if (response) {
+              this.props.actions.programGetByIdRequest(response.data.programId)
+              .then(
+                (response) => {
+                  if (response) {
+                    this.setState({
+                      evaluationType:response.data.evaluationType
+                    })
+                  }
+                },
+                (error) => {
+                  console.log("An Error occur with the Rest API");
+                })
+            }
+          },
+          (error) => {
+            console.log("An Error occur with the Rest API");
+          })
+        break;
+      default:
+        break;
+    }
   }
 
   isValid() {
     //local validation
-    return true;
-    const {errors, isValid} = groupValidator(this.state);
+    const {errors, isValid} = evaluationStructureValidator(this.state);
     if (!isValid) {
       this.setState({errors});
       return false;
@@ -68,7 +179,7 @@ class EvaluationStructure extends React.Component {
         evaluateCategory: this.state.evaluateCategory,
         maximumNote: this.state.maximumNote,
         calculateMultipleSelection: this.state.calculateMultipleSelection,
-
+        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory
       };
       this.props.handleNext(data);
     }
@@ -93,7 +204,8 @@ class EvaluationStructure extends React.Component {
     this.setState({
       evaluateCategory: [
         ...this.state.evaluateCategory, obj
-      ]
+      ],
+      totalEvaluateCategory: this.state.totalEvaluateCategory + parseInt(obj.percentage)
     });
   }
 
@@ -101,6 +213,7 @@ class EvaluationStructure extends React.Component {
     for (let i = 0; i < this.state.evaluateCategory.length; i++) {
       if (this.state.evaluateCategory[i].id === cat.id) {
         this.setState({
+          totalEvaluateCategory: this.state.totalEvaluateCategory - parseInt(cat.percentage),
           ...this.state.evaluateCategory.splice(i, 1)
         })
       }
@@ -242,7 +355,9 @@ class EvaluationStructure extends React.Component {
                       </div>
                       <div className="col-md-4">
                         <input
-                          type="text"
+                          type="number"
+                          min="1"
+                          max="100"
                           className="form-control"
                           id="evaluateCategoryPercentage"
                           name="evaluateCategoryPercentage"
@@ -260,6 +375,13 @@ class EvaluationStructure extends React.Component {
                       </IconButton>
                     </div>
                     {evaluateCategoryAndPercentageMapping()}
+                    {errors.evaluateCategory &&
+                      <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
+                    <div className="form-group row">
+                      <label htmlFor="totalEvaluateCategory" className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                      <div className="col-md-3">{errors.totalEvaluateCategory &&
+                      <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
+                    </div>
                     <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
                       <div className="col-md-9">
@@ -329,7 +451,14 @@ function mapStateToProps(state) {
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({}, dispatch)
+    actions: bindActionCreators({
+      workshopGetByIdRequest,
+      programGetByIdRequest,
+      sectionGetByIdRequest,
+      gradeGetByIdRequest,
+      divisionGetByIdRequest,
+      courseGetByIdRequest
+    }, dispatch)
   };
 }
 

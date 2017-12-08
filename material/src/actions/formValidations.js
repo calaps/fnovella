@@ -653,12 +653,6 @@ export function groupValidator(data) {
 
   let errors = {}; //errors star with an empty object
 
-  if (Validator.isEmpty(data.correlativo)) {
-    errors.correlativo = required;
-    if (!Validator.isEmpty(data.correlativo) && !Validator.isAlphanumeric(data.correlativo)) {
-      errors.correlativo = invalidData;
-    }
-  }
   /*if (Validator.isEmpty(data.courseId.toString())) {
     errors.courseId = required;
   }
@@ -710,6 +704,60 @@ export function ParticipantAdditionalFieldsValidator(data) {
   }
   if (Validator.isEmpty(data.period.toString())) {
     errors.period = required;
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {errors, isValid: isEmpty(errors)};
+
+}
+
+export function evaluationStructureValidator(data) {
+  console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if (Validator.isEmpty(data.assistance.toString())) {
+    errors.assistance = required;
+  }
+  if (Validator.isEmpty(data.approvalPercentage.toString())) {
+    errors.approvalPercentage = required;
+  }
+  if (Validator.isEmpty(data.maximumNote.toString())) {
+    errors.maximumNote = required;
+  }
+  if(data.assistance === "true"){
+    if (Validator.isEmpty(data.percentage.toString())) {
+      errors.percentage = required;
+    }
+  }
+  if (data.evaluateCategory.length === 0) {
+    errors.evaluateCategory = "Add at least one category!";
+  }
+  if (data.totalEvaluateCategory !== 100) {
+    errors.totalEvaluateCategory = "Total should be 100!";
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {errors, isValid: isEmpty(errors)};
+
+}
+
+export function satisfactionStructureValidator(data) {
+  console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if (Validator.isEmpty(data.approvalPercentage.toString())) {
+    errors.approvalPercentage = required;
+  }
+  if (Validator.isEmpty(data.maximumNote.toString())) {
+    errors.maximumNote = required;
+  }
+  if (data.evaluateCategory.length === 0) {
+    errors.evaluateCategory = "Add at least one category!";
+  }
+  if (data.totalEvaluateCategory !== 100) {
+    errors.totalEvaluateCategory = "Total should be 100!";
   }
 
   //IsValid is just a boolean who return is errors is empty
