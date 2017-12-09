@@ -123,7 +123,6 @@ class HorizontalLinearStepper extends React.Component {
   }
 
   handleNext = (data) => {
-    console.log(data);
     const {stepIndex} = this.state;
     switch (stepIndex) {
       case 0:
@@ -173,12 +172,14 @@ class HorizontalLinearStepper extends React.Component {
 
   onGroupActivate() {
     //create a group from first form
+    console.log("hitting create_group api");
     this.props.actions.groupsAddRequest(this.state.generalConfiguration)
       .then(
         (response) => {
           if (response) {
             //setting groupId returned in response
             this.setState({groupId: response.data.id});
+            console.log("response from create_group api: ", response.data.id);
 
             //for second form
             // setting range for second form through minimumNote and maximumNote
@@ -186,6 +187,7 @@ class HorizontalLinearStepper extends React.Component {
               min: this.state.evaluationStructure.minimumNote,
               max: this.state.evaluationStructure.maximumNote
             };
+            console.log("hitting evaluationStructureRange api");
             this.props.actions.evaluationRangeAddRequest(evaluationStructureRange)
               .then(
                 (response) => {
@@ -194,6 +196,7 @@ class HorizontalLinearStepper extends React.Component {
                     this.setState({
                       evaluationStructureRangeId: response.data.id
                     });
+                    console.log("response from evaluationStructureRange api: ", response.data.id);
                     //setting evaluationStructureData to hit evaluation add api
                     let evaluationStructureData = {
                       approvalPercentage: this.state.evaluationStructure.approvalPercentage,
@@ -205,6 +208,7 @@ class HorizontalLinearStepper extends React.Component {
                       group: this.state.groupId,
                       range: this.state.evaluationStructureRangeId
                     };
+                    console.log("hitting evaluationStructureData api");
                     this.props.actions.evaluationAddRequest(evaluationStructureData)
                       .then(
                         (response) => {
@@ -213,6 +217,7 @@ class HorizontalLinearStepper extends React.Component {
                             this.setState({
                               evaluationStructureId: response.data.id
                             });
+                            console.log("response from evaluationStructureData api: ", response.data.id);
                             //setting evaluationStructureActivityData to hit evaluationActivity add api
                             let evaluationStructureActivityData = {
                               evaluation: this.state.evaluationStructureId,
@@ -222,6 +227,7 @@ class HorizontalLinearStepper extends React.Component {
                             for (let i = 0; i < this.state.evaluationStructure.evaluateCategory.length; i++) {
                               evaluationStructureActivityData.name = this.state.evaluationStructure.evaluateCategory[i].name;
                               evaluationStructureActivityData.percentage = this.state.evaluationStructure.evaluateCategory[i].percentage;
+                              console.log("hitting evaluationStructureActivityData api, ",[i]);
                               this.props.actions.evaluationActivityAddRequest(evaluationStructureActivityData);
                             }
                           }
@@ -241,6 +247,7 @@ class HorizontalLinearStepper extends React.Component {
               min: this.state.satisfactionStructure.minimumNote,
               max: this.state.satisfactionStructure.maximumNote
             };
+            console.log("hitting satisfactionStructureRange api");
             this.props.actions.evaluationRangeAddRequest(satisfactionStructureRange)
               .then(
                 (response) => {
@@ -249,6 +256,7 @@ class HorizontalLinearStepper extends React.Component {
                     this.setState({
                       satisfactionStructureRangeId: response.data.id
                     });
+                    console.log("response from satisfactionStructureRange api: ", response.data.id);
                     //setting satisfactionStructureData to hit evaluation add api
                     let satisfactionStructureData = {
                       approvalPercentage: this.state.satisfactionStructure.approvalPercentage,
@@ -260,6 +268,7 @@ class HorizontalLinearStepper extends React.Component {
                       group: this.state.groupId,
                       range: this.state.satisfactionStructureRangeId
                     };
+                    console.log("hitting satisfactionStructureData api");
                     this.props.actions.evaluationAddRequest(satisfactionStructureData)
                       .then(
                         (response) => {
@@ -268,6 +277,7 @@ class HorizontalLinearStepper extends React.Component {
                             this.setState({
                               satisfactionStructureId: response.data.id
                             });
+                            console.log("response from satisfactionStructureData api: ", response.data.id);
                             //setting satisfactionStructureActivityData to hit evaluationActivity add api
                             let satisfactionStructureActivityData = {
                               evaluation: this.state.satisfactionStructureId,
@@ -277,6 +287,7 @@ class HorizontalLinearStepper extends React.Component {
                             for (let i = 0; i < this.state.satisfactionStructure.evaluateCategory.length; i++) {
                               satisfactionStructureActivityData.name = this.state.satisfactionStructure.evaluateCategory[i].name;
                               satisfactionStructureActivityData.percentage = this.state.satisfactionStructure.evaluateCategory[i].percentage;
+                              console.log("hitting satisfactionStructureActivityData api, ",[i]);
                               this.props.actions.evaluationActivityAddRequest(satisfactionStructureActivityData);
                             }
                           }
@@ -296,6 +307,7 @@ class HorizontalLinearStepper extends React.Component {
               min: this.state.monitoringStructure.minimumNote,
               max: this.state.monitoringStructure.maximumNote
             };
+            console.log("hitting monitoringStructureRange api");
             this.props.actions.evaluationRangeAddRequest(monitoringStructureRange)
               .then(
                 (response) => {
@@ -304,6 +316,7 @@ class HorizontalLinearStepper extends React.Component {
                     this.setState({
                       monitoringStructureRangeId: response.data.id
                     });
+                    console.log("response from monitoringStructureRange api: ", response.data.id);
                     //setting monitoringStructureData to hit evaluation add api
                     let monitoringStructureData = {
                       approvalPercentage: this.state.monitoringStructure.approvalPercentage,
@@ -315,6 +328,7 @@ class HorizontalLinearStepper extends React.Component {
                       group: this.state.groupId,
                       range: this.state.monitoringStructureRangeId
                     };
+                    console.log("hitting monitoringStructureData api");
                     this.props.actions.evaluationAddRequest(monitoringStructureData)
                       .then(
                         (response) => {
@@ -323,6 +337,7 @@ class HorizontalLinearStepper extends React.Component {
                             this.setState({
                               monitoringStructureId: response.data.id
                             });
+                            console.log("response from monitoringStructureData api: ", response.data.id);
                             //setting monitoringStructureActivityData to hit evaluationActivity add api
                             let monitoringStructureActivityData = {
                               evaluation: this.state.monitoringStructureId,
@@ -332,6 +347,7 @@ class HorizontalLinearStepper extends React.Component {
                             for (let i = 0; i < this.state.monitoringStructure.evaluateCategory.length; i++) {
                               monitoringStructureActivityData.name = this.state.monitoringStructure.evaluateCategory[i].name;
                               monitoringStructureActivityData.percentage = this.state.monitoringStructure.evaluateCategory[i].percentage;
+                              console.log("hitting monitoringStructureActivityData api, ",[i]);
                               this.props.actions.evaluationActivityAddRequest(monitoringStructureActivityData);
                             }
                           }
@@ -351,6 +367,7 @@ class HorizontalLinearStepper extends React.Component {
               min: this.state.performanceStructure.minimumNote,
               max: this.state.performanceStructure.maximumNote
             };
+            console.log("hitting performanceStructureRange api");
             this.props.actions.evaluationRangeAddRequest(performanceStructureRange)
               .then(
                 (response) => {
@@ -359,6 +376,7 @@ class HorizontalLinearStepper extends React.Component {
                     this.setState({
                       performanceStructureRangeId: response.data.id
                     });
+                    console.log("response from performanceStructureRange api: ", response.data.id);
                     //setting performanceStructureData to hit evaluation add api
                     let performanceStructureData = {
                       approvalPercentage: this.state.performanceStructure.approvalPercentage,
@@ -370,6 +388,7 @@ class HorizontalLinearStepper extends React.Component {
                       group: this.state.groupId,
                       range: this.state.performanceStructureRangeId
                     };
+                    console.log("hitting performanceStructureData api");
                     this.props.actions.evaluationAddRequest(performanceStructureData)
                       .then(
                         (response) => {
@@ -378,6 +397,7 @@ class HorizontalLinearStepper extends React.Component {
                             this.setState({
                               performanceStructureId: response.data.id
                             });
+                            console.log("response from performanceStructureData api: ", response.data.id);
                             //setting performanceStructureActivityData to hit evaluationActivity add api
                             let performanceStructureActivityData = {
                               evaluation: this.state.performanceStructureId,
@@ -387,6 +407,7 @@ class HorizontalLinearStepper extends React.Component {
                             for (let i = 0; i < this.state.performanceStructure.evaluateCategory.length; i++) {
                               performanceStructureActivityData.name = this.state.performanceStructure.evaluateCategory[i].name;
                               performanceStructureActivityData.percentage = this.state.performanceStructure.evaluateCategory[i].percentage;
+                              console.log("hitting performanceStructureActivityData api, ",[i]);
                               this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData);
                             }
 

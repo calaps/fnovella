@@ -256,7 +256,7 @@ export function evaluationAddRequest(data) {
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('get', '/evaluation/', data, null, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('post', '/evaluation/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (response.data.errors === null) {
               resolve(response.data);
@@ -285,7 +285,7 @@ export function evaluationActivityAddRequest(data) {
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('get', '/evaluation_activity/', data, null, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('post', '/evaluation_activity/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (response.data.errors === null) {
               resolve(response.data);
@@ -314,7 +314,7 @@ export function evaluationRangeAddRequest(data) {
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('get', '/evaluation_range/', data, null, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('post', '/evaluation_range/', data, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (response.data.errors === null) {
               resolve(response.data);

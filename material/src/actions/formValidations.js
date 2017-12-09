@@ -713,7 +713,7 @@ export function evaluationStructureValidator(data) {
     errors.maximumNote = required;
   }
   if (Validator.isEmpty(data.minimumNote.toString())) {
-    errors.maximumNote = required;
+    errors.minimumNote = required;
   }
   if(data.assistance === "true"){
     if (Validator.isEmpty(data.percentage.toString())) {
@@ -725,6 +725,12 @@ export function evaluationStructureValidator(data) {
   }
   if (data.totalEvaluateCategory !== 100) {
     errors.totalEvaluateCategory = "Total should be 100!";
+  }
+  if(!Validator.isEmpty(data.maximumNote.toString()) && !Validator.isEmpty(data.minimumNote.toString())){
+    if(parseInt(data.maximumNote)<parseInt(data.minimumNote)){
+      errors.minimumNote = "This should be less then Maximum Note!";
+      errors.maximumNote = "This should be greater then Minimum Note!";
+    }
   }
 
   //IsValid is just a boolean who return is errors is empty
@@ -751,6 +757,12 @@ export function satisfactionStructureValidator(data) {
   }
   if (data.totalEvaluateCategory !== 100) {
     errors.totalEvaluateCategory = "Total should be 100!";
+  }
+  if(!Validator.isEmpty(data.maximumNote.toString()) && !Validator.isEmpty(data.minimumNote.toString())){
+    if(parseInt(data.maximumNote)<parseInt(data.minimumNote)){
+      errors.minimumNote = "This should be less then Maximum Note!";
+      errors.maximumNote = "This should be greater then Minimum Note!";
+    }
   }
 
   //IsValid is just a boolean who return is errors is empty
