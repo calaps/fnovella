@@ -50,7 +50,7 @@ public class GroupServiceImpl implements GroupService {
         updateCategoryStructure(group, false);
     }
 
-    enum TypeCategory {
-        WORKSHOP, DIVISION, COURSE, SECTION
-    }
+
+
+
 }
