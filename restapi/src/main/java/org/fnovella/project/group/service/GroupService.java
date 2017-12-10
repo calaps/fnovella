@@ -6,4 +6,6 @@ public interface GroupService {
     void updateCategoryStructureAfterCreate(Group group);
 
     void updateCategoryStructureAfterDelete(Group group);
+
+    void delete(Group group);
 }

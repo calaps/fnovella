@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface InscriptionRepository extends JpaRepository<Inscription, Integer> {
     List<Inscription> findByGroup(Integer group);
+
+    void deleteByGroup(Integer groupId);
 }

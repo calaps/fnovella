@@ -106,7 +106,7 @@ public class GroupController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Group group = this.groupRepository.findOne(id);
 		if (group != null) {
-			this.groupRepository.delete(group);
+			this.groupService.delete(group);
 			this.groupService.updateCategoryStructureAfterDelete(group);
 			return new APIResponse(true, null);
 		}

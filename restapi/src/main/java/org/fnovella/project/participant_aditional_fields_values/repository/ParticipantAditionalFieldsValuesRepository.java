@@ -11,10 +11,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository("participantAditionalFieldsRepositoryValues")
+@Repository
 public interface ParticipantAditionalFieldsValuesRepository extends JpaRepository<ParticipantAditionalFieldsValues, Integer> {
 
-	@Transactional
-	@Query("delete from ParticipantAditionalFieldsValues where aditionalFieldId = ?1")
 	void deleteByAditionalFieldId(Integer aditionalFieldId);
 }

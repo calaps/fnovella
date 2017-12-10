@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository("divisionRepository")
+@Repository
 public interface DivisionRepository extends JpaRepository<Division, Integer> {
 	
 	List<Division> findByPrograma(Integer programId);

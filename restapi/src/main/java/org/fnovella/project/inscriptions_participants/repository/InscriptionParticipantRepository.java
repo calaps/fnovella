@@ -11,4 +11,6 @@ public interface InscriptionParticipantRepository extends JpaRepository<Inscript
     Page<InscriptionParticipant> findByInscription(Integer inscription, Pageable pageable);
 
     Page<InscriptionParticipant> findByParticipant(Integer participant, Pageable pageable);
+
+    void deleteByInscription(Integer id);
 }

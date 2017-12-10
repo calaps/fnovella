@@ -2,13 +2,20 @@ package org.fnovella.project.group.service;
 
 import org.fnovella.project.course.service.CourseService;
 import org.fnovella.project.division.service.DivisionService;
+import org.fnovella.project.evaluation.service.EvaluationService;
 import org.fnovella.project.group.model.Group;
+import org.fnovella.project.group.repository.GroupRepository;
+import org.fnovella.project.inscriptions.service.InscriptionService;
+import org.fnovella.project.participant_aditional_fields.service.ParticipantAditionalFieldsService;
 import org.fnovella.project.section.service.SectionService;
 import org.fnovella.project.workshop.service.WorkshopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class GroupServiceImpl implements GroupService {
 
 
@@ -20,6 +27,14 @@ public class GroupServiceImpl implements GroupService {
     private CourseService courseService;
     @Autowired
     private SectionService sectionService;
+    @Autowired
+    private ParticipantAditionalFieldsService participantAditionalFieldsService;
+    @Autowired
+    private InscriptionService inscriptionService;
+    @Autowired
+    private EvaluationService evaluationService;
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Override
     public void updateCategoryStructureAfterCreate(Group group) {
@@ -50,7 +65,13 @@ public class GroupServiceImpl implements GroupService {
         updateCategoryStructure(group, false);
     }
 
-
+    @Override
+    public void delete(Group group) {
+        participantAditionalFieldsService.deleteByGroupIdIfExist(group.getId());
+        inscriptionService.deleteByGroupIdIfExist(group.getId());
+        evaluationService.deleteByGroupIdIfExist(group.getId());
+        groupRepository.delete(group);
+    }
 
 
 }

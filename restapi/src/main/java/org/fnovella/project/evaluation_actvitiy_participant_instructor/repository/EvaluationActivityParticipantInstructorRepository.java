@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EvaluationActivityParticipantInstructorRepository extends JpaRepository<EvaluationActivityParticipantInstructor, Integer> {
 
+    void deleteByActivity(Integer activityId);
 }

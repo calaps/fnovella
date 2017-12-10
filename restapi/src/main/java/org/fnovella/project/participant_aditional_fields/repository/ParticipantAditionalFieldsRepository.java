@@ -4,7 +4,12 @@ import org.fnovella.project.participant_aditional_fields.model.ParticipantAditio
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("participantAditionalFieldsRepository")
+import java.util.List;
+
+@Repository
 public interface ParticipantAditionalFieldsRepository extends JpaRepository<ParticipantAditionalFields, Integer>{
 
+    void deleteByGroup(Integer groupId);
+
+    List<ParticipantAditionalFields> findByGroup(Integer groupId);
 }

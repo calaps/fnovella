@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AssistanceParticipantRepository extends JpaRepository<AssistanceParticipant, Integer>{
+    void deleteByAssistance(Integer assistanceId);
 }
