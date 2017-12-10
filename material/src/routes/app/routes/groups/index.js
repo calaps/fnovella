@@ -1,8 +1,8 @@
 module.exports = {
-  path: 'create_group',
+  path: 'groups',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      cb(null, require('./components/Create_group'));
+      cb(null, require('./components/Groups'));
     });
   }
 };

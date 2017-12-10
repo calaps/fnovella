@@ -15,7 +15,7 @@ import Pagination from '../../../../../components/Pagination'
 /** *
  * Fake element list render....
  * */
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 let sort = 'category';
 
@@ -46,7 +46,7 @@ class ListElements extends React.Component {
         let categories = this.props.categories;
         for(let i=0;i<categories.length;i++){
           if(categories[i].name.toLowerCase() == this.state.inputValue.toLowerCase()){
-            console.log('in search',this.state.inputValue)            
+            console.log('in search',this.state.inputValue)
             this.props.actions.catalogsGetByCategoryRequest(categories[i].id);
           }
         }

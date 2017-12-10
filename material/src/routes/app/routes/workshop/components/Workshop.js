@@ -97,6 +97,7 @@ class Workshop extends React.Component {
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditProgram = this.onEditProgram.bind(this);
     this.onCreateGroup = this.onCreateGroup.bind(this);
+    this.onViewGroup = this.onViewGroup.bind(this);
   }
 
   componentWillMount(){
@@ -124,10 +125,22 @@ class Workshop extends React.Component {
 
   onCreateGroup(workshopId){
     this.context.router.push({
-      pathname: '/app/create_group',
+      pathname: '/app/groups',
       query: {
         workshopId : workshopId,
-        typeCategory : 'workshop'
+        typeCategory : 'workshop',
+        addNew : 'true'
+      }
+    })
+  }
+
+  onViewGroup(workshopId){
+    this.context.router.push({
+      pathname: '/app/groups',
+      query: {
+        id : workshopId,
+        typeCategory : 'workshop',
+        view : 'true'
       }
     })
   }
@@ -137,7 +150,7 @@ class Workshop extends React.Component {
       case 'ADD_ELEMENT':
         return <EditForm changeView={this.changeView} workshopData={this.state.workshopData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditProgram} onCreateGroup={this.onCreateGroup}/>;
+        return <ListElements onEdit={this.onEditProgram} onViewGroup={this.onViewGroup} onCreateGroup={this.onCreateGroup}/>;
       default:
         return null;
     }

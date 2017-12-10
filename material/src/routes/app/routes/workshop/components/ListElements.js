@@ -56,7 +56,7 @@ class ListElements extends React.Component {
                     {
                       this.props.workshops.content ? this.props.workshops.content.map((workshop) => {
                         return <ListItem key={workshop.id} onDelete={this.onDeleteButton}
-                                         number={i++}
+                                         number={i++} onViewGroup={this.props.onViewGroup}
                                          onEdit={this.props.onEdit}
                                          onCreateGroup={this.props.onCreateGroup}
                                          workshopData={workshop}/>

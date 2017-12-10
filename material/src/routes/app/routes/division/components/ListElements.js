@@ -8,10 +8,7 @@ import {
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
 
-/** *
- * Fake element list render....
- * */
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 
 class ListElements extends React.Component {
@@ -55,7 +52,7 @@ class ListElements extends React.Component {
                     {
                       this.props.divisions.content ? this.props.divisions.content.map((division) => {
                         return <ListItem key={i} onDelete={this.onDeleteButton}
-                                         number={i++}
+                                         number={i++} onViewGroup={this.props.onViewGroup}
                                          onEdit={this.props.onEdit}
                                          onCreateGroup={this.props.onCreateGroup}
                                          divisionData={division}/>

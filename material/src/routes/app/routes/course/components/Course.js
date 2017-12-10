@@ -97,6 +97,7 @@ class Course extends React.Component {
     this.onEditCourse = this.onEditCourse.bind(this);
     this.changeView = this.changeView.bind(this); //bind this element
     this.onCreateGroup = this.onCreateGroup.bind(this);
+    this.onViewGroup = this.onViewGroup.bind(this);
   }
 
   componentWillMount() {
@@ -124,10 +125,22 @@ class Course extends React.Component {
 
   onCreateGroup(courseId) {
     this.context.router.push({
-      pathname: '/app/create_group',
+      pathname: '/app/groups',
       query: {
         courseId: courseId,
-        typeCategory: 'course'
+        typeCategory: 'course',
+        addNew : 'true'
+      }
+    })
+  }
+
+  onViewGroup(courseId) {
+    this.context.router.push({
+      pathname: '/app/groups',
+      query: {
+        id: courseId,
+        typeCategory: 'course',
+        view : 'true'
       }
     })
   }
@@ -137,7 +150,7 @@ class Course extends React.Component {
       case 'ADD_ELEMENT':
         return <EditForm changeView={this.changeView} courseData={this.state.courseData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditCourse} onCreateGroup={this.onCreateGroup}/>;
+        return <ListElements onEdit={this.onEditCourse} onViewGroup={this.onViewGroup} onCreateGroup={this.onCreateGroup}/>;
       default:
         return null;
     }

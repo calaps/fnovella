@@ -98,6 +98,7 @@ class Section extends React.Component {
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditCatalog = this.onEditCatalog.bind(this);
     this.onCreateGroup = this.onCreateGroup.bind(this);
+    this.onViewGroup = this.onViewGroup.bind(this);
   }
 
   componentWillMount() {
@@ -124,10 +125,22 @@ class Section extends React.Component {
 
   onCreateGroup(sectionId) {
     this.context.router.push({
-      pathname: '/app/create_group',
+      pathname: '/app/groups',
       query: {
         sectionId: sectionId,
-        typeCategory: 'section'
+        typeCategory: 'section',
+        addNew : 'true'
+      }
+    })
+  }
+
+  onViewGroup(sectionId) {
+    this.context.router.push({
+      pathname: '/app/groups',
+      query: {
+        id: sectionId,
+        typeCategory: 'section',
+        view : 'true'
       }
     })
   }
@@ -137,7 +150,7 @@ class Section extends React.Component {
       case 'ADD_ELEMENT':
         return <EditForm changeView={this.changeView} sectionData={this.state.sectionData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditCatalog} onCreateGroup={this.onCreateGroup}/>;
+        return <ListElements onEdit={this.onEditCatalog} onViewGroup={this.onViewGroup} onCreateGroup={this.onCreateGroup}/>;
       default:
         return null;
     }

@@ -21,6 +21,7 @@ import {
 } from '../../../../../actions';
 import PropTypes from "prop-types";
 
+let self;
 
 class HorizontalLinearStepper extends React.Component {
   constructor(props) {
@@ -44,9 +45,23 @@ class HorizontalLinearStepper extends React.Component {
       monitoringStructureId: '',
       performanceStructureRangeId: '',
       performanceStructureId: '',
+      groupCreated: false,
+      evaluationStructureRangeCreated: false,
+      evaluationStructureCreated: false,
+      evaluationActivityCreated: false,
+      satisfactionStructureRangeCreated: false,
+      satisfactionStructureCreated: false,
+      satisfactionActivityCreated: false,
+      monitoringStructureRangeCreated: false,
+      monitoringStructureCreated: false,
+      monitoringActivityCreated: false,
+      performanceStructureRangeCreated: false,
+      performanceStructureCreated: false,
+      performanceActivityCreated: false,
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.onGroupActivate = this.onGroupActivate.bind(this);
+    self = this;
   }
 
   handleCancel() {
@@ -56,11 +71,7 @@ class HorizontalLinearStepper extends React.Component {
       errors: {},
       isLoading: false
     });
-    if (this.context.router.location.query.typeCategory) {
-      this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
-    } else {
-      self.props.changeView('VIEW_ELEMENT')
-    }
+    this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
   }
 
   handlePrev = () => {
@@ -107,10 +118,12 @@ class HorizontalLinearStepper extends React.Component {
           <div style={{marginTop: 12}}>
             <FlatButton
               label='Back'
+              disabled={this.state.isLoading}
               onTouchTap={this.handlePrev}
               style={{marginRight: 12}}
             />
             <RaisedButton
+              disabled={this.state.isLoading}
               label='Activate'
               primary
               onTouchTap={this.onGroupActivate}
@@ -171,6 +184,7 @@ class HorizontalLinearStepper extends React.Component {
   };
 
   onGroupActivate() {
+    this.setState({isLoading: true});
     //create a group from first form
     console.log("hitting create_group api");
     this.props.actions.groupsAddRequest(this.state.generalConfiguration)
@@ -178,7 +192,7 @@ class HorizontalLinearStepper extends React.Component {
         (response) => {
           if (response) {
             //setting groupId returned in response
-            this.setState({groupId: response.data.id});
+            this.setState({groupId: response.data.id, groupCreated: true});
             console.log("response from create_group api: ", response.data.id);
 
             //for second form
@@ -194,7 +208,7 @@ class HorizontalLinearStepper extends React.Component {
                   if (response) {
                     //setting evaluationStructureRangeId returned in response
                     this.setState({
-                      evaluationStructureRangeId: response.data.id
+                      evaluationStructureRangeId: response.data.id, evaluationStructureRangeCreated: true
                     });
                     console.log("response from evaluationStructureRange api: ", response.data.id);
                     //setting evaluationStructureData to hit evaluation add api
@@ -215,7 +229,7 @@ class HorizontalLinearStepper extends React.Component {
                           if (response) {
                             //setting evaluationStructureId returned in response
                             this.setState({
-                              evaluationStructureId: response.data.id
+                              evaluationStructureId: response.data.id, evaluationStructureCreated: true
                             });
                             console.log("response from evaluationStructureData api: ", response.data.id);
                             //setting evaluationStructureActivityData to hit evaluationActivity add api
@@ -224,11 +238,23 @@ class HorizontalLinearStepper extends React.Component {
                               parentId: 0,
                               range: this.state.evaluationStructureRangeId
                             };
-                            for (let i = 0; i < this.state.evaluationStructure.evaluateCategory.length; i++) {
+                            for (let i = 0; i < this.state.evaluationStructure.evaluateCategory.length;) {
                               evaluationStructureActivityData.name = this.state.evaluationStructure.evaluateCategory[i].name;
                               evaluationStructureActivityData.percentage = this.state.evaluationStructure.evaluateCategory[i].percentage;
-                              console.log("hitting evaluationStructureActivityData api, ",[i]);
-                              this.props.actions.evaluationActivityAddRequest(evaluationStructureActivityData);
+                              console.log("hitting evaluationStructureActivityData api, ", [i]);
+                              this.props.actions.evaluationActivityAddRequest(evaluationStructureActivityData)
+                                .then(
+                                  (response) => {
+                                    if (response) {
+                                      if (i === this.state.evaluationStructure.evaluateCategory.length - 1) {
+                                        this.setState({evaluationActivityCreated: true})
+                                      }
+                                    }
+                                  },
+                                  (error) => {
+                                    console.log("An Error occur with the Rest API: ", error);
+                                  });
+                              i++;
                             }
                           }
                         },
@@ -254,7 +280,7 @@ class HorizontalLinearStepper extends React.Component {
                   if (response) {
                     //setting satisfactionStructureRangeId returned in response
                     this.setState({
-                      satisfactionStructureRangeId: response.data.id
+                      satisfactionStructureRangeId: response.data.id, satisfactionStructureRangeCreated: true
                     });
                     console.log("response from satisfactionStructureRange api: ", response.data.id);
                     //setting satisfactionStructureData to hit evaluation add api
@@ -275,7 +301,7 @@ class HorizontalLinearStepper extends React.Component {
                           if (response) {
                             //setting satisfactionStructureId returned in response
                             this.setState({
-                              satisfactionStructureId: response.data.id
+                              satisfactionStructureId: response.data.id, satisfactionStructureCreated: true
                             });
                             console.log("response from satisfactionStructureData api: ", response.data.id);
                             //setting satisfactionStructureActivityData to hit evaluationActivity add api
@@ -284,11 +310,23 @@ class HorizontalLinearStepper extends React.Component {
                               parentId: 0,
                               range: this.state.satisfactionStructureRangeId
                             };
-                            for (let i = 0; i < this.state.satisfactionStructure.evaluateCategory.length; i++) {
+                            for (let i = 0; i < this.state.satisfactionStructure.evaluateCategory.length;) {
                               satisfactionStructureActivityData.name = this.state.satisfactionStructure.evaluateCategory[i].name;
                               satisfactionStructureActivityData.percentage = this.state.satisfactionStructure.evaluateCategory[i].percentage;
-                              console.log("hitting satisfactionStructureActivityData api, ",[i]);
-                              this.props.actions.evaluationActivityAddRequest(satisfactionStructureActivityData);
+                              console.log("hitting satisfactionStructureActivityData api, ", [i]);
+                              this.props.actions.evaluationActivityAddRequest(satisfactionStructureActivityData)
+                                .then(
+                                  (response) => {
+                                    if (response) {
+                                      if (i === this.state.satisfactionStructure.evaluateCategory.length - 1) {
+                                        this.setState({satisfactionActivityCreated: true})
+                                      }
+                                    }
+                                  },
+                                  (error) => {
+                                    console.log("An Error occur with the Rest API: ", error);
+                                  });
+                              i++;
                             }
                           }
                         },
@@ -314,7 +352,7 @@ class HorizontalLinearStepper extends React.Component {
                   if (response) {
                     //setting monitoringStructureRangeId returned in response
                     this.setState({
-                      monitoringStructureRangeId: response.data.id
+                      monitoringStructureRangeId: response.data.id, monitoringStructureRangeCreated: true
                     });
                     console.log("response from monitoringStructureRange api: ", response.data.id);
                     //setting monitoringStructureData to hit evaluation add api
@@ -335,7 +373,7 @@ class HorizontalLinearStepper extends React.Component {
                           if (response) {
                             //setting monitoringStructureId returned in response
                             this.setState({
-                              monitoringStructureId: response.data.id
+                              monitoringStructureId: response.data.id, monitoringStructureCreated: true
                             });
                             console.log("response from monitoringStructureData api: ", response.data.id);
                             //setting monitoringStructureActivityData to hit evaluationActivity add api
@@ -344,11 +382,23 @@ class HorizontalLinearStepper extends React.Component {
                               parentId: 0,
                               range: this.state.monitoringStructureRangeId
                             };
-                            for (let i = 0; i < this.state.monitoringStructure.evaluateCategory.length; i++) {
+                            for (let i = 0; i < this.state.monitoringStructure.evaluateCategory.length;) {
                               monitoringStructureActivityData.name = this.state.monitoringStructure.evaluateCategory[i].name;
                               monitoringStructureActivityData.percentage = this.state.monitoringStructure.evaluateCategory[i].percentage;
-                              console.log("hitting monitoringStructureActivityData api, ",[i]);
-                              this.props.actions.evaluationActivityAddRequest(monitoringStructureActivityData);
+                              console.log("hitting monitoringStructureActivityData api, ", [i]);
+                              this.props.actions.evaluationActivityAddRequest(monitoringStructureActivityData)
+                                .then(
+                                  (response) => {
+                                    if (response) {
+                                      if (i === this.state.monitoringStructure.evaluateCategory.length - 1) {
+                                        this.setState({monitoringActivityCreated: true})
+                                      }
+                                    }
+                                  },
+                                  (error) => {
+                                    console.log("An Error occur with the Rest API: ", error);
+                                  });
+                              i++;
                             }
                           }
                         },
@@ -374,7 +424,7 @@ class HorizontalLinearStepper extends React.Component {
                   if (response) {
                     //setting performanceStructureRangeId returned in response
                     this.setState({
-                      performanceStructureRangeId: response.data.id
+                      performanceStructureRangeId: response.data.id, performanceStructureRangeCreated: true
                     });
                     console.log("response from performanceStructureRange api: ", response.data.id);
                     //setting performanceStructureData to hit evaluation add api
@@ -395,7 +445,7 @@ class HorizontalLinearStepper extends React.Component {
                           if (response) {
                             //setting performanceStructureId returned in response
                             this.setState({
-                              performanceStructureId: response.data.id
+                              performanceStructureId: response.data.id, performanceStructureCreated: true
                             });
                             console.log("response from performanceStructureData api: ", response.data.id);
                             //setting performanceStructureActivityData to hit evaluationActivity add api
@@ -404,15 +454,25 @@ class HorizontalLinearStepper extends React.Component {
                               parentId: 0,
                               range: this.state.performanceStructureRangeId
                             };
-                            for (let i = 0; i < this.state.performanceStructure.evaluateCategory.length; i++) {
+                            for (let i = 0; i < this.state.performanceStructure.evaluateCategory.length;) {
                               performanceStructureActivityData.name = this.state.performanceStructure.evaluateCategory[i].name;
                               performanceStructureActivityData.percentage = this.state.performanceStructure.evaluateCategory[i].percentage;
-                              console.log("hitting performanceStructureActivityData api, ",[i]);
-                              this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData);
+                              console.log("hitting performanceStructureActivityData api, ", [i]);
+                              this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData)
+                                .then(
+                                  (response) => {
+                                    if (response) {
+                                      if (i === this.state.performanceStructure.evaluateCategory.length - 1) {
+                                        this.setState({performanceActivityCreated: true})
+                                      }
+                                    }
+                                  },
+                                  (error) => {
+                                    console.log("An Error occur with the Rest API: ", error);
+                                  });
+                              i++;
                             }
 
-                            //to go to typeCategory
-                            this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
                           }
                         },
                         (error) => {
@@ -428,6 +488,8 @@ class HorizontalLinearStepper extends React.Component {
         (error) => {
           console.log("An Error occur with the Rest API: ", error);
         });
+    //to go to typeCategory
+    this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
   }
 
   render() {

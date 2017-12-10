@@ -32,14 +32,12 @@ export function privilegesGetRequest() {
         // });
         // resolve(true);
         // return;
-        console.log('==========');
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
         // API
         HTTP('get', '/privilege/', null, { authorization: localStorage.getItem('@fnovella:token') })
           .then(function (response) {
-            console.log('==========', response);
             if (response.data.errors === null) {
               dispatch({
                 type: PRIVILEGES_GET_SUCCESS,

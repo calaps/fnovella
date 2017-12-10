@@ -97,6 +97,7 @@ class Division extends React.Component {
     this.changeView = this.changeView.bind(this); //bind this element
     this.onEditProgram = this.onEditProgram.bind(this);
     this.onCreateGroup = this.onCreateGroup.bind(this);
+    this.onViewGroup = this.onViewGroup.bind(this);
   }
 
   componentWillMount(){
@@ -124,10 +125,22 @@ class Division extends React.Component {
 
   onCreateGroup(divisionId){
     this.context.router.push({
-      pathname: '/app/create_group',
+      pathname: '/app/groups',
       query: {
         divisionId : divisionId,
-        typeCategory : 'division'
+        typeCategory : 'division',
+        addNew : 'true'
+      }
+    })
+  }
+
+  onViewGroup(divisionId){
+    this.context.router.push({
+      pathname: '/app/groups',
+      query: {
+        id : divisionId,
+        typeCategory : 'division',
+        view : 'true'
       }
     })
   }
@@ -137,7 +150,7 @@ class Division extends React.Component {
       case 'ADD_ELEMENT':
         return <EditForm changeView={this.changeView} divisionData={this.state.divisionData}/>;
       case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditProgram} onCreateGroup={this.onCreateGroup}/>;
+        return <ListElements onEdit={this.onEditProgram} onViewGroup={this.onViewGroup} onCreateGroup={this.onCreateGroup}/>;
       default:
         return null;
     }
