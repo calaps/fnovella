@@ -18,7 +18,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
         'webpack/hot/only-dev-server',
         'react-hot-loader/patch',
         './client.js'
-      ],   
+      ],
       plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
@@ -27,7 +27,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
           jQuery: "jquery",
           "window.jQuery": "jquery"
         })
-      ] 
+      ]
     };
 
     this.config.module.rules = this.config.module.rules.concat([
@@ -41,8 +41,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
               sourceMap: true
             }
           },
-          {
-            loader: 'sass-loader',
+          { loader: 'sass-loader',
             options: {
               sourceMap: true
             }
@@ -51,7 +50,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
       }, {
         test: /^.((?!cssmodule).)*\.less$/,
         use: [
-          { loader: "style-loader" },
+          {loader: "style-loader"},
           {
             loader: "css-loader",
             options: {
