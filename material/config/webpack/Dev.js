@@ -14,11 +14,11 @@ class WebpackDevConfig extends WebpackBaseConfig {
       devtool: 'cheap-module-source-map',
       entry: [
         'babel-polyfill',
-        'webpack-dev-server/client?http://0.0.0.0:3000/',
+        'webpack-dev-server/client?http://localhost:8080/',
         'webpack/hot/only-dev-server',
         'react-hot-loader/patch',
         './client.js'
-      ],
+      ],   
       plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
@@ -27,7 +27,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
           jQuery: "jquery",
           "window.jQuery": "jquery"
         })
-      ]
+      ] 
     };
 
     this.config.module.rules = this.config.module.rules.concat([
@@ -41,7 +41,8 @@ class WebpackDevConfig extends WebpackBaseConfig {
               sourceMap: true
             }
           },
-          { loader: 'sass-loader',
+          {
+            loader: 'sass-loader',
             options: {
               sourceMap: true
             }
@@ -50,7 +51,7 @@ class WebpackDevConfig extends WebpackBaseConfig {
       }, {
         test: /^.((?!cssmodule).)*\.less$/,
         use: [
-          {loader: "style-loader"},
+          { loader: "style-loader" },
           {
             loader: "css-loader",
             options: {
