@@ -668,7 +668,7 @@ export function groupValidator(data) {
 }
 
 export function ParticipantAdditionalFieldsValidator(data) {
-  // console.log(data);
+  console.log(data);
 
   let errors = {}; //errors star with an empty object
 
