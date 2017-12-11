@@ -9,6 +9,7 @@ import UpdateForm from './UpdateForm';
 import ViewEmergencyContact from './ViewEmergencyContact';
 import ViewStudentInfo from './ViewStudentInfo';
 import FileUpload from './File';//FILE CSV Module integrated
+import { privilegesGetRequest, privilegesGetAllRequest } from '../../../../../actions';
 
 const optionsName = "Participantes";
 
