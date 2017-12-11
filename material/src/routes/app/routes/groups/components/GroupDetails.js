@@ -44,12 +44,11 @@ class GroupDetails extends React.Component {
             <section className="hero hero-bg-img">
               <div className="hero-inner">
                 <div className="hero-content">
-                  <h1 className="hero-title">Primero basico</h1>
+                  <h1 className="hero-title">{this.state.groupData.correlativo}</h1>
                 </div>
-                <p className="hero-tagline">Primaria</p>
                 <div className="row">
-                  <div className="hero-tagline">{this.state.groupInstructorName}</div>
-                  <div className="hero-tagline">{this.state.groupData.correlativo}</div>
+                  <div className="hero-tagline"><strong>Instructor: </strong>{this.state.groupInstructorName}</div>
+                  <div className="hero-tagline"><strong>Tipo: </strong>{this.state.groupData.typeCategory}</div>
                 </div>
               </div>
             </section>
