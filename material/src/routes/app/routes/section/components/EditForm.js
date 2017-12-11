@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';// For Buttons
 import { data_types } from '../../../../../constants/data_types';
-import map from "Lodash/map"; //to use map in a object
+import map from "lodash-es/map"; //to use map in a object
 import { sectionsValidator } from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types

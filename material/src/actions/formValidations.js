@@ -1,6 +1,6 @@
 // Rest of the forms validations
 import Validator from "validator"; //for validate data
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash-es/isEmpty";
 
 //Messages
 const required = "Este campo es requerido";
@@ -653,41 +653,22 @@ export function groupValidator(data) {
 
   let errors = {}; //errors star with an empty object
 
-  if (Validator.isEmpty(data.correlativo)) {
-    errors.correlativo = required;
-    if (!Validator.isEmpty(data.correlativo) && !Validator.isAlphanumeric(data.correlativo)) {
-      errors.correlativo = invalidData;
-    }
-  }
-  /*if (Validator.isEmpty(data.courseId.toString())) {
-    errors.courseId = required;
-  }
-  if (Validator.isEmpty(data.divisionId.toString())) {
-    errors.divisionId = required;
-  }*/
   if (Validator.isEmpty(data.instructor.toString())) {
     errors.instructor = required;
   }
-  /*if (Validator.isEmpty(data.section.toString())) {
-    errors.section = required;
-  }*/
   if (Validator.isEmpty(data.typeCategory)) {
     errors.typeCategory = required;
     if (!Validator.isEmpty(data.typeCategory) && !Validator.isAlphanumeric(data.typeCategory)) {
       errors.typeCategory = invalidData;
     }
   }
-  /*if (Validator.isEmpty(data.workshopId.toString())) {
-    errors.workshopId = required;
-  }*/
-
   //IsValid is just a boolean who return is errors is empty
   return {errors, isValid: isEmpty(errors)};
 
 }
 
 export function ParticipantAdditionalFieldsValidator(data) {
-  console.log(data);
+  // console.log(data);
 
   let errors = {}; //errors star with an empty object
 
@@ -710,6 +691,78 @@ export function ParticipantAdditionalFieldsValidator(data) {
   }
   if (Validator.isEmpty(data.period.toString())) {
     errors.period = required;
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {errors, isValid: isEmpty(errors)};
+
+}
+
+export function evaluationStructureValidator(data) {
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if (Validator.isEmpty(data.assistance.toString())) {
+    errors.assistance = required;
+  }
+  if (Validator.isEmpty(data.approvalPercentage.toString())) {
+    errors.approvalPercentage = required;
+  }
+  if (Validator.isEmpty(data.maximumNote.toString())) {
+    errors.maximumNote = required;
+  }
+  if (Validator.isEmpty(data.minimumNote.toString())) {
+    errors.minimumNote = required;
+  }
+  if(data.assistance === "true"){
+    if (Validator.isEmpty(data.percentage.toString())) {
+      errors.percentage = required;
+    }
+  }
+  if (data.evaluateCategory.length === 0) {
+    errors.evaluateCategory = "Add at least one category!";
+  }
+  if (data.totalEvaluateCategory !== 100) {
+    errors.totalEvaluateCategory = "Total should be 100!";
+  }
+  if(!Validator.isEmpty(data.maximumNote.toString()) && !Validator.isEmpty(data.minimumNote.toString())){
+    if(parseInt(data.maximumNote)<parseInt(data.minimumNote)){
+      errors.minimumNote = "This should be less then Maximum Note!";
+      errors.maximumNote = "This should be greater then Minimum Note!";
+    }
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {errors, isValid: isEmpty(errors)};
+
+}
+
+export function satisfactionStructureValidator(data) {
+  // console.log(data);
+
+  let errors = {}; //errors star with an empty object
+
+  if (Validator.isEmpty(data.approvalPercentage.toString())) {
+    errors.approvalPercentage = required;
+  }
+  if (Validator.isEmpty(data.maximumNote.toString())) {
+    errors.maximumNote = required;
+  }
+  if (Validator.isEmpty(data.minimumNote.toString())) {
+    errors.maximumNote = required;
+  }
+  if (data.evaluateCategory.length === 0) {
+    errors.evaluateCategory = "Add at least one category!";
+  }
+  if (data.totalEvaluateCategory !== 100) {
+    errors.totalEvaluateCategory = "Total should be 100!";
+  }
+  if(!Validator.isEmpty(data.maximumNote.toString()) && !Validator.isEmpty(data.minimumNote.toString())){
+    if(parseInt(data.maximumNote)<parseInt(data.minimumNote)){
+      errors.minimumNote = "This should be less then Maximum Note!";
+      errors.maximumNote = "This should be greater then Minimum Note!";
+    }
   }
 
   //IsValid is just a boolean who return is errors is empty

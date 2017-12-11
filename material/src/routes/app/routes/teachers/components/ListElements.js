@@ -10,7 +10,7 @@ import Pagination from '../../../../../components/Pagination'
 /** *
  * Fake element list render....
  * */
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 
 class ListElements extends React.Component {

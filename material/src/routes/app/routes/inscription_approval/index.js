@@ -1,8 +1,10 @@
 module.exports = {
-    path: 'inscription',
+    path: 'inscription_approval',
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
-        cb(null, require('./components/Inscription'));
+        cb(null, require('./components/Inscription_approval'));
       });
     }
   };
+
+  

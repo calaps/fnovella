@@ -2,8 +2,8 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import IconButton from 'material-ui/IconButton';
-import map from "Lodash/map"; //to use map in a object
-import {groupValidator} from "../../../../../actions/formValidations"; //form validations
+import map from "lodash-es/map"; //to use map in a object
+import {satisfactionStructureValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import uuid from "uuid";
@@ -12,16 +12,17 @@ import {} from '../../../../../actions';
 
 let self;
 
-class MonitoringStructure extends React.Component {
+class PerformanceStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
       approvalPercentage: '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
       maximumNote: '',
+      minimumNote: '',
+      totalEvaluateCategory: 0,
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
       isLoading: false
@@ -41,28 +42,9 @@ class MonitoringStructure extends React.Component {
 
   }
 
-  /*componentWillReceiveProps(nextProps) {
-    if (this.props.groupData !== nextProps.groupData) {
-      this.setState({
-        id: '',
-        courseId: '',
-        divisionId: '',
-        instructor: '',
-        section: '',
-        type: '',
-        typeCategory: '',
-        workshopId: '',
-        correlativo: '',
-        inscriptionsStart: '',
-        inscriptionsEnd: '',
-      })
-    }
-  }*/
-
   isValid() {
     //local validation
-    return true;
-    const {errors, isValid} = groupValidator(this.state);
+    const {errors, isValid} = satisfactionStructureValidator(this.state);
     if (!isValid) {
       this.setState({errors});
       return false;
@@ -78,9 +60,11 @@ class MonitoringStructure extends React.Component {
       let data = {
         approvalPercentage: this.state.approvalPercentage,
         evaluateCategory: this.state.evaluateCategory,
+        minimumNote: this.state.minimumNote,
         maximumNote: this.state.maximumNote,
         calculateMultipleSelection: this.state.calculateMultipleSelection,
-
+        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory,
+        evaluationSubtype: 4,
       };
       this.props.handleNext(data);
     }
@@ -105,7 +89,8 @@ class MonitoringStructure extends React.Component {
     this.setState({
       evaluateCategory: [
         ...this.state.evaluateCategory, obj
-      ]
+      ],
+      totalEvaluateCategory: this.state.totalEvaluateCategory + parseInt(obj.percentage)
     });
   }
 
@@ -113,6 +98,7 @@ class MonitoringStructure extends React.Component {
     for (let i = 0; i < this.state.evaluateCategory.length; i++) {
       if (this.state.evaluateCategory[i].id === cat.id) {
         this.setState({
+          totalEvaluateCategory: this.state.totalEvaluateCategory - parseInt(cat.percentage),
           ...this.state.evaluateCategory.splice(i, 1)
         })
       }
@@ -167,7 +153,8 @@ class MonitoringStructure extends React.Component {
                       <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="approvalPercentage"
                           name="approvalPercentage"
@@ -195,7 +182,8 @@ class MonitoringStructure extends React.Component {
                       </div>
                       <div className="col-md-4">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="evaluateCategoryPercentage"
                           name="evaluateCategoryPercentage"
@@ -213,11 +201,35 @@ class MonitoringStructure extends React.Component {
                       </IconButton>
                     </div>
                     {evaluateCategoryAndPercentageMapping()}
+                    {errors.evaluateCategory &&
+                    <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
+                      <label htmlFor="totalEvaluateCategory"
+                             className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                      <div className="col-md-3">{errors.totalEvaluateCategory &&
+                      <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="minimumNote" className="col-md-3 control-label">Minimum note</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
+                          className="form-control"
+                          id="minimumNote"
+                          name="minimumNote"
+                          value={this.state.minimumNote}
+                          onChange={this.onChange}
+                          placeholder="eje: 1 - 100"/>
+                        {errors.minimumNote && <span className="help-block text-danger">{errors.minimumNote}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="maximumNote" className="col-md-3 control-label">Maximum note</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="maximumNote"
                           name="maximumNote"
@@ -270,7 +282,7 @@ class MonitoringStructure extends React.Component {
   }
 }
 
-MonitoringStructure.contextTypes = {
+PerformanceStructure.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
@@ -289,5 +301,5 @@ function mapDispatchToProps(dispatch) {
 module.exports = connect(
   mapStateToProps,
   mapDispatchToProps
-)(MonitoringStructure);
+)(PerformanceStructure);
 

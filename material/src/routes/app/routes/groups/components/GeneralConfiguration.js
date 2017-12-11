@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
-import map from "Lodash/map"; //to use map in a object
+import map from "lodash-es/map"; //to use map in a object
 import {typeCategory} from '../../../../../constants/data_types';
 import {groupValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
@@ -13,7 +13,11 @@ import {
   divisionsGetRequest,
   programInstructorGetRequest,
   sectionsGetRequest,
-  workshopsGetRequest
+  workshopsGetRequest,
+  workshopGetByIdRequest,
+  divisionGetByIdRequest,
+  courseGetByIdRequest,
+  sectionGetByIdRequest
 } from '../../../../../actions';
 
 let self;
@@ -27,11 +31,10 @@ class GeneralConfiguration extends React.Component {
       divisionId: '',
       instructor: '',
       section: '',
-      type:  1,
+      type: 1,
       typeCategory: '',
       workshopId: '',
-      correlativo: '',
-      inscriptionsEnd:  new Date(),
+      inscriptionsEnd: new Date(),
       inscriptionsStart: new Date(),
       nsJan: '',
       nsFeb: '',
@@ -47,7 +50,8 @@ class GeneralConfiguration extends React.Component {
       nsDec: '',
       errors: {},
       isLoading: false,
-      selectedType: ''
+      selectedType: '',
+      correlativo: ''
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
@@ -68,28 +72,80 @@ class GeneralConfiguration extends React.Component {
       this.setState({typeCategory: self.context.router.location.query.typeCategory});
       switch (self.context.router.location.query.typeCategory) {
         case 'workshop':
-          this.setState({
-            workshopId: self.context.router.location.query.workshopId,
-            selectedType: 'workshop'
-          });
+          this.props.actions.workshopGetByIdRequest(self.context.router.location.query.workshopId)
+            .then(
+              (response) => {
+                if (response) {
+                  this.setState({
+                    workshopId: self.context.router.location.query.workshopId,
+                    selectedType: 'workshop',
+                    correlativo: response.data.name,
+                    section: 0,
+                    divisionId: 0,
+                    courseId: 0
+                  });
+                }
+              },
+              (error) => {
+                console.log("An Error occur with the Rest API: ", error);
+              });
           break;
         case 'section':
-          this.setState({
-            section: self.context.router.location.query.sectionId,
-            selectedType: 'section'
-          });
+          this.props.actions.sectionGetByIdRequest(self.context.router.location.query.sectionId)
+            .then(
+              (response) => {
+                if (response) {
+                  this.setState({
+                    section: self.context.router.location.query.sectionId,
+                    selectedType: 'section',
+                    correlativo: response.data.name,
+                    workshopId: 0,
+                    divisionId: 0,
+                    courseId: 0
+                  });
+                }
+              },
+              (error) => {
+                console.log("An Error occur with the Rest API: ", error);
+              });
           break;
         case 'division':
-          this.setState({
-            divisionId: self.context.router.location.query.divisionId,
-            selectedType: 'division'
-          });
+          this.props.actions.divisionGetByIdRequest(self.context.router.location.query.divisionId)
+            .then(
+              (response) => {
+                if (response) {
+                  this.setState({
+                    divisionId: self.context.router.location.query.divisionId,
+                    selectedType: 'division',
+                    correlativo: response.data.name,
+                    workshopId: 0,
+                    section: 0,
+                    courseId: 0
+                  });
+                }
+              },
+              (error) => {
+                console.log("An Error occur with the Rest API: ", error);
+              });
           break;
         case 'course':
-          this.setState({
-            courseId: self.context.router.location.query.courseId,
-            selectedType: 'course'
-          });
+          this.props.actions.courseGetByIdRequest(self.context.router.location.query.courseId)
+            .then(
+              (response) => {
+                if (response) {
+                  this.setState({
+                    courseId: self.context.router.location.query.courseId,
+                    selectedType: 'course',
+                    correlativo: response.data.name,
+                    workshopId: 0,
+                    section: 0,
+                    divisionId: 0
+                  });
+                }
+              },
+              (error) => {
+                console.log("An Error occur with the Rest API: ", error);
+              });
           break;
         default:
           break;
@@ -99,7 +155,6 @@ class GeneralConfiguration extends React.Component {
 
   isValid() {
     //local validation
-    return true;
     const {errors, isValid} = groupValidator(this.state);
     if (!isValid) {
       this.setState({errors});
@@ -114,29 +169,44 @@ class GeneralConfiguration extends React.Component {
       //reset errors object and disable submit button
       this.setState({errors: {}, isLoading: true});
       let data = {
-        courseId: this.state.courseId,
-        divisionId: this.state.divisionId,
         instructor: this.state.instructor,
-        section: this.state.section,
         type: this.state.type,
         typeCategory: this.state.typeCategory,
-        workshopId: this.state.workshopId,
-        correlativo: this.state.correlativo,
         inscriptionsStart: this.state.inscriptionsStart,
         inscriptionsEnd: this.state.inscriptionsEnd,
-        nsJan: this.state.nsJan,
-        nsFeb: this.state.nsFeb,
-        nsMar: this.state.nsMar,
-        nsApr: this.state.nsApr,
-        nsMay: this.state.nsMay,
-        nsJun: this.state.nsJun,
-        nsJul: this.state.nsJul,
-        nsAug: this.state.nsAug,
-        nsSep: this.state.nsSep,
-        nsOct: this.state.nsOct,
-        nsNov: this.state.nsNov,
-        nsDec: this.state.nsDec
+        nsJan: this.state.nsJan || 0,
+        nsFeb: this.state.nsFeb || 0,
+        nsMar: this.state.nsMar || 0,
+        nsApr: this.state.nsApr || 0,
+        nsMay: this.state.nsMay || 0,
+        nsJun: this.state.nsJun || 0,
+        nsJul: this.state.nsJul || 0,
+        nsAug: this.state.nsAug || 0,
+        nsSep: this.state.nsSep || 0,
+        nsOct: this.state.nsOct || 0,
+        nsNov: this.state.nsNov || 0,
+        nsDec: this.state.nsDec || 0,
+        correlativo: this.state.correlativo,
+        section: this.state.section,
+        divisionId: this.state.divisionId,
+        courseId: this.state.courseId
       };
+      switch (self.context.router.location.query.typeCategory) {
+        case 'workshop':
+          data.workshopId = this.state.workshopId;
+          break;
+        case 'section':
+          data.section = this.state.section;
+          break;
+        case 'division':
+          data.divisionId = this.state.divisionId;
+          break;
+        case 'course':
+          data.courseId = this.state.courseId;
+          break;
+        default:
+          break;
+      }
       this.props.handleNext(data);
     }
   }
@@ -145,13 +215,13 @@ class GeneralConfiguration extends React.Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
-  handleChangeStartDate(event, date){
+  handleChangeStartDate(event, date) {
     this.setState({
       inscriptionsStart: date,
     });
   }
 
-  handleChangeEndDate(event, date){
+  handleChangeEndDate(event, date) {
     this.setState({
       inscriptionsEnd: date,
     });
@@ -267,11 +337,11 @@ class GeneralConfiguration extends React.Component {
                       <label htmlFor="typeCategory" className="col-md-3 control-label">Tipo de grupo</label>
                       <div className="col-md-9">
                         <select disabled
-                          name="typeCategory"
-                          id="typeCategory"
-                          onChange={this.onChange}
-                          value={this.state.typeCategory}
-                          className="form-control"
+                                name="typeCategory"
+                                id="typeCategory"
+                                onChange={this.onChange}
+                                value={this.state.typeCategory}
+                                className="form-control"
                         >
                           <option value="" disabled>Selecciona el typeCategory</option>
                           {typeCategories}
@@ -571,7 +641,11 @@ function mapDispatchToProps(dispatch) {
       divisionsGetRequest,
       programInstructorGetRequest,
       sectionsGetRequest,
-      workshopsGetRequest
+      workshopsGetRequest,
+      workshopGetByIdRequest,
+      divisionGetByIdRequest,
+      courseGetByIdRequest,
+      sectionGetByIdRequest
     }, dispatch)
   };
 }

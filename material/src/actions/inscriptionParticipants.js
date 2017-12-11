@@ -131,14 +131,18 @@ export function inscriptionParticipantGetRequest(number, size) {
   }
 }
 
-export function inscriptionParticipantGetRequestById(id) {
+export function inscriptionParticipantGetRequestById(id,number,size) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
         type: PROGRESS_ADD_REQUEST
       });
       // API
-      HTTP('get', '/inscription_participant/'+id,null,{authorization: localStorage.getItem('@fnovella:token')})
+      HTTP('get', '/inscription_participant/'+id,null,{authorization: localStorage.getItem('@fnovella:token')},params)
         .then(function (response) {
           if(response.data.errors === null){
             resolve(response.data);
@@ -157,6 +161,38 @@ export function inscriptionParticipantGetRequestById(id) {
     }})
   }
 }
+
+
+export function getInscriptionParticipantByInscriptionId(id,number,size) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/inscription_participant/by-inscription/'+id,null,{authorization: localStorage.getItem('@fnovella:token')},params)
+        .then(function (response) {
+          if(response.data.errors === null){
+            resolve(response.data);
+          }else{
+            reject(response.data);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}
+
 
 export function inscriptionParticipantAddRequest(data) {
   return function (dispatch) {

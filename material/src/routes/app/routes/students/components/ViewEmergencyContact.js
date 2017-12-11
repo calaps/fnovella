@@ -2,7 +2,7 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import {personal_documents} from '../../../../../constants/data_types';
-import map from "Lodash/map"; //to use map in a object
+import map from "lodash-es/map"; //to use map in a object
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {

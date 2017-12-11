@@ -20,11 +20,12 @@ module.exports = {
         require('./routes/activation'), // Calaps App Students
         require('./routes/category'), // Calaps App Category
         require('./routes/course'), // Calaps App Students
-        require('./routes/group'), // Calaps App Students
-        require('./routes/create_group'), // Calaps App Students
         require('./routes/section'), // Calaps App Students
         require('./routes/visualization'), // Calaps App Visualization
         require('./routes/inscription'), // Calaps App Inscription
+        require('./routes/inscription_approval'), // Calaps App Inscription Approval\
+        require('./routes/inscription_participant'), // Calaps App Inscription Approval\
+        require('./routes/groups'), // Calaps App Inscription Approval\
       ]);
     });
   },

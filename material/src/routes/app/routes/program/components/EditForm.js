@@ -4,7 +4,7 @@ import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import data_types from '../../../../../constants/data_types';
-import map from "Lodash/map"; //to use map in a object
+import map from "lodash-es/map"; //to use map in a object
 import {programValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types

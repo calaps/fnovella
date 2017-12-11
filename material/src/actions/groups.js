@@ -247,3 +247,119 @@ export function groupGetByIdRequest(groupId) {
     })
   }
 }
+
+export function evaluationAddRequest(data) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('post', '/evaluation/', data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationActivityAddRequest(data) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('post', '/evaluation_activity/', data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationRangeAddRequest(data) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('post', '/evaluation_range/', data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function groupGetByEntityIdRequest(entity, id) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/group/by-' + entity +'/'+ + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}

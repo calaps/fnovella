@@ -2,8 +2,8 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import IconButton from 'material-ui/IconButton';
-import map from "Lodash/map"; //to use map in a object
-import {groupValidator} from "../../../../../actions/formValidations"; //form validations
+import map from "lodash-es/map"; //to use map in a object
+import {satisfactionStructureValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import uuid from "uuid";
@@ -12,19 +12,17 @@ import {} from '../../../../../actions';
 
 let self;
 
-class EvaluationStructure extends React.Component {
+class SatisfactionStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
-      assistance: '',
-      percentage: '',
       approvalPercentage: '',
-      evaluationType: 'conocimiento' || '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
       maximumNote: '',
+      minimumNote: '',
+      totalEvaluateCategory: 0,
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
       isLoading: false
@@ -46,8 +44,7 @@ class EvaluationStructure extends React.Component {
 
   isValid() {
     //local validation
-    return true;
-    const {errors, isValid} = groupValidator(this.state);
+    const {errors, isValid} = satisfactionStructureValidator(this.state);
     if (!isValid) {
       this.setState({errors});
       return false;
@@ -61,14 +58,13 @@ class EvaluationStructure extends React.Component {
       //reset errors object and disable submit button
       this.setState({errors: {}, isLoading: true});
       let data = {
-        assistance: this.state.assistance,
-        percentage: this.state.percentage,
         approvalPercentage: this.state.approvalPercentage,
-        evaluationType: this.state.evaluationType,
         evaluateCategory: this.state.evaluateCategory,
+        minimumNote: this.state.minimumNote,
         maximumNote: this.state.maximumNote,
         calculateMultipleSelection: this.state.calculateMultipleSelection,
-
+        totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory,
+        evaluationSubtype: 3,
       };
       this.props.handleNext(data);
     }
@@ -93,7 +89,8 @@ class EvaluationStructure extends React.Component {
     this.setState({
       evaluateCategory: [
         ...this.state.evaluateCategory, obj
-      ]
+      ],
+      totalEvaluateCategory: this.state.totalEvaluateCategory + parseInt(obj.percentage)
     });
   }
 
@@ -101,6 +98,7 @@ class EvaluationStructure extends React.Component {
     for (let i = 0; i < this.state.evaluateCategory.length; i++) {
       if (this.state.evaluateCategory[i].id === cat.id) {
         this.setState({
+          totalEvaluateCategory: this.state.totalEvaluateCategory - parseInt(cat.percentage),
           ...this.state.evaluateCategory.splice(i, 1)
         })
       }
@@ -141,29 +139,6 @@ class EvaluationStructure extends React.Component {
       })
     };
 
-    let togglePercentage = ()=>{
-      if(this.state.assistance === "true"){
-        return(
-          <div className="form-group row">
-            <label htmlFor="correlativo" className="col-md-3 control-label">Percentage</label>
-            <div className="col-md-9">
-              <input
-                type="text"
-                className="form-control"
-                id="percentage"
-                name="percentage"
-                value={this.state.percentage}
-                onChange={this.onChange}
-                placeholder="eje: 1 - 100"/>
-              {errors.percentage && <span className="help-block text-danger">{errors.percentage}</span>}
-            </div>
-          </div>
-        )
-      }else{
-        return null;
-      }
-    };
-
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -175,46 +150,11 @@ class EvaluationStructure extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Assistance required?</label>
-                      <div className="col-md-9">
-                        <select
-                          name="assistance"
-                          id="assistance"
-                          onChange={this.onChange}
-                          value={this.state.assistance}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value={true}>Yes</option>
-                          <option value={false}>No</option>
-                        </select>
-                        {errors.assistance && <span className="help-block text-danger">{errors.assistance}</span>}
-                      </div>
-                    </div>
-                    {togglePercentage()}
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
-                      <div className="col-md-9">
-                        <select
-                          disabled
-                          className="form-control"
-                          id="evaluationType"
-                          name="evaluationType"
-                          value={this.state.evaluationType}
-                          onChange={this.onChange}
-                        >
-                          <option value="conocimiento">Evaluación conocimiento</option>
-                          <option value="continua">Evaluación de continua</option>
-                        </select>
-                        {errors.evaluationType &&
-                        <span className="help-block text-danger">{errors.evaluationType}</span>}
-                      </div>
-                    </div>
-                    <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="approvalPercentage"
                           name="approvalPercentage"
@@ -242,7 +182,8 @@ class EvaluationStructure extends React.Component {
                       </div>
                       <div className="col-md-4">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="evaluateCategoryPercentage"
                           name="evaluateCategoryPercentage"
@@ -260,11 +201,35 @@ class EvaluationStructure extends React.Component {
                       </IconButton>
                     </div>
                     {evaluateCategoryAndPercentageMapping()}
+                    {errors.evaluateCategory &&
+                    <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Maximum note</label>
+                      <label htmlFor="totalEvaluateCategory"
+                             className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                      <div className="col-md-3">{errors.totalEvaluateCategory &&
+                      <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="minimumNote" className="col-md-3 control-label">Minimum note</label>
                       <div className="col-md-9">
                         <input
-                          type="text"
+                          type="number"
+                          min="1" max="100"
+                          className="form-control"
+                          id="minimumNote"
+                          name="minimumNote"
+                          value={this.state.minimumNote}
+                          onChange={this.onChange}
+                          placeholder="eje: 1 - 100"/>
+                        {errors.minimumNote && <span className="help-block text-danger">{errors.minimumNote}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="maximumNote" className="col-md-3 control-label">Maximum note</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          min="1" max="100"
                           className="form-control"
                           id="maximumNote"
                           name="maximumNote"
@@ -317,7 +282,7 @@ class EvaluationStructure extends React.Component {
   }
 }
 
-EvaluationStructure.contextTypes = {
+SatisfactionStructure.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
@@ -336,5 +301,5 @@ function mapDispatchToProps(dispatch) {
 module.exports = connect(
   mapStateToProps,
   mapDispatchToProps
-)(EvaluationStructure);
+)(SatisfactionStructure);
 

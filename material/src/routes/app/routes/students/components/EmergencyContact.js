@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton';
 import {personal_documents, gender} from '../../../../../constants/data_types';
-import map from "Lodash/map"; //to use map in a object
+import map from "lodash-es/map"; //to use map in a object
 import {studentContactValidator} from "../../../../../actions/formValidations"; //form validations
 
 

@@ -11,7 +11,7 @@ import Pagination from '../../../../../components/Pagination'
 /** *
  * Fake element list render....
  * */
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 
 class ListElements extends React.Component {
@@ -53,7 +53,7 @@ class ListElements extends React.Component {
                     {
                       this.props.courses.content ? this.props.courses.content.map((course) => {
                         return <ListItem key={course.id} onDelete={this.onDeleteButton}
-                                         number={i++}
+                                         number={i++} onViewGroup={this.props.onViewGroup}
                                          onEdit={this.props.onEdit}
                                          onCreateGroup={this.props.onCreateGroup}
                                          courseData={course}/>

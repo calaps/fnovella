@@ -7,7 +7,7 @@ import {participantsGetRequestBySearch, participantGetRequest, inscriptionPartic
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
 
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 
 class ListElements extends React.Component {

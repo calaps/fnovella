@@ -173,6 +173,7 @@ export function inscriptionAddRequest(data) {
 }
 
 export function inscriptionUpdateRequest(data) {
+  console.log('dadad');
   return function (dispatch) {
     return new Promise(function(resolve, reject){{
       dispatch({
