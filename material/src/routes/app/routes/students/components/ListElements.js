@@ -116,20 +116,6 @@ class ListElements extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-<<<<<<< HEAD
-                      {
-                        this.props.participants.content ? this.props.participants.content.map((participant) => {
-                          return <ListItem key={participant.id}
-                            number={i++}
-                            onDelete={this.onDeleteButton}
-                            onEdit={this.props.onEdit}
-                            onEmergencyView={this.props.onEmergencyView}
-                            participantData={participant}
-                            permission={this.props.permission} />
-                        }) : null
-
-                      }
-=======
                     {
                       this.props.participants.content?this.props.participants.content.map((participant) => {
                         return <ListItem key={participant.id}
@@ -142,7 +128,6 @@ class ListElements extends React.Component {
                       }):null
 
                     }
->>>>>>> 8c0163b4cf3cbe33fd4ae46c81c9ed1f3b56db35
                     </tbody>
                   </table>
                   <Pagination

@@ -7,13 +7,8 @@ import HorizontalLinearStepper from './HorizontalLinearStepper';
 import ListElements from './ListElements';
 import UpdateForm from './UpdateForm';
 import ViewEmergencyContact from './ViewEmergencyContact';
-<<<<<<< HEAD
-import FileUpload from './File'; //FILE CSV Module integrated
-import { privilegesGetRequest, privilegesGetAllRequest } from '../../../../../actions';
-=======
 import ViewStudentInfo from './ViewStudentInfo';
 import FileUpload from './File';//FILE CSV Module integrated
->>>>>>> 8c0163b4cf3cbe33fd4ae46c81c9ed1f3b56db35
 
 const optionsName = "Participantes";
 
@@ -149,11 +144,7 @@ class Student extends React.Component {
       case 'ADD_ELEMENT':
         return <HorizontalLinearStepper changeView={this.changeView} participantData={this.state.participantData} />;
       case "VIEW_ELEMENT":
-<<<<<<< HEAD
-        return <ListElements onEdit={this.onEditStudent} onEmergencyView={this.onEmergencyView} permission={this.state.permission}/>;
-=======
         return <ListElements onEdit={this.onEditStudent} onView={this.onViewStudent} onEmergencyView={this.onEmergencyView} />;
->>>>>>> 8c0163b4cf3cbe33fd4ae46c81c9ed1f3b56db35
       case "UPDATE_ELEMENT":
         return <UpdateForm participantData={this.state.participantData} changeView={this.changeView} onCancel={this.handleCancel} />;
       case "VIEW_EMERGENCY":
