@@ -12,4 +12,6 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Integer>
     void deleteByGroup(Integer groupId);
 
     List<Evaluation> findByGroup(Integer groupId);
+
+    List<Evaluation> findByGroupAndEvaluationSubtype(Integer groupId, Integer evaluationSubtypeId);
 }
