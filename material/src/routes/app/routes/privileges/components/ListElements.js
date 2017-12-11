@@ -1,6 +1,6 @@
 import React from "react";
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import {
   privilegesGetAllRequest,
   privilegesDeleteRequest
@@ -14,10 +14,15 @@ import ListItem from './ListItem';
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
-    this.onDeleteButton=this.onDeleteButton.bind(this);
+    this.state = {
+      privileges: []
+    };
+    this.onDeleteButton = this.onDeleteButton.bind(this);
   }
   componentWillMount() {
-    this.props.actions.privilegesGetAllRequest();
+    this.props.actions.privilegesGetAllRequest().then(data => {
+      this.setState({ privileges: data.data });
+    });
   }
 
   onDeleteButton(id) {
@@ -26,7 +31,7 @@ class ListElements extends React.Component {
   }
 
   render() {
-  let i= 1;
+    let i = 1;
     return (
       <article className="article">
         <h2 className="article-title">Lista de privilegios</h2>
@@ -38,21 +43,21 @@ class ListElements extends React.Component {
                 <div className="box box-default table-box mdl-shadow--2dp">
                   <table className="mdl-data-table table-striped">
                     <thead>
-                    <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Nombre de privilegio</th>
-                    </tr>
+                      <tr>
+                        <th className="mdl-data-table__cell--non-numeric">#</th>
+                        <th className="mdl-data-table__cell--non-numeric">Nombre de privilegio</th>
+                      </tr>
                     </thead>
                     <tbody>
-                    {
-                      this.props.privileges.map((privilege) => {
-                        return <ListItem key={privilege.id}
-                                         onDelete={this.onDeleteButton}
-                                         onEdit={this.props.onEdit}
-                                         number={i++}
-                                         privilegeData={privilege}/>
-                      })
-                    }
+                      {
+                        this.state.privileges.map((privilege) => {
+                          return <ListItem key={privilege.id}
+                            onDelete={this.onDeleteButton}
+                            onEdit={this.props.onEdit}
+                            number={i++}
+                            privilegeData={privilege} />
+                        })
+                      }
 
                     </tbody>
                   </table>

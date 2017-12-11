@@ -1,7 +1,7 @@
 import React from 'react';
 
 class ListItem extends React.Component {
-  render () {
+  render() {
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
@@ -13,7 +13,7 @@ class ListItem extends React.Component {
 
         <td className="mdl-data-table__cell--non-numeric" >
           <button
-            onClick={()=>{this.props.onEmergencyView(this.props.participantData.id)}}
+            onClick={() => { this.props.onEmergencyView(this.props.participantData.id) }}
 
             type="submit" className="btn btn-primary">Contacto de emergencia</button>
           &nbsp;
@@ -21,7 +21,8 @@ class ListItem extends React.Component {
           <button
             onClick={()=>{this.props.onDelete(this.props.participantData.id)}}
 
-            type="submit" className="btn btn-primary">Eliminar</button>
+              type="submit" className="btn btn-primary">Eliminar</button>
+          }
           &nbsp;
           {/* &nbsp; */}
           <button
