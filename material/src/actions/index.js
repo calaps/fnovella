@@ -48,3 +48,4 @@ export * from './groups';
 export * from './participantAdditionalFields';
 export * from './inscriptions';
 export * from './inscriptionParticipants';
+export * from './evaluations';

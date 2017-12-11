@@ -129,7 +129,7 @@ class Section extends React.Component {
       query: {
         sectionId: sectionId,
         typeCategory: 'section',
-        addNew : 'true'
+        add : 'true'
       }
     })
   }

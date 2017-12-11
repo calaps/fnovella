@@ -129,7 +129,7 @@ class Course extends React.Component {
       query: {
         courseId: courseId,
         typeCategory: 'course',
-        addNew : 'true'
+        add : 'true'
       }
     })
   }

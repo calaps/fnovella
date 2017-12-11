@@ -129,7 +129,7 @@ class Workshop extends React.Component {
       query: {
         workshopId : workshopId,
         typeCategory : 'workshop',
-        addNew : 'true'
+        add : 'true'
       }
     })
   }
