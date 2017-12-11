@@ -16,6 +16,8 @@ class GroupDetails extends React.Component {
       groupInstructorName: '',
       groupData: this.props.groupData
     }
+    this.onRouterInscription= this.onRouterInscription.bind(this);
+    this.selectCategoryId=this.selectCategoryId.bind(this);
   }
 
   componentWillMount() {
@@ -33,7 +35,34 @@ class GroupDetails extends React.Component {
         }
       )
   }
-
+  selectCategoryId(){
+    var {groupData}=this.state;
+    switch(groupData.typeCategory){
+      case "workshop": 
+        return groupData.workshopId;
+      case "division":
+        return groupData.divisionId;
+      case "course":
+        return groupData.courseId;
+      case "section":
+       return groupData.section;
+      default :
+        return null;
+    }
+  }
+onRouterInscription(){
+  var {groupData}=this.state;  
+    this.context.router.push({
+      pathname: '/app/inscription',
+      query: {
+        id : groupData.id,
+        name: groupData.correlativo,
+        typeCategory : groupData.typeCategory,
+        typeCategoryId: this.selectCategoryId(),
+        add:true
+      }
+    });
+}
   render() {
     return (
       <div className="container-fluid no-breadcrumbs page-dashboard">
@@ -62,7 +91,7 @@ class GroupDetails extends React.Component {
 
                   {this.state.privileges.pstudentInscription ?
                     <div className="col-xl-4">
-                      <a href="#/app/inscription?add=true">
+                      <a  onClick={this.onRouterInscription}>
                         <div className="box box-default">
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
@@ -81,7 +110,7 @@ class GroupDetails extends React.Component {
                   }
 
                   <div className="col-xl-4">
-                    <a href="#/app/inscription">
+                    <a href="#/app/inscription" >
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">

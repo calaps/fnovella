@@ -244,6 +244,7 @@ class ListElements extends React.Component {
                           .map((participant) => {
                             return <ListItem
                               key={participant.id}
+                              query={this.props.query}
                               number={i++}
                               onInscribe={this.props.onInscribe}
                               participantData={participant}

@@ -104,7 +104,7 @@ class Inscription extends React.Component {
 
     onInscribeStudent(participantData, participantId) {
         this.setState({participantData, participantId});
-        this.changeView('ADD_ELEMENT', false);
+        // this.changeView('ADD_ELEMENT', false);
     }
     handleCancel() {
         this.changeView('VIEW_INSCRIPTIONS', false);
@@ -117,24 +117,16 @@ class Inscription extends React.Component {
         switch (this.state.active) {
             case "VIEW_INSCRIPTIONS":
                 return <ListElements
+                    query={this.props.location.query}
                     onInscribe={this.onInscribeStudent}
                     onEdit={this.onEdit}
                     showInscriptions={true}/>;
             case "VIEW_ELEMENT":
-                return <ListElements
+                return <HorizontalLinearStepper
+                    query= {this.props.location.query}
                     onInscribe={this.onInscribeStudent}
                     onEdit={this.onEdit}
                     showInscriptions={false}/>;
-            case "ADD_ELEMENT":
-                return <HorizontalLinearStepper 
-                    participantData={this.state.participantData}
-                    changeView={this.changeView}
-                />
-            // case "ADD_ELEMENT":
-            //     return <AdditionalFieldsForm
-            //         participantData={this.state.participantData}
-            //        changeView={this.changeView}
-            //         onCancel={this.handleCancel}/>;
             case "EDIT_VIEW":
                 return <EditForm 
                         inscriptionParticipantId={this.state.inscriptionParticipantId}
@@ -150,8 +142,6 @@ class Inscription extends React.Component {
             <div className="container-fluid no-breadcrumbs page-dashboard">
 
                 <QueueAnim type="bottom" className="ui-animate">
-                    <div key="1"><MainOptions changeView={this.changeView}/></div>
-                    <hr/>
                     <div key="2">{this.activeView()}</div>
                 </QueueAnim>
 
