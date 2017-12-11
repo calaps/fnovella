@@ -14,7 +14,8 @@ import {
   participantContactAddRequest
 } from '../../../../../actions';
 import AdditionalFieldsForm from './additionalFields';
-import SecondForm from './SecondForm';
+import ListElements from './ListElements'
+import PropTypes from "prop-types";
 
 class HorizontalLinearStepper extends React.Component {
   constructor(props){
@@ -26,6 +27,8 @@ class HorizontalLinearStepper extends React.Component {
     };
     this.handleCancel=this.handleCancel.bind(this);
     this.handleNext=this.handleNext.bind(this);
+    this.onInscribeStudent = this.onInscribeStudent.bind(this);
+    this.routeToInscription = this.routeToInscription.bind(this);
   }
 
   handlePrev = () => {
@@ -34,20 +37,31 @@ class HorizontalLinearStepper extends React.Component {
       this.setState({stepIndex: stepIndex - 1});
     }
   };
-
+  onInscribeStudent(participantData, participantId) {
+    this.setState({participantData, participantId});
+    this.props.onInscribe(participantData, participantId);
+    this.handleNext();
+  }
+  routeToInscription(){
+    this.context.router.push({
+      pathname: '/app/groups'
+    });
+  }
   getStepContent(stepIndex) {
     switch (stepIndex) {
       case 0:
-        return <AdditionalFieldsForm
-          participantData={this.props.participantData}
-          handleCancel={this.handleCancel}
-          handleNext={this.handleNext}
+        return <ListElements
+        query= {this.props.query}
+        onInscribe={this.onInscribeStudent}
+        onEdit={this.onEdit}
+        showInscriptions={false}
         />;
       case 1:
-        return <SecondForm 
-        participantData={this.props.participantData}
-        inscription={this.state.data}
-        handleNext={this.handleNext}
+      return <AdditionalFieldsForm
+          query={this.props.query}
+          participantData={this.state.participantData}
+          handleCancel={this.handleCancel}
+          handleNext={this.handleNext}
         />;
         case 2:
         return "Inscription Completed!";
@@ -140,7 +154,7 @@ class HorizontalLinearStepper extends React.Component {
                             <RaisedButton
                               label='Crear'
                               primary
-                              onTouchTap={()=>this.props.changeView('VIEW_ELEMENT')}
+                              onTouchTap={this.routeToInscription}
                             />
                           </div>
                           : null
@@ -158,6 +172,9 @@ class HorizontalLinearStepper extends React.Component {
     );
   }
 }
+HorizontalLinearStepper.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 /* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
@@ -168,15 +185,6 @@ function mapDispatchToProps(dispatch) {
     }, dispatch)
   };
 }
-
-
-// function mapStateToProps(state) {
-//   return {
-//     programAdditionalFields: state.programAdditionalFields,
-//     programs: state.programs, 
-//     catalogs: state.catalogs, 
-//     groups: state.groups};
-// }
 
 export default connect(
   null,
