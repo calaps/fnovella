@@ -15,7 +15,7 @@ class SidebarContent extends React.Component {
     }
   };
   componentWillMount() {
-    console.log("running component will mount");
+    // console.log("running component will mount");
 
     // API action
     this
@@ -109,7 +109,7 @@ class SidebarContent extends React.Component {
 
   render() {
 
-    console.log('permission========', this.state.permission.pcatalogsEntry);
+    // console.log('permission========', this.state.permission.pcatalogsEntry);
     return (
       <ul className="nav" ref={(c) => { this.nav = c; }}>
         <li className="nav-header"><span>Menu de Programa: </span></li>

@@ -129,7 +129,7 @@ class Division extends React.Component {
       query: {
         divisionId : divisionId,
         typeCategory : 'division',
-        addNew : 'true'
+        add : 'true'
       }
     })
   }

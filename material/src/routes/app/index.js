@@ -26,6 +26,7 @@ module.exports = {
         require('./routes/inscription_approval'), // Calaps App Inscription Approval\
         require('./routes/inscription_participant'), // Calaps App Inscription Approval\
         require('./routes/groups'), // Calaps App Inscription Approval\
+        require('./routes/evaluation'), // Calaps App Inscription Approval\
       ]);
     });
   },

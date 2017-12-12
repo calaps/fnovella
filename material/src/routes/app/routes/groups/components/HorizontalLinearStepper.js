@@ -489,7 +489,7 @@ class HorizontalLinearStepper extends React.Component {
           console.log("An Error occur with the Rest API: ", error);
         });
     //to go to typeCategory
-    this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
+    // this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
   }
 
   render() {

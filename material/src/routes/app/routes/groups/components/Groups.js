@@ -25,7 +25,7 @@ class Groups extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.location.query.addNew === 'true') {
+    if (this.props.location.query.add === 'true') {
       this.changeView('ADD_ELEMENT', false);
     }
     else if(this.props.location.query.view === 'true'){

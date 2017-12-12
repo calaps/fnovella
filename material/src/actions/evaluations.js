@@ -1,30 +1,100 @@
 import {HTTP} from './../utils/HTTP';
-
 import {
-  GROUPS_ADD_REQUEST,
-  GROUPS_ADD_SUCCESS,
-  GROUPS_ADD_FAIL,
-  GROUPS_DELETE_FAIL,
-  GROUPS_DELETE_REQUEST,
-  GROUPS_DELETE_SUCCESS,
-  GROUPS_GET_FAIL,
-  GROUPS_GET_REQUEST,
-  GROUPS_GET_SUCCESS,
-  GROUPS_UPDATE_FAIL,
-  GROUPS_UPDATE_REQUEST,
-  GROUPS_UPDATE_SUCCESS,
-  PROGRESS_ADD_REQUEST,
-  PROGRESS_REMOVE_REQUEST,
-  SNACKBAR_REMOVE,
-  SNACKBAR_SHOW
-} from './../constants/ActionTypes';
-import snackBarMessages from '../constants/SnackBarMessages';
+  GROUPS_GET_FAIL, GROUPS_GET_SUCCESS, PROGRESS_ADD_REQUEST,
+  PROGRESS_REMOVE_REQUEST
+} from "../constants/ActionTypes";
 
-export function groupsGetRequest(number, size) {
+export function evaluationAddRequest(data) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('post', '/evaluation/', data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationActivityAddRequest(data) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('post', '/evaluation_activity/', data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationRangeAddRequest(data) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('post', '/evaluation_range/', data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationGetRequest() {
   let params = {};
-  params.page = number;
-  params.size = size;
-  params.type = 2;
+  params.page = 0;
+  params.size = 10000;
 
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
@@ -33,13 +103,9 @@ export function groupsGetRequest(number, size) {
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('get', '/group/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
+        HTTP('get', '/evaluation/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
             if (response.data.errors === null) {
-              dispatch({
-                type: GROUPS_GET_SUCCESS,
-                data: response.data.data
-              });
               // console.log(response.data.data);
               resolve(response.data);
             } else {
@@ -47,10 +113,6 @@ export function groupsGetRequest(number, size) {
             }
           })
           .catch(error => {
-            dispatch({
-              type: GROUPS_GET_FAIL,
-              error: error
-            });
             reject(error);
           })
           .finally(() => {
@@ -63,7 +125,8 @@ export function groupsGetRequest(number, size) {
   }
 }
 
-export function groupsAddRequest(data) {
+export function evaluationSubtypeGetRequest() {
+
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
@@ -71,165 +134,10 @@ export function groupsAddRequest(data) {
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('post', '/group/', data, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('get', '/evaluation_subtype/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
             if (response.data.errors === null) {
-              dispatch({
-                type: GROUPS_ADD_SUCCESS,
-                data: response.data.data
-              });
-              dispatch({
-                type: SNACKBAR_SHOW,
-                data: {
-                  message: snackBarMessages.ENTITY_ADDED
-                }
-              });
-              resolve(response.data);
-            } else {
-              dispatch({
-                type: SNACKBAR_SHOW,
-                data: {
-                  message: "Error: " + response.data.errors.join(', ')
-                }
-              });
-              reject(response.data);
-            }
-          })
-          .catch(error => {
-            dispatch({
-              type: SNACKBAR_SHOW,
-              data: {
-                message: snackBarMessages.ERROR
-              }
-            });
-            reject(error);
-          })
-          .finally(() => {
-            dispatch({
-              type: PROGRESS_REMOVE_REQUEST
-            });
-          })
-      }
-    })
-  }
-}
-
-export function groupsUpdateRequest(data) {
-  return function (dispatch) {
-    return new Promise(function (resolve, reject) {
-      {
-        dispatch({
-          type: PROGRESS_ADD_REQUEST
-        });
-        // API
-        HTTP('patch', '/group/' + data.id, data, {authorization: localStorage.getItem('@fnovella:token')})
-          .then(function (response) {
-            if (response.data.errors === null) {
-              dispatch({
-                type: GROUPS_UPDATE_SUCCESS,
-                data: response.data.data
-              });
-              dispatch({
-                type: SNACKBAR_SHOW,
-                data: {
-                  message: snackBarMessages.ENTITY_UPDATED
-                }
-              });
-              resolve(response.data);
-            } else {
-              dispatch({
-                type: SNACKBAR_SHOW,
-                data: {
-                  message: "Error: " + response.data.errors.join(', ')
-                }
-              });
-              reject(response.data);
-            }
-
-          })
-          .catch(error => {
-            dispatch({
-              type: SNACKBAR_SHOW,
-              data: {
-                message: snackBarMessages.ERROR
-              }
-            });
-            reject(error);
-          })
-          .finally(() => {
-            dispatch({
-              type: PROGRESS_REMOVE_REQUEST
-            });
-          })
-      }
-    })
-  }
-}
-
-export function groupsDeleteRequest(id) {
-  return function (dispatch) {
-    return new Promise(function (resolve, reject) {
-      {
-        dispatch({
-          type: PROGRESS_ADD_REQUEST
-        });
-        // API
-        HTTP('delete', '/group/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
-          .then(function (response) {
-            if (response.data.errors === null) {
-              dispatch({
-                type: GROUPS_DELETE_SUCCESS,
-                data: {
-                  id
-                }
-              });
-              dispatch({
-                type: SNACKBAR_SHOW,
-                data: {
-                  message: snackBarMessages.ENTITY_DELETED
-                }
-              });
-              resolve(response.data);
-            } else {
-              dispatch({
-                type: SNACKBAR_SHOW,
-                data: {
-                  message: "Error: " + response.data.errors.join(', ')
-                }
-              });
-              reject(response.data);
-            }
-          })
-          .catch(error => {
-            dispatch({
-              type: SNACKBAR_SHOW,
-              data: {
-                message: snackBarMessages.ERROR
-              }
-            });
-            reject(error);
-          })
-          .finally(() => {
-            dispatch({
-              type: PROGRESS_REMOVE_REQUEST
-            });
-          })
-      }
-    })
-  }
-}
-
-export function groupGetByIdRequest(groupId) {
-  return function (dispatch) {
-    return new Promise(function (resolve, reject) {
-      {
-        dispatch({
-          type: PROGRESS_ADD_REQUEST
-        });
-        // API
-        HTTP('get', '/group/' + groupId, null, {authorization: localStorage.getItem('@fnovella:token')})
-          .then(function (response) {
-            if (response.data.errors === null) {
+              // console.log(response.data.data);
               resolve(response.data);
             } else {
               reject(response.data);
@@ -248,7 +156,8 @@ export function groupGetByIdRequest(groupId) {
   }
 }
 
-export function groupGetByEntityIdRequest(entity, id) {
+export function evaluationGetByGroupIdAndEvaluationSubtype(groupId, evaluationSubtypeId) {
+
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
       {
@@ -256,9 +165,103 @@ export function groupGetByEntityIdRequest(entity, id) {
           type: PROGRESS_ADD_REQUEST
         });
         // API
-        HTTP('get', '/group/by-' + entity +'/'+ + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+        HTTP('get', '/evaluation/by-group-and-evaluation-subtype/'+groupId+'/'+evaluationSubtypeId, null, {authorization: localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if (response.data.errors === null) {
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationGetByIdRequest(id) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/evaluation/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationSubtypeGetByIdRequest(id) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/evaluation_subtype/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationTypeById(id) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/evaluation_type/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              // console.log(response.data.data);
               resolve(response.data);
             } else {
               reject(response.data);

@@ -29,7 +29,7 @@ class AdditionalFieldsForm extends React.Component {
             calatog: '',
             group: this.props.query.name,
             groupId: this.props.query.id,
-            period: '',
+            period: 1,
             program: '',
             year: new Date().getFullYear(),
             isLoading: false,
@@ -74,8 +74,8 @@ class AdditionalFieldsForm extends React.Component {
             }
         })
     }
-    selectCategory(){
 
+    selectCategory(){
         var typeCategory=this.props.query.typeCategory;
         switch(typeCategory){
           case "workshop":
@@ -95,6 +95,7 @@ class AdditionalFieldsForm extends React.Component {
                     });
                 }
             });
+            break;
           case "division":
             this.props.actions.divisionGetByIdRequest(this.props.query.typeCategoryId)
             .then((res)=>{
@@ -111,6 +112,7 @@ class AdditionalFieldsForm extends React.Component {
                     });
                 }
             });
+            break;
           case "course":
             this.props.actions.courseGetByIdRequest(this.props.query.typeCategoryId)
             .then((res)=>{
@@ -127,6 +129,7 @@ class AdditionalFieldsForm extends React.Component {
                     });
                 }
             });
+            break;
           case "section":
             this.props.actions.sectionGetByIdRequest(this.props.query.typeCategoryId)
             .then((res)=>{
@@ -148,6 +151,7 @@ class AdditionalFieldsForm extends React.Component {
                     });
                 }
             });
+            break;
           default :
             return null;
         }
@@ -380,6 +384,7 @@ class AdditionalFieldsForm extends React.Component {
                                                     className="form-control"
                                                     id="period"
                                                     name="period"
+                                                    disabled={true}
                                                     onChange={this.onChange}
                                                     value={this.state.period}
                                                     placeholder="Enter Perid"/> {errors.calatog && <span className="help-block text-danger">{errors.calatog}</span>}
