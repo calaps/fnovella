@@ -19,13 +19,24 @@ public class Evaluation {
 	private Date dateStart;
 	private Date dateEnd;
 	private Integer range;
-	
+	private Integer approvalPercentage;
+
+
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public Integer getApprovalPercentage() {
+		return approvalPercentage;
+	}
+
+	public void setApprovalPercentage(Integer approvalPercentage) {
+		this.approvalPercentage = approvalPercentage;
+	}
+
 	public Integer getGroup() {
 		return group;
 	}
@@ -72,8 +83,9 @@ public class Evaluation {
 		super();
 	}
 	public Evaluation(Integer group, Integer session, Integer evaluationType, Integer evaluationSubtype, Date dateStart,
-			Date dateEnd, Integer range) {
+			Date dateEnd, Integer range, Integer approvalPercentage) {
 		super();
+		this.approvalPercentage = approvalPercentage;
 		this.group = group;
 		this.session = session;
 		this.evaluationType = evaluationType;
@@ -91,6 +103,7 @@ public class Evaluation {
 		if (this.range == null || this.range < 0) errors.add("Range is required");
 		if (this.dateStart == null) errors.add("Date Start is required");
 		if (this.dateEnd == null) errors.add("Date End is required");
+		if (this.approvalPercentage == null) errors.add("Approval Percentage is required");
 		return errors;
 	}
 	public void setUpdateFields(Evaluation evaluation) {
@@ -99,6 +112,7 @@ public class Evaluation {
 		if (evaluation.evaluationType != null && evaluation.evaluationType > 0) this.evaluationType = evaluation.evaluationType;
 		if (evaluation.evaluationSubtype != null && evaluation.evaluationSubtype > 0) this.evaluationSubtype = evaluation.evaluationSubtype;
 		if (evaluation.range != null && evaluation.range > 0) this.range = evaluation.range;
+		if (evaluation.approvalPercentage != null && evaluation.approvalPercentage > 0) this.approvalPercentage = evaluation.approvalPercentage;
 		if (evaluation.dateStart != null) this.dateStart = evaluation.dateStart;
 		if (evaluation.dateEnd != null) this.dateEnd = evaluation.dateEnd;
 	}

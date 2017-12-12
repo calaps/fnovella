@@ -9,14 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository("inscriptionsInstCourseRepository")
+@Repository
 public interface InscriptionsInstCourseRepository extends JpaRepository<InscriptionsInstCourse, Integer> {
 	List<InscriptionsInstCourse> findByInstructorId(Integer instructorId);
 	List<InscriptionsInstCourse> findByCourseId(Integer courseId);
 	@Transactional
-	@Query("delete from InscriptionsInstCourse where instructorId = ?1")
 	void deleteByInstructorId(Integer instructorId);
 	@Transactional
-	@Query("delete from InscriptionsInstCourse where courseId = ?1")
 	void deleteByCourseId(Integer courseId);
 }

@@ -16,9 +16,8 @@ import org.springframework.stereotype.Repository;
 public interface DivisionRepository extends JpaRepository<Division, Integer> {
 	
 	List<Division> findByPrograma(Integer programId);
-	@Modifying
-    @Transactional
-    @Query("delete from Division where programa = ?1")
+
+	@Transactional
 	void deleteByPrograma(Integer idProgram);
 
     Page<Division> findByLocation(Integer location, Pageable pageable);

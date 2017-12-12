@@ -1,36 +1,27 @@
 package org.fnovella.project.program.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.fnovella.project.catalog_relation.repository.CatalogRelationRepository;
 import org.fnovella.project.category.repository.CategoryRepository;
-import org.fnovella.project.location.repository.LocationRepository;
-import org.fnovella.project.program_aditional_fields.model.ProgramAditionalFields;
 import org.fnovella.project.course.repository.CourseRepository;
 import org.fnovella.project.division.repository.DivisionRepository;
 import org.fnovella.project.grade.repository.GradeRepository;
-import org.fnovella.project.program_location.model.ProgramLocation;
+import org.fnovella.project.location.repository.LocationRepository;
 import org.fnovella.project.program.model.Program;
 import org.fnovella.project.program.model.ProgramLocationCategory;
 import org.fnovella.project.program.repository.ProgramRepository;
-import org.fnovella.project.program_activation.repository.ProgramActivationRepository;
+import org.fnovella.project.program.service.ProgramService;
+import org.fnovella.project.program_aditional_fields.model.ProgramAditionalFields;
 import org.fnovella.project.program_aditional_fields.repository.ProgramAditionalFieldsRepository;
-import org.fnovella.project.program_app_user.repository.ProgramAppUserRepository;
-import org.fnovella.project.program_instructor.repository.ProgramInstructorRepository;
+import org.fnovella.project.program_location.model.ProgramLocation;
 import org.fnovella.project.program_location.repository.ProgramLocationRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.fnovella.project.workshop.repository.WorkshopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/program/")
@@ -39,21 +30,13 @@ public class ProgramController {
 	@Autowired
 	private ProgramRepository programRepository;
 	@Autowired
-	private CatalogRelationRepository catalogRelationRepository;
-	@Autowired
 	private CourseRepository courseRepository;
 	@Autowired
 	private DivisionRepository divisionRepository;
 	@Autowired
 	private GradeRepository gradeRepository;
 	@Autowired
-	private ProgramActivationRepository programActivationRepository;
-	@Autowired
 	private ProgramAditionalFieldsRepository programAditionalFieldsRepository;
-	@Autowired
-	private ProgramAppUserRepository programAppUserRepository;
-	@Autowired
-	private ProgramInstructorRepository programInstructorRepository;
 	@Autowired
 	private ProgramLocationRepository programLocationRepository;
 	@Autowired
@@ -62,7 +45,9 @@ public class ProgramController {
 	private LocationRepository locationRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+	@Autowired
+	private ProgramService programService;
+
 	@RequestMapping(value = "", method=RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, @RequestParam("type") int type, 
 			Pageable pageable) {
@@ -172,134 +157,24 @@ public class ProgramController {
         }
 	}
 
-	@RequestMapping(value = "{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public APIResponse delete(@PathVariable("id") Integer id, @RequestHeader("authorization") String authorization) {
-		List<String> errors = new ArrayList<>();
-		this.delete(id, true, errors);
-		this.programRepository.delete(id);
-		return new APIResponse(true, errors.isEmpty() ? null : errors);
+		Program program = this.programRepository.findOne(id);
+		if (program != null) {
+			programService.delete(id);
+		} else {
+			List<String> errors = new ArrayList<>();
+			errors.add("Program with id : " + id + " not exist!");
+			return new APIResponse(null, errors);
+		}
+		return new APIResponse(programRepository.findOne(id) == null, null);
 	}
 	
 	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
 	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
-		return new APIResponse(this.delete(id, false, null), null);
+		Program program = this.programRepository.findOne(id);
+		return new APIResponse(program == null, null);
 	}
-	
-	private boolean delete(Integer programId, boolean delete, List<String> errors) {
-		boolean toDelete = true;
-		List<?> list = this.catalogRelationRepository.findByIdProgram(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.catalogRelationRepository.deleteByIdProgram(programId);
-				}catch (Exception ex){
-					errors.add("Cannot delete Catalog Relation : "+ex);
-				}
-			}
-		}
-		list = this.courseRepository.findByProgramId(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.courseRepository.deleteByProgramId(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Course: "+ex);
-				}
-			}
-		}
-		list = this.divisionRepository.findByPrograma(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.divisionRepository.deleteByPrograma(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Division: "+ex);
-				}
-			}
-		}
-		list = this.gradeRepository.findByProgramId(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.gradeRepository.deleteByProgramId(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Grade: "+ex);
-				}
-			}
-		}
-		list = this.programActivationRepository.findByProgramId(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.programActivationRepository.deleteByProgramId(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Program Activation Grade: "+ex);
-				}
-			}
-		}
-		list = this.programAditionalFieldsRepository.findByProgram(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.programAditionalFieldsRepository.deleteByProgram(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Adional Program Fields: "+ex);
-				}
-			}
-		}
-		list = this.programAppUserRepository.findByProgram(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.programAppUserRepository.deleteByProgram(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Program App User: "+ex);
-				}
-			}
-		}
-		list = this.programInstructorRepository.findByProgram(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.programInstructorRepository.deleteByProgram(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Program Instructor: "+ex);
-				}
-			}
-		}
-		list = this.programLocationRepository.findByProgram(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.programLocationRepository.deleteByProgram(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Program Location: "+ex);
-				}
-			}
-		}
-		
-		list = this.workshopRepository.findByProgramId(programId);
-		if (!list.isEmpty()) {
-			toDelete = false;
-			if (delete) {
-				try {
-					this.workshopRepository.deleteByProgramId(programId);
-				} catch (Exception ex) {
-					errors.add("Cannot delete Workshop: "+ex);
-				}
-			}
-		}
-		
-		return toDelete;
-	}
+
 	
 }
