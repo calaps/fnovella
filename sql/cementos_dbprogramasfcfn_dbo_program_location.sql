@@ -1,6 +1,3 @@
-INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (19, 24);
-INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (19, 25);
-INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (19, 26);
 INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (42, 27);
 INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (42, 28);
 INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (42, 29);
@@ -13,5 +10,10 @@ INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VA
 INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (60, 39);
 INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (60, 40);
 INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (60, 41);
-INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (6, 16);
-INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (6, 15);
+INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (67, 27);
+INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (67, 26);
+INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (67, 24);
+INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (67, 25);
+INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (19, 24);
+INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (19, 25);
+INSERT INTO cementos_dbprogramasfcfn.dbo.program_location (program, location) VALUES (19, 26);
