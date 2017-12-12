@@ -10,16 +10,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository("programActivationRepository")
+@Repository
 public interface ProgramActivationRepository extends JpaRepository<ProgramActivation, Integer> {
-	List<ProgramActivation> findByProgramId(Integer programId);
-	@Modifying
-    @Transactional
-    @Query("delete from ProgramActivation where programId = ?1")
+
 	void deleteByProgramId(Integer programId);
-	
-	@Modifying
-    @Transactional
-    @Query("delete from ProgramActivation where location = ?1")
+	@Transactional
 	void deleteByLocation(Integer location);
 }
