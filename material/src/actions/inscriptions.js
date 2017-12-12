@@ -20,7 +20,7 @@ import {
 } from './../constants/ActionTypes';
 import snackBarMessages from '../constants/SnackBarMessages';
 
-export function inscriptionsGetRequestByGroup(group) {
+export function inscriptionGetByGroupId(group) {
   return function (dispatch) {
       return new Promise(async function(resolve, reject){{
         dispatch({
@@ -30,10 +30,6 @@ export function inscriptionsGetRequestByGroup(group) {
         HTTP('get', '/inscription/by-group/'+group, null, {authorization:localStorage.getItem('@fnovella:token')})
           .then(function (response) {
             if(response.data.errors === null){
-               dispatch({
-                type: INSCRIPTION_GET_SUCCESS,
-                data: response.data.data
-              });
               resolve(response.data);
             }
             else{
@@ -41,10 +37,6 @@ export function inscriptionsGetRequestByGroup(group) {
             }
           })
           .catch(error => {
-            dispatch({
-              type: INSCRIPTION_GET_FAIL,
-              error: error
-            });
             reject(error);
           })
           .finally(()=>{
