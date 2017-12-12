@@ -11,7 +11,10 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   participantAddRequest,
-  participantContactAddRequest
+  participantContactAddRequest,
+  groupGetByIdRequest,
+  snackBarShow
+
 } from '../../../../../actions';
 import AdditionalFieldsForm from './additionalFields';
 import ListElements from './ListElements'
@@ -24,12 +27,23 @@ class HorizontalLinearStepper extends React.Component {
       finished: false,
       stepIndex: 0,
       data: {},
+      group: ''
     };
     this.handleCancel=this.handleCancel.bind(this);
     this.handleNext=this.handleNext.bind(this);
     this.onInscribeStudent = this.onInscribeStudent.bind(this);
     this.routeToInscription = this.routeToInscription.bind(this);
   }
+  componentWillMount(){
+    if(this.props.query.id){
+    this.props.actions.groupGetByIdRequest(this.props.query.id)
+    .then((res)=>{
+      this.setState({group:res.data});
+    })
+  }else {
+    return null;
+  }
+}
 
   handlePrev = () => {
     const {stepIndex} = this.state;
@@ -39,8 +53,15 @@ class HorizontalLinearStepper extends React.Component {
   };
   onInscribeStudent(participantData, participantId) {
     this.setState({participantData, participantId});
-    this.props.onInscribe(participantData, participantId);
-    this.handleNext();
+    var currentDate = new Date();
+    var {group} = this.state;
+    currentDate = Math.round(new Date(currentDate).getTime()/1000);
+    if(currentDate > group.inscriptionsStart && currentDate < group.inscriptionsEnd ){
+      this.props.onInscribe(participantData, participantId);
+      this.handleNext();
+    }else{
+      this.props.actions.snackBarShow('The current group is invalid to inscribe!');
+    }
   }
   routeToInscription(){
     this.context.router.push({
@@ -181,7 +202,9 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       participantAddRequest,
-      participantContactAddRequest
+      participantContactAddRequest,
+      groupGetByIdRequest,
+      snackBarShow
     }, dispatch)
   };
 }
