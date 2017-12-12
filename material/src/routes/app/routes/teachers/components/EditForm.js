@@ -5,11 +5,11 @@ import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import map from "lodash-es/map"; //to use map in a object
-import {personal_documents, gender, countries} from '../../../../../constants/data_types';
-import {tutorValidator} from "../../../../../actions/formValidations"; //form validations
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {convertDateToHTMLInputDateValue} from '../../../../../utils/helpers';
+import { personal_documents, gender, countries } from '../../../../../constants/data_types';
+import { tutorValidator } from "../../../../../actions/formValidations"; //form validations
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { convertDateToHTMLInputDateValue } from '../../../../../utils/helpers';
 import {
   educatorsAddRequest,
   educatorsUpdateRequest,
@@ -33,7 +33,7 @@ class EditForm extends React.Component {
       secondName: this.props.teacherData.secondName || '',
       firstLastname: this.props.teacherData.firstLastname || '',
       secondLastname: this.props.teacherData.secondLastname || '',
-      bornDate: (this.props.teacherData.bornDate)? new Date(this.props.teacherData.bornDate)
+      bornDate: (this.props.teacherData.bornDate) ? new Date(this.props.teacherData.bornDate)
         : new Date(),
       documentType: this.props.teacherData.documentType || '',
       documentValue: this.props.teacherData.documentValue || '',
@@ -54,7 +54,8 @@ class EditForm extends React.Component {
       privilege: this.props.teacherData.privilege || 2, // default is 2 for instructor
       programIds: [],
       errors: {},
-      isLoading: false
+      isLoading: false,
+      privileges: []
     };
     this.onSubmit = this
       .onSubmit
@@ -105,9 +106,9 @@ class EditForm extends React.Component {
 
   isValid() {
     //local validation
-    const {errors, isValid} = tutorValidator(this.state);
+    const { errors, isValid } = tutorValidator(this.state);
     if (!isValid) {
-      this.setState({errors});
+      this.setState({ errors });
       return false;
     }
     return true;
@@ -117,7 +118,7 @@ class EditForm extends React.Component {
     e.preventDefault();
     if (this.isValid()) {
       //reset errros object and disable submit button
-      this.setState({errors: {}, isLoading: true});
+      this.setState({ errors: {}, isLoading: true });
       let data = {
         instructor: {
           firstName: this.state.firstName,
@@ -225,14 +226,16 @@ class EditForm extends React.Component {
                 programIds.push(programInstructors[i].program)
               }
             }
-            this.setState({programIds: programIds})
+            this.setState({ programIds: programIds })
           }
         })
     }
     this
       .props
       .actions
-      .privilegesGetAllRequest();
+      .privilegesGetAllRequest().then(data => {
+        this.setState({ privileges: data.data });
+      });
   }
 
   handleCancel() {
@@ -242,22 +245,22 @@ class EditForm extends React.Component {
   }
 
   onChange(e, value) {
-    if(!e){
+    if (!e) {
       // its a date field according datepicker component
-      this.setState({ bornDate: new Date(value)});
+      this.setState({ bornDate: new Date(value) });
     }
-    else{
-      this.setState({[e.target.name]: e.target.value});
+    else {
+      this.setState({ [e.target.name]: e.target.value });
     }
   }
 
   handleProgramChange(event, index, values) {
-    this.setState({programIds: values});
+    this.setState({ programIds: values });
   }
 
   render() {
 
-    const {errors} = this.state;
+    const { errors } = this.state;
     // Document identification types
     const documentType = map(personal_documents, (val, key) => <option key={val} value={val}>{key}</option>
     );
@@ -303,16 +306,16 @@ class EditForm extends React.Component {
           key={program.id}
           insetChildren={true}
           checked={this
-          .state
-          .programIds
-          .indexOf(program) > -1}
+            .state
+            .programIds
+            .indexOf(program) > -1}
           value={program.id}
-          primaryText={program.name}/>);
+          primaryText={program.name} />);
       })
     };
     //Privilege options
     let privilegesOpt = () => {
-      let privileges = this.props.privileges || [];
+      let privileges = this.state.privileges || [];
       return privileges.map((privilege) => {
         return <option key={privilege.id} value={privilege.id}>{privilege.privilegeName}</option>
       });
@@ -339,7 +342,7 @@ class EditForm extends React.Component {
                           name="firstName"
                           value={this.state.firstName}
                           onChange={this.onChange}
-                          placeholder="eje: Diego"/> {errors.firstName && <span className="help-block text-danger">{errors.firstName}</span>}
+                          placeholder="eje: Diego" /> {errors.firstName && <span className="help-block text-danger">{errors.firstName}</span>}
                       </div>
                     </div>
 
@@ -353,7 +356,7 @@ class EditForm extends React.Component {
                           name="secondName"
                           value={this.state.secondName}
                           onChange={this.onChange}
-                          placeholder="eje: Arturo"/> {errors.secondName && <span className="help-block text-danger">{errors.secondName}</span>}
+                          placeholder="eje: Arturo" /> {errors.secondName && <span className="help-block text-danger">{errors.secondName}</span>}
                       </div>
                     </div>
 
@@ -367,7 +370,7 @@ class EditForm extends React.Component {
                           name="firstLastname"
                           value={this.state.firstLastname}
                           onChange={this.onChange}
-                          placeholder="eje: Perez"/> {errors.firstLastname && <span className="help-block text-danger">{errors.firstLastname}</span>}
+                          placeholder="eje: Perez" /> {errors.firstLastname && <span className="help-block text-danger">{errors.firstLastname}</span>}
                       </div>
                     </div>
 
@@ -381,7 +384,7 @@ class EditForm extends React.Component {
                           name="secondLastname"
                           value={this.state.secondLastname}
                           onChange={this.onChange}
-                          placeholder="eje: Durán"/> {errors.secondLastname && <span className="help-block text-danger">{errors.secondLastname}</span>}
+                          placeholder="eje: Durán" /> {errors.secondLastname && <span className="help-block text-danger">{errors.secondLastname}</span>}
                       </div>
                     </div>
 
@@ -395,7 +398,7 @@ class EditForm extends React.Component {
                           name="email"
                           value={this.state.email}
                           onChange={this.onChange}
-                          placeholder="eje: juan@gmail.com"/> {errors.email && <span className="help-block text-danger">{errors.email}</span>}
+                          placeholder="eje: juan@gmail.com" /> {errors.email && <span className="help-block text-danger">{errors.email}</span>}
                       </div>
                     </div>
 
@@ -410,7 +413,7 @@ class EditForm extends React.Component {
                           name="password"
                           value={this.state.password}
                           onChange={this.onChange}
-                          placeholder="****"/> {errors.password && <span className="help-block text-danger">{errors.password}</span>}
+                          placeholder="****" /> {errors.password && <span className="help-block text-danger">{errors.password}</span>}
                       </div>
                     </div>
 
@@ -418,12 +421,12 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
                       <div className="col-md-9">
                         {/*<input*/}
-                          {/*type="date"*/}
-                          {/*className="form-control"*/}
-                          {/*id="bornDate"*/}
-                          {/*name="bornDate"*/}
-                          {/*value={this.state.bornDate}*/}
-                          {/*onChange={this.onChange}*/}
+                        {/*type="date"*/}
+                        {/*className="form-control"*/}
+                        {/*id="bornDate"*/}
+                        {/*name="bornDate"*/}
+                        {/*value={this.state.bornDate}*/}
+                        {/*onChange={this.onChange}*/}
                         {/*placeholder="eje: Durán"/>*/}
 
                         <DatePicker
@@ -432,7 +435,7 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                         />
 
-                          {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
+                        {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
                       </div>
                     </div>
 
@@ -461,7 +464,7 @@ class EditForm extends React.Component {
                           name="documentValue"
                           value={this.state.documentValue}
                           onChange={this.onChange}
-                          placeholder="eje: 999499812"/> {errors.documentValue && <span className="help-block text-danger">{errors.documentValue}</span>}
+                          placeholder="eje: 999499812" /> {errors.documentValue && <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
                     </div>
 
@@ -524,7 +527,7 @@ class EditForm extends React.Component {
                           name="colony"
                           value={this.state.colony}
                           onChange={this.onChange}
-                          placeholder="eje: colony"/> {errors.colony && <span className="help-block text-danger">{errors.colony}</span>}
+                          placeholder="eje: colony" /> {errors.colony && <span className="help-block text-danger">{errors.colony}</span>}
                       </div>
                     </div>
 
@@ -539,7 +542,7 @@ class EditForm extends React.Component {
                           name="zone"
                           value={this.state.zone}
                           onChange={this.onChange}
-                          placeholder="eje: Margarita"/> {errors.zone && <span className="help-block text-danger">{errors.zone}</span>}
+                          placeholder="eje: Margarita" /> {errors.zone && <span className="help-block text-danger">{errors.zone}</span>}
                       </div>
                     </div>
 
@@ -569,7 +572,7 @@ class EditForm extends React.Component {
                           name="profession"
                           value={this.state.profession}
                           onChange={this.onChange}
-                          placeholder="eje: Profesor"/> {errors.profession && <span className="help-block text-danger">{errors.profession}</span>}
+                          placeholder="eje: Profesor" /> {errors.profession && <span className="help-block text-danger">{errors.profession}</span>}
                       </div>
                     </div>
 
@@ -583,7 +586,7 @@ class EditForm extends React.Component {
                           name="address"
                           value={this.state.address}
                           onChange={this.onChange}
-                          placeholder="eje: Km 18. Carretera a El Salvador"/> {errors.address && <span className="help-block text-danger">{errors.address}</span>}
+                          placeholder="eje: Km 18. Carretera a El Salvador" /> {errors.address && <span className="help-block text-danger">{errors.address}</span>}
                       </div>
                     </div>
 
@@ -597,7 +600,7 @@ class EditForm extends React.Component {
                           name="phone"
                           value={this.state.phone}
                           onChange={this.onChange}
-                          placeholder="eje: 24245757"/> {errors.phone && <span className="help-block text-danger">{errors.phone}</span>}
+                          placeholder="eje: 24245757" /> {errors.phone && <span className="help-block text-danger">{errors.phone}</span>}
                       </div>
                     </div>
 
@@ -611,7 +614,7 @@ class EditForm extends React.Component {
                           name="cellphone"
                           value={this.state.cellphone}
                           onChange={this.onChange}
-                          placeholder="eje: 55329090"/> {errors.cellphone && <span className="help-block text-danger">{errors.cellphone}</span>}
+                          placeholder="eje: 55329090" /> {errors.cellphone && <span className="help-block text-danger">{errors.cellphone}</span>}
                       </div>
                     </div>
 
@@ -688,19 +691,19 @@ class EditForm extends React.Component {
                           disabled={this.state.isLoading}
                           label='Cancel'
                           style={{
-                          marginRight: 12
-                        }}
+                            marginRight: 12
+                          }}
                           onTouchTap={this.handleCancel}
                           secondary
-                          className="btn-w-md"/>
+                          className="btn-w-md" />
                         <RaisedButton
                           disabled={this.state.isLoading}
                           type="submit"
                           label={this.state.isEditing
-                          ? 'Update'
-                          : 'Add'}
+                            ? 'Update'
+                            : 'Add'}
                           secondary
-                          className="btn-w-md"/>
+                          className="btn-w-md" />
                       </div>
                     </div>
                   </form>
@@ -757,4 +760,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps,)(EditForm);
+module.exports = connect(mapStateToProps, mapDispatchToProps, )(EditForm);

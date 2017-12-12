@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import QueueAnim from 'rc-queue-anim';
 import {
   privilegesGetRequest,
-  educatorsGetByIdRequest
+  educatorsGetByIdRequest,
+  evaluationGetByGroupIdAndEvaluationSubtype
 } from '../../../../../actions';
 import PropTypes from 'prop-types';
 
@@ -14,13 +15,17 @@ class GroupDetails extends React.Component {
     this.state = {
       privileges: '',
       groupInstructorName: '',
-      groupData: this.props.groupData
-    }
-    this.onRouterInscription= this.onRouterInscription.bind(this);
-    this.selectCategoryId=this.selectCategoryId.bind(this);
+      groupData: this.props.groupData,
+      groupEvaluations: [],
+      evaluationSubtype: []
+    };
+    // this.onRouteToEvaluation = this.onRouteToEvaluation.bind(this);
+    this.onRouteToInscription = this.onRouteToInscription.bind(this);
+    this.selectCategoryId = this.selectCategoryId.bind(this);
   }
 
   componentWillMount() {
+
     this.props.actions.privilegesGetRequest()
       .then(data => {
         this.setState({privileges: data.data});
@@ -33,36 +38,55 @@ class GroupDetails extends React.Component {
             this.setState({groupInstructorName: response.data.firstName + ' ' + response.data.firstLastname});
           }
         }
-      )
+      );
   }
-  selectCategoryId(){
-    var {groupData}=this.state;
-    switch(groupData.typeCategory){
-      case "workshop": 
+
+  selectCategoryId() {
+    let {groupData} = this.state;
+    switch (groupData.typeCategory) {
+      case "workshop":
         return groupData.workshopId;
       case "division":
         return groupData.divisionId;
       case "course":
         return groupData.courseId;
       case "section":
-       return groupData.section;
+        return groupData.section;
       default :
         return null;
     }
   }
-onRouterInscription(){
-  var {groupData}=this.state;  
+
+  onRouteToInscription() {
+    let {groupData} = this.state;
     this.context.router.push({
       pathname: '/app/inscription',
       query: {
-        id : groupData.id,
+        id: groupData.id,
         name: groupData.correlativo,
-        typeCategory : groupData.typeCategory,
+        typeCategory: groupData.typeCategory,
         typeCategoryId: this.selectCategoryId(),
-        add:true
+        add: true
       }
     });
-}
+  }
+
+  onRouteToEvaluation(evaluationSubtypeId) {
+    this.props.actions.evaluationGetByGroupIdAndEvaluationSubtype(this.state.groupData.id, parseInt(evaluationSubtypeId))
+      .then(
+        (response) => {
+          if (response) {
+            this.context.router.push({
+              pathname: '/app/evaluation',
+              query: {
+                id: response.data.id
+              }
+            })
+          }
+        }
+      )
+  }
+
   render() {
     return (
       <div className="container-fluid no-breadcrumbs page-dashboard">
@@ -88,11 +112,12 @@ onRouterInscription(){
             <article className="article padding-lg-v article-dark article-bordered">
 
               <div className="with-maxwidth">
+
                 <div className="row">
 
                   {this.state.privileges.pstudentInscription ?
                     <div className="col-xl-4">
-                      <a  onClick={this.onRouterInscription}>
+                      <a onClick={this.onRouteToInscription}>
                         <div className="box box-default">
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
@@ -111,7 +136,7 @@ onRouterInscription(){
                   }
 
                   <div className="col-xl-4">
-                    <a href="#/app/inscription" >
+                    <a href="#/app/inscription">
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">
@@ -203,18 +228,18 @@ onRouterInscription(){
 
                   {this.state.privileges.pnotesEntry ?
                     <div className="col-xl-4">
-                      <a href="#/app/page/catalog">
+                      <a onClick={()=>this.onRouteToEvaluation('1')}>
                         <div className="box box-default">
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
                               <div className="ibox-icon">
                                 <a href="javascript:;">
-                                  <i className="material-icons">dashboard</i>
+                                  <i className="material-icons">assignment</i>
                                 </a>
                               </div>
                               <h3>Evaluación Conomiento/Continua</h3>
                               <p>Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de
-                                datos con variables de información para el programa.</p>
+                                datos con letiables de información para el programa.</p>
                             </div>
                           </div>
                         </div>
@@ -229,7 +254,7 @@ onRouterInscription(){
 
                   {this.state.privileges.pmonitoringEntry ?
                     <div className="col-xl-4">
-                      <a href="#/app/user">
+                      <a onClick={()=>this.onRouteToEvaluation('2')}>
                         <div className="box box-default">
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
@@ -250,13 +275,13 @@ onRouterInscription(){
                   }
 
                   <div className="col-xl-4">
-                    <a href="#/app/page/faqs">
+                    <a onClick={()=>this.onRouteToEvaluation('4')}>
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">
                             <div className="ibox-icon">
                               <a href="javascript:;">
-                                <i className="material-icons">help</i>
+                                <i className="material-icons">assignment</i>
                               </a>
                             </div>
                             <h3>Evaluación de desempeño</h3>
@@ -270,18 +295,18 @@ onRouterInscription(){
 
                   {this.state.privileges.pevaluationEntry ?
                     <div className="col-xl-4">
-                      <a href="#/app/page/catalog">
+                      <a onClick={()=>this.onRouteToEvaluation('3')}>
                         <div className="box box-default">
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
                               <div className="ibox-icon">
                                 <a href="javascript:;">
-                                  <i className="material-icons">dashboard</i>
+                                  <i className="material-icons">assignment</i>
                                 </a>
                               </div>
                               <h3>Evaluación de satisfacción</h3>
                               <p>Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de
-                                datos con variables de información para el programa.</p>
+                                datos con letiables de información para el programa.</p>
                             </div>
                           </div>
                         </div>
@@ -318,7 +343,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       privilegesGetRequest,
-      educatorsGetByIdRequest
+      educatorsGetByIdRequest,
+      evaluationGetByGroupIdAndEvaluationSubtype
     }, dispatch)
   };
 }
