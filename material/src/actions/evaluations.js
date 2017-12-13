@@ -279,3 +279,65 @@ export function evaluationTypeById(id) {
     })
   }
 }
+
+export function evaluationActivityGetByEvaluationId(id) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/evaluation_activity/evaluation/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationRangeGetByIdRequest(id) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/evaluation_range/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}

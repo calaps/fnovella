@@ -21,24 +21,24 @@ class InscribedParticipants extends React.Component {
     this.props.actions.inscriptionGetByGroupId(this.props.groupId)
       .then((response) => {
         if (response) {
-            this.setState({
-              inscriptions: response.data
-            })
+          this.setState({
+            inscriptions: response.data
+          })
         }
       });
-    this.props.actions.inscriptionParticipantGetRequest(0,10000);
-    this.props.actions.participantGetRequest(0,10000);
+    this.props.actions.inscriptionParticipantGetRequest(0, 10000);
+    this.props.actions.participantGetRequest(0, 10000);
   }
 
   render() {
     let i = 1;
-    let showInscribedParticipantList = ()=>{
+    let showInscribedParticipantList = () => {
       let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
       let inscriptions = this.state.inscriptions;
       let participants = this.props.participants.content || [];
       return inscriptionParticipants.map((inscriptionParticipant) => {
         let inscription = inscriptions.find(_inscription => {
-          if(_inscription.status === 1){
+          if (_inscription.status === 1) {
             return (_inscription.id == inscriptionParticipant.inscription)
           }
         });
@@ -51,7 +51,8 @@ class InscribedParticipants extends React.Component {
             number={i++}
             participantData={participant}
             inscriptionData={inscription}
-            />
+            onParticipantSelection={this.props.onParticipantSelection}
+          />
         }
       })
     };

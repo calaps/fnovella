@@ -1,7 +1,7 @@
 import React from 'react';
 
 class InscribedParticipantsListItem extends React.Component {
-  render () {
+  render() {
 
     return (
       <tr>
@@ -9,11 +9,13 @@ class InscribedParticipantsListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.id}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.id}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.firstName}</td>
-        <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.email}</td>
-        <td className="mdl-data-table__cell--non-numeric" >{this.props.participantData.gender}</td>
-        <td className="mdl-data-table__cell--non-numeric" >
+        <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.email}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.gender}</td>
+        <td className="mdl-data-table__cell--non-numeric">
           <button
-            type="submit" className="btn btn-primary">Select</button>
+            type="submit" onClick={() => this.props.onParticipantSelection(this.props.participantData.id)}
+            className="btn btn-primary">Select
+          </button>
         </td>
       </tr>
     );
