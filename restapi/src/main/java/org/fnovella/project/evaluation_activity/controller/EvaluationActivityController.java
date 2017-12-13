@@ -25,6 +25,11 @@ public class EvaluationActivityController {
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.evaluationActivityRepository.findAll(pageable), null);
 	}
+
+	@RequestMapping(value = "/evaluation/{id}", method = RequestMethod.GET)
+	public APIResponse get(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
+		return new APIResponse(this.evaluationActivityRepository.findByEvaluation(id), null);
+	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public APIResponse getOne(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
