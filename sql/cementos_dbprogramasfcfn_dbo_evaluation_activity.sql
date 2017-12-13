@@ -1,0 +1,14 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (20, 'a', 21, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (21, 'fh', 22, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (22, 'sc', 23, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (23, 'kh', 24, 0, 90);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (23, 'kh', 24, 0, 90);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (24, 'd', 25, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (25, 'vcx', 26, 0, 40);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (25, 'vcx', 26, 0, 40);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (27, 'h', 27, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (26, 'dad', 28, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (29, 'ad', 37, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (28, 'da', 38, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (30, 'dg', 39, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (31, 's', 40, 0, 100);

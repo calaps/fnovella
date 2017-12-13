@@ -5,7 +5,6 @@ INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES (
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Zacapa', 'text', 2);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('El Pajon', 'text', 3);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('La Naranaja', 'text', 3);
-INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('El Rancho', 'text', 3);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Altura', 'number', 7);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Primaria', 'text', 9);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('secundaria', 'text', 9);
@@ -27,3 +26,5 @@ INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES (
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Peten', 'text', 2);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Altura', 'number', 15);
 INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Habilidad culinaria', 'text', 16);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Experiencia', 'text', 16);
+INSERT INTO cementos_dbprogramasfcfn.dbo.catalog (name, type, category) VALUES ('Chinautla', 'text', 1);

@@ -136,7 +136,6 @@ class SidebarContent extends React.Component {
       }
         <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
         <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>
-        <li><FlatButton href="#/app/groups"><i className="nav-icon material-icons">group_work</i><span className="nav-text">Grupo</span></FlatButton></li>
 
         <li>
           <FlatButton href="#/app/ecommerce"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
@@ -149,6 +148,7 @@ class SidebarContent extends React.Component {
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">remove_red_eye</i><span className="nav-text">Visualización</span></FlatButton>
           <ul>
             <li><FlatButton className="prepend-icon" href="#/app/visualization/programs"><span>Programas</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/groups"><span className="nav-text">Todos los grupos</span></FlatButton></li>
           </ul>
         </li>
 

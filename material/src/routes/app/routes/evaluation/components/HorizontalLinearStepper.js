@@ -24,16 +24,22 @@ class HorizontalLinearStepper extends React.Component {
       stepIndex: 0,
       errors: {},
       isLoading: false,
+      evaluationActivityData: {
+        participant: ''
+      }
     };
-    this.handleCancel = this.handleCancel.bind(this);
+    this.onParticipantSelection = this.onParticipantSelection.bind(this);
   }
 
-  handleCancel() {
+  onParticipantSelection(id){
+    const {stepIndex} = this.state;
     this.setState({
-      finished: false,
-      stepIndex: 0,
+      stepIndex: stepIndex + 1,
+      finished: stepIndex >= 2,
       errors: {},
-      isLoading: false
+      evaluationActivityData : {
+        participant: id
+      }
     });
   }
 
@@ -48,12 +54,12 @@ class HorizontalLinearStepper extends React.Component {
     switch (stepIndex) {
       case 0:
         return <InscribedParticipants
-          handleCancel={this.handleCancel}
-          handleNext={this.handleNext}
           groupId={this.props.groupId}
+          onParticipantSelection={this.onParticipantSelection}
         />;
       case 1:
         return <EvaluationActivities
+          evaluationId={this.props.evaluationId}
           handlePrev={this.handlePrev}
           handleNext={this.handleNext}
         />;
@@ -64,7 +70,7 @@ class HorizontalLinearStepper extends React.Component {
 
   handleNext = (data) => {
     console.log(data);
-    const {stepIndex} = this.state;
+    /*const {stepIndex} = this.state;
     switch (stepIndex) {
       case 0:
         this.setState({
@@ -82,7 +88,7 @@ class HorizontalLinearStepper extends React.Component {
         break;
       default:
         return 'You\'re a long way from home sonny jim!';
-    }
+    }*/
   };
 
 

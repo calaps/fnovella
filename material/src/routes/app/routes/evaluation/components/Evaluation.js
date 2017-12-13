@@ -143,7 +143,7 @@ class Evaluation extends React.Component {
     switch (this.state.active) {
       case 'ADD_ELEMENT':
         return <HorizontalLinearStepper changeView={this.changeView} evaluationData={this.state.evaluationData}
-                                        groupId={this.state.groupId}/>;
+                                        groupId={this.state.groupId} evaluationId={this.props.location.query.id}/>;
       /*case "VIEW_ELEMENT":
         return <ListElements onEdit={this.onEditProgram} onViewGroup={this.onViewGroup} onCreateGroup={this.onCreateGroup}/>;
       */default:
