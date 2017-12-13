@@ -28,7 +28,7 @@ const catalogs_reducer = (state = initialState.catalogs, action) => {
       return state;
     case CATALOGS_GET_SUCCESS:
       console.log(CATALOGS_GET_SUCCESS);
-      return action.data;
+      return {...state,...action.data};
     case CATALOGS_GET_FAIL:
       // TODO: some alert may be
       return state;

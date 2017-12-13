@@ -27,6 +27,8 @@ import groups from './groups';
 import participantAdditionalFiels from './participantAdditionalFields';
 import inscriptions from './inscriptions';
 import inscriptionParticipants from './inscriptionParticipants';
+import assistance from './assistance';
+import assistanceParticipant from './assistanceParticipant';
 
 const reducers = {
   routing: routerReducer,
@@ -56,7 +58,9 @@ const reducers = {
   groups,
   participantAdditionalFiels,
   inscriptions,
-  inscriptionParticipants
+  inscriptionParticipants,
+  assistance,
+  assistanceParticipant
 };
 
 module.exports = combineReducers(reducers);

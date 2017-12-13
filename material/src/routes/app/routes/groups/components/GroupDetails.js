@@ -21,6 +21,8 @@ class GroupDetails extends React.Component {
     };
     // this.onRouteToEvaluation = this.onRouteToEvaluation.bind(this);
     this.onRouteToInscription = this.onRouteToInscription.bind(this);
+    this.onRouteToAssistance = this.onRouteToAssistance.bind(this);
+    this.onRouteToAssistanceApproval = this.onRouteToAssistanceApproval.bind(this);
     this.selectCategoryId = this.selectCategoryId.bind(this);
   }
 
@@ -70,7 +72,29 @@ class GroupDetails extends React.Component {
       }
     });
   }
+onRouteToAssistance (){
+  let {groupData} = this.state;
+  this.context.router.push({
+    pathname: '/app/assistance',
+    query: {
+      id: groupData.id,
+      // name: groupData.correlativo,
+      // typeCategory: groupData.typeCategory,
+      // typeCategoryId: this.selectCategoryId(),
+      // add: true
+    }
+  });
 
+}
+onRouteToAssistanceApproval (){
+  let {groupData} = this.state;
+  this.context.router.push({
+    pathname: '/app/assistance_approval',
+    query: {
+      id: groupData.id,
+     }
+  }); 
+}
   onRouteToEvaluation(evaluationSubtypeId) {
     this.props.actions.evaluationGetByGroupIdAndEvaluationSubtype(this.state.groupData.id, parseInt(evaluationSubtypeId))
       .then(
@@ -186,7 +210,7 @@ class GroupDetails extends React.Component {
 
                   {this.state.privileges.pnotesEntry ?
                     <div className="col-xl-4">
-                      <a href="#/app/user">
+                      <a  onClick={this.onRouteToAssistance}>
                         <div className="box box-default">
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
@@ -207,7 +231,7 @@ class GroupDetails extends React.Component {
                   }
 
                   <div className="col-xl-4">
-                    <a href="#/app/page/faqs">
+                    <a onClick={this.onRouteToAssistanceApproval}>
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">

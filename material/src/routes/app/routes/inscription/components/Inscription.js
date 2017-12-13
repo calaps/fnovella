@@ -10,7 +10,6 @@ const optionsName = "INSCRIPCIONES";
 class MainOptions extends React.Component {
     constructor(props) {
         super(props);
-        
     }
 
     render() {

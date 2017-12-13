@@ -33,8 +33,9 @@ let initialState = {
   groups:{},
   participantAdditionalFields: {},
   inscriptions: {},
-  inscriptionParticipants: {}
-
+  inscriptionParticipants: {},
+  assistance:{},
+  assistanceParticipant:{}
 };
 
 export default initialState;

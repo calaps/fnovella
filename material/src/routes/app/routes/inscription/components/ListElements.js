@@ -3,7 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import IconButton from 'material-ui/IconButton';
 import Search from 'material-ui/svg-icons/action/search';
-import {participantsGetRequestBySearch, participantGetRequest, inscriptionParticipantGetRequest, inscriptionGetRequest} from '../../../../../actions';
+import {
+  participantsGetRequestBySearch, 
+  participantGetRequest, 
+  inscriptionParticipantGetRequest, 
+  inscriptionGetRequest} from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
 
