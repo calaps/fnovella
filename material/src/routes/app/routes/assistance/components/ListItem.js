@@ -2,7 +2,7 @@ import React from 'react';
 
 class ListItem extends React.Component {
   render () {
-    console.log("dsdadadasdsada",this.props.showAssistButton(this.props.inscriptionData))
+    // console.log("dsdadadasdsada",this.props.showAssistButton(this.props.inscriptionData))
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>

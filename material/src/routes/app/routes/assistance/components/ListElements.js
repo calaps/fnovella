@@ -25,7 +25,7 @@ class ListElements extends React.Component {
       group:{}
     }
     this.NumOfSessions=this.NumOfSessions.bind(this);
-    this.showAssistButton = this.showAssistButton.bind(this);
+    // this.showAssistButton = this.showAssistButton.bind(this);
   }
   componentWillMount() {
     this
@@ -56,7 +56,7 @@ class ListElements extends React.Component {
       .then((res) => {
           this.setState({group: res.data});
       })
-      this.props.actions.assistanceGetRequest(0.1000).then(res => {console.log('ressponeeee',res)});
+      this.props.actions.assistanceGetRequest(0.1000)
   }
 
   NumOfSessions() {
@@ -127,7 +127,7 @@ class ListElements extends React.Component {
             changeView= {this.props.changeView}
             key={inscriptionParticipant.id}
             number={i++}
-            showAssistButton={this.showAssistButton}
+            // showAssistButton={this.showAssistButton}
             participantData={participant}
             inscriptionData={inscription}
             />

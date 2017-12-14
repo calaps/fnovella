@@ -65,9 +65,9 @@ class GroupDetails extends React.Component {
       pathname: '/app/inscription',
       query: {
         id: groupData.id,
-        name: groupData.correlativo,
-        typeCategory: groupData.typeCategory,
-        typeCategoryId: this.selectCategoryId(),
+        // name: groupData.correlativo,
+        // typeCategory: groupData.typeCategory,
+        // typeCategoryId: this.selectCategoryId(),
         add: true
       }
     });

@@ -56,12 +56,13 @@ class HorizontalLinearStepper extends React.Component {
     var currentDate = new Date();
     var {group} = this.state;
     currentDate = Math.round(new Date(currentDate).getTime()/1000);
-    if(currentDate > group.inscriptionsStart && currentDate < group.inscriptionsEnd ){
+    
+    // if(currentDate > group.inscriptionsStart && currentDate < group.inscriptionsEnd ){
       this.props.onInscribe(participantData, participantId);
       this.handleNext();
-    }else{
-      this.props.actions.snackBarShow('The current group is invalid to inscribe!');
-    }
+    // }else{
+    //   this.props.actions.snackBarShow('The current group is invalid to inscribe!');
+    // }
   }
   routeToInscription(){
     this.context.router.push({

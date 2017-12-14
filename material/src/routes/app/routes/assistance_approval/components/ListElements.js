@@ -31,10 +31,7 @@ class ListElements extends React.Component {
       this
         .props
         .actions
-        .assistanceGetRequest(0, 1000).then((res)=>{{
-          console.log('resssssssssss',res)
-          this.setState({assistances:res.data})
-        }})
+        .assistanceGetRequest(0, 1000);
         this.props.actions.inscriptionGetByGroupId(this.props.query.id)
         .then((res)=>{
           this.setState({
@@ -55,6 +52,38 @@ class ListElements extends React.Component {
   
   render() {
     var i= 1;
+    let renderAssisance = () => {
+      let assistance = this.props.assistance.content || [];
+      let inscriptions = this.state.inscriptions;
+      // let participants = this.props.participants.content || [];
+
+      return assistance.map((_assistance) => {
+        let inscription = inscriptions.find(_inscription => {
+          return (_inscription.id == _assistance.inscription)
+        });
+        // let participant = participants.find(_participant => {
+        //   return (_participant.id == inscriptionParticipant.participant)
+        // });
+        if (inscription) {
+          return<ListItem
+          key={_assistance.id}
+          changeView={this.props.changeView}
+          number={i++}
+          assistanceData={_assistance}
+          approveAssistance={this.approveAssistance}
+          />
+        }
+      })
+    }
+    console.log("dasdadaddas",renderAssisance());
+    // let hideInscribe = (participantId)=>{
+    //   let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
+    //   let find = inscriptionParticipants.find(inscriptionParticipant =>{
+    //     return inscriptionParticipant.participant == participantId;
+    //   })
+    //   return ( (find)? true : false );
+    // }
+    
     console.log("props",this.props.assistance)
     return (  
       <article className="article">
@@ -75,28 +104,29 @@ class ListElements extends React.Component {
                         <th className="mdl-data-table__cell--non-numeric">Session</th>
                         <th className="mdl-data-table__cell--non-numeric">Month</th>
                         <th className="mdl-data-table__cell--non-numeric">Status</th>
-                        <th className="mdl-data-table__cell--non-numeric">Status</th>
                       </tr>
                     </thead>
                     <tbody>
                     {
-                      this.props.assistance.content? this.props.assistance.content.map((assistance) => {
-                        return <ListItem
-                        key={assistance.id}
-                        changeView={this.props.changeView}
-                        number={i++}
-                        assistanceData={assistance}
-                        approveAssistance={this.approveAssistance}
-                        /> 
-                  }):null
+                      renderAssisance()
+                  //     this.props.assistance.content? this.props.assistance.content.map((assistance) => {
+                  //       return <ListItem
+                  //       key={assistance.id}
+                  //       changeView={this.props.changeView}
+                  //       number={i++}
+                  //       assistanceData={assistance}
+                  //       approveAssistance={this.approveAssistance}
+                  //       /> 
+                  // }):null
                   }  
                     </tbody>
                   </table>
-                  <Pagination
-                    totalPages={this.state.assistances.totalPages}
-                    totalElements={this.state.assistances.totalElements}
-                    getRequest={this.props.actions.assistanceGetRequest}/>
-                </div>
+                    <Pagination
+                    totalPages={this.props.assistance.totalPages}
+                    totalElements={this.props.assistance.totalElements}
+                    getRequest={this.props.actions.assistanceGetRequest}
+                    />
+                  </div>
 
               </div>
             </div>

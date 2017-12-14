@@ -7,7 +7,7 @@ import {
   participantsGetRequestBySearch, 
   participantGetRequest, 
   inscriptionParticipantGetRequest, 
-  inscriptionGetRequest} from '../../../../../actions';
+  inscriptionGetByGroupId} from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
 
@@ -19,7 +19,8 @@ class ListElements extends React.Component {
     super(props);
     this.state = {
       searchValue: 'Name',
-      inputValue: ''
+      inputValue: '',
+      inscriptions:[]
     };
     this.onDeleteButton = this
       .onDeleteButton
@@ -30,15 +31,21 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
+    this
+    .props
+    .actions
+    .inscriptionGetByGroupId(this.props.query.id)
+    .then((res)=>{
+      if(!res.errors){
+        this.setState({inscriptions : res.data});
+      }
+    })
     if (this.props.showInscriptions) {
+      alert(true);
       this
         .props
         .actions
         .inscriptionParticipantGetRequest(number, size);
-      this
-        .props
-        .actions
-        .inscriptionGetRequest(0, 1000);
       this
         .props
         .actions
@@ -98,7 +105,7 @@ class ListElements extends React.Component {
     let {showInscriptions} = this.props;
     let renderRegistration = () => {
       let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
-      let inscriptions = this.props.inscriptions.content || [];
+      let inscriptions = this.state.inscriptions;
       let participants = this.props.participants.content || [];
 
       return inscriptionParticipants.map((inscriptionParticipant) => {
@@ -123,10 +130,17 @@ class ListElements extends React.Component {
     }
     let hideInscribe = (participantId)=>{
       let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
-      let find = inscriptionParticipants.find(inscriptionParticipant =>{
+      let inscriptions = this.state.inscriptions;
+      let inscriptionParticipant = inscriptionParticipants.find(inscriptionParticipant =>{
         return inscriptionParticipant.participant == participantId;
       })
-      return ( (find)? true : false );
+      if(inscriptionParticipant){
+        let inscription = inscriptions.find(inscription =>{
+          return inscription.id == inscriptionParticipant.inscription;
+        })
+        return ( (inscription)? true : false );
+      }
+      return false;
     }
     if (showInscriptions) {
       return (
@@ -288,7 +302,7 @@ function mapDispatchToProps(dispatch) {
       participantGetRequest,
       participantsGetRequestBySearch,
       inscriptionParticipantGetRequest,
-      inscriptionGetRequest
+      inscriptionGetByGroupId
     }, dispatch)
   };
 }
