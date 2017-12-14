@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository("participantRepository")
+@Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Integer> {
 	Participant findByEmail(String email);
 
