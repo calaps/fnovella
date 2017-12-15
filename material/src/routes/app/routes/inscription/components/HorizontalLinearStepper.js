@@ -164,7 +164,7 @@ class HorizontalLinearStepper extends React.Component {
                         stepIndex === 2 ?
                           <div style={{marginTop: 12}}>
                             <RaisedButton
-                              label='Crear'
+                              label='Terminar'
                               primary
                               onTouchTap={this.routeToInscription}
                             />
