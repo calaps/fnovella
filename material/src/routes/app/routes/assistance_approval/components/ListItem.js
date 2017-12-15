@@ -66,7 +66,7 @@ class ListItem extends React.Component {
           &nbsp; */}
           {this.props.assistanceData.status
             ? null
-            : <button onClick={this.submitApprove} className="btn btn-primary">Approve Inscription</button>
+            : <button onClick={this.submitApprove} className="btn btn-primary">Approve</button>
 }
 
         </td>

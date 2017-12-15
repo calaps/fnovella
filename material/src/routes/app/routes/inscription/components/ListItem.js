@@ -33,7 +33,6 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric" >
           {this.props.hideInscribe? null: <button
             onClick={()=>{this.props.onInscribe(this.props.participantData , this.props.participantData.id )}}
-
             type="submit" className="btn btn-primary">Inscribe</button>}
         </td>
       </tr>

@@ -11,6 +11,7 @@ import {
     sectionGetByIdRequest,
     courseGetByIdRequest,
     groupsGetRequest,
+    groupGetByIdRequest,
     participantAdditionalFieldsAddRequest,
     inscriptionAddRequest,
     inscriptionParticipantAddRequest,
@@ -27,6 +28,7 @@ class AdditionalFieldsForm extends React.Component {
             participantData: this.props.participantData,
             participantAditionalFieldsValues: [],
             calatog: '',
+            reqGroup: {},
             group: this.props.query.name,
             groupId: this.props.query.id,
             period: 1,
@@ -75,13 +77,12 @@ class AdditionalFieldsForm extends React.Component {
         })
     }
 
-    selectCategory(){
-        var typeCategory=this.props.query.typeCategory;
+    selectCategory(group){
+        var typeCategory=group.typeCategory;
         switch(typeCategory){
           case "workshop":
-            this.props.actions.workshopGetByIdRequest(this.props.query.typeCategoryId)
+            this.props.actions.workshopGetByIdRequest(group.workshopId)
             .then((res)=>{
-                console.log(res)
                 if(res.errors===null){
                     this.props.actions.programGetByIdRequest(res.data.programId)
                     .then((res)=>{
@@ -97,7 +98,7 @@ class AdditionalFieldsForm extends React.Component {
             });
             break;
           case "division":
-            this.props.actions.divisionGetByIdRequest(this.props.query.typeCategoryId)
+            this.props.actions.divisionGetByIdRequest(group.divisionId)
             .then((res)=>{
                 if(res.errors===null){
                     this.props.actions.programGetByIdRequest(res.data.programa)
@@ -114,7 +115,7 @@ class AdditionalFieldsForm extends React.Component {
             });
             break;
           case "course":
-            this.props.actions.courseGetByIdRequest(this.props.query.typeCategoryId)
+            this.props.actions.courseGetByIdRequest(group.courseId)
             .then((res)=>{
                 if(res.errors===null){
                     this.props.actions.programGetByIdRequest(res.data.programId)
@@ -131,7 +132,7 @@ class AdditionalFieldsForm extends React.Component {
             });
             break;
           case "section":
-            this.props.actions.sectionGetByIdRequest(this.props.query.typeCategoryId)
+            this.props.actions.sectionGetByIdRequest(group.section)
             .then((res)=>{
                 if(res.errors===null){
                     this.props.actions.gradeGetByIdRequest(res.data.grade)
@@ -158,11 +159,19 @@ class AdditionalFieldsForm extends React.Component {
       }
 
     componentWillMount() {
+        this.props.actions.groupGetByIdRequest(this.props.query.id).then((res)=>{
+            if(res.errors===null){
+            this.selectCategory(res.data)
+            this.setState({
+                reqGroup:res.data,
+            });
+        }
+        });
         this
         .props
         .actions
         .catalogsGetRequest(null, 1000);
-        this.selectCategory();
+        // this.selectCategory();
         this
             .props
             .actions
@@ -176,16 +185,17 @@ class AdditionalFieldsForm extends React.Component {
     }
 
     isValid() {
-
-        return true;
-        //local validation
-        this.setState({programId: this.state.program.id});
-        const {errors, isValid} = ParticipantAdditionalFieldsValidator(this.state);
-        if (!isValid) {
-            this.setState({errors});
-            return false;
+        if(this.state.calatog){
+            return true;    
+        }else {
+            this.setState({
+                errors:{
+                    calatogs: 'Catalog is required'
+                }
+            })
         }
-        return true;
+        return false;
+        
     }
 
     onSubmit(e) {
@@ -202,7 +212,6 @@ class AdditionalFieldsForm extends React.Component {
                 },
                 participantAditionalFieldsValues: this.state.participantAditionalFieldsValues
             };
-            console.log("Additional Fields :", additionalFieldData);
             this
                 .props
                 .actions
@@ -348,7 +357,7 @@ class AdditionalFieldsForm extends React.Component {
                                                     <option value="" disabled>Selecione el Catalogos</option>
                                                     {calatogsOpt()}
                                                 </select>
-                                                {errors.calatog && <span className="help-block text-danger">{errors.calatog}</span>}
+                                                {errors.calatogs && <span className="help-block text-danger">{errors.calatogs}</span>}
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -358,7 +367,7 @@ class AdditionalFieldsForm extends React.Component {
                                             name="group"
                                             id="group"
                                             className="form-control"
-                                            value={this.props.query.name}
+                                            value={this.state.reqGroup.correlativo}
                                             onChange={this.onChange}
                                             disabled={true}
                                              />
@@ -443,6 +452,7 @@ function mapDispatchToProps(dispatch) {
             programAdditionalFieldsByProgramIdGetRequest,
             catalogsGetRequest,
             groupsGetRequest,
+            groupGetByIdRequest,
             participantAdditionalFieldsAddRequest,
             inscriptionAddRequest,
             inscriptionParticipantAddRequest,

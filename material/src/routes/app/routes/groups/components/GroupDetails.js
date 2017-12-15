@@ -21,9 +21,11 @@ class GroupDetails extends React.Component {
     };
     // this.onRouteToEvaluation = this.onRouteToEvaluation.bind(this);
     this.onRouteToInscription = this.onRouteToInscription.bind(this);
+    this.onRouteToInscriptionView = this.onRouteToInscriptionView.bind(this);
     this.onRouteToAssistance = this.onRouteToAssistance.bind(this);
     this.onRouteToAssistanceApproval = this.onRouteToAssistanceApproval.bind(this);
     this.selectCategoryId = this.selectCategoryId.bind(this);
+    this.onRouteToInscriptionApprove = this.onRouteToInscriptionApprove.bind(this);
   }
 
   componentWillMount() {
@@ -72,6 +74,34 @@ class GroupDetails extends React.Component {
       }
     });
   }
+  
+  onRouteToInscriptionView() {
+    let {groupData} = this.state;
+    this.context.router.push({
+      pathname: '/app/inscription',
+      query: {
+        id: groupData.id,
+        // name: groupData.correlativo,
+        // typeCategory: groupData.typeCategory,
+        // typeCategoryId: this.selectCategoryId(),
+      }
+    });
+  }
+
+  onRouteToInscriptionApprove() {
+    let {groupData} = this.state;
+    this.context.router.push({
+      pathname: '/app/inscription_approval',
+      query: {
+        id: groupData.id,
+        // name: groupData.correlativo,
+        // typeCategory: groupData.typeCategory,
+        // typeCategoryId: this.selectCategoryId(),
+      }
+    });
+  }
+
+
 onRouteToAssistance (){
   let {groupData} = this.state;
   this.context.router.push({
@@ -159,7 +189,7 @@ onRouteToAssistanceApproval (){
                   }
 
                   <div className="col-xl-4">
-                    <a href="#/app/inscription">
+                    <a onClick={this.onRouteToInscriptionView}>
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">
@@ -177,13 +207,7 @@ onRouteToAssistanceApproval (){
 
                   {this.state.privileges.pstudentApproval ?
                     <div className="col-xl-4">
-                      <a
-                        onClick={() => {
-                          this
-                            .context
-                            .router
-                            .push({pathname: '/app/inscription_approval'})
-                        }}>
+                      <a onClick={this.onRouteToInscriptionApprove}>
                         <div className="box box-default">
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
