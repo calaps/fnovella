@@ -9,11 +9,13 @@ import org.fnovella.project.participant.repository.ParticipantRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -32,6 +34,21 @@ public class InscriptionParticipantController {
     public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
         return new APIResponse(this.inscriptionParticipantRepository.findAll(pageable), null);
     }
+
+    @RequestMapping(value = "by-group/{groupId}", method = RequestMethod.GET)
+    public APIResponse getByGroupId(@RequestHeader("authorization") String authorization, @PathVariable("groupId") Integer groupId, Pageable pageable) {
+        List<Integer> inscriptionsIds = inscriptionRepository.findByGroup(groupId)
+                .stream()
+                .map(inscription -> inscription.getId())
+                .collect(Collectors.toList());
+        List<InscriptionParticipant> inscriptionParticipants =
+                inscriptionParticipantRepository
+                        .findAll().stream()
+                        .filter(inscriptionParticipant -> inscriptionsIds.contains(inscriptionParticipant.getInscription()))
+                        .collect(Collectors.toList());
+        return new APIResponse(new PageImpl<>(inscriptionParticipants, pageable, inscriptionParticipants.size()), null);
+    }
+
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public APIResponse getOne(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
@@ -69,13 +86,13 @@ public class InscriptionParticipantController {
 
     private boolean isInscriptionExist(InscriptionParticipant inscriptionParticipant, ArrayList<String> errors) {
         Inscription inscription = inscriptionRepository.findOne(inscriptionParticipant.getInscription());
-        if(inscription == null) errors.add("Inscription doesn't exist");
+        if (inscription == null) errors.add("Inscription doesn't exist");
         return inscription != null;
     }
 
     private boolean isParticipantExist(InscriptionParticipant inscriptionParticipant, ArrayList<String> errors) {
         Participant participant = participantRepository.findOne(inscriptionParticipant.getParticipant());
-        if(participant == null) errors.add("Participant doesn't exist");
+        if (participant == null) errors.add("Participant doesn't exist");
         return participant != null;
     }
 
