@@ -61,36 +61,13 @@ class HorizontalLinearStepper extends React.Component {
         return <EvaluationActivities
           evaluationId={this.props.evaluationId}
           handlePrev={this.handlePrev}
-          handleNext={this.handleNext}
+          changeView={this.props.changeView}
+          particiapntId={this.state.evaluationActivityData.participant}
         />;
       default:
         return 'You\'re a long way from home sonny jim!';
     }
   }
-
-  handleNext = (data) => {
-    console.log(data);
-    /*const {stepIndex} = this.state;
-    switch (stepIndex) {
-      case 0:
-        this.setState({
-          stepIndex: stepIndex + 1,
-          finished: stepIndex >= 6,
-          errors: {},
-        });
-        break;
-      case 1:
-        this.setState({
-          stepIndex: stepIndex + 1,
-          finished: stepIndex >= 6,
-          errors: {},
-        });
-        break;
-      default:
-        return 'You\'re a long way from home sonny jim!';
-    }*/
-  };
-
 
   render() {
     const {finished, stepIndex, errors} = this.state;

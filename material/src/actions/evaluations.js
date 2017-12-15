@@ -341,3 +341,63 @@ export function evaluationRangeGetByIdRequest(id) {
     })
   }
 }
+
+export function evaluationActivityParticipantAddRequest(data) {
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('post', '/evaluation_activity_participant/', data, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+export function evaluationActivityParticipantGetByActivityId(id) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/evaluation_activity_participant/by-activity/' + id, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}

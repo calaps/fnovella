@@ -2,7 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import map from "lodash-es/map"; //to use map in a object
-import {} from "../../../../../actions/formValidations"; //form validations
+import {evaluationActivityValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import {bindActionCreators} from 'redux';
@@ -11,7 +11,9 @@ import {
   evaluationGetByIdRequest,
   groupGetByIdRequest,
   evaluationRangeGetByIdRequest,
-  evaluationSubtypeGetByIdRequest
+  evaluationSubtypeGetByIdRequest,
+  evaluationTypeById,
+  evaluationActivityParticipantAddRequest
 } from '../../../../../actions';
 
 class EvaluationActivities extends React.Component {
@@ -25,10 +27,13 @@ class EvaluationActivities extends React.Component {
       evaluationType: '',
       evaluationActivities: [],
       evaluationData: {},
-      evaluationActivityData: []
+      evaluationActivityData: [],
+      evaluationTypeId : ''
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
   }
 
@@ -39,6 +44,13 @@ class EvaluationActivities extends React.Component {
           if (response) {
             this.setState({
               evaluationActivities: response.data
+            });
+            let array = [];
+            for (let activity of this.state.evaluationActivities) {
+              array.push({id: activity.id, name: activity.name, gradeInitial: 0, gradeFinal: 0})
+            }
+            this.setState({
+              evaluationActivityData: array
             })
           }
         }
@@ -48,7 +60,8 @@ class EvaluationActivities extends React.Component {
         (response) => {
           if (response) {
             this.setState({
-              evaluationData:response.data
+              evaluationData: response.data,
+              evaluationTypeId: response.data.evaluationType
             });
             if (response.data.evaluationSubtype > 1) {
               this.props.actions.evaluationSubtypeGetByIdRequest(response.data.evaluationSubtype)
@@ -64,12 +77,12 @@ class EvaluationActivities extends React.Component {
             } else {
               if (response.data.evaluationType === 1) {
                 this.setState({
-                  evaluationType: "Knowledge Evaluation"
+                  evaluationType: "Conocimiento Evaluation"
                 });
               }
               else {
                 this.setState({
-                  evaluationType: "Knowledge Evaluation"
+                  evaluationType: "Continua Evaluation"
                 });
               }
             }
@@ -102,7 +115,7 @@ class EvaluationActivities extends React.Component {
 
   isValid() {
     //local validation
-    const {errors, isValid} = groupValidator(this.state);
+    const {errors, isValid} = evaluationActivityValidator(this.state);
     if (!isValid) {
       this.setState({errors});
       return false;
@@ -112,31 +125,86 @@ class EvaluationActivities extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-
+    if (this.isValid()) {
+      //reset errors object and disable submit button
+      this.setState({errors: {}, isLoading: true});
+      for (let activity of this.state.evaluationActivityData) {
+        let data = {
+          activity : activity.id,
+          gradeFinal: activity.gradeFinal,
+          gradeInitial: activity.gradeInitial,
+          participant: this.props.particiapntId
+        };
+        this.props.actions.evaluationActivityParticipantAddRequest(data);
+      }
+      this.props.changeView('VIEW_ELEMENT');
+    }
   }
 
   onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    let array = this.state.evaluationActivityData;
+    for (let activity of array) {
+      if (activity.id.toString() === e.target.id) {
+        if(e.target.placeholder === 'Final'){
+          activity.gradeFinal = e.target.value;
+        }else{
+          activity.gradeInitial = e.target.value;
+        }
+      }
+    }
+    this.setState({evaluationActivityData: array});
   }
 
   render() {
     const {errors} = this.state;
 
     let evaluationActivities = () => {
-      let activities = this.state.evaluationActivities;
+      let activities = this.state.evaluationActivityData;
       return activities.map((activity) => {
         return (
-          <div className="form-group row">
+          <div className="form-group row" key={activity.id}>
             <label htmlFor="inputEmail3" className="col-md-3 control-label">{activity.name}</label>
-            <div className="col-md-9">
+            {this.state.evaluationData.evaluationType === 1 ?
+              <div className="col-md-9">
               <input
-                type="text"
-                name={activity.name}
-                className="form-control"
-                value={this.state.evaluationData.id}
-                onChange={this.onChange}
-                />
-            </div>
+              id={activity.id}
+              name="evaluationActivityData"
+              key={activity.id}
+              type="number"
+              min="1" max="100"
+              className="form-control"
+              onChange={this.onChange}
+              placeholder="Final"
+              />
+              </div>
+               :
+              <div className="row">
+                <div className="col-md-6">
+                  <input
+                    id={activity.id}
+                    name="evaluationActivityData"
+                    key={activity.id}
+                    type="number"
+                    min="1" max="100"
+                    className="form-control"
+                    onChange={this.onChange}
+                    placeholder="Initial"
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    id={activity.id}
+                    name="evaluationActivityData"
+                    key={activity.id}
+                    type="number"
+                    min="1" max="100"
+                    className="form-control"
+                    onChange={this.onChange}
+                    placeholder="Final"
+                  />
+                </div>
+              </div>
+            }
           </div>
         )
       })
@@ -171,7 +239,7 @@ class EvaluationActivities extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          value={this.state.groupData.evaluationType}
+                          value={this.state.evaluationType}
                           disabled/>
                       </div>
                     </div>
@@ -182,14 +250,44 @@ class EvaluationActivities extends React.Component {
                         <input
                           type="text"
                           className="form-control"
-                          value={this.state.evaluationData.id}
+                          value={this.state.evaluationData.approvalPercentage}
                           disabled/>
                       </div>
                     </div>
 
                     <p className="text-info">Evaluation Activities: </p>
 
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Minimum %</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={this.state.rangeData.min}
+                          disabled/>
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Maximum %</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={this.state.rangeData.max}
+                          disabled/>
+                      </div>
+                    </div>
+
                     {evaluationActivities()}
+
+                    <div className="form-group row">
+                      <div className="col-md-9 offset-md-3">
+                        {errors.evaluationActivityData &&
+                        <span className="help-block text-danger">{errors.evaluationActivityData}</span>}
+                      </div>
+                    </div>
+
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
@@ -199,7 +297,7 @@ class EvaluationActivities extends React.Component {
                                     onTouchTap={this.props.handlePrev}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label='Next' secondary className="btn-w-md"/>
+                                      label='Submit' secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>
@@ -234,7 +332,9 @@ function mapDispatchToProps(dispatch) {
       evaluationGetByIdRequest,
       groupGetByIdRequest,
       evaluationRangeGetByIdRequest,
-      evaluationSubtypeGetByIdRequest
+      evaluationSubtypeGetByIdRequest,
+      evaluationTypeById,
+      evaluationActivityParticipantAddRequest
     }, dispatch)
   };
 }

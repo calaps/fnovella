@@ -769,3 +769,24 @@ export function satisfactionStructureValidator(data) {
   return {errors, isValid: isEmpty(errors)};
 
 }
+
+export function evaluationActivityValidator(data) {
+  // console.log(data);
+  let errors = {};
+
+  for(let act of data.evaluationActivityData){
+    if(data.evaluationTypeId === 1){
+      if(act.gradeFinal === 0){
+        errors.evaluationActivityData = required;
+      }
+    }else{
+      if(act.gradeFinal === 0 || act.gradeInitial === 0){
+        errors.evaluationActivityData = required;
+      }
+    }
+
+  }
+
+  //IsValid is just a boolean who return is errors is empty
+  return {errors, isValid: isEmpty(errors)};
+}
