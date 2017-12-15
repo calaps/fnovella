@@ -9,7 +9,8 @@ import {
     inscriptionGetRequest, 
     inscriptionGetByGroupId,
     groupGetByIdRequest,
-    assistanceGetRequest
+    assistanceGetRequest,
+    inscriptionParticipantGetByGroupId
   } from '../../../../../actions';
 import ListItem from './ListItem';
 
@@ -28,6 +29,7 @@ class ListElements extends React.Component {
     // this.showAssistButton = this.showAssistButton.bind(this);
   }
   componentWillMount() {
+    this.props.actions.inscriptionParticipantGetByGroupId(this.props.query.id,number,size);
     this
       .props
       .actions
@@ -37,10 +39,10 @@ class ListElements extends React.Component {
           this.setState({inscriptions: response.data})
         }
       });
-    this
-      .props
-      .actions
-      .inscriptionParticipantGetRequest(number, size);
+    // this
+    //   .props
+    //   .actions
+    //   .inscriptionParticipantGetRequest(number, size);
     this
       .props
       .actions
@@ -115,7 +117,7 @@ class ListElements extends React.Component {
       let participants = this.props.participants.content || [];
       return inscriptionParticipants.map((inscriptionParticipant) => {
         let inscription = inscriptions.find(_inscription => {
-          if(_inscription.status === 1){
+          if(_inscription.status == 1){
             return (_inscription.id == inscriptionParticipant.inscription)
           }
         });
@@ -123,6 +125,7 @@ class ListElements extends React.Component {
           return (_participant.id == inscriptionParticipant.participant)
         });
         if (inscription && participant) {
+          console.log("INS",inscription,participant)
           return <ListItem
             changeView= {this.props.changeView}
             key={inscriptionParticipant.id}
@@ -189,7 +192,8 @@ function mapDispatchToProps(dispatch) {
       inscriptionGetByGroupId,
       inscriptionGetRequest,
       groupGetByIdRequest,
-      assistanceGetRequest
+      assistanceGetRequest,
+      inscriptionParticipantGetByGroupId
     }, dispatch)
   };
 }
