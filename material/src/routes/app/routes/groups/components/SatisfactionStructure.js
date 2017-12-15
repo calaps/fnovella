@@ -150,7 +150,7 @@ class SatisfactionStructure extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
+                      <label htmlFor="correlativo" className="col-md-3 control-label">Porcentaje de aprobación</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -166,8 +166,7 @@ class SatisfactionStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Select the categories to
-                        evaluate</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Selecciona las actividades a evalauar</label>
                       <div className="col-md-4">
                         <input
                           type="text"
@@ -176,7 +175,7 @@ class SatisfactionStructure extends React.Component {
                           name="evaluateCategoryName"
                           value={this.state.evaluateCategoryName}
                           onChange={this.onChangeEvaluateCategoryAndPercentage}
-                          placeholder="Category"/>
+                          placeholder="Actividad B"/>
                         {errors.evaluateCategoryName &&
                         <span className="help-block text-danger">{errors.evaluateCategoryName}</span>}
                       </div>
@@ -189,7 +188,7 @@ class SatisfactionStructure extends React.Component {
                           name="evaluateCategoryPercentage"
                           value={this.state.evaluateCategoryPercentage}
                           onChange={this.onChangeEvaluateCategoryAndPercentage}
-                          placeholder="Percentage"/>
+                          placeholder="Porcentaje"/>
                         {errors.evaluateCategoryPercentage &&
                         <span className="help-block text-danger">{errors.evaluateCategoryPercentage}</span>}
                       </div>
@@ -210,7 +209,7 @@ class SatisfactionStructure extends React.Component {
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="minimumNote" className="col-md-3 control-label">Minimum note</label>
+                      <label htmlFor="minimumNote" className="col-md-3 control-label">Nota minima</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -225,7 +224,7 @@ class SatisfactionStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="maximumNote" className="col-md-3 control-label">Maximum note</label>
+                      <label htmlFor="maximumNote" className="col-md-3 control-label">Nota maxima</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -240,7 +239,7 @@ class SatisfactionStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cálculus</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Calculo</label>
                       <div className="col-md-9">
                         <select
                           className="form-control"
@@ -249,7 +248,7 @@ class SatisfactionStructure extends React.Component {
                           value={this.state.calculateMultipleSelection}
                           onChange={this.onChange}
                         >
-                          <option value="finalNote">Final Note</option>
+                          <option value="finalNote">Nota final</option>
                           <option value="items">Items</option>
                         </select>
                         {errors.calculateMultipleSelection &&
@@ -259,12 +258,12 @@ class SatisfactionStructure extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                    label='Back'
+                                    label='Atras'
                                     style={{marginRight: 12}}
                                     onTouchTap={this.props.handlePrev}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label='Next' secondary className="btn-w-md"/>
+                                      label='Siguiente' secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>

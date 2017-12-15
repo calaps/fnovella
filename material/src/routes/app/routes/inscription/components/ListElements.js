@@ -4,9 +4,9 @@ import {bindActionCreators} from 'redux';
 import IconButton from 'material-ui/IconButton';
 import Search from 'material-ui/svg-icons/action/search';
 import {
-  participantsGetRequestBySearch, 
-  participantGetRequest, 
-  inscriptionParticipantGetRequest, 
+  participantsGetRequestBySearch,
+  participantGetRequest,
+  inscriptionParticipantGetRequest,
   inscriptionGetByGroupId} from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
@@ -145,7 +145,7 @@ class ListElements extends React.Component {
     if (showInscriptions) {
       return (
         <article className="article">
-          <h2 className="article-title">Lista de inscripciones</h2>
+          <h2 className="article-title">Alumnos inscritos al grupo:</h2>
           <div className="row">
             <div className="col-xl-12">
               <div className="box box-transparent">

@@ -36,14 +36,14 @@ class ListElements extends React.Component {
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
+                  <table className="mdl-data-table table-striped">
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Id</th>
-                      <th className="mdl-data-table__cell--non-numeric">Program Id</th>
-                      <th className="mdl-data-table__cell--non-numeric">Year</th>
-                      <th className="mdl-data-table__cell--non-numeric">Active</th>
+                      <th className="mdl-data-table__cell--non-numeric">activación</th>
+                      <th className="mdl-data-table__cell--non-numeric">ID del programa</th>
+                      <th className="mdl-data-table__cell--non-numeric">Año</th>
+                      <th className="mdl-data-table__cell--non-numeric">Estatus</th>
                     </tr>
                     </thead>
                     <tbody>

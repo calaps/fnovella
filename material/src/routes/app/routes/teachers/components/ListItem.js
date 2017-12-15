@@ -15,15 +15,15 @@ class ListItem extends React.Component {
 
             <td className="mdl-data-table__cell--non-numeric" >
               <button
-                onClick={()=>{this.props.onDelete(this.props.teacherData.id)}}
-
-                type="submit" className="btn btn-danger">Eliminar</button>
-            &nbsp;
-              &nbsp;
-              <button
                 onClick={()=>{this.props.onEdit(this.props.teacherData)}}
 
                 type="submit" className="btn btn-primary">Editar</button>
+            &nbsp;
+              &nbsp;
+              <button
+                onClick={()=>{this.props.onDelete(this.props.teacherData.id)}}
+
+                type="submit" className="btn btn-danger">Eliminar</button>
             </td>
           </tr>
           );

@@ -65,12 +65,12 @@ class EvaluationStructure extends React.Component {
                       }
                     },
                     (error) => {
-                      console.log("An Error occur with the Rest API");
+                      console.log("Ha ocurrido un error con el API");
                     })
               }
             },
             (error) => {
-              console.log("An Error occur with the Rest API");
+              console.log("Ha ocurrido un error con el API");
             });
         break;
       case 'section':
@@ -264,7 +264,7 @@ class EvaluationStructure extends React.Component {
       if (this.state.assistance === "true") {
         return (
           <div className="form-group row">
-            <label htmlFor="percentage" className="col-md-3 control-label">Percentage</label>
+            <label htmlFor="percentage" className="col-md-3 control-label">Porcentaje</label>
             <div className="col-md-9">
               <input
                 type="number"
@@ -295,7 +295,7 @@ class EvaluationStructure extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Assistance required?</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Es requerida la asistencia?</label>
                       <div className="col-md-9">
                         <select
                           name="assistance"
@@ -305,7 +305,7 @@ class EvaluationStructure extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona...</option>
-                          <option value={true}>Yes</option>
+                          <option value={true}>Si</option>
                           <option value={false}>No</option>
                         </select>
                         {errors.assistance && <span className="help-block text-danger">{errors.assistance}</span>}
@@ -331,7 +331,7 @@ class EvaluationStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
+                      <label htmlFor="correlativo" className="col-md-3 control-label">Porcentage requerido para aprobar</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -341,14 +341,13 @@ class EvaluationStructure extends React.Component {
                           name="approvalPercentage"
                           value={this.state.approvalPercentage}
                           onChange={this.onChange}
-                          placeholder="eje: 1 - 100"/>
+                          placeholder="Eje: 65"/>
                         {errors.approvalPercentage &&
                         <span className="help-block text-danger">{errors.approvalPercentage}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Select the categories to
-                        evaluate</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresa las actividades a evaluar</label>
                       <div className="col-md-4">
                         <input
                           type="text"
@@ -357,7 +356,7 @@ class EvaluationStructure extends React.Component {
                           name="evaluateCategoryName"
                           value={this.state.evaluateCategoryName}
                           onChange={this.onChangeEvaluateCategoryAndPercentage}
-                          placeholder="Category"/>
+                          placeholder="Actividad A"/>
                         {errors.evaluateCategoryName &&
                         <span className="help-block text-danger">{errors.evaluateCategoryName}</span>}
                       </div>
@@ -370,7 +369,7 @@ class EvaluationStructure extends React.Component {
                           name="evaluateCategoryPercentage"
                           value={this.state.evaluateCategoryPercentage}
                           onChange={this.onChangeEvaluateCategoryAndPercentage}
-                          placeholder="Percentage"/>
+                          placeholder="Porcentaje"/>
                         {errors.evaluateCategoryPercentage &&
                         <span className="help-block text-danger">{errors.evaluateCategoryPercentage}</span>}
                       </div>
@@ -391,7 +390,7 @@ class EvaluationStructure extends React.Component {
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="minimumNote" className="col-md-3 control-label">Minimum note</label>
+                      <label htmlFor="minimumNote" className="col-md-3 control-label">Nota minima</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -406,7 +405,7 @@ class EvaluationStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="maximumNote" className="col-md-3 control-label">Maximum note</label>
+                      <label htmlFor="maximumNote" className="col-md-3 control-label"> Nota maxima</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -421,7 +420,7 @@ class EvaluationStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cálculus</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Calculo</label>
                       <div className="col-md-9">
                         <select
                           className="form-control"
@@ -430,7 +429,7 @@ class EvaluationStructure extends React.Component {
                           value={this.state.calculateMultipleSelection}
                           onChange={this.onChange}
                         >
-                          <option value="finalNote">Final Note</option>
+                          <option value="finalNote">Nota final</option>
                           <option value="items">Items</option>
                         </select>
                         {errors.calculateMultipleSelection &&
@@ -445,7 +444,7 @@ class EvaluationStructure extends React.Component {
                                     onTouchTap={this.props.handlePrev}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label='Next' secondary className="btn-w-md"/>
+                                      label='Siguiente' secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>

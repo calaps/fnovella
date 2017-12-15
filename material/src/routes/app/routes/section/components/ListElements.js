@@ -40,7 +40,7 @@ class ListElements extends React.Component {
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
+                  <table className="mdl-data-table table-striped">
                     <thead>
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>

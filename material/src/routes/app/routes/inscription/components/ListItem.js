@@ -34,7 +34,7 @@ class ListItem extends React.Component {
           {this.props.hideInscribe? null: <button
             onClick={()=>{this.props.onInscribe(this.props.participantData , this.props.participantData.id )}}
 
-            type="submit" className="btn btn-primary">Inscribe</button>}
+            type="submit" className="btn btn-info">Inscribir</button>}
         </td>
       </tr>
     );

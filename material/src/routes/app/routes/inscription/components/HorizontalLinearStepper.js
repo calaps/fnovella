@@ -56,7 +56,7 @@ class HorizontalLinearStepper extends React.Component {
     var currentDate = new Date();
     var {group} = this.state;
     currentDate = Math.round(new Date(currentDate).getTime()/1000);
-    
+
     // if(currentDate > group.inscriptionsStart && currentDate < group.inscriptionsEnd ){
       this.props.onInscribe(participantData, participantId);
       this.handleNext();
@@ -109,7 +109,7 @@ class HorizontalLinearStepper extends React.Component {
           finished: stepIndex >= 2
         });
         break;
-        
+
         case 2:
         this.setState({
           participantData:data,
@@ -137,17 +137,17 @@ class HorizontalLinearStepper extends React.Component {
     const contentStyle = {margin: '0 16px'};
     return (
       <article className="article">
-        <h2 className="article-title">Agreegar nuevo participante</h2>
+        <h2 className="article-title">Inscripción al grupo</h2>
         <div className="box box-default">
           <div className="box-body padding-xl">
 
             <div style={{width: '100%', maxWidth: 900, margin: 'auto'}}>
               <Stepper activeStep={stepIndex}>
                 <Step>
-                  <StepLabel>Ingresoar información del estudiante:</StepLabel>
+                  <StepLabel>Seleccione estudiante a inscribir:</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Ingresar información de contacto de emergencia:</StepLabel>
+                  <StepLabel>Ingresar campos adicionales:</StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>Terminar</StepLabel>
