@@ -122,7 +122,8 @@ class Inscription extends React.Component {
                     showInscriptions={true}/>;
             case "VIEW_ELEMENT":
                 return <HorizontalLinearStepper
-                    query= {this.props.location.query}
+                    query={this.props.location.query}
+                    onCancel={this.handleCancel}
                     onInscribe={this.onInscribeStudent}
                     onEdit={this.onEdit}
                     showInscriptions={false}/>;

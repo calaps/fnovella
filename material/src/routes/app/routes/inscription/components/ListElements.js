@@ -6,7 +6,7 @@ import Search from 'material-ui/svg-icons/action/search';
 import {
   participantsGetRequestBySearch,
   participantGetRequest,
-  inscriptionParticipantGetRequest,
+  inscriptionParticipantGetByGroupId,
   inscriptionGetByGroupId} from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
@@ -20,7 +20,7 @@ class ListElements extends React.Component {
     this.state = {
       searchValue: 'Name',
       inputValue: '',
-      inscriptions:[]
+      inscriptions:[],
     };
     this.onDeleteButton = this
       .onDeleteButton
@@ -41,11 +41,10 @@ class ListElements extends React.Component {
       }
     })
     if (this.props.showInscriptions) {
-      alert(true);
       this
         .props
         .actions
-        .inscriptionParticipantGetRequest(number, size);
+        .inscriptionParticipantGetByGroupId(this.props.query.id,number, size);
       this
         .props
         .actions
@@ -54,7 +53,7 @@ class ListElements extends React.Component {
       this
       .props
       .actions
-      .inscriptionParticipantGetRequest(0, 1000);
+      .inscriptionParticipantGetByGroupId(this.props.query.id,0, 1000);
       this
         .props
         .actions
@@ -101,6 +100,7 @@ class ListElements extends React.Component {
   }
 
   render() {
+    console.log("idddddddddddddd",this.props);
     let i = 1;
     let {showInscriptions} = this.props;
     let renderRegistration = () => {
@@ -131,6 +131,7 @@ class ListElements extends React.Component {
     let hideInscribe = (participantId)=>{
       let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
       let inscriptions = this.state.inscriptions;
+      console.log("INS", inscriptions);
       let inscriptionParticipant = inscriptionParticipants.find(inscriptionParticipant =>{
         return inscriptionParticipant.participant == participantId;
       })
@@ -138,6 +139,7 @@ class ListElements extends React.Component {
         let inscription = inscriptions.find(inscription =>{
           return inscription.id == inscriptionParticipant.inscription;
         })
+        console.log("dadadadadasda",participantId, inscriptionParticipant,inscription);
         return ( (inscription)? true : false );
       }
       return false;
@@ -171,7 +173,7 @@ class ListElements extends React.Component {
                     <Pagination
                       totalPages={this.props.inscriptionParticipants.totalPages}
                       totalElements={this.props.inscriptionParticipants.totalElements}
-                      getRequest={this.props.actions.inscriptionParticipantGetRequest}/>
+                      getRequest={this.props.actions.inscriptionParticipantGetByGroupId}/>
                   </div>
 
                 </div>
@@ -301,7 +303,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       participantGetRequest,
       participantsGetRequestBySearch,
-      inscriptionParticipantGetRequest,
+      inscriptionParticipantGetByGroupId,
       inscriptionGetByGroupId
     }, dispatch)
   };

@@ -29,7 +29,7 @@ class HorizontalLinearStepper extends React.Component {
       data: {},
       group: ''
     };
-    this.handleCancel=this.handleCancel.bind(this);
+    // this.handleCancel=this.handleCancel.bind(this);
     this.handleNext=this.handleNext.bind(this);
     this.onInscribeStudent = this.onInscribeStudent.bind(this);
     this.routeToInscription = this.routeToInscription.bind(this);
@@ -55,14 +55,14 @@ class HorizontalLinearStepper extends React.Component {
     this.setState({participantData, participantId});
     var currentDate = new Date();
     var {group} = this.state;
-    currentDate = Math.round(new Date(currentDate).getTime()/1000);
 
-    // if(currentDate > group.inscriptionsStart && currentDate < group.inscriptionsEnd ){
+    if(currentDate > group.inscriptionsStart && currentDate < group.inscriptionsEnd ){
+
       this.props.onInscribe(participantData, participantId);
       this.handleNext();
-    // }else{
-    //   this.props.actions.snackBarShow('The current group is invalid to inscribe!');
-    // }
+    }else{
+      this.props.actions.snackBarShow('The current group is invalid to inscribe!');
+    }
   }
   routeToInscription(){
     this.context.router.push({
@@ -82,7 +82,7 @@ class HorizontalLinearStepper extends React.Component {
       return <AdditionalFieldsForm
           query={this.props.query}
           participantData={this.state.participantData}
-          handleCancel={this.handleCancel}
+          onCancel={this.props.onCancel}
           handleNext={this.handleNext}
         />;
         case 2:
@@ -122,16 +122,6 @@ class HorizontalLinearStepper extends React.Component {
         return 'You\'re a long way from home sonny jim!';
     }
   };
-
-  handleCancel() {
-    this.props.changeView("VIEW_ELEMENT");
-    this.setState({
-      finished: false,
-      stepIndex: 0,
-      data: {}
-    });
-  }
-
   render() {
     const {finished, stepIndex} = this.state;
     const contentStyle = {margin: '0 16px'};

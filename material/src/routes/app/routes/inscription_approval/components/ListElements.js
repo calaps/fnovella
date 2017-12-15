@@ -8,12 +8,14 @@ import {
   participantGetRequest, 
   inscriptionParticipantGetRequest, 
   inscriptionGetRequest,
-  inscriptionUpdateRequest
+  inscriptionUpdateRequest,
+  inscriptionGetByGroupId,
+  inscriptionParticipantGetByGroupId,
 } from '../../../../../actions';
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
 
-let size = 5; //limit
+let size = 10; //limit
 let number = 0; //page
 
 class ListElements extends React.Component {
@@ -21,7 +23,8 @@ class ListElements extends React.Component {
     super(props);
     this.state = {
       searchValue: 'Name',
-      inputValue: ''
+      inputValue: '',
+      inscriptions:[]
     };
     this.approveInscription=this.approveInscription.bind(this);
   }
@@ -30,7 +33,11 @@ class ListElements extends React.Component {
         .props
         .actions
         .inscriptionGetRequest(0, 1000);
-      this
+        this.props.actions.inscriptionGetByGroupId(this.props.query.id)
+        .then((res)=>{
+          this.setState({inscriptions:res.data});
+        })
+        this
         .props
         .actions
         .participantGetRequest(0, 1000);
@@ -38,7 +45,7 @@ class ListElements extends React.Component {
 
   
   approveInscription(inscriptionData){
-    console.log("dadasd",inscriptionData);
+    // console.log("dadasd",inscriptionData);
     let data= {
       ...inscriptionData,
       status: 1
@@ -47,7 +54,7 @@ class ListElements extends React.Component {
   }
   
   render() {
-    console.log("Render",this.props.inscriptions);
+    // console.log("Render",this.props.inscriptions);
     var i= 1;
     return (
       <article className="article">
@@ -71,11 +78,11 @@ class ListElements extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {this.props.inscriptions.content
+                      {
+                        this.state.inscriptions
                         ? this
-                          .props
+                          .state
                           .inscriptions
-                          .content
                           .map((inscription) => {
                             return <ListItem
                               handleInscriptionParticipant={this.props.handleInscriptionParticipant}
@@ -87,13 +94,13 @@ class ListElements extends React.Component {
                               /> 
                           })
                         : null
-}
+                      }
                     </tbody>
                   </table>
-                  <Pagination
+                  {/* <Pagination
                     totalPages={this.props.inscriptions.totalPages}
                     totalElements={this.props.inscriptions.totalElements}
-                    getRequest={this.props.actions.inscriptionGetRequest}/>
+                    getRequest={this.props.actions.inscriptionGetRequest}/> */}
                 </div>
 
               </div>
@@ -126,7 +133,8 @@ function mapDispatchToProps(dispatch) {
       participantsGetRequestBySearch,
       inscriptionParticipantGetRequest,
       inscriptionUpdateRequest,
-      inscriptionGetRequest
+      inscriptionGetRequest,
+      inscriptionGetByGroupId
     }, dispatch)
   };
 }

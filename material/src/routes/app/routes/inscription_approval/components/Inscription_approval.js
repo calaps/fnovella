@@ -59,7 +59,10 @@ class Inscription_approval extends React.Component {
         <QueueAnim type="bottom" className="ui-animate">
           <div key="1"><MainOptions/></div>
           <hr/>
-          <div key="2"><ListElements handleInscriptionParticipant={this.handleInscriptionParticipant}/></div>
+          <div key="2"><ListElements
+          query={this.props.location.query}
+          handleInscriptionParticipant={this.handleInscriptionParticipant}
+          /></div>
         </QueueAnim>
 
       </div>
