@@ -233,28 +233,16 @@ class HorizontalLinearStepper extends React.Component {
                             });
                             // console.log("response from evaluationStructureData api: ", response.data.id);
                             //setting evaluationStructureActivityData to hit evaluationActivity add api
-                            let evaluationStructureActivityData = {
-                              evaluation: this.state.evaluationStructureId,
-                              parentId: 0,
-                              range: this.state.evaluationStructureRangeId
-                            };
-                            for (let i = 0; i < this.state.evaluationStructure.evaluateCategory.length;) {
-                              evaluationStructureActivityData.name = this.state.evaluationStructure.evaluateCategory[i].name;
-                              evaluationStructureActivityData.percentage = this.state.evaluationStructure.evaluateCategory[i].percentage;
-                              // console.log("hitting evaluationStructureActivityData api, ", [i]);
-                              this.props.actions.evaluationActivityAddRequest(evaluationStructureActivityData)
-                                .then(
-                                  (response) => {
-                                    if (response) {
-                                      if (i === this.state.evaluationStructure.evaluateCategory.length - 1) {
-                                        this.setState({evaluationActivityCreated: true});
-                                      }
-                                    }
-                                  },
-                                  (error) => {
-                                    console.log("An Error occur with the Rest API: ", error);
-                                  });
-                              i++;
+                            for (let act of this.state.evaluationStructure.evaluateCategory) {
+                              let evaluationStructureActivityData = {
+                                evaluation: this.state.evaluationStructureId,
+                                parentId: 0,
+                                range: this.state.evaluationStructureRangeId,
+                              };
+                              evaluationStructureActivityData.name = act.name;
+                              evaluationStructureActivityData.percentage = act.percentage;
+                              // console.log("hitting evaluationStructureActivityData api , ", evaluationStructureActivityData);
+                              this.props.actions.evaluationActivityAddRequest(evaluationStructureActivityData);
                             }
 
                             //for third form
@@ -297,28 +285,16 @@ class HorizontalLinearStepper extends React.Component {
                                             });
                                             // console.log("response from satisfactionStructureData api: ", response.data.id);
                                             //setting satisfactionStructureActivityData to hit evaluationActivity add api
-                                            let satisfactionStructureActivityData = {
-                                              evaluation: this.state.satisfactionStructureId,
-                                              parentId: 0,
-                                              range: this.state.satisfactionStructureRangeId
-                                            };
-                                            for (let i = 0; i < this.state.satisfactionStructure.evaluateCategory.length;) {
-                                              satisfactionStructureActivityData.name = this.state.satisfactionStructure.evaluateCategory[i].name;
-                                              satisfactionStructureActivityData.percentage = this.state.satisfactionStructure.evaluateCategory[i].percentage;
-                                              // console.log("hitting satisfactionStructureActivityData api, ", [i]);
-                                              this.props.actions.evaluationActivityAddRequest(satisfactionStructureActivityData)
-                                                .then(
-                                                  (response) => {
-                                                    if (response) {
-                                                      if (i === this.state.satisfactionStructure.evaluateCategory.length - 1) {
-                                                        this.setState({satisfactionActivityCreated: true});
-                                                      }
-                                                    }
-                                                  },
-                                                  (error) => {
-                                                    console.log("An Error occur with the Rest API: ", error);
-                                                  });
-                                              i++;
+                                            for (let act of this.state.satisfactionStructure.evaluateCategory) {
+                                              let satisfactionStructureActivityData = {
+                                                evaluation: this.state.satisfactionStructureId,
+                                                parentId: 0,
+                                                range: this.state.satisfactionStructureRangeId
+                                              };
+                                              satisfactionStructureActivityData.name = act.name;
+                                              satisfactionStructureActivityData.percentage = act.percentage;
+                                              // console.log("hitting satisfactionStructureActivityData api, ", satisfactionStructureActivityData);
+                                              this.props.actions.evaluationActivityAddRequest(satisfactionStructureActivityData);
                                             }
 
                                             //for forth form
@@ -361,28 +337,16 @@ class HorizontalLinearStepper extends React.Component {
                                                             });
                                                             // console.log("response from monitoringStructureData api: ", response.data.id);
                                                             //setting monitoringStructureActivityData to hit evaluationActivity add api
-                                                            let monitoringStructureActivityData = {
-                                                              evaluation: this.state.monitoringStructureId,
-                                                              parentId: 0,
-                                                              range: this.state.monitoringStructureRangeId
-                                                            };
-                                                            for (let i = 0; i < this.state.monitoringStructure.evaluateCategory.length;) {
-                                                              monitoringStructureActivityData.name = this.state.monitoringStructure.evaluateCategory[i].name;
-                                                              monitoringStructureActivityData.percentage = this.state.monitoringStructure.evaluateCategory[i].percentage;
-                                                              // console.log("hitting monitoringStructureActivityData api, ", [i]);
-                                                              this.props.actions.evaluationActivityAddRequest(monitoringStructureActivityData)
-                                                                .then(
-                                                                  (response) => {
-                                                                    if (response) {
-                                                                      if (i === this.state.monitoringStructure.evaluateCategory.length - 1) {
-                                                                        this.setState({monitoringActivityCreated: true});
-                                                                      }
-                                                                    }
-                                                                  },
-                                                                  (error) => {
-                                                                    console.log("An Error occur with the Rest API: ", error);
-                                                                  });
-                                                              i++;
+                                                            for (let act of this.state.monitoringStructure.evaluateCategory) {
+                                                              let monitoringStructureActivityData = {
+                                                                evaluation: this.state.monitoringStructureId,
+                                                                parentId: 0,
+                                                                range: this.state.monitoringStructureRangeId
+                                                              };
+                                                              monitoringStructureActivityData.name = act.name;
+                                                              monitoringStructureActivityData.percentage = act.percentage;
+                                                              // console.log("hitting monitoringStructureActivityData api, ", monitoringStructureActivityData);
+                                                              this.props.actions.evaluationActivityAddRequest(monitoringStructureActivityData);
                                                             }
 
                                                             //for fifth form
@@ -425,28 +389,16 @@ class HorizontalLinearStepper extends React.Component {
                                                                             });
                                                                             // console.log("response from performanceStructureData api: ", response.data.id);
                                                                             //setting performanceStructureActivityData to hit evaluationActivity add api
-                                                                            let performanceStructureActivityData = {
-                                                                              evaluation: this.state.performanceStructureId,
-                                                                              parentId: 0,
-                                                                              range: this.state.performanceStructureRangeId
-                                                                            };
-                                                                            for (let i = 0; i < this.state.performanceStructure.evaluateCategory.length;) {
-                                                                              performanceStructureActivityData.name = this.state.performanceStructure.evaluateCategory[i].name;
-                                                                              performanceStructureActivityData.percentage = this.state.performanceStructure.evaluateCategory[i].percentage;
-                                                                              // console.log("hitting performanceStructureActivityData api, ", [i]);
-                                                                              this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData)
-                                                                                .then(
-                                                                                  (response) => {
-                                                                                    if (response) {
-                                                                                      if (i === this.state.performanceStructure.evaluateCategory.length - 1) {
-                                                                                        this.setState({performanceActivityCreated: true});
-                                                                                      }
-                                                                                    }
-                                                                                  },
-                                                                                  (error) => {
-                                                                                    console.log("An Error occur with the Rest API: ", error);
-                                                                                  });
-                                                                              i++;
+                                                                            for (let act of this.state.performanceStructure.evaluateCategory) {
+                                                                              let performanceStructureActivityData = {
+                                                                                evaluation: this.state.performanceStructureId,
+                                                                                parentId: 0,
+                                                                                range: this.state.performanceStructureRangeId
+                                                                              };
+                                                                              performanceStructureActivityData.name = act.name;
+                                                                              performanceStructureActivityData.percentage = act.percentage;
+                                                                              // console.log("hitting performanceStructureActivityData api, ", performanceStructureActivityData);
+                                                                              this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData);
                                                                             }
                                                                             this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
                                                                           }

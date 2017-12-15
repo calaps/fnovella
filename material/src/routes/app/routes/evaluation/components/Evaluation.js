@@ -3,6 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import HorizontalLinearStepper from './HorizontalLinearStepper';
+import ListElements from './ListElements';
 import {bindActionCreators} from 'redux';
 import {
   evaluationGetByIdRequest,
@@ -65,7 +66,7 @@ class MainOptions extends React.Component {
                   <div className="box box-default">
                     <div className="box-body">
                       <div className="icon-box ibox-plain ibox-center">
-                        <div className="ibox-icon">
+                        <div className="ibox-icon" onClick={()=>{this.props.changeView('VIEW_ELEMENT')}}>
                           <a  href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
                         </div>
                         <h6>Listo of evaluations</h6>
@@ -144,9 +145,9 @@ class Evaluation extends React.Component {
       case 'ADD_ELEMENT':
         return <HorizontalLinearStepper changeView={this.changeView} evaluationData={this.state.evaluationData}
                                         groupId={this.state.groupId} evaluationId={this.props.location.query.id}/>;
-      /*case "VIEW_ELEMENT":
-        return <ListElements onEdit={this.onEditProgram} onViewGroup={this.onViewGroup} onCreateGroup={this.onCreateGroup}/>;
-      */default:
+      case "VIEW_ELEMENT":
+        return <ListElements evaluationId={this.props.location.query.id}/>;
+      default:
         return null;
     }
   }
