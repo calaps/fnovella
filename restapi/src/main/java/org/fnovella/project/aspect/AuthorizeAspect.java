@@ -28,6 +28,7 @@ public class AuthorizeAspect {
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.getAll(..)) "
 			+ "|| execution(* org.fnovella.project.user.controller.UserController.logout(..)) "
 			+ "|| execution(* org.fnovella.project.catalog.controller.CatalogController.*(..)) "
+			+ "|| execution(* org.fnovella.project.indicators.controller.IndicatorsController.*(..)) "
 			+ "|| execution(* org.fnovella.project.instructor.controller.InstructorController.*(..)) "
 			+ "|| execution(* org.fnovella.project.participant.controller.ParticipantController.*(..)) "
 			+ "|| execution(* org.fnovella.project.participant_contacts.controller.ParticipantContactsController.*(..)) "
