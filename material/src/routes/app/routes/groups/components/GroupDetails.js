@@ -123,7 +123,7 @@ onRouteToAssistanceApproval (){
     query: {
       id: groupData.id,
      }
-  }); 
+  });
 }
   onRouteToEvaluation(evaluationSubtypeId) {
     this.props.actions.evaluationGetByGroupIdAndEvaluationSubtype(this.state.groupData.id, parseInt(evaluationSubtypeId))
@@ -148,23 +148,21 @@ onRouteToAssistanceApproval (){
         <QueueAnim type="bottom" className="ui-animate">
 
           <div key="1">
-            <section className="hero hero-bg-img">
-              <div className="hero-inner">
+            <section className="hero">
                 <div className="hero-content">
                   <h1 className="hero-title">{this.state.groupData.correlativo}</h1>
                 </div>
-                <div className="row">
-                  <div className="hero-tagline"><strong>Instructor: </strong>{this.state.groupInstructorName}</div>
-                  <div className="hero-tagline"><strong>Tipo: </strong>{this.state.groupData.typeCategory}</div>
-                </div>
+              <div className="row">
+                  <div className="hero-tagline">Instructor: {this.state.groupInstructorName}</div>
+                  <div className="hero-tagline">Tipo: {this.state.groupData.typeCategory}</div>
               </div>
             </section>
+            <hr/>
           </div>
 
           <div key="2">
             <article className="article padding-lg-v article-dark article-bordered">
 
-              <div className="with-maxwidth">
 
                 <div className="row">
 
@@ -198,7 +196,7 @@ onRouteToAssistanceApproval (){
                             </div>
                             <h3>Alumnos inscritos</h3>
                             <p>Crear, eliminar y visualizar docentes. Los docentes son los instructures que
-                              se asigna a cada grado, curso o taller.</p>
+                              se asigna a cada grado, curso.</p>
                           </div>
                         </div>
                       </div>
@@ -212,9 +210,7 @@ onRouteToAssistanceApproval (){
                           <div className="box-body">
                             <div className="icon-box ibox-plain ibox-center">
                               <div className="ibox-icon">
-                                <a href="javascript:;">
                                   <i className="material-icons">assignment</i>
-                                </a>
                               </div>
                               <h3>Aprobación de inscripciones</h3>
                               <p>Los alumnos son los estudiantes asignados a las secciones, tallers, grados o
@@ -363,8 +359,6 @@ onRouteToAssistanceApproval (){
                   }
 
                 </div>
-
-              </div>
 
             </article>
           </div>

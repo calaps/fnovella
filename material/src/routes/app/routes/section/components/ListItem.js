@@ -15,7 +15,7 @@ class ListItem extends React.Component {
                   <button
                     onClick={()=>{this.props.onViewGroup(this.props.sectionData.id)}}
 
-                    type="submit" className="btn btn-primary">Visualizar grupo</button>
+                    type="submit" className="btn btn-info">Visualizar grupo</button>
                   :
                   <button
                     onClick={()=>{this.props.onCreateGroup(this.props.sectionData.id)}}
@@ -25,15 +25,15 @@ class ListItem extends React.Component {
               &nbsp;
               &nbsp;
               <button
-                onClick={()=>{this.props.onDelete(this.props.sectionData.id)}}
-
-                type="submit" className="btn btn-primary">Eliminar</button>
-              &nbsp;
-              &nbsp;
-              <button
                 onClick={()=>{this.props.onEdit(this.props.sectionData)}}
 
                 type="submit" className="btn btn-primary">Editar</button>
+              &nbsp;
+              <button
+                onClick={()=>{this.props.onDelete(this.props.sectionData.id)}}
+
+                type="submit" className="btn btn-danger">Eliminar</button>
+              &nbsp;
             </td>
           </tr>
           );

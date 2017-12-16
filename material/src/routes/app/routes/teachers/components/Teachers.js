@@ -21,7 +21,7 @@ class MainOptions extends React.Component {
                   <div className="ibox-icon">
                     <a href="javascript:;"><i className="material-icons">school</i></a>
                   </div>
-                  <h5>{optionsName}s</h5>
+                  <h5>{optionsName}</h5>
                 </div>
               </div>
 

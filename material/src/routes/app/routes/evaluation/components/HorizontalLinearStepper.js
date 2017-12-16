@@ -68,7 +68,7 @@ class HorizontalLinearStepper extends React.Component {
         return 'You\'re a long way from home sonny jim!';
     }
   }
-
+x
   render() {
     const {finished, stepIndex, errors} = this.state;
     const contentStyle = {margin: '0 16px'};
@@ -81,10 +81,10 @@ class HorizontalLinearStepper extends React.Component {
             <div style={{width: '100%', maxWidth: 900, margin: 'auto'}}>
               <Stepper activeStep={stepIndex}>
                 <Step>
-                  <StepLabel>Student selection</StepLabel>
+                  <StepLabel>Selección de estudiantes inscritos</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Activity Data</StepLabel>
+                  <StepLabel>Terminar</StepLabel>
                 </Step>
               </Stepper>
               <div style={contentStyle}>

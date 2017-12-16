@@ -150,7 +150,7 @@ class MonitoringStructure extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Approval percentage</label>
+                      <label htmlFor="correlativo" className="col-md-3 control-label">Porcentage de aprobación</label>
                       <div className="col-md-9">
                         <input
                           type="number"
@@ -166,8 +166,7 @@ class MonitoringStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Select the categories to
-                        evaluate</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Selecciona las actividades a evaluar</label>
                       <div className="col-md-4">
                         <input
                           type="text"
@@ -176,7 +175,7 @@ class MonitoringStructure extends React.Component {
                           name="evaluateCategoryName"
                           value={this.state.evaluateCategoryName}
                           onChange={this.onChangeEvaluateCategoryAndPercentage}
-                          placeholder="Category"/>
+                          placeholder="Actividad C"/>
                         {errors.evaluateCategoryName &&
                         <span className="help-block text-danger">{errors.evaluateCategoryName}</span>}
                       </div>
@@ -189,7 +188,7 @@ class MonitoringStructure extends React.Component {
                           name="evaluateCategoryPercentage"
                           value={this.state.evaluateCategoryPercentage}
                           onChange={this.onChangeEvaluateCategoryAndPercentage}
-                          placeholder="Percentage"/>
+                          placeholder="Porcentage"/>
                         {errors.evaluateCategoryPercentage &&
                         <span className="help-block text-danger">{errors.evaluateCategoryPercentage}</span>}
                       </div>

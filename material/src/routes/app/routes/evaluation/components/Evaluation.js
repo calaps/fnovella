@@ -69,7 +69,7 @@ class MainOptions extends React.Component {
                         <div className="ibox-icon" onClick={()=>{this.props.changeView('VIEW_ELEMENT')}}>
                           <a  href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
                         </div>
-                        <h6>Listo of evaluations</h6>
+                        <h6>Lista de evaluaciones</h6>
                       </div>
                     </div>
                   </div>
@@ -82,7 +82,7 @@ class MainOptions extends React.Component {
                         <div className="ibox-icon" onClick={()=>{this.props.changeView('ADD_ELEMENT')}}>
                           <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
-                        <h6>Pass evaluation</h6>
+                        <h6>Pasar nueva evaluación</h6>
                       </div>
                     </div>
                   </div>
@@ -95,7 +95,7 @@ class MainOptions extends React.Component {
                         <div className="ibox-icon">
                           <a href="javascript:;"><i className="material-icons">insert_chart</i></a>
                         </div>
-                        <h6>Statics</h6>
+                        <h6>Indicadores</h6>
                       </div>
                     </div>
                   </div>

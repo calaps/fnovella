@@ -9,7 +9,7 @@ class ListItem extends React.Component {
     e.preventDefault();
     this.props.approveInscription(this.props.inscriptionData);
   }
-  
+
   render () {
     let {showInscriptions} = this.props;
     return (
@@ -23,8 +23,8 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric" >
           <button
             onClick={()=>{this.props.handleInscriptionParticipant(this.props.inscriptionData.id)}}
-            type="submit" className="btn btn-primary">Enrolled Students Visualization</button>
-          
+            type="submit" className="btn btn-primary">Visualizar estudiantes</button>
+
           &nbsp;
           &nbsp;
           {
@@ -32,9 +32,9 @@ class ListItem extends React.Component {
           <button
           onClick={this.submitApprove}
 
-          className="btn btn-primary">Approve Inscription</button>
+          className="btn btn-primary">Aprovar inscripción</button>
         }
-          
+
         </td>
       </tr>
     );

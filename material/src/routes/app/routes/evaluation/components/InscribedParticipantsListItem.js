@@ -14,7 +14,7 @@ class InscribedParticipantsListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">
           <button
             type="submit" onClick={() => this.props.onParticipantSelection(this.props.participantData.id)}
-            className="btn btn-primary">Select
+            className="btn btn-primary">Evaluar
           </button>
         </td>
       </tr>
