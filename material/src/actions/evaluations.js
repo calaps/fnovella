@@ -401,3 +401,34 @@ export function evaluationActivityParticipantGetByActivityId(id) {
     })
   }
 }
+
+export function indicatorsGetRequestByEvaluationIdAndYear(id,year) {
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/indicators/evaluation/' + id + '/' + year, null, {authorization: localStorage.getItem('@fnovella:token')})
+          .then(function (response) {
+            if (response.data.errors === null) {
+              // console.log(response.data.data);
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          })
+          .finally(() => {
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}

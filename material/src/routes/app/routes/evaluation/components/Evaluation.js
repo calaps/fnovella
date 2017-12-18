@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
 import HorizontalLinearStepper from './HorizontalLinearStepper';
 import ListElements from './ListElements';
+import Indicators from './Indicators';
 import {bindActionCreators} from 'redux';
 import {
   evaluationGetByIdRequest,
@@ -92,7 +93,7 @@ class MainOptions extends React.Component {
                   <div className="box box-default">
                     <div className="box-body">
                       <div className="icon-box ibox-plain ibox-center">
-                        <div className="ibox-icon">
+                        <div className="ibox-icon" onClick={()=>{this.props.changeView('VIEW_INDICATORS')}}>
                           <a href="javascript:;"><i className="material-icons">insert_chart</i></a>
                         </div>
                         <h6>Indicadores</h6>
@@ -147,6 +148,8 @@ class Evaluation extends React.Component {
                                         groupId={this.state.groupId} evaluationId={this.props.location.query.id}/>;
       case "VIEW_ELEMENT":
         return <ListElements evaluationId={this.props.location.query.id}/>;
+      case "VIEW_INDICATORS":
+        return <Indicators evaluationId={this.props.location.query.id}/>;
       default:
         return null;
     }
