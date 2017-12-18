@@ -15,4 +15,6 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Integer>
     List<Evaluation> findByGroup(Integer groupId);
 
     List<Evaluation> findByGroupAndEvaluationSubtype(Integer groupId, Integer evaluationSubtypeId);
+
+    List<Evaluation> findBySession(Integer session);
 }

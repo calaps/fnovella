@@ -1,5 +1,7 @@
 package org.fnovella.project.evaluation_activity_participant.service;
 
+import org.fnovella.project.evaluation.model.Evaluation;
+import org.fnovella.project.evaluation.repository.EvaluationRepository;
 import org.fnovella.project.evaluation_activity.model.EvaluationActivity;
 import org.fnovella.project.evaluation_activity.repository.EvaluationActivityRepository;
 import org.fnovella.project.evaluation_activity_participant.data.ActivityData;
@@ -27,6 +29,8 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
     private EvaluationActivityRepository eaRepository;
     @Autowired
     private ParticipantRepository participantRepository;
+    @Autowired
+    private EvaluationRepository evaluationRepository;
 
     @Override
     public List<EvaluationActivityParticipantData> getByActivityId(Integer activityId) {
@@ -34,6 +38,18 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
                 evaluationActivityParticipantRepository.findByActivity(activityId);
         List<EvaluationActivityParticipantData> preparedList = convert(evaluationActivityParticipants);
         return preparedList;
+    }
+
+    @Override
+    public List<EvaluationActivityParticipant> getBySession(Integer session) {
+        List<Evaluation> evaluationList = evaluationRepository.findBySession(session);
+        List<Integer> evaluationIds = evaluationList.stream()
+                .map(evaluation -> evaluation.getId())
+                .collect(Collectors.toList());
+        List<Integer> activityIds = eaRepository.findByEvaluationIn(evaluationIds).stream()
+                .map(evaluationActivity -> evaluationActivity.getId())
+                .collect(Collectors.toList());
+        return evaluationActivityParticipantRepository.findByActivityIn(activityIds);
     }
 
     private List<EvaluationActivityParticipantData> convert(List<EvaluationActivityParticipant> evaluationActivityParticipants) {

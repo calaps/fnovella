@@ -41,6 +41,15 @@ public class EvaluationActivityParticipantController {
         return new APIResponse(new PageImpl<>(dataList, pageable, dataList.size()), null);
     }
 
+    @RequestMapping(value = "by-session/{session}", method = RequestMethod.GET)
+    public APIResponse getBySession(@RequestHeader("authorization") String authorization, @PathVariable("session") Integer session, Pageable pageable) {
+
+        List<EvaluationActivityParticipant> dataList =
+                evaluationActivityParticipantService.getBySession(session);
+
+        return new APIResponse(dataList, null);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.POST)
     public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody EvaluationActivityParticipant eap) {
         ArrayList<String> errors = eap.validate();

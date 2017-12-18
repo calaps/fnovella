@@ -13,4 +13,6 @@ public interface EvaluationActivityRepository extends JpaRepository<EvaluationAc
     List<EvaluationActivity> findByEvaluation(Integer evaluationId);
     @Transactional
     void deleteByEvaluation(Integer evaluationId);
+
+    List<EvaluationActivity> findByEvaluationIn(List<Integer> evaluationIds);
 }

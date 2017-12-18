@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface EvaluationActivityParticipantRepository extends JpaRepository<EvaluationActivityParticipant, Integer> {
@@ -15,5 +15,5 @@ public interface EvaluationActivityParticipantRepository extends JpaRepository<E
 
     List<EvaluationActivityParticipant> findByActivity(Integer activityId);
 
-    List<EvaluationActivityParticipant>  findByActivityIn(Set<Integer> integers);
+    List<EvaluationActivityParticipant>  findByActivityIn(Collection<Integer> integers);
 }
