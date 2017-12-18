@@ -1,6 +1,7 @@
 import React from 'react';
 import Pagination from '../../../../../components/Pagination';
 import {connect} from 'react-redux';
+import {RaisedButton} from "material-ui";
 import {bindActionCreators} from 'redux';
 import {
     participantsGetRequestBySearch, 
@@ -13,6 +14,7 @@ import {
     inscriptionParticipantGetByGroupId
   } from '../../../../../actions';
 import ListItem from './ListItem';
+import PastAssistance from './PastAssistance';
 
 let size = 10; //limit
 let number = 0; //page
@@ -25,7 +27,7 @@ class ListElements extends React.Component {
       inscriptions: [],
       group:{}
     }
-    this.NumOfSessions=this.NumOfSessions.bind(this);
+    // this.NumOfSessions=this.NumOfSessions.bind(this);
     // this.showAssistButton = this.showAssistButton.bind(this);
   }
   componentWillMount() {
@@ -58,7 +60,7 @@ class ListElements extends React.Component {
       .then((res) => {
           this.setState({group: res.data});
       })
-      this.props.actions.assistanceGetRequest(0.1000)
+      this.props.actions.assistanceGetRequest(0,1000)
   }
 
   NumOfSessions() {
@@ -89,57 +91,90 @@ class ListElements extends React.Component {
               return this.state.group.nsDec
       }
   }
-//   showAssistButton(inscriptionData){
-//     console.log("assistance: ",this.props.assistances)
-//     let count = 0;
-//     var assistances=this.props.assistances.content || []  
-//     let checkCount = () => {
-//       for(var i=0;i<assistances.length;i++){
-//         if(assistances[i].inscription===inscriptionData.id){
-//           count=count+1;
-//         }
-//       }
-//       return count;
-//     }
-//     console.log("sessions",this.NumOfSessions(),checkCount());
-//   if(checkCount() >= this.NumOfSessions){
-//     alert('1')
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
+
   render() {
-    var i = 0;
-    let showInscribedParticipantList = ()=>{
-      let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
-      let inscriptions = this.state.inscriptions;
-      let participants = this.props.participants.content || [];
-      return inscriptionParticipants.map((inscriptionParticipant) => {
-        let inscription = inscriptions.find(_inscription => {
-          if(_inscription.status == 1){
-            return (_inscription.id == inscriptionParticipant.inscription)
-          }
-        });
-        let participant = participants.find(_participant => {
-          return (_participant.id == inscriptionParticipant.participant)
-        });
-        if (inscription && participant) {
-          console.log("INS",inscription,participant)
-          return <ListItem
-            changeView= {this.props.changeView}
-            key={inscriptionParticipant.id}
-            number={i++}
-            // showAssistButton={this.showAssistButton}
-            participantData={participant}
-            inscriptionData={inscription}
-            />
-        }
-      })
-    };
+    var arr=[];
+    var NumOfSessions=()=> {
+      switch (this.state.date.getMonth() + 1) {
+          case 1:
+              return this.state.group.nsJan;
+          case 2:
+              return this.state.group.nsFeb;
+          case 3:
+              return this.state.group.nsMar;
+          case 4:
+              return this.state.group.nsApr;
+          case 5:
+              return this.state.group.nsMay;
+          case 6:
+              return this.state.group.nsJun;
+          case 7:
+              return this.state.group.nsJul;
+          case 8:
+              return this.state.group.nsAug;
+          case 9:
+              return this.state.group.nsSep;
+          case 10:
+              return this.state.group.nsOct;
+          case 11:
+              return this.state.group.nsNov;
+          case 12:
+              return this.state.group.nsDec
+      }
+    }
+  var renderSessionButtons = () => {
+    var i=0;
+     for  (i=1; i <= NumOfSessions() ; i++ ){
+        arr.push(i);
+      }
+
+    return arr.map((arr)=>{
+      return (
+        <td className="mdl-data-table__cell--non-numeric">      
+          <button className="btn btn-primary" primary type='submit' 
+          onClick={
+              ()=>{this.props.changeView('ADD_ASSISTANCE',arr)}
+              }>
+            {"Pass Evaluation " + arr }
+          </button>
+        </td>
+        )
+      });
+  }
+
+  var renderCurrentMonth = (month)=> {
+      switch (month+ 1) {
+        case 1:
+            return "January";
+        case 2:
+            return "February";
+        case 3:
+            return "March";
+        case 4:
+            return "April";
+        case 5:
+            return "May";
+        case 6:
+            return "June";
+        case 7:
+            return "July";
+        case 8:
+            return "August";
+        case 9:
+            return "September";
+        case 10:
+            return "October";
+        case 11:
+            return "November";
+        case 12:
+            return "December";
+    }
+  }
+    var date = new Date;
+    var currentMonth = date.getMonth();
     return (
       <article className="article">
-        <h2 className="article-title">Lista de assistance</h2>
+        <h2 className="article-title">Available Evaluation for {renderCurrentMonth(currentMonth)}</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
@@ -150,14 +185,19 @@ class ListElements extends React.Component {
                     <thead>
                       <tr>
                         <th className="mdl-data-table__cell--non-numeric">#</th>
-                        <th className="mdl-data-table__cell--non-numeric">ID</th>
-                        <th className="mdl-data-table__cell--non-numeric">Participant</th>
-                        <th className="mdl-data-table__cell--non-numeric">Inscription</th>
+                        <th className="mdl-data-table__cell--non-numeric">Current Month</th>
+                        <th className="mdl-data-table__cell--non-numeric">Number Of sessions</th>
+                        {/* <th className="mdl-data-table__cell--non-numeric">Inscription</th> */}
                       </tr>
                     </thead>
                     <tbody>
+                          <td className="mdl-data-table__cell--non-numeric">0</td>
+                          <td className="mdl-data-table__cell--non-numeric">{renderCurrentMonth(currentMonth)}</td>
+                          <td className="mdl-data-table__cell--non-numeric">{NumOfSessions()}</td>
 
-                    {showInscribedParticipantList()}
+                          {renderSessionButtons()} 
+
+                    {/* {showInscribedParticipantList()} */} 
 
                     </tbody>
                   </table>
@@ -167,6 +207,8 @@ class ListElements extends React.Component {
             </div>
           </div>
         </div>
+
+        <PastAssistance />
       </article>
 
     );

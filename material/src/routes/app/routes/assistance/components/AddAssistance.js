@@ -9,27 +9,66 @@ import {
     participantGetRequest,
     inscriptionParticipantGetRequest,
     inscriptionGetRequest,
-    groupGetByIdRequest
+    groupGetByIdRequest,
+
+    inscriptionParticipantGetByGroupId,
+    inscriptionGetByGroupId
 } from '../../../../../actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import ListItem from './ListItem';
 
 var sessionNumber= 1;
+
+let size = 10; //limit
+let number = 0; //page
 class AddAssistance extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             date: new Date(),
             catalogs: [],
+            inscriptions:[],
+            errors:{},
+            dataCount:0,
             sessionValue: 0,
             session: 1,
-            group: ''
+            group: '',
+            assistanceData:[],
         }
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.NumOfSessions=this.NumOfSessions.bind(this);
+        this.AddData=this.AddData.bind(this);
+        this.addRequest=this.addRequest.bind(this);
     }
     componentWillMount() {
+        this.props.actions.inscriptionParticipantGetByGroupId(this.props.query.id,number,size);
+        this
+          .props
+          .actions
+          .inscriptionGetByGroupId(this.props.query.id)
+          .then((response) => {
+            if (response) {
+              this.setState({inscriptions: response.data})
+            }
+          });
+        this
+          .props
+          .actions
+          .inscriptionGetRequest(0, 1000);
+        this
+          .props
+          .actions
+          .participantGetRequest(0, 1000);
+          this
+          .props
+          .actions
+          .groupGetByIdRequest(this.props.query.id)
+          .then((res) => {
+              this.setState({group: res.data});
+          })
+        //   this.props.actions.assistanceGetRequest(0,1000)
+      
         this
             .props
             .actions
@@ -47,181 +86,147 @@ class AddAssistance extends React.Component {
                     }
                 }
             });
-        this
-            .props
-            .actions
-            .groupGetByIdRequest(this.props.query.id)
-            .then((res) => {
-                this.setState({group: res.data});
-                console.log("res group:", res.data)
-            })
-    }
-    NumOfSessions() {
-        switch (this.state.date.getMonth() + 1) {
-            case 1:
-                return this.state.group.nsJan;
-            case 2:
-                return this.state.group.nsFeb;
-            case 3:
-                return this.state.group.nsMar;
-            case 4:
-                return this.state.group.nsApr;
-            case 5:
-                return this.state.group.nsMay;
-            case 6:
-                return this.state.group.nsJun;
-            case 7:
-                return this.state.group.nsJul;
-            case 8:
-                return this.state.group.nsAug;
-            case 9:
-                return this.state.group.nsSep;
-            case 10:
-                return this.state.group.nsOct;
-            case 11:
-                return this.state.group.nsNov;
-            case 12:
-                return this.state.group.nsDec
-        }
+        
     }
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
+    isValid(data){
+    for(var i=0; i<data.length;i++){
+        if(data[i].value===''){
+            this.setState({
+                errors:{
+                    catalog:"Catalog is required"
+                }
+            })
+            // alert(false);
+            return false;       
+        }
+    }
+    return true;
+    }
+
+    async addRequest(assistanceData){
+        let data={
+           inscription: assistanceData.inscription,
+           date: assistanceData.date,
+           month: assistanceData.month,
+           session: assistanceData.session,
+       }
+       await this
+           .props
+           .actions
+           .assistanceAddRequest(data).then((res)=>{
+               console.log("participant2",assistanceData);
+               let assistanceParticipantData={
+                   assistance: res.data.id,
+                   participant: assistanceData.participant,
+                   value:assistanceData.value
+               }
+               this.props.actions.assistanceParticipantAddRequest(assistanceParticipantData)
+
+           })
+   }
+
     onSubmit(e) {
         e.preventDefault();
-            // alert(true);
-            let data = {
-                inscription: this.props.inscriptionData.id,
-                date: this.state.date,
-                month: this.state.date.getMonth() + 1,
-                session: this.state.session
-            }
-            this
-                .props
-                .actions
-                .assistanceAddRequest(data).then((res)=>{
-                    let assistanceParticipantData={
-                        assistance: res.data.id,
-                        participant: this.props.participantData.id,
-                        value:this.state.sessionValue
-                    }
-                    this.props.actions.assistanceParticipantAddRequest(assistanceParticipantData)
-                    .then((res)=>console.log("res assPar",res))
-                })
-            this.setState({session:this.state.session + 1})
-            if(this.state.session===this.NumOfSessions()){
-                this.props.changeView("VIEW_ELEMENTS");
+        // alert('adasdada');
+
+        let {assistanceData}=this.state;
+            if(this.isValid(assistanceData)){
+                for(var i = 0; i<assistanceData.length;i++){
+                    this.addRequest(assistanceData[i]); 
+                }   
+                this.props.changeView("VIEW_ELEMENTS")
             }
     }
-    
-    render() {
-        var calatogsOpt = () => {
-            console.log("abcdef", this.state.catalogs);
-            return this.state.catalogs
-                ? this
-                    .state
-                    .catalogs
-                    .map((catalog) => {
-                        return <option key={catalog.id} value={catalog.type}>{catalog.name}</option>
-                    })
-                : null
+    AddData(data) {
+        let assistance = this.state.assistanceData.find(element =>{ return element.inscription == data.inscription});
+        let _assistanceData = this.state.assistanceData;
+        if(assistance){
+            _assistanceData = _assistanceData.map(element => element.inscription ==  assistance.inscription ? {...element, value : data.value} : element);
+        } else{
+            _assistanceData.push(data);
         }
-        return (
-            <article className="article padding-lg-v article-bordered">
-                <div className="container-fluid with-maxwidth">
-                    <div className="row">
-                        <div className="col-xl-12">
+        this.setState({
+            assistanceData: _assistanceData
+        })
+        
+    }
+    render() {
+        const {errors} = this.state;        
+        console.log("State",this.state.errors);
+        var i = 0;
+    let showInscribedParticipantList = ()=>{
+      let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
+      let inscriptions = this.state.inscriptions;
+      let participants = this.props.participants.content || [];
+      return inscriptionParticipants.map((inscriptionParticipant) => {
+        let inscription = inscriptions.find(_inscription => {
+          if(_inscription.status == 1){
+            return (_inscription.id == inscriptionParticipant.inscription)
+          }
+        });
+        let participant = participants.find(_participant => {
+          return (_participant.id == inscriptionParticipant.participant)
+        });
+        if (inscription && participant) {
+            return <ListItem
+            sessionNum={this.props.sessionNum}
+            changeView= {this.props.changeView}
+            key={inscriptionParticipant.id}
+            number={i++}
+            catalogs={this.state.catalogs}
+            participantData={participant}
+            inscriptionData={inscription}
+            AddAssistance={this.AddData}
+            />
+        }
+      })
+    };
 
-                            <div className="box box-default">
-                                <div className="box-body padding-md">
-                                    <p className="text-info">Session # {this.state.session}:
-                                    </p>
-                                    <form role="form" onSubmit={this.onSubmit}>
-                                        <div className="form-group row">
-                                            <label className="col-md-3 control-label">Inscription</label>
-                                            <div className="col-md-9">
-                                                <input
-                                                    id="programId"
-                                                    name="programId"
-                                                    className="form-control"
-                                                    value={this.props.inscriptionData.id}
-                                                    disabled={true}/>
-                                            </div>
-                                        </div>
+     return (
+            <article className="article">
+              <h2 className="article-title">Assistance Evaluation<br/> December Session 1</h2>
+              <div className="row">
+                <div className="col-xl-12">
+                  <div className="box box-transparent">
+                    <div className="box-body no-padding-h">
 
-                                        <div className="form-group row">
-                                            <label className="col-md-3 control-label">Month</label>
-                                            <div className="col-md-9">
-                                                <input
-                                                    id="month"
-                                                    name="month"
-                                                    className="form-control"
-                                                    value={this
-                                                    .state
-                                                    .date
-                                                    .getMonth() + 1}
-                                                    disabled={true}/>
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group row">
-                                            <label className="col-md-3 control-label">Session</label>
-                                            <div className="col-md-9">
-                                                <input
-                                                    id="programId"
-                                                    name="programId"
-                                                    className="form-control"
-                                                    value={this.state.session}
-                                                    disabled={true}/>
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group row">
-                                            <label htmlFor="programId" className="col-md-3 control-label">Value</label>
-                                            <div className="col-md-9">
-                                                <select
-                                                    name="sessionValue"
-                                                    id="sessionValue"
-                                                    onChange={this.onChange}
-                                                    value={this.state.sessionValue}
-                                                    className="form-control">
-                                                    <option value="" disabled>Selecione el Catalogos</option>
-                                                    {calatogsOpt()}
-                                                </select>
-                                                {/* //{errors.calatog && <span className="help-block text-danger">{errors.calatog}</span>} */}
-                                            </div>
-                                        </div>
-
-                                        <div className="form-group row">
-                                            <label className="col-md-3 control-label">Date</label>
-                                            <div className="col-md-9">
-                                                <input
-                                                    id="programId"
-                                                    name="programId"
-                                                    className="form-control"
-                                                    value={this.state.date}
-                                                    disabled={true}/>
-                                            </div>
-                                        </div>
-                                        {/* <FlatButton
-                                            label="Cancelar"
-                                            onTouchTap={this._handleCancel}
-                                            style={{
-                                            marginRight: 12
-                                        }}/> */}
-                                        <RaisedButton label='Siguiente' primary type='submit'/>
-
-                                    </form>
-                                </div>
-                            </div>
-
+                    <form onSubmit={this.onSubmit}>
+                      <div className="box box-default table-box mdl-shadow--2dp">
+                        <table className="mdl-data-table">
+                          <thead>
+                            <tr>
+                              <th className="mdl-data-table__cell--non-numeric">#</th>
+                              <th className="mdl-data-table__cell--non-numeric">Partcipant</th>
+                              <th className="mdl-data-table__cell--non-numeric">Number Of Session</th>
+                              <th className="mdl-data-table__cell--non-numeric">Value</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {showInscribedParticipantList()}
+                          </tbody>
+                        </table>
+                        
+                      </div>
+                      
+                        <div className="form-group row">
+                          {errors.catalog && <span className="help-block text-danger">{errors.catalog}</span>}
                         </div>
 
+                      <button
+                      className="btn btn-primary float-right"
+                      type="submit"
+                      onClick={this.onSubmit}
+                      >Submit</button>
+                    </form>
                     </div>
-
+                  </div>
                 </div>
+              </div>
             </article>
 
         );
@@ -230,7 +235,12 @@ class AddAssistance extends React.Component {
 
 function mapStateToProps(state) {
     //pass the providers
-    return {participants: state.participants, inscriptions: state.inscriptions, catalogs: state.catalogs, inscriptionParticipants: state.inscriptionParticipants}
+    return {
+        participants: state.participants, 
+        inscriptions: state.inscriptions, 
+        catalogs: state.catalogs, 
+        inscriptionParticipants: state.inscriptionParticipants
+    }
 }
 
 /* Map Actions to Props */
@@ -245,7 +255,10 @@ function mapDispatchToProps(dispatch) {
             inscriptionParticipantGetRequest,
             inscriptionGetRequest,
             assistanceParticipantAddRequest,
-            groupGetByIdRequest
+            groupGetByIdRequest,
+
+            inscriptionParticipantGetByGroupId,
+            inscriptionGetByGroupId
         }, dispatch)
     };
 }

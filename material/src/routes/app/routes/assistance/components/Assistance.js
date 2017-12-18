@@ -8,20 +8,19 @@ class Assistance extends React.Component{
         super(props);
         this.state = {
             active: 'VIEW_ELEMENTS',
-            hideAssist:false
+            // hideAssist:false
         }
         this.activeView= this.activeView.bind(this);
         this.changeView = this.changeView.bind(this);
     }
-    changeView(view,participantData,inscriptionData,hideAssist){
+    changeView(view,sessionValue){
         if(view ==="ADD_ASSISTANCE"){
             this.setState({
-                active:view,    
-                participantData,
-                inscriptionData
+                active:view,
+                sessionNum:sessionValue,
             })
         }else {
-            this.setState({active:view,hideAssist})
+            this.setState({active:view})
         }
     }
     activeView(){
@@ -34,10 +33,11 @@ class Assistance extends React.Component{
                             />;
             case 'ADD_ASSISTANCE':
                 return <AddAssistance
+                             sessionNum={this.state.sessionNum}
                              query={this.props.location.query}    
                              changeView={this.changeView}
-                             inscriptionData={this.state.inscriptionData} 
-                             participantData={this.state.participantData} 
+                            //  inscriptionData={this.state.inscriptionData} 
+                            //  participantData={this.state.participantData} 
                              />;
             default:
                 return null;
