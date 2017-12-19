@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.fnovella.project.program_instructor.service.ProgramInstructorServiceImpl.SPACE;
@@ -23,7 +25,7 @@ import static org.fnovella.project.program_instructor.service.ProgramInstructorS
 public class EvaluationActivityParticipantServiceImpl implements EvaluationActivityParticipantService {
 
     @Autowired
-    private EvaluationActivityParticipantRepository evaluationActivityParticipantRepository;
+    private EvaluationActivityParticipantRepository eapRepository;
 
     @Autowired
     private EvaluationActivityRepository eaRepository;
@@ -35,7 +37,7 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
     @Override
     public List<EvaluationActivityParticipantData> getByActivityId(Integer activityId) {
         List<EvaluationActivityParticipant> evaluationActivityParticipants =
-                evaluationActivityParticipantRepository.findByActivity(activityId);
+                eapRepository.findByActivity(activityId);
         List<EvaluationActivityParticipantData> preparedList = convert(evaluationActivityParticipants);
         return preparedList;
     }
@@ -49,7 +51,50 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
         List<Integer> activityIds = eaRepository.findByEvaluationIn(evaluationIds).stream()
                 .map(evaluationActivity -> evaluationActivity.getId())
                 .collect(Collectors.toList());
-        return evaluationActivityParticipantRepository.findByActivityIn(activityIds);
+        List<EvaluationActivityParticipant> bySession = eapRepository.findByActivityIn(activityIds);
+        bySession.forEach(evaluationActivityParticipant -> evaluationActivityParticipant.setSession(session));
+        return bySession;
+    }
+
+    @Override
+    public List<EvaluationActivityParticipant> findAll() {
+        Map<Integer, Evaluation> evaluationMap = evaluationRepository.findAll()
+                .stream()
+                .collect(Collectors.toMap(Evaluation::getId, Function.identity()));
+        Map<Integer, EvaluationActivity> activityMap = eaRepository.findAll()
+                .stream()
+                .collect(Collectors.toMap(EvaluationActivity::getId, Function.identity()));
+        List<EvaluationActivityParticipant> eapList =
+                eapRepository.findAll();
+        eapList.forEach(eap -> {
+            try {
+                Integer activityId = eap.getActivity();
+                EvaluationActivity activity = activityMap.get(activityId);
+                Integer evaluationId = activity.getEvaluation();
+                Evaluation evaluation = evaluationMap.get(evaluationId);
+                eap.setSession(evaluation.getSession());
+            } catch (Exception ex) {
+                System.err.println(ex);
+                eap.setSession(0);
+            }
+        });
+
+        return eapList;
+    }
+
+    @Override
+    public EvaluationActivityParticipant findOne(Integer id) {
+        EvaluationActivityParticipant eap = eapRepository.findOne(id);
+        return applySession(eap);
+    }
+
+    private EvaluationActivityParticipant applySession(EvaluationActivityParticipant eap) {
+        Integer activityId = eap.getActivity();
+        EvaluationActivity activity = eaRepository.findOne(activityId);
+        Integer evaluationId = activity.getEvaluation();
+        Evaluation evaluation = evaluationRepository.findOne(evaluationId);
+        eap.setSession(evaluation.getSession());
+        return eap;
     }
 
     private List<EvaluationActivityParticipantData> convert(List<EvaluationActivityParticipant> evaluationActivityParticipants) {

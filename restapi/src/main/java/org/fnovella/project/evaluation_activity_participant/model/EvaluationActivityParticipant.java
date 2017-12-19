@@ -2,11 +2,7 @@ package org.fnovella.project.evaluation_activity_participant.model;
 
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 @Entity
 public class EvaluationActivityParticipant {
@@ -19,6 +15,17 @@ public class EvaluationActivityParticipant {
 	private Integer gradeInitial;
 	private Integer gradeFinal;
 	private Integer participant;
+	@Transient
+	private Integer session;
+
+	public Integer getSession() {
+		return session;
+	}
+
+	public void setSession(Integer session) {
+		this.session = session;
+	}
+
 	public Integer getId() {
 		return id;
 	}

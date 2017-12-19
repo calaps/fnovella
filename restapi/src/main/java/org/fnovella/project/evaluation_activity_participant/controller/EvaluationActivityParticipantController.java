@@ -6,6 +6,7 @@ import org.fnovella.project.evaluation_activity_participant.repository.Evaluatio
 import org.fnovella.project.evaluation_activity_participant.service.EvaluationActivityParticipantService;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -17,19 +18,22 @@ import java.util.List;
 @RequestMapping("/evaluation_activity_participant/")
 public class EvaluationActivityParticipantController {
 
-    @Autowired
-    private EvaluationActivityParticipantRepository evaluationActivityParticipantRepository;
+
     @Autowired
     private EvaluationActivityParticipantService evaluationActivityParticipantService;
 
+    @Autowired
+    private EvaluationActivityParticipantRepository evaluationActivityParticipantRepository;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
-        return new APIResponse(this.evaluationActivityParticipantRepository.findAll(pageable), null);
+        List<EvaluationActivityParticipant> all = evaluationActivityParticipantService.findAll();
+        return new APIResponse(new PageImpl<>(all, pageable, all.size()), null);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public APIResponse getOne(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
-        return new APIResponse(this.evaluationActivityParticipantRepository.findOne(id), null);
+        return new APIResponse(this.evaluationActivityParticipantService.findOne(id), null);
     }
 
     @RequestMapping(value = "by-activity/{activityId}", method = RequestMethod.GET)

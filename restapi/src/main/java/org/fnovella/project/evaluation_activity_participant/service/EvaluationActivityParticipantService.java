@@ -9,4 +9,8 @@ public interface EvaluationActivityParticipantService {
     List<EvaluationActivityParticipantData> getByActivityId(Integer activityId);
 
     List<EvaluationActivityParticipant> getBySession(Integer session);
+
+    List<EvaluationActivityParticipant> findAll();
+
+    EvaluationActivityParticipant findOne(Integer id);
 }
