@@ -27,8 +27,6 @@ class ListElements extends React.Component {
       inscriptions: [],
       group:{}
     }
-    // this.NumOfSessions=this.NumOfSessions.bind(this);
-    // this.showAssistButton = this.showAssistButton.bind(this);
   }
   componentWillMount() {
     this.props.actions.inscriptionParticipantGetByGroupId(this.props.query.id,number,size);
@@ -40,12 +38,8 @@ class ListElements extends React.Component {
         if (response) {
           this.setState({inscriptions: response.data})
         }
-      });
-    // this
-    //   .props
-    //   .actions
-    //   .inscriptionParticipantGetRequest(number, size);
-    this
+      });    
+      this
       .props
       .actions
       .inscriptionGetRequest(0, 1000);
@@ -62,36 +56,6 @@ class ListElements extends React.Component {
       })
       this.props.actions.assistanceGetRequest(0,1000)
   }
-
-  NumOfSessions() {
-      switch (this.state.date.getMonth() + 1) {
-          case 1:
-              return this.state.group.nsJan;
-          case 2:
-              return this.state.group.nsFeb;
-          case 3:
-              return this.state.group.nsMar;
-          case 4:
-              return this.state.group.nsApr;
-          case 5:
-              return this.state.group.nsMay;
-          case 6:
-              return this.state.group.nsJun;
-          case 7:
-              return this.state.group.nsJul;
-          case 8:
-              return this.state.group.nsAug;
-          case 9:
-              return this.state.group.nsSep;
-          case 10:
-              return this.state.group.nsOct;
-          case 11:
-              return this.state.group.nsNov;
-          case 12:
-              return this.state.group.nsDec
-      }
-  }
-
   render() {
     var arr=[];
     var NumOfSessions=()=> {
@@ -187,7 +151,6 @@ class ListElements extends React.Component {
                         <th className="mdl-data-table__cell--non-numeric">#</th>
                         <th className="mdl-data-table__cell--non-numeric">Current Month</th>
                         <th className="mdl-data-table__cell--non-numeric">Number Of sessions</th>
-                        {/* <th className="mdl-data-table__cell--non-numeric">Inscription</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -208,7 +171,10 @@ class ListElements extends React.Component {
           </div>
         </div>
 
-        <PastAssistance />
+        <PastAssistance 
+            changeView={this.props.changeView}
+            query={this.props.query}
+        />
       </article>
 
     );

@@ -2,22 +2,28 @@ import React from "react";
 import QueueAnim from 'rc-queue-anim';
 import ListElements from './ListElements';
 import AddAssistance from './AddAssistance';
+import EnrolledStudents from './EnrolledStudents';
 
 class Assistance extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             active: 'VIEW_ELEMENTS',
-            // hideAssist:false
+            enrolledStudentData:{}
         }
         this.activeView= this.activeView.bind(this);
         this.changeView = this.changeView.bind(this);
     }
-    changeView(view,sessionValue){
+    changeView(view,data){
         if(view ==="ADD_ASSISTANCE"){
             this.setState({
                 active:view,
-                sessionNum:sessionValue,
+                sessionNum:data,
+            })
+        }else if(view==="SHOW_ENROLLED_STUDENTS"){
+            this.setState({
+                active:view,
+                enrolledStudentData:data
             })
         }else {
             this.setState({active:view})
@@ -36,9 +42,13 @@ class Assistance extends React.Component{
                              sessionNum={this.state.sessionNum}
                              query={this.props.location.query}    
                              changeView={this.changeView}
-                            //  inscriptionData={this.state.inscriptionData} 
-                            //  participantData={this.state.participantData} 
                              />;
+            case "SHOW_ENROLLED_STUDENTS":
+                return <EnrolledStudents
+                    enrolledStudentData={this.state.enrolledStudentData}
+                    query={this.props.location.query}
+                    changeView={this.changeView}
+                />;
             default:
                 return null;
         }

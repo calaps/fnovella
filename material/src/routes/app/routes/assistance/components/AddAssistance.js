@@ -119,7 +119,6 @@ class AddAssistance extends React.Component {
            .props
            .actions
            .assistanceAddRequest(data).then((res)=>{
-               console.log("participant2",assistanceData);
                let assistanceParticipantData={
                    assistance: res.data.id,
                    participant: assistanceData.participant,
@@ -157,9 +156,36 @@ class AddAssistance extends React.Component {
     }
     render() {
         const {errors} = this.state;        
-        console.log("State",this.state.errors);
         var i = 0;
-    let showInscribedParticipantList = ()=>{
+            var renderCurrentMonth = (month)=> {
+                switch (this.state.date.getMonth()+ 1) {
+                  case 1:
+                      return "January";
+                  case 2:
+                      return "February";
+                  case 3:
+                      return "March";
+                  case 4:
+                      return "April";
+                  case 5:
+                      return "May";
+                  case 6:
+                      return "June";
+                  case 7:
+                      return "July";
+                  case 8:
+                      return "August";
+                  case 9:
+                      return "September";
+                  case 10:
+                      return "October";
+                  case 11:
+                      return "November";
+                  case 12:
+                      return "December";
+              }
+            }
+      let showInscribedParticipantList = ()=>{
       let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
       let inscriptions = this.state.inscriptions;
       let participants = this.props.participants.content || [];
@@ -189,7 +215,7 @@ class AddAssistance extends React.Component {
 
      return (
             <article className="article">
-              <h2 className="article-title">Assistance Evaluation<br/> December Session 1</h2>
+              <h2 className="article-title">Assistance Evaluation<br/> {renderCurrentMonth()} Session {this.props.sessionNum}</h2>
               <div className="row">
                 <div className="col-xl-12">
                   <div className="box box-transparent">

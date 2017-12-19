@@ -1,35 +1,35 @@
 import React from 'react';
-// import default from 'material-ui/SvgIcon';
 
 class PastAssistanceListItem extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.submitApprove = this
-//       .submitApprove
-//       .bind(this);
-//   }
-//   submitApprove(e) {
-//     e.preventDefault();
-//     this
-//       .props
-//       .approveAssistance(this.props.assistanceData);
-//   }
+
+    constructor(props) {
+    super(props);
+  }
+  componentWillMount(){
+  }
 
   render() {
-      alert("asc");
-    // let {showInscriptions} = this.props;
+    var date=new Date(this.props.date);
+    let enrolledStudentData={
+      ...this.props
+    }
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.assistanceData.id}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.assistanceData.month}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.assistanceData.date}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.assistanceData.status
-            ? "True"
-            : "False"}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.month}</td>        
+        <td className="mdl-data-table__cell--non-numeric">{this.props.session}</td>
+        <td className="mdl-data-table__cell--non-numeric">{date.toLocaleDateString()}</td>
+        
+        <td className="mdl-data-table__cell--non-numeric">
+          <button className="btn btn-primary" 
+          onClick={()=>this.props.changeView('SHOW_ENROLLED_STUDENTS',enrolledStudentData)}
+          >
+            Enrolled Students Visualization
+          </button>
+        </td>
       </tr>
     );
   }
 }
 
-module.exports= PastAssistanceListItem;
+export default PastAssistanceListItem;

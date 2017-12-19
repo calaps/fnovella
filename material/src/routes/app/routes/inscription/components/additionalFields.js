@@ -288,7 +288,8 @@ class AdditionalFieldsForm extends React.Component {
                                 className="form-control"
                                 id={field.additional_field_id}
                                 name="additional_fields"
-                                onChange={this.onChange}/> {errors.additionalFields && <span className="help-block text-danger">{errors.additionalFields}</span>}
+                                onChange={this.onChange}/> 
+                                {errors.additionalFields && <span className="help-block text-danger">{errors.additionalFields}</span>}
                         </div>
                     </div>
                 )

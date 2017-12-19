@@ -75,16 +75,6 @@ class ListElements extends React.Component {
         }
       })
     }
-    console.log("dasdadaddas",renderAssisance());
-    // let hideInscribe = (participantId)=>{
-    //   let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
-    //   let find = inscriptionParticipants.find(inscriptionParticipant =>{
-    //     return inscriptionParticipant.participant == participantId;
-    //   })
-    //   return ( (find)? true : false );
-    // }
-    
-    console.log("props",this.props.assistance)
     return (  
       <article className="article">
         <h2 className="article-title">Lista de participantes</h2>
