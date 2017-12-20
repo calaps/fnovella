@@ -13,7 +13,7 @@ class EnrolledStudentListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.id}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.firstName+ " "+this.props.participantData.firstLastname }</td>        
         <td className="mdl-data-table__cell--non-numeric">{date.toLocaleDateString()}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.assistanceData.status?"True":"False"}</td>        
+        <td className="mdl-data-table__cell--non-numeric">{this.props.catalogData.name}</td>        
       </tr>
     );
   }

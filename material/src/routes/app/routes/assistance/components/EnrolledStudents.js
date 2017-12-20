@@ -11,6 +11,8 @@ import {
     inscriptionGetByGroupId,
     groupGetByIdRequest,
     assistanceGetRequest,
+    assistanceParticipantGetRequest,
+    catalogsGetByCategoryRequest,
     inscriptionParticipantGetByGroupId
   } from '../../../../../actions';
 import EnrolledStudentListItem from './EnrolledStudentListItem';
@@ -28,6 +30,8 @@ class EnrolledStudents extends React.Component{
     : null
 
     this.props.actions.assistanceGetRequest(0, 10000);
+    this.props.actions.assistanceParticipantGetRequest(0,10000);
+    this.props.actions.catalogsGetByCategoryRequest(10,0,10000);
     this.props.actions.participantGetRequest(0,10000);
   }
     render(){        
@@ -62,13 +66,16 @@ class EnrolledStudents extends React.Component{
         
         
         let renderAssisance = () => {
-          var i=0;          
+          var i=0;
+          let enrolledStudentData = this.props.enrolledStudentData;          
           let assistance = this.props.assistance.content || [];
           let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
           let participants = this.props.participants.content || [];
-    
+          let assistanceParticipant=this.props.assistanceParticipant.content || [];
+          let catalogs = this.props.catalogs.content || [];
+
           return assistance.map((_assistance) => {
-            if (_assistance.session == this.props.enrolledStudentData.session && _assistance.month == renderMonth())
+            if (_assistance.session == enrolledStudentData.session && _assistance.month == renderMonth())
             {
               let inscriptionParticipant = () =>{
                 for(var i=0; i<inscriptionParticipants.length;i++){
@@ -84,8 +91,16 @@ class EnrolledStudents extends React.Component{
                 }
               }
             }
-            if (inscriptionParticipant()&& participant()) {
+            let _assistanceParticipant = assistanceParticipant.find((_ap)=>{
+              return _ap.assistance == _assistance.id ;
+            });
+            let catalog = catalogs.find((catalog)=>{
+              return  catalog.type == _assistanceParticipant.value;
+            });
+
+            if (inscriptionParticipant()&& participant() && _assistanceParticipant && catalog) {
               return<EnrolledStudentListItem
+              catalogData={catalog}
               key={_assistance.id}
               changeView={this.props.changeView}
               number={i++}
@@ -138,6 +153,8 @@ function mapStateToProps(state) {
     participants: state.participants, 
     inscriptionParticipants: state.inscriptionParticipants,
     assistance: state.assistance,
+    assistanceParticipant: state.assistanceParticipant,
+    catalogs:state.catalogs
   }
 }
 
@@ -152,6 +169,8 @@ function mapDispatchToProps(dispatch) {
       inscriptionGetRequest,
       groupGetByIdRequest,
       assistanceGetRequest,
+      assistanceParticipantGetRequest,
+      catalogsGetByCategoryRequest,
       inscriptionParticipantGetByGroupId
     }, dispatch)
   };

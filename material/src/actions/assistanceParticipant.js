@@ -26,7 +26,7 @@ export function assistanceParticipantGetRequest(number, size, sort) {
   params.page = number;
   params.size = size;
   params.type = 2;
-  params.sort = 'category';
+  params.sort = null;
 
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
@@ -34,6 +34,7 @@ export function assistanceParticipantGetRequest(number, size, sort) {
         dispatch({
           type: PROGRESS_ADD_REQUEST
         });
+        
         // API
         HTTP('get', '/assistance_participant/', null, {authorization: localStorage.getItem('@fnovella:token')}, params)
           .then(function (response) {
