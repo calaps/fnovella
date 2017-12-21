@@ -3,10 +3,10 @@ import {connect} from 'react-redux';
 import {RaisedButton} from "material-ui";
 import {bindActionCreators} from 'redux';
 import {
-    participantsGetRequestBySearch, 
-    participantGetRequest, 
-    inscriptionParticipantGetRequest, 
-    inscriptionGetRequest, 
+    participantsGetRequestBySearch,
+    participantGetRequest,
+    inscriptionParticipantGetRequest,
+    inscriptionGetRequest,
     inscriptionGetByGroupId,
     groupGetByIdRequest,
     assistanceGetByGroupId,
@@ -35,8 +35,8 @@ class PastAssistance extends React.Component{
   render(){
     var assistance = this.props.assistance.content || [];
     var i=0;
-    var num=0;    
-    
+    var num=0;
+
     var renderSessions=(sessions,month) => {
       var arr=[];
       for(var i=0;i< sessions;i++){
@@ -86,9 +86,9 @@ class PastAssistance extends React.Component{
       }
       });
     }
-        return( 
+        return(
         <article>
-        <h2 className="article-title">List of past assistance</h2>
+        <h2 className="article-title">Lista de asistencias pasadas</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
@@ -99,9 +99,9 @@ class PastAssistance extends React.Component{
                     <thead>
                       <tr>
                         <th className="mdl-data-table__cell--non-numeric">#</th>
-                        <th className="mdl-data-table__cell--non-numeric">Month</th>
-                        <th className="mdl-data-table__cell--non-numeric">Session</th>
-                        <th className="mdl-data-table__cell--non-numeric">Date</th>
+                        <th className="mdl-data-table__cell--non-numeric">Mes</th>
+                        <th className="mdl-data-table__cell--non-numeric">sesion</th>
+                        <th className="mdl-data-table__cell--non-numeric">fecha</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -147,10 +147,10 @@ function mapDispatchToProps(dispatch){
 }
 function mapStateToProps(state){
   return {
-    participants: state.participants, 
-    inscriptions: state.inscriptions, 
+    participants: state.participants,
+    inscriptions: state.inscriptions,
     inscriptionParticipants: state.inscriptionParticipants,
     assistance: state.assistance
   }
 }
-module.exports = connect(mapStateToProps,mapDispatchToProps)(PastAssistance); 
+module.exports = connect(mapStateToProps,mapDispatchToProps)(PastAssistance);

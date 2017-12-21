@@ -16,15 +16,15 @@ class PastAssistanceListItem extends React.Component {
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.month}</td>        
+        <td className="mdl-data-table__cell--non-numeric">{this.props.month}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.session}</td>
         <td className="mdl-data-table__cell--non-numeric">{date.toLocaleDateString()}</td>
-        
+
         <td className="mdl-data-table__cell--non-numeric">
-          <button className="btn btn-primary" 
+          <button className="btn btn-primary"
           onClick={()=>this.props.changeView('SHOW_ENROLLED_STUDENTS',enrolledStudentData)}
           >
-            Enrolled Students Visualization
+            Visualizar asistencia
           </button>
         </td>
       </tr>

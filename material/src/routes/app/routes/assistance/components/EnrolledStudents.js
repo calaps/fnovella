@@ -4,10 +4,10 @@ import {connect} from 'react-redux';
 import {RaisedButton} from "material-ui";
 import {bindActionCreators} from 'redux';
 import {
-    participantsGetRequestBySearch, 
-    participantGetRequest, 
-    inscriptionParticipantGetRequest, 
-    inscriptionGetRequest, 
+    participantsGetRequestBySearch,
+    participantGetRequest,
+    inscriptionParticipantGetRequest,
+    inscriptionGetRequest,
     inscriptionGetByGroupId,
     groupGetByIdRequest,
     assistanceGetRequest,
@@ -34,7 +34,7 @@ class EnrolledStudents extends React.Component{
     this.props.actions.catalogsGetByCategoryRequest(10,0,10000);
     this.props.actions.participantGetRequest(0,10000);
   }
-    render(){        
+    render(){
         var renderMonth = ()=> {
           switch (this.props.enrolledStudentData.month.toLowerCase()) {
             case "january":
@@ -63,11 +63,11 @@ class EnrolledStudents extends React.Component{
                 return 12;
         }
       }
-        
-        
+
+
         let renderAssisance = () => {
           var i=0;
-          let enrolledStudentData = this.props.enrolledStudentData;          
+          let enrolledStudentData = this.props.enrolledStudentData;
           let assistance = this.props.assistance.content || [];
           let inscriptionParticipants = this.props.inscriptionParticipants.content || [];
           let participants = this.props.participants.content || [];
@@ -84,7 +84,7 @@ class EnrolledStudents extends React.Component{
                 }
               }
             let participant = () =>{
-              if(inscriptionParticipant()){ 
+              if(inscriptionParticipant()){
                 for(var i=0; i<participants.length;i++){
                   if(participants[i].id==inscriptionParticipant().participant)
                     return participants[i];
@@ -119,16 +119,16 @@ class EnrolledStudents extends React.Component{
               <div className="col-xl-12">
                 <div className="box box-transparent">
                   <div className="box-body no-padding-h">
-    
+
                     <div className="box box-default table-box mdl-shadow--2dp">
                       <table className="mdl-data-table">
                         <thead>
                           <tr>
                             <th className="mdl-data-table__cell--non-numeric">#</th>
                             <th className="mdl-data-table__cell--non-numeric">ID</th>
-                            <th className="mdl-data-table__cell--non-numeric">Participant</th>
-                            <th className="mdl-data-table__cell--non-numeric">Date</th>
-                            <th className="mdl-data-table__cell--non-numeric">Status</th>
+                            <th className="mdl-data-table__cell--non-numeric">Participante</th>
+                            <th className="mdl-data-table__cell--non-numeric">Fecha</th>
+                            <th className="mdl-data-table__cell--non-numeric">Estado</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -136,7 +136,7 @@ class EnrolledStudents extends React.Component{
                         </tbody>
                       </table>
                     </div>
-    
+
                   </div>
                 </div>
               </div>
@@ -150,7 +150,7 @@ class EnrolledStudents extends React.Component{
 function mapStateToProps(state) {
   //pass the providers
   return {
-    participants: state.participants, 
+    participants: state.participants,
     inscriptionParticipants: state.inscriptionParticipants,
     assistance: state.assistance,
     assistanceParticipant: state.assistanceParticipant,

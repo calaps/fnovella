@@ -64,7 +64,7 @@ class ListElements extends React.Component {
   }
   render() {
     var arr = [];
-    var assistance = this.props.assistance.content || [];    
+    var assistance = this.props.assistance.content || [];
     var date = this.state.date;
     var currentMonth = date.getMonth();
     var NumOfSessions = () => {
@@ -117,7 +117,7 @@ class ListElements extends React.Component {
                 .props
                 .changeView('ADD_ASSISTANCE', arr)
             }}>
-              {"Pass Evaluation " + arr}
+              {"Pasar evaluación " + arr}
             </button>
           </td>
         )
@@ -128,34 +128,34 @@ class ListElements extends React.Component {
     var renderCurrentMonth = (month) => {
       switch (month + 1) {
         case 1:
-          return "January";
+          return "Enero";
         case 2:
-          return "February";
+          return "Febrero";
         case 3:
-          return "March";
+          return "Marzo";
         case 4:
-          return "April";
+          return "Abril";
         case 5:
-          return "May";
+          return "Mayo";
         case 6:
-          return "June";
+          return "Junio";
         case 7:
-          return "July";
+          return "Julio";
         case 8:
-          return "August";
+          return "Agosto";
         case 9:
-          return "September";
+          return "Spetiembre";
         case 10:
-          return "October";
+          return "Octubre";
         case 11:
-          return "November";
+          return "Noviembre";
         case 12:
-          return "December";
+          return "Diciembre";
       }
     }
     return (
       <article className="article">
-        <h2 className="article-title">Available Evaluation for {renderCurrentMonth(currentMonth)}</h2>
+        <h2 className="article-title">Evaluaciones disponibles para {renderCurrentMonth(currentMonth)}</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
@@ -166,8 +166,8 @@ class ListElements extends React.Component {
                     <thead>
                       <tr>
                         <th className="mdl-data-table__cell--non-numeric">#</th>
-                        <th className="mdl-data-table__cell--non-numeric">Current Month</th>
-                        <th className="mdl-data-table__cell--non-numeric">Number Of sessions</th>
+                        <th className="mdl-data-table__cell--non-numeric">Mes actual</th>
+                        <th className="mdl-data-table__cell--non-numeric">Numero de sesiones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -198,9 +198,9 @@ class ListElements extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    participants: state.participants, 
-    inscriptions: state.inscriptions, 
-    inscriptionParticipants: state.inscriptionParticipants, 
+    participants: state.participants,
+    inscriptions: state.inscriptions,
+    inscriptionParticipants: state.inscriptionParticipants,
     assistance: state.assistance
   }
 }

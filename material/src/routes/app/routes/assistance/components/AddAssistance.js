@@ -68,7 +68,7 @@ class AddAssistance extends React.Component {
               this.setState({group: res.data});
           })
         //   this.props.actions.assistanceGetRequest(0,1000)
-      
+
         this
             .props
             .actions
@@ -86,7 +86,7 @@ class AddAssistance extends React.Component {
                     }
                 }
             });
-        
+
     }
     onChange(e) {
         this.setState({
@@ -102,7 +102,7 @@ class AddAssistance extends React.Component {
                 }
             })
             // alert(false);
-            return false;       
+            return false;
         }
     }
     return true;
@@ -136,8 +136,8 @@ class AddAssistance extends React.Component {
         let {assistanceData}=this.state;
             if(this.isValid(assistanceData)){
                 for(var i = 0; i<assistanceData.length;i++){
-                    this.addRequest(assistanceData[i]); 
-                }   
+                    this.addRequest(assistanceData[i]);
+                }
                 this.props.changeView("VIEW_ELEMENTS")
             }
     }
@@ -152,37 +152,37 @@ class AddAssistance extends React.Component {
         this.setState({
             assistanceData: _assistanceData
         })
-        
+
     }
     render() {
-        const {errors} = this.state;        
+        const {errors} = this.state;
         var i = 0;
             var renderCurrentMonth = (month)=> {
                 switch (this.state.date.getMonth()+ 1) {
                   case 1:
-                      return "January";
+                      return "Enero";
                   case 2:
-                      return "February";
+                      return "Febrero";
                   case 3:
-                      return "March";
+                      return "Marzo";
                   case 4:
-                      return "April";
+                      return "Abril";
                   case 5:
-                      return "May";
+                      return "Mayo";
                   case 6:
-                      return "June";
+                      return "Junio";
                   case 7:
-                      return "July";
+                      return "Julio";
                   case 8:
-                      return "August";
+                      return "Agosto";
                   case 9:
-                      return "September";
+                      return "Septiembre";
                   case 10:
-                      return "October";
+                      return "Octubre";
                   case 11:
-                      return "November";
+                      return "Noviembre";
                   case 12:
-                      return "December";
+                      return "Deciembre";
               }
             }
       let showInscribedParticipantList = ()=>{
@@ -215,7 +215,7 @@ class AddAssistance extends React.Component {
 
      return (
             <article className="article">
-              <h2 className="article-title">Assistance Evaluation<br/> {renderCurrentMonth()} Session {this.props.sessionNum}</h2>
+              <h2 className="article-title">Evaluación de assitencia<br/> {renderCurrentMonth()} Session {this.props.sessionNum}</h2>
               <div className="row">
                 <div className="col-xl-12">
                   <div className="box box-transparent">
@@ -227,18 +227,18 @@ class AddAssistance extends React.Component {
                           <thead>
                             <tr>
                               <th className="mdl-data-table__cell--non-numeric">#</th>
-                              <th className="mdl-data-table__cell--non-numeric">Partcipant</th>
-                              <th className="mdl-data-table__cell--non-numeric">Number Of Session</th>
-                              <th className="mdl-data-table__cell--non-numeric">Value</th>
+                              <th className="mdl-data-table__cell--non-numeric">Participante</th>
+                              <th className="mdl-data-table__cell--non-numeric">Numero de sesión</th>
+                              <th className="mdl-data-table__cell--non-numeric">Valor</th>
                             </tr>
                           </thead>
                           <tbody>
                           {showInscribedParticipantList()}
                           </tbody>
                         </table>
-                        
+
                       </div>
-                      
+
                         <div className="form-group row">
                           {errors.catalog && <span className="help-block text-danger">{errors.catalog}</span>}
                         </div>
@@ -247,7 +247,7 @@ class AddAssistance extends React.Component {
                       className="btn btn-primary float-right"
                       type="submit"
                       onClick={this.onSubmit}
-                      >Submit</button>
+                      >Guardar evaluación</button>
                     </form>
                     </div>
                   </div>
@@ -262,9 +262,9 @@ class AddAssistance extends React.Component {
 function mapStateToProps(state) {
     //pass the providers
     return {
-        participants: state.participants, 
-        inscriptions: state.inscriptions, 
-        catalogs: state.catalogs, 
+        participants: state.participants,
+        inscriptions: state.inscriptions,
+        catalogs: state.catalogs,
         inscriptionParticipants: state.inscriptionParticipants
     }
 }

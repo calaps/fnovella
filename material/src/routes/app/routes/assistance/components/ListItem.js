@@ -16,9 +16,9 @@ class ListItem extends React.Component {
   onChange(e){
     this.setState({
       [e.target.name]: e.target.value
-    })   
+    })
     this.AddAssistance(e.target.value);
-    
+
   }
   AddAssistance(value){
     let data = {
@@ -60,7 +60,7 @@ class ListItem extends React.Component {
           value={this.state.catalog}
           onChange={this.onChange}
           >
-          <option value="" >Select catalog</option>
+          <option value="" >Seleccionar</option>
             {calatogsOpt()}
           </select>
         </td>
