@@ -14,6 +14,10 @@ public interface AssistanceRepository extends JpaRepository<Assistance, Integer>
     Page<Assistance> findByInscription(Integer inscription, Pageable pageable);
 
     List<Assistance> findByInscription(Integer inscription);
+
     @Transactional
     void deleteByInscription(Integer inscriptionId);
+
+    Page<Assistance> findByInscriptionIn(List<Integer> inscriptionIds, Pageable pageable);
+    List<Assistance> findByInscriptionIn(List<Integer> inscriptionIds);
 }

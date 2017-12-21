@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/assistance/")
@@ -24,6 +26,16 @@ public class AssistanceController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
         return new APIResponse(this.assistanceRepository.findAll(pageable), null);
+    }
+
+
+    @RequestMapping(value = "by-group/{groupId}", method = RequestMethod.GET)
+    public APIResponse byGroupId(@RequestHeader("authorization") String authorization, @PathVariable(value = "groupId") Integer groupId ,Pageable pageable) {
+        List<Integer> inscriptionIds = inscriptionRepository.findByGroup(groupId)
+                .stream()
+                .map(Inscription::getId)
+                .collect(Collectors.toList());
+        return new APIResponse(assistanceRepository.findByInscriptionIn(inscriptionIds, pageable), null);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
