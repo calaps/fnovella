@@ -1,12 +1,12 @@
 package org.fnovella.project.evaluation_activity_participant.controller;
 
 import org.fnovella.project.evaluation_activity_participant.data.EvaluationActivityParticipantData;
+import org.fnovella.project.evaluation_activity_participant.data.EvaluationActivityParticipantDetail;
 import org.fnovella.project.evaluation_activity_participant.model.EvaluationActivityParticipant;
 import org.fnovella.project.evaluation_activity_participant.repository.EvaluationActivityParticipantRepository;
 import org.fnovella.project.evaluation_activity_participant.service.EvaluationActivityParticipantService;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class EvaluationActivityParticipantController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
-        List<EvaluationActivityParticipant> all = evaluationActivityParticipantService.findAll();
+        List<EvaluationActivityParticipantDetail> all = evaluationActivityParticipantService.findAll();
         return new APIResponse(new PageImpl<>(all, pageable, all.size()), null);
     }
 
@@ -48,7 +48,7 @@ public class EvaluationActivityParticipantController {
     @RequestMapping(value = "by-session/{session}", method = RequestMethod.GET)
     public APIResponse getBySession(@RequestHeader("authorization") String authorization, @PathVariable("session") Integer session, Pageable pageable) {
 
-        List<EvaluationActivityParticipant> dataList =
+        List<EvaluationActivityParticipantDetail> dataList =
                 evaluationActivityParticipantService.getBySession(session);
 
         return new APIResponse(dataList, null);

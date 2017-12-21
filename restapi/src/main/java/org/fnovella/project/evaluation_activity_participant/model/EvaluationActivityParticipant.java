@@ -15,16 +15,7 @@ public class EvaluationActivityParticipant {
 	private Integer gradeInitial;
 	private Integer gradeFinal;
 	private Integer participant;
-	@Transient
-	private Integer session;
 
-	public Integer getSession() {
-		return session;
-	}
-
-	public void setSession(Integer session) {
-		this.session = session;
-	}
 
 	public Integer getId() {
 		return id;

@@ -1,16 +1,16 @@
 package org.fnovella.project.evaluation_activity_participant.service;
 
 import org.fnovella.project.evaluation_activity_participant.data.EvaluationActivityParticipantData;
-import org.fnovella.project.evaluation_activity_participant.model.EvaluationActivityParticipant;
+import org.fnovella.project.evaluation_activity_participant.data.EvaluationActivityParticipantDetail;
 
 import java.util.List;
 
 public interface EvaluationActivityParticipantService {
     List<EvaluationActivityParticipantData> getByActivityId(Integer activityId);
 
-    List<EvaluationActivityParticipant> getBySession(Integer session);
+    List<EvaluationActivityParticipantDetail> getBySession(Integer session);
 
-    List<EvaluationActivityParticipant> findAll();
+    List<EvaluationActivityParticipantDetail> findAll();
 
-    EvaluationActivityParticipant findOne(Integer id);
+    EvaluationActivityParticipantDetail findOne(Integer id);
 }
