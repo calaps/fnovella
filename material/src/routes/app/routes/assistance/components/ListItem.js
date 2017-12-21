@@ -39,7 +39,7 @@ class ListItem extends React.Component {
               .props
               .catalogs
               .map((catalog) => {
-                  return <option key={catalog.id} value={catalog.type}>{catalog.name}</option>
+                  return <option  key={catalog.id} value={catalog.type}>{catalog.name}</option>
               })
           : null
   }
@@ -56,6 +56,7 @@ class ListItem extends React.Component {
           <select
           id={this.props.inscriptionData.id}
           name="catalog"
+          className="form-control"
           value={this.state.catalog}
           onChange={this.onChange}
           >
