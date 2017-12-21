@@ -10,7 +10,7 @@ import {
   inscriptionGetRequest,
   inscriptionGetByGroupId,
   groupGetByIdRequest,
-  assistanceGetRequest,
+  assistanceGetByGroupId,
   inscriptionParticipantGetByGroupId
 } from '../../../../../actions';
 import ListItem from './ListItem';
@@ -60,12 +60,15 @@ class ListElements extends React.Component {
     this
       .props
       .actions
-      .assistanceGetRequest(0, 1000)
+      .assistanceGetByGroupId(this.props.query.id,0, 10000)
   }
   render() {
     var arr = [];
+    var assistance = this.props.assistance.content || [];    
+    var date = this.state.date;
+    var currentMonth = date.getMonth();
     var NumOfSessions = () => {
-      switch (this.state.date.getMonth() + 1) {
+      switch (currentMonth + 1) {
         case 1:
           return this.state.group.nsJan;
         case 2:
@@ -97,13 +100,17 @@ class ListElements extends React.Component {
       for (i = 1; i <= NumOfSessions(); i++) {
         arr.push(i);
       }
-
       return arr.map((arr) => {
+      var _assistance = assistance.find((_assistance)=>{
+        return _assistance.session == arr && _assistance.month == currentMonth+1
+      });
+        if(_assistance){
+        return null;
+      }else {
         return (
-          <td className="mdl-data-table__cell--non-numeric">
+          <td key={arr} className="mdl-data-table__cell--non-numeric">
             <button
               className="btn btn-primary"
-              primary
               type='submit'
               onClick={() => {
               this
@@ -114,6 +121,7 @@ class ListElements extends React.Component {
             </button>
           </td>
         )
+      }
       });
     }
 
@@ -145,8 +153,6 @@ class ListElements extends React.Component {
           return "December";
       }
     }
-    var date = new Date;
-    var currentMonth = date.getMonth();
     return (
       <article className="article">
         <h2 className="article-title">Available Evaluation for {renderCurrentMonth(currentMonth)}</h2>
@@ -195,7 +201,7 @@ function mapStateToProps(state) {
     participants: state.participants, 
     inscriptions: state.inscriptions, 
     inscriptionParticipants: state.inscriptionParticipants, 
-    assistances: state.assistance
+    assistance: state.assistance
   }
 }
 
@@ -209,7 +215,7 @@ function mapDispatchToProps(dispatch) {
       inscriptionGetByGroupId,
       inscriptionGetRequest,
       groupGetByIdRequest,
-      assistanceGetRequest,
+      assistanceGetByGroupId,
       inscriptionParticipantGetByGroupId
     }, dispatch)
   };

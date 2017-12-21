@@ -9,7 +9,7 @@ import {
     inscriptionGetRequest, 
     inscriptionGetByGroupId,
     groupGetByIdRequest,
-    assistanceGetRequest,
+    assistanceGetByGroupId,
     inscriptionParticipantGetByGroupId
   } from '../../../../../actions';
 import PastAssistanceListItem from './PastAssistanceListItem';
@@ -24,7 +24,7 @@ class PastAssistance extends React.Component{
   }
 
   componentWillMount(){
-    this.props.actions.assistanceGetRequest(0,10000);
+    this.props.actions.assistanceGetByGroupId(this.props.query.id,0,10000);
     this.props.actions.groupGetByIdRequest(this.props.query.id).then((res)=>{
       this.setState({
         group:res.data
@@ -33,24 +33,58 @@ class PastAssistance extends React.Component{
 
   }
   render(){
+    var assistance = this.props.assistance.content || [];
     var i=0;
     var num=0;    
+    
     var renderSessions=(sessions,month) => {
       var arr=[];
       for(var i=0;i< sessions;i++){
         arr.push(i);
       }
-
+      var renderMonth = ()=> {
+        switch (month) {
+          case 1:
+              return "January";
+          case 2:
+              return "February";
+          case 3:
+              return "March";
+          case 4:
+              return "April";
+          case 5:
+              return "May";
+          case 6:
+              return "June";
+          case 7:
+              return "July";
+          case 8:
+              return "August";
+          case 9:
+              return "September";
+          case 10:
+              return "October";
+          case 11:
+              return "November";
+          case 12:
+              return "December";
+      }
+    }
       return arr.map((arr)=>{
+      var _assistance = assistance.find((_assistance)=>{
+        return _assistance.session == arr+1 && _assistance.month == month
+      })
+      if(_assistance){
         return <PastAssistanceListItem
           key={num++}
           changeView={this.props.changeView}
           number={num++}
           date={this.state.group.inscriptionsStart}
           session ={arr+1}
-          month= {month}
+          month= {renderMonth()}
         />
-      })
+      }
+      });
     }
         return( 
         <article>
@@ -71,18 +105,18 @@ class PastAssistance extends React.Component{
                       </tr>
                     </thead>
                     <tbody>
-                      {renderSessions(this.state.group.nsDec,"December")}
-                      {renderSessions(this.state.group.nsNov,"November")}
-                      {renderSessions(this.state.group.nsOct,"October")}
-                      {renderSessions(this.state.group.nsSep,"September")}
-                      {renderSessions(this.state.group.nsAug,"August")}
-                      {renderSessions(this.state.group.nsJul,"July")}
-                      {renderSessions(this.state.group.nsJun,"June")}
-                      {renderSessions(this.state.group.nsMay,"May")}
-                      {renderSessions(this.state.group.nsApr,"April")}
-                      {renderSessions(this.state.group.nsMar,"March")}
-                      {renderSessions(this.state.group.nsFeb,"February")}
-                      {renderSessions(this.state.group.nsJan,"January")}
+                      {renderSessions(this.state.group.nsDec,12)}
+                      {renderSessions(this.state.group.nsNov,11)}
+                      {renderSessions(this.state.group.nsOct,10)}
+                      {renderSessions(this.state.group.nsSep,9)}
+                      {renderSessions(this.state.group.nsAug,8)}
+                      {renderSessions(this.state.group.nsJul,7)}
+                      {renderSessions(this.state.group.nsJun,6)}
+                      {renderSessions(this.state.group.nsMay,5)}
+                      {renderSessions(this.state.group.nsApr,4)}
+                      {renderSessions(this.state.group.nsMar,3)}
+                      {renderSessions(this.state.group.nsFeb,2)}
+                      {renderSessions(this.state.group.nsJan,1)}
                     </tbody>
                   </table>
                 </div>
@@ -106,7 +140,7 @@ function mapDispatchToProps(dispatch){
       inscriptionGetByGroupId,
       inscriptionGetRequest,
       groupGetByIdRequest,
-      assistanceGetRequest,
+      assistanceGetByGroupId,
       inscriptionParticipantGetByGroupId
     }, dispatch)
   };

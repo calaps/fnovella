@@ -65,6 +65,50 @@ export function assistanceGetRequest(number, size, sort) {
   }
 }
 
+export function assistanceGetByGroupId(id,number, size, sort) {
+  let params = {};
+  params.page = number;
+  params.size = size;
+  params.type = 2;
+  params.sort = null;
+
+  return function (dispatch) {
+    return new Promise(function (resolve, reject) {
+      {
+        dispatch({
+          type: PROGRESS_ADD_REQUEST
+        });
+        // API
+        HTTP('get', '/assistance/by-group/'+id, null, {authorization: localStorage.getItem('@fnovella:token')}, params)
+          .then(function (response) {
+            if (response.data.errors === null) {
+              dispatch({
+                type: ASSISTANCE_GET_SUCCESS,
+                data: response.data.data
+              });
+              resolve(response.data);
+            } else {
+              reject(response.data);
+            }
+          })
+          .catch(error => {
+            dispatch({
+              type: ASSISTANCE_GET_FAIL,
+              error: error
+            });
+            reject(error);
+          })
+          .finally(()=>{
+            dispatch({
+              type: PROGRESS_REMOVE_REQUEST
+            });
+          })
+      }
+    })
+  }
+}
+
+
 export function assistanceAddRequest(data) {
   return function (dispatch) {
     return new Promise(function (resolve, reject) {
