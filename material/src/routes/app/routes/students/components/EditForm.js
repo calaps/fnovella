@@ -35,7 +35,7 @@ class EditForm extends React.Component {
       phone: '',
       cellPhone: '',
       email: '',
-      appCode: 'code',
+      appCode: '',
       gender: '',
       colony: '',
       zone: '',
@@ -241,6 +241,20 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Código del ministerio de educación</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="appCode"
+                          name="appCode"
+                          value={this.state.appCode}
+                          onChange={this.onChange}
+                          placeholder="eje: 999499812" /> {errors.appCode && <span className="help-block text-danger">{errors.appCode}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de documento</label>
                       <div className="col-md-9">
                         <select
@@ -289,14 +303,6 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
                       <div className="col-md-9">
-                        {/*<input*/}
-                          {/*type="date"*/}
-                          {/*className="form-control"*/}
-                          {/*id="bornDate"*/}
-                          {/*name="bornDate"*/}
-                          {/*value={this.state.bornDate}*/}
-                          {/*onChange={this.onChange}*/}
-                          {/*placeholder="eje: Durán"/>*/}
 
                         <DatePicker
                           hintText="eje: Durán"

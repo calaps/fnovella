@@ -45,6 +45,7 @@ class HorizontalLinearStepper extends React.Component {
         />;
       case 1:
         return <EmergencyContact
+          age={this.state.studentData.bornDate}
           handlePrev={this.handlePrev}
           handleNext={this.handleNext}
         />;
