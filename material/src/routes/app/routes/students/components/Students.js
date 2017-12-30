@@ -38,6 +38,7 @@ class MainOptions extends React.Component {
             <div className="col-xl-9">
               <div className="row">
 
+                {this.props.permission.pinformationVisualization &&
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
@@ -50,6 +51,8 @@ class MainOptions extends React.Component {
                     </div>
                   </div>
                 </div>
+                }
+
                 {this.props.permission.pstudentsEntry &&
                   <div className="col-xl-4">
                     <div className="box box-default">
@@ -95,7 +98,7 @@ class Student extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "VIEW_ELEMENT",
+      active: "ADD_ELEMENT", //Hide view due to permissions
       participantData: {},
       participantId: '',
       permission: ''
