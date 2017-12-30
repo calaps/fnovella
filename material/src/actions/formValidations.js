@@ -127,10 +127,30 @@ export function programValidator(data) {
       errors.name = invalidData;
     }
   }
-  // if(Validator.isEmpty(data.category)) {   errors.category = required;
-  // if(!Validator.isEmpty(data.category) &&
-  // !Validator.isAlphanumeric(data.category)){     errors.category = invalidData;
-  //   } }
+  if (Validator.isEmpty(data.responsable)) {
+    errors.responsable = required;
+    if (!Validator.isEmpty(data.responsable) && !Validator.isAlphanumeric(data.responsable)) {
+      errors.responsable = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.monthsTotal)) {
+    errors.monthsTotal = required;
+    if (!Validator.isEmpty(data.monthsTotal) && !Validator.isAlphanumeric(data.monthsTotal)) {
+      errors.monthsTotal = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.evaluationType)) {
+    errors.evaluationType = required;
+    if (!Validator.isEmpty(data.evaluationType) && !Validator.isAlphanumeric(data.evaluationType)) {
+      errors.evaluationType = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.evaluationPeriod)) {
+    errors.evaluationPeriod = required;
+    if (!Validator.isEmpty(data.evaluationPeriod) && !Validator.isAlphanumeric(data.evaluationPeriod)) {
+      errors.evaluationPeriod = invalidData;
+    }
+  }
   if (Validator.isEmpty(data.genderAudience)) {
     errors.genderAudience = required;
     if (!Validator.isEmpty(data.genderAudience) && !Validator.isAlphanumeric(data.genderAudience)) {

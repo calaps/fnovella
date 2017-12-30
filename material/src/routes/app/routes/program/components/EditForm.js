@@ -3,8 +3,6 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import data_types from '../../../../../constants/data_types';
-import map from "lodash-es/map"; //to use map in a object
 import {programValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
@@ -18,6 +16,9 @@ import {
   programLocationByProgramIdGetRequest,
   programAdditionalFieldsByProgramIdGetRequest
 } from '../../../../../actions';
+//Evaluation Periods function
+import map from "lodash-es/map"; //to use map in a object
+import { evaluationPeriods } from '../../../../../constants/data_types';
 
 let self;
 
@@ -31,24 +32,23 @@ class EditForm extends React.Component {
       description: this.props.programData.description || '',
       provider: typeof this.props.programData.provider === "boolean" ? this.props.programData.provider : true,
       clasification: this.props.programData.clasification || '',
+      evaluationPeriod: this.props.programData.evaluationPeriod || '',
       freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
-      type: this.props.programData.type || '',
+      type: this.props.programData.type || 'type',
       id: this.props.programData.id || '',
-      // category: this.props.programData.category || '',
       genderAudience: this.props.programData.genderAudience || '',
       "activationStatus": typeof this.props.programData.activationStatus === "boolean" ? this.props.programData.activationStatus : false,
       "audienceMax": typeof this.props.programData.audienceMax === "number" ? this.props.programData.audienceMax : 0,
       "audienceMin": typeof this.props.programData.audienceMin === "number" ? this.props.programData.audienceMin : 0,
       "evaluationPerformmance": typeof this.props.programData.evaluationPerformmance === "boolean" ? this.props.programData.evaluationPerformmance : true,
-      "evaluationPeriod": typeof this.props.programData.evaluationPeriod === "number" ? this.props.programData.evaluationPeriod : 0,
       "evaluationType": this.props.programData.evaluationType || '',
       "gender": this.props.programData.gender || 'male',
       "implementationLocation": this.props.programData.implementationLocation || '',
       "indicatorsEvaluation": typeof this.props.programData.indicatorsEvaluation === "boolean" ? this.props.programData.indicatorsEvaluation : true,
       "indicatorsPerformmance": typeof this.props.programData.indicatorsPerformmance === "boolean" ? this.props.programData.indicatorsPerformmance : true,
       "indicatorsSatisfaction": typeof this.props.programData.indicatorsSatisfaction === "boolean" ? this.props.programData.indicatorsSatisfaction : true,
-      "monthsTotal": typeof this.props.programData.monthsTotal === "number" ? this.props.programData.monthsTotal : 0,
-      "responsable": typeof this.props.programData.responsable === "number" ? this.props.programData.responsable : 0,
+      "monthsTotal": typeof this.props.programData.monthsTotal === "number" ? this.props.programData.monthsTotal : '',
+      "responsable": typeof this.props.programData.responsable === "number" ? this.props.programData.responsable : '',
       locationIds: [],
       categoryIds: [],
       errors: {},
@@ -105,23 +105,22 @@ class EditForm extends React.Component {
         description: '',
         provider: true,
         clasification: '',
+        evaluationPeriod: '',
         freeCourses: true,
         type: 'type',
         id: '',
-        // category: '',
         genderAudience: 'male',
         "activationStatus": false,
         "audienceMax": 0,
         "audienceMin": 0,
         "evaluationPerformmance": true,
-        "evaluationPeriod": 0,
         "evaluationType": "string",
         "gender": 'male',
         "implementationLocation": "string",
         "indicatorsEvaluation": true,
         "indicatorsPerformmance": true,
         "indicatorsSatisfaction": true,
-        "monthsTotal": 0,
+        "monthsTotal": '',
         "responsable": 0,
         locationIds: [],
         categoryIds: []
@@ -166,6 +165,7 @@ class EditForm extends React.Component {
           description: this.state.description,
           provider: this.state.provider,
           clasification: this.state.clasification,
+          evaluationPeriod: this.state.evaluationPeriod,
           freeCourses: this.state.freeCourses,
           category: 1,
           genderAudience: this.state.genderAudience,
@@ -173,7 +173,6 @@ class EditForm extends React.Component {
           "audienceMax": this.state.audienceMax,
           "audienceMin": this.state.audienceMin,
           "evaluationPerformmance": this.state.evaluationPerformmance,
-          "evaluationPeriod": this.state.evaluationPeriod,
           "evaluationType": this.state.evaluationType,
           "gender": this.state.genderAudience,
           // "implementationLocation": this.state.implementationLocation,
@@ -241,13 +240,15 @@ class EditForm extends React.Component {
 
     const {errors} = this.state;
 
-    //categories options
-    /*let categoriesOpt = () => {
-      let {categories} = this.props;
-      return categories.map((category) => {
-        return <option key={category.id} value={category.id}>{category.name}</option>
-      });
-    };*/
+    const months = [1,2,3,4,5,6,7, 8, 9, 10, 11, 12];
+    const monthsOptions = map(months, (x) =>
+      <option key={x} value={x}>{x}</option>
+    );
+
+    //evaluation period options
+    const evaluationPeriodOptions = map(evaluationPeriods, (key, val) =>
+      <option key={key} value={key}>{val}</option>
+    );
 
     // location options
     let locationOpt = () => {
@@ -342,10 +343,12 @@ class EditForm extends React.Component {
                           value={this.state.responsable}
                           className="form-control"
                         >
+                          <option value="">Selecciona al responsable...</option>
                           {responsibleOpt()}
                         </select>
                         {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
-                      </div>
+                        <FlatButton secondary href="#/app/users">Agregar usuario</FlatButton>
+                        </div>
                     </div>
 
                     <h6>Audiencia: </h6>
@@ -420,21 +423,6 @@ class EditForm extends React.Component {
                     <hr/>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="type"
-                          name="type"
-                          value={this.state.type}
-                          onChange={this.onChange}
-                          placeholder="eje: FISICO-FUTBOL"/>
-                        {errors.type && <span className="help-block text-danger">{errors.type}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Descripción general</label>
                       <div className="col-md-9">
                         <textarea
@@ -455,13 +443,6 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Lugar de implementación</label>
                       <div className="col-md-9">
-                        {
-                          /* #change !!!
-                          description: "Multiple selection" options pupulated with the location name.
-                          controller to use: program-location contoller
-                          database name: program_location table
-                        */
-                        }
                         <SelectField
                           multiple={true}
                           hintText="Locations"
@@ -529,29 +510,13 @@ class EditForm extends React.Component {
                           value={this.state.evaluationType}
                           onChange={this.onChange}
                         >
+                          <option value="">Seleciona el tipo de evaluación...</option>
                           <option value="conocimiento">Evaluación conocimiento</option>
                           <option value="continua">Evaluación de continua</option>
                         </select>
-                        {errors.evaluationType &&
-                        <span className="help-block text-danger">{errors.evaluationType}</span>}
+                        {errors.evaluationType && <span className="help-block text-danger">{errors.evaluationType}</span>}
                       </div>
                     </div>
-
-                    {/*<div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Categoria</label>
-                      <div className="col-md-9">
-                        <select
-                          name="category"
-                          id="category"
-                          onChange={this.onChange}
-                          value={this.state.category}
-                          className="form-control"
-                        >
-                          {categoriesOpt()}
-                        </select>
-                        {errors.category && <span className="help-block text-danger">{errors.category}</span>}
-                      </div>
-                    </div>*/}
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de desempeño</label>
@@ -578,14 +543,16 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de meses</label>
                       <div className="col-md-9">
-                        <input
-                          type="number"
+                        <select
                           className="form-control"
                           id="monthsTotal"
                           name="monthsTotal"
                           value={this.state.monthsTotal}
                           onChange={this.onChange}
-                          placeholder="eje: monthsTotal"/>
+                        >
+                          <option value="">Cantidad de meses...</option>
+                          { monthsOptions }
+                        </select>
                         {errors.monthsTotal && <span className="help-block text-danger">{errors.monthsTotal}</span>}
                       </div>
                     </div>
@@ -601,22 +568,10 @@ class EditForm extends React.Component {
                           value={this.state.evaluationPeriod}
                           onChange={this.onChange}
                         >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                          <option value="12">12</option>
+                          <option value="">Selecciona el periodo...</option>
+                          {evaluationPeriodOptions}
                         </select>
-                        {errors.evaluationPeriod &&
-                        <span className="help-block text-danger">{errors.evaluationPeriod}</span>}
+                        {errors.evaluationPeriod && <span className="help-block text-danger">{errors.evaluationPeriod}</span>}
                       </div>
                     </div>
 

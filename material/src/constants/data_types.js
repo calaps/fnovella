@@ -14,6 +14,14 @@ export var data_types = {
   5: 5,
 };
 
+export const evaluationPeriods = {
+  "mensual": 1,
+  "bimestral": 2,
+  "trimestral": 3,
+  "semestral": 6,
+  "anual": 12
+};
+
 export var privileges = {
   "Admin": 2,
   "Teacher": 1,
