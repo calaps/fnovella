@@ -140,7 +140,7 @@ class EditForm extends React.Component {
           phone: this.state.phone,
           cellphone: this.state.cellphone,
           email: this.state.email,
-          appCode: this.state.appCode || 'abc',
+          appCode: this.state.appCode, //now this will be for CemproCode
           gender: this.state.gender,
           password: this.state.password,
           colony: this.state.colony,
@@ -440,6 +440,20 @@ class EditForm extends React.Component {
                           {genders}
                         </select>
                         {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Código de Cempro</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="appCode"
+                          name="appCode"
+                          value={this.state.appCode}
+                          onChange={this.onChange}
+                          placeholder="eje: 999499812" /> {errors.appCode && <span className="help-block text-danger">{errors.appCode}</span>}
                       </div>
                     </div>
 
