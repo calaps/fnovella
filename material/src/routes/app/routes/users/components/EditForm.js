@@ -1,9 +1,12 @@
 import React from "react";
+import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
+import Dialog from 'material-ui/Dialog'; // Dialog to show password
 import map from 'lodash-es/map'; //to use map in a object
 import { personal_documents, gender, countries, privileges } from '../../../../../constants/data_types';
 import { userValidator } from "../../../../../actions/formValidations"; //form validations
+import generatePassword from "../../../../../actions/passwordGenerator"; // password generator
 //import { signUpRequest } from './../../../../../actions'; //for use the Rest_API
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -22,6 +25,7 @@ class EditForm extends React.Component {
     super(props);
     console.log("this.props.userData: ", this.props.userData);
     this.state = {
+      open: false,
       isEditing: (this.props.userData.id) ? true : false,
       firstName: this.props.userData.firstName || '',
       secondName: this.props.userData.secondName || '',
@@ -197,7 +201,35 @@ class EditForm extends React.Component {
     }
   }
 
+  //Modal and password generator
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+
+  generatePassword(){
+    const generatedPassword = generatePassword();
+    this.setState({ password: generatedPassword, confirm_password: generatedPassword });
+
+    //Show Modal with the password generated
+    this.handleOpen();
+
+  }
+
   render() {
+
+    //For the modal password
+    const actions = [
+      <FlatButton
+        label="Listo, la he copiado"
+        primary={true}
+        onClick={this.handleClose}
+      />,
+    ];
+
     const { errors } = this.state;
 
     // Document identification types
@@ -253,6 +285,16 @@ class EditForm extends React.Component {
 
     return (
       <article className="article padding-lg-v article-bordered">
+        <Dialog
+          title="Contraseña generada"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          <p>Por favor, copia y pega esta contraseña en un lugar seguro que es la contraseña generada: </p>
+          <h6>{this.state.password}</h6>
+        </Dialog>
         <div className="container-fluid with-maxwidth">
           <div className="row">
             <div className="col-xl-9">
@@ -400,7 +442,8 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           placeholder="******" />
                         {errors.password && <span className="help-block text-danger">{errors.password}</span>}
-                      </div>
+                          <FlatButton secondary onClick={this.generatePassword.bind(this)}>Generar contraseña</FlatButton>
+                        </div>
                     </div>
 
                     <div className="form-group row">
@@ -642,7 +685,7 @@ class EditForm extends React.Component {
                       <div className="offset-md-3 col-md-10">
                         <RaisedButton disabled={this.state.isLoading}
                           type="submit"
-                          label={this.state.isEditing ? 'Update' : 'Add'} secondary
+                          label={this.state.isEditing ? 'Actualizar' : 'Crear'} secondary
                           className="btn-w-md"> </RaisedButton>
                       </div>
                     </div>
