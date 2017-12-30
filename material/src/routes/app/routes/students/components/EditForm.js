@@ -224,6 +224,54 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Género</label>
+                      <div className="col-md-9">
+                        <select
+                          name="gender"
+                          id="gender"
+                          onChange={this.onChange}
+                          value={this.state.gender}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona el genero</option>
+                          {genders}
+                        </select>
+                        {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de documento</label>
+                      <div className="col-md-9">
+                        <select
+                          name="documentType"
+                          onChange={this.onChange}
+                          value={this.state.documentType}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona el tipo de documento</option>
+                          {documentType}
+                        </select>
+                        {errors.documentType && <span className="help-block text-danger">{errors.documentType}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Valor del documento</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="documentValue"
+                          name="documentValue"
+                          value={this.state.documentValue}
+                          onChange={this.onChange}
+                          placeholder="eje: 999499812"/>
+                        {errors.documentValue && <span className="help-block text-danger">{errors.documentValue}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Correo
                         electronico</label>
                       <div className="col-md-9">
@@ -257,37 +305,6 @@ class EditForm extends React.Component {
                         />
 
                         {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
-                      <div className="col-md-9">
-                        <select
-                          name="documentType"
-                          onChange={this.onChange}
-                          value={this.state.documentType}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona el tipo de documento</option>
-                          {documentType}
-                        </select>
-                        {errors.documentType && <span className="help-block text-danger">{errors.documentType}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Valor del documento</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="documentValue"
-                          name="documentValue"
-                          value={this.state.documentValue}
-                          onChange={this.onChange}
-                          placeholder="eje: 999499812"/>
-                        {errors.documentValue && <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
                     </div>
 
@@ -449,22 +466,6 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Generoq</label>
-                      <div className="col-md-9">
-                        <select
-                          name="gender"
-                          id="gender"
-                          onChange={this.onChange}
-                          value={this.state.gender}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona el genero</option>
-                          {genders}
-                        </select>
-                        {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
-                      </div>
-                    </div>
                     <FlatButton
                       label="Cancelar"
                       onTouchTap={this._handleCancel}

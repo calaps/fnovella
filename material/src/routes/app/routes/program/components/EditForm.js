@@ -682,27 +682,6 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    {
-                      /* #change !!!
-                       description: HIDE THIS OPTION BY DEFAULT IS FALSE
-                       */
-                    }
-                    {/*<div className="form-group row">*/}
-                    {/*<label htmlFor="inputEmail3" className="col-md-3 control-label">EL programa esta activo?</label>*/}
-                    {/*<div className="col-md-9">*/}
-                    {/*<select*/}
-                    {/*name="activationStatus"*/}
-                    {/*id="activationStatus"*/}
-                    {/*onChange={this.onChange}*/}
-                    {/*value={this.state.activationStatus}*/}
-                    {/*className="form-control"*/}
-                    {/*>*/}
-                    {/*<option value={false}>No</option>*/}
-                    {/*</select>*/}
-                    {/*{errors.activationStatus && <span className="help-block text-danger">{errors.activationStatus}</span>}*/}
-                    {/*</div>*/}
-                    {/*</div>*/}
-
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}

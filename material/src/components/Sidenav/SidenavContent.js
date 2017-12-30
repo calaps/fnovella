@@ -137,14 +137,6 @@ class SidebarContent extends React.Component {
         <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
         <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>
 
-        <li>
-          <FlatButton href="#/app/ecommerce"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
-          <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Resultado</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Desempeño</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/calaps"><span>Satisfacción</span></FlatButton></li>
-          </ul>
-        </li>
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">remove_red_eye</i><span className="nav-text">Visualización</span></FlatButton>
           <ul>
             <li><FlatButton className="prepend-icon" href="#/app/visualization/programs"><span>Programas</span></FlatButton></li>

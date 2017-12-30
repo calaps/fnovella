@@ -324,6 +324,55 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Género</label>
+                      <div className="col-md-9">
+                        <select
+                          name="gender"
+                          id="gender"
+                          onChange={this.onChange}
+                          value={this.state.gender}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona el genero</option>
+                          {genders}
+                        </select>
+                        {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de documento</label>
+                      <div className="col-md-9">
+                        <select
+                          name="documentType"
+                          onChange={this.onChange}
+                          value={this.state.documentType}
+                          className="form-control"
+                        >
+                          <option value="" disabled>Selecciona el tipo de documento</option>
+                          {documentType}
+                        </select>
+                        {errors.documentType && <span className="help-block text-danger">{errors.documentType}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Valor del documento</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="documentValue"
+                          name="documentValue"
+                          value={this.state.documentValue}
+                          onChange={this.onChange}
+                          placeholder="eje: 999499812" />
+                        {errors.documentValue &&
+                        <span className="help-block text-danger">{errors.documentValue}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Correo
                         electronico</label>
                       <div className="col-md-9">
@@ -408,38 +457,6 @@ class EditForm extends React.Component {
                         />
 
                         {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de dato</label>
-                      <div className="col-md-9">
-                        <select
-                          name="documentType"
-                          onChange={this.onChange}
-                          value={this.state.documentType}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona el tipo de documento</option>
-                          {documentType}
-                        </select>
-                        {errors.documentType && <span className="help-block text-danger">{errors.documentType}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Valor del documento</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="documentValue"
-                          name="documentValue"
-                          value={this.state.documentValue}
-                          onChange={this.onChange}
-                          placeholder="eje: 999499812" />
-                        {errors.documentValue &&
-                          <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
                     </div>
 
@@ -538,25 +555,10 @@ class EditForm extends React.Component {
                           value={this.state.comunity}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecciona el tipo de documento</option>
+                          <option value="" disabled>Selecciona la comunidad...</option>
                           {communitiesOpt()}
                         </select>
                         {errors.comunity && <span className="help-block text-danger">{errors.comunity}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Profesión</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="profession"
-                          name="profession"
-                          value={this.state.profession}
-                          onChange={this.onChange}
-                          placeholder="eje: Profesor" />
-                        {errors.profession && <span className="help-block text-danger">{errors.profession}</span>}
                       </div>
                     </div>
 
@@ -572,6 +574,21 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           placeholder="eje: Km 18. Carretera a El Salvador" />
                         {errors.address && <span className="help-block text-danger">{errors.address}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Profesión</label>
+                      <div className="col-md-9">
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="profession"
+                          name="profession"
+                          value={this.state.profession}
+                          onChange={this.onChange}
+                          placeholder="eje: Profesor" />
+                        {errors.profession && <span className="help-block text-danger">{errors.profession}</span>}
                       </div>
                     </div>
 
@@ -602,23 +619,6 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           placeholder="eje: 55329090" />
                         {errors.cellphone && <span className="help-block text-danger">{errors.cellphone}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero</label>
-                      <div className="col-md-9">
-                        <select
-                          name="gender"
-                          id="gender"
-                          onChange={this.onChange}
-                          value={this.state.gender}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona el genero</option>
-                          {genders}
-                        </select>
-                        {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
                       </div>
                     </div>
 
