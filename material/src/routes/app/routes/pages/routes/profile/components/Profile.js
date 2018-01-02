@@ -266,7 +266,7 @@ class Info extends React.Component {
                             name="address"
                             value={this.state.address}
                             onChange={this.onChange}
-                            placeholder="eje: address"/>
+                            placeholder="eje: zona 15, 1 calle"/>
                           {errors.address && <span className="help-block text-danger">{errors.address}</span>}
                         </div>
                       </div>
@@ -280,7 +280,7 @@ class Info extends React.Component {
                             name="appCode"
                             value={this.state.appCode}
                             onChange={this.onChange}
-                            placeholder="eje: appCode"/>
+                            placeholder="eje: 0001"/>
                           {errors.appCode && <span className="help-block text-danger">{errors.appCode}</span>}
                         </div>
                       </div>
@@ -294,12 +294,12 @@ class Info extends React.Component {
                           name="bornDate"
                           value={this.state.bornDate}
                           onChange={this.onChange}
-                          placeholder="bornDate"/>
+                          placeholder="Ingresa fecha de nacimiento"/>
                           {errors.bornDate && <span className="help-block text-danger">{errors.bornDate}</span>}
                         </div>
                       </div>
                       <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Clasificación: </label>
+                        <label htmlFor="inputEmail3" className="col-md-3 control-label">Celular: </label>
                         <div className="col-md-9">
                           <input
                             type="text"
@@ -308,7 +308,7 @@ class Info extends React.Component {
                             name="cellphone"
                             value={this.state.cellphone}
                             onChange={this.onChange}
-                            placeholder="cellphone"/>
+                            placeholder="eje: 57578080"/>
                           {errors.cellphone && <span className="help-block text-danger">{errors.cellphone}</span>}
                         </div>
                       </div>
@@ -322,7 +322,7 @@ class Info extends React.Component {
                             name="cemproCode"
                             value={this.state.cemproCode}
                             onChange={this.onChange}
-                            placeholder="cemproCode"/>
+                            placeholder="eje: 0001"/>
                           {errors.cemproCode && <span className="help-block text-danger">{errors.cemproCode}</span>}
                         </div>
                       </div>
@@ -336,7 +336,7 @@ class Info extends React.Component {
                             name="colony"
                             value={this.state.colony}
                             onChange={this.onChange}
-                            placeholder="colony"/>
+                            placeholder="eje: Mixco"/>
                           {errors.colony && <span className="help-block text-danger">{errors.colony}</span>}
                         </div>
                       </div>
@@ -350,7 +350,7 @@ class Info extends React.Component {
                             name="comunity"
                             value={this.state.comunity}
                             onChange={this.onChange}
-                            placeholder="comunity"/>
+                            placeholder="eje: Lazaro"/>
                           {errors.comunity && <span className="help-block text-danger">{errors.comunity}</span>}
                         </div>
                       </div>
@@ -364,7 +364,7 @@ class Info extends React.Component {
                             name="department"
                             value={this.state.department}
                             onChange={this.onChange}
-                            placeholder="department"/>
+                            placeholder="eje: Guatemala"/>
                           {errors.department && <span className="help-block text-danger">{errors.department}</span>}
                         </div>
                       </div>
@@ -378,7 +378,7 @@ class Info extends React.Component {
                             name="documentType"
                             value={this.state.documentType}
                             onChange={this.onChange}
-                            placeholder="documentType"/>
+                            placeholder="Eje: DPI"/>
                           {errors.documentType && <span className="help-block text-danger">{errors.documentType}</span>}
                         </div>
                       </div>
@@ -392,7 +392,7 @@ class Info extends React.Component {
                             name="documentValue"
                             value={this.state.documentValue}
                             onChange={this.onChange}
-                            placeholder="documentValue"/>
+                            placeholder="Eje: 0001"/>
                           {errors.documentValue && <span className="help-block text-danger">{errors.documentValue}</span>}
                         </div>
                       </div>
@@ -406,7 +406,7 @@ class Info extends React.Component {
                             name="firstLastName"
                             value={this.state.firstLastName}
                             onChange={this.onChange}
-                            placeholder="firstLastName"/>
+                            placeholder="eje: Campos"/>
                           {errors.firstLastName && <span className="help-block text-danger">{errors.firstLastName}</span>}
                         </div>
                       </div>
@@ -420,7 +420,7 @@ class Info extends React.Component {
                             name="firstName"
                             value={this.state.firstName}
                             onChange={this.onChange}
-                            placeholder="firstName"/>
+                            placeholder="eje: Daniel"/>
                           {errors.firstName && <span className="help-block text-danger">{errors.firstName}</span>}
                         </div>
                       </div>
@@ -434,7 +434,7 @@ class Info extends React.Component {
                             name="municipality"
                             value={this.state.municipality}
                             onChange={this.onChange}
-                            placeholder="municipality"/>
+                            placeholder="eje: Villa Nueva"/>
                           {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                         </div>
                       </div>
@@ -448,7 +448,7 @@ class Info extends React.Component {
                             name="nationality"
                             value={this.state.nationality}
                             onChange={this.onChange}
-                            placeholder="nationality"/>
+                            placeholder="eje: Guatemala"/>
                           {errors.nationality && <span className="help-block text-danger">{errors.nationality}</span>}
                         </div>
                       </div>
@@ -462,7 +462,7 @@ class Info extends React.Component {
                             name="phon"
                             value={this.state.phon}
                             onChange={this.onChange}
-                            placeholder="phon"/>
+                            placeholder="eje: 40404040"/>
                           {errors.phon && <span className="help-block text-danger">{errors.phon}</span>}
                         </div>
                       </div>
@@ -476,7 +476,7 @@ class Info extends React.Component {
                             name="phone"
                             value={this.state.phone}
                             onChange={this.onChange}
-                            placeholder="phone"/>
+                            placeholder="eje: 30303030"/>
                           {errors.phone && <span className="help-block text-danger">{errors.phone}</span>}
                         </div>
                       </div>
@@ -490,7 +490,7 @@ class Info extends React.Component {
                             name="profession"
                             value={this.state.profession}
                             onChange={this.onChange}
-                            placeholder="profession"/>
+                            placeholder="eje: Arquitecto"/>
                           {errors.profession && <span className="help-block text-danger">{errors.profession}</span>}
                         </div>
                       </div>
@@ -504,7 +504,7 @@ class Info extends React.Component {
                             name="secondLastName"
                             value={this.state.secondLastName}
                             onChange={this.onChange}
-                            placeholder="secondLastName"/>
+                            placeholder="eje: Vazquez"/>
                           {errors.secondLastName && <span className="help-block text-danger">{errors.secondLastName}</span>}
                         </div>
                       </div>
@@ -518,7 +518,7 @@ class Info extends React.Component {
                             name="secondName"
                             value={this.state.secondName}
                             onChange={this.onChange}
-                            placeholder="secondName"/>
+                            placeholder="eje: Javier"/>
                           {errors.secondName && <span className="help-block text-danger">{errors.secondName}</span>}
                         </div>
                       </div>
@@ -532,7 +532,7 @@ class Info extends React.Component {
                             name="zone"
                             value={this.state.zone}
                             onChange={this.onChange}
-                            placeholder="zone"/>
+                            placeholder="eje: zona 15"/>
                           {errors.zone && <span className="help-block text-danger">{errors.zone}</span>}
                         </div>
                       </div>
@@ -550,10 +550,9 @@ class Info extends React.Component {
                             value={this.state.gender}
                             className="form-control"
                           >
-                            <option value="" disabled>Selecciona tu genero...</option>
-                            <option value="male">Hombres</option>
-                            <option value="female">Mujeres</option>
-                            <option value="both">Mixto</option>
+                            <option value="" disabled>Selecciona tu género...</option>
+                            <option value="male">Hombre</option>
+                            <option value="female">Mujer</option>
                           </select>
                           {errors.gender && <span className="help-block text-danger">{errors.gender}</span>}
                         </div>
@@ -561,14 +560,14 @@ class Info extends React.Component {
 
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
-                          <FlatButton 
+                          <FlatButton
                           disabled={this.state.isLoading}
                                       label='Cancelar'
                                       style={{marginRight: 12}}
                                       onTouchTap={this.handleCancel}
                                       secondary className="btn-w-md"/>
-                          <RaisedButton 
-                            disabled={this.state.isLoading} 
+                          <RaisedButton
+                            disabled={this.state.isLoading}
                             type="submit"
                                         label={'Actualizar'}
                                         onTouchTap={this.onProfileSubmit}
@@ -599,13 +598,13 @@ class Info extends React.Component {
 
                       <div className="form-group row">
                         <div className="offset-md-3 col-md-10">
-                          <FlatButton 
+                          <FlatButton
                           //disabled={this.state.isLoading}
                                       label='Cancelar'
                                       style={{marginRight: 12}}
                                       onTouchTap={this.handleCancel}
-                                      secondary className="btn-w-md"/> 
-                          <RaisedButton 
+                                      secondary className="btn-w-md"/>
+                          <RaisedButton
                           //disabled={this.state.isLoading}
                            type="submit"
                                         label={'Actualizar'}

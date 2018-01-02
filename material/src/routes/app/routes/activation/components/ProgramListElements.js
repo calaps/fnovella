@@ -25,7 +25,8 @@ class ProgramsListElements extends React.Component {
     super(props);
     this.state = {
       selectedRow: [],
-      programId: null
+      programId: null,
+      clasification: 'no data',
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
@@ -35,7 +36,8 @@ class ProgramsListElements extends React.Component {
   onRowSelection(key) {
     this.setState({
       selectedRow: key,
-      programId: this.props.programs.content[key[0]].id
+      programId: this.props.programs.content[key[0]].id,
+      clasification: this.props.programs.content[key[0]].clasification
     });
   }
 
@@ -46,7 +48,8 @@ class ProgramsListElements extends React.Component {
   render() {
     let tableRows = [];
     let data = {
-      programId: this.state.programId
+      programId: this.state.programId,
+      programClasification: this.state.clasification
     };
     for (let i = 0; i < this.props.programs.numberOfElements; i++) {
       tableRows.push(

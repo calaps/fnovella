@@ -24,7 +24,8 @@ class HorizontalLinearStepper extends React.Component {
       errors: {},
       isLoading: false,
       formData: {},
-      programId: ''
+      programId: '',
+      programClasification: 'no data'
     };
     this.handleCancel = this.handleCancel.bind(this);
   }
@@ -37,7 +38,8 @@ class HorizontalLinearStepper extends React.Component {
       errors: {},
       isLoading: false,
       formData: {},
-      programId: ''
+      programId: '',
+      programClasification: ''
     });
   }
 
@@ -57,6 +59,7 @@ class HorizontalLinearStepper extends React.Component {
         />;
       case 1:
         return <EditForm
+          clasification={this.state.programClasification}
           handlePrev={this.handlePrev}
           handleNext={this.handleNext}
         />;
@@ -74,6 +77,7 @@ class HorizontalLinearStepper extends React.Component {
         if (data.programId !== null) {
           this.setState({
             programId: data.programId,
+            programClasification: data.programClasification,
             stepIndex: stepIndex + 1,
             finished: stepIndex >= 2,
             errors: {}
@@ -81,7 +85,7 @@ class HorizontalLinearStepper extends React.Component {
         } else {
           this.setState({
             errors: {
-              programIdError: 'Select a program'
+              programIdError: 'Selecciona un programa antes de continuar'
             }
           });
         }

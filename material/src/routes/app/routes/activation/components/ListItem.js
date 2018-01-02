@@ -1,6 +1,26 @@
 import React from 'react';
 
 class ListItem extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isDisable: false
+    };
+  }
+
+  componentDidMount() {
+    this.isCurrentYear();
+  };
+
+  isCurrentYear() {
+    const activationYear = this.props.activationData.year;
+    const currentYear = (new Date()).getFullYear();
+
+    this.setState({
+      isDisable: (activationYear !== currentYear)
+    });
+  }
+
   render() {
     return (
       <tr>
@@ -28,8 +48,9 @@ class ListItem extends React.Component {
           &nbsp;
           <button
             onClick={()=>{this.props.onEdit(this.props.activationData)}}
-
-            type="submit" className="btn btn-primary">Modificar</button>
+            disabled={this.state.isDisable}
+            type="submit"
+            className="btn btn-primary">{ (this.state.isDisable) ? "Activación pasada" : "Modificar"}</button>
         </td>
       </tr>
     );

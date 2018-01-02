@@ -61,7 +61,7 @@ class EditProfile extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: Andres"/>
+                          placeholder="eje: Campos"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
@@ -76,7 +76,7 @@ class EditProfile extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: Andres"/>
+                          placeholder="eje: DPI"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
@@ -91,7 +91,7 @@ class EditProfile extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: Andres"/>
+                          placeholder="eje: 00001"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
@@ -106,7 +106,7 @@ class EditProfile extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: Andres"/>
+                          placeholder="eje: Guatemala"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
@@ -121,7 +121,7 @@ class EditProfile extends React.Component {
                           name="name"
                           value={this.state.name}
                           onChange={this.onChange}
-                          placeholder="eje: Andres"/>
+                          placeholder="eje: Mixco"/>
                         {errors.name && <span className="help-block text-danger">{errors.name}</span>}
                       </div>
                     </div>
@@ -150,7 +150,7 @@ class EditProfile extends React.Component {
                           name="alias"
                           value={this.state.alias}
                           onChange={this.onChange}
-                          placeholder="eje: ELP"/>
+                          placeholder="eje: Coordinador"/>
                         {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
                       </div>
                     </div>
@@ -165,7 +165,7 @@ class EditProfile extends React.Component {
                           name="alias"
                           value={this.state.alias}
                           onChange={this.onChange}
-                          placeholder="eje: ELP"/>
+                          placeholder="eje: km 15.4"/>
                         {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
                       </div>
                     </div>
@@ -180,7 +180,7 @@ class EditProfile extends React.Component {
                           name="alias"
                           value={this.state.alias}
                           onChange={this.onChange}
-                          placeholder="eje: ELP"/>
+                          placeholder="eje: 3454545"/>
                         {errors.alias && <span className="help-block text-danger">{errors.alias}</span>}
                       </div>
                     </div>
@@ -188,12 +188,12 @@ class EditProfile extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                    label='Cancel'
+                                    label='Cancelar'
                                     style={{marginRight: 12}}
                                     onTouchTap={this.handleCancel}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ? 'Update' : 'Add'}
+                                      label={this.state.isEditing ? 'Actualizar' : 'Añadir'}
                                       secondary className="btn-w-md"/>
                       </div>
                     </div>
