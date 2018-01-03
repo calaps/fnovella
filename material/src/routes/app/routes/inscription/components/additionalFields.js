@@ -27,7 +27,7 @@ class AdditionalFieldsForm extends React.Component {
             programId: '',
             participantData: this.props.participantData,
             participantAditionalFieldsValues: [],
-            calatog: '',
+            calatog: 'noData',
             reqGroup: {},
             group: this.props.query.name,
             groupId: this.props.query.id,
@@ -204,7 +204,7 @@ class AdditionalFieldsForm extends React.Component {
             this.setState({errors: {}, isLoading: true});
             let additionalFieldData = {
                 participantAditionalFields: {
-                    catalog: this.state.calatog,
+                    catalog: '5',
                     group: this.state.groupId,
                     participant: this.state.participantData.id,
                     period: this.state.period,
@@ -346,21 +346,7 @@ class AdditionalFieldsForm extends React.Component {
                                                 {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                                             </div> */}
                                         </div>
-                                        <div className="form-group row">
-                                            <label htmlFor="programId" className="col-md-3 control-label">Catalogos</label>
-                                            <div className="col-md-9">
-                                                <select
-                                                    name="calatog"
-                                                    id="calatog"
-                                                    onChange={this.onChange}
-                                                    value={this.state.calatog}
-                                                    className="form-control">
-                                                    <option value="" disabled>Selecione el Catalogos</option>
-                                                    {calatogsOpt()}
-                                                </select>
-                                                {errors.calatogs && <span className="help-block text-danger">{errors.calatogs}</span>}
-                                            </div>
-                                        </div>
+
                                         <div className="form-group row">
                                             <label htmlFor="group" className="col-md-3 control-label">Group</label>
                                            <div className="col-md-9">

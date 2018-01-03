@@ -7,8 +7,8 @@ import {
   assistanceGetRequest,
   inscriptionGetByGroupId,
   participantsGetRequestBySearch,
-  participantGetRequest, 
-  inscriptionParticipantGetRequest, 
+  participantGetRequest,
+  inscriptionParticipantGetRequest,
   inscriptionGetRequest,
   assistanceUpdateRequest
 } from '../../../../../actions';
@@ -38,9 +38,9 @@ class ListElements extends React.Component {
             inscriptions:res.data
           })
         })
-    } 
+    }
 
-  
+
   approveAssistance(assistanceData){
     console.log("dadasd",assistanceData);
     let data= {
@@ -49,7 +49,7 @@ class ListElements extends React.Component {
     }
     this.props.actions.assistanceUpdateRequest(data);
   }
-  
+
   render() {
     var i= 1;
     let renderAssisance = () => {
@@ -75,9 +75,9 @@ class ListElements extends React.Component {
         }
       })
     }
-    return (  
+    return (
       <article className="article">
-        <h2 className="article-title">Lista de participantes</h2>
+        <h2 className="article-title">Lista de Asistencias</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
@@ -90,9 +90,9 @@ class ListElements extends React.Component {
                       <tr>
                         <th className="mdl-data-table__cell--non-numeric">#</th>
                         <th className="mdl-data-table__cell--non-numeric">ID</th>
-                        <th className="mdl-data-table__cell--non-numeric">Inscription</th>
-                        <th className="mdl-data-table__cell--non-numeric">Session</th>
-                        <th className="mdl-data-table__cell--non-numeric">Month</th>
+                        <th className="mdl-data-table__cell--non-numeric">Inscripción</th>
+                        <th className="mdl-data-table__cell--non-numeric">Sesión</th>
+                        <th className="mdl-data-table__cell--non-numeric">Mes</th>
                         <th className="mdl-data-table__cell--non-numeric">Status</th>
                       </tr>
                     </thead>
@@ -106,9 +106,9 @@ class ListElements extends React.Component {
                   //       number={i++}
                   //       assistanceData={assistance}
                   //       approveAssistance={this.approveAssistance}
-                  //       /> 
+                  //       />
                   // }):null
-                  }  
+                  }
                     </tbody>
                   </table>
                     <Pagination
@@ -136,7 +136,7 @@ function mapStateToProps(state) {
   return {
     assistance:  state.assistance,
     participants: state.participants,
-    inscriptions: state.inscriptions, 
+    inscriptions: state.inscriptions,
     inscriptionParticipants: state.inscriptionParticipants
   }
 }
