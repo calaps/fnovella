@@ -51,7 +51,8 @@ class GeneralConfiguration extends React.Component {
       errors: {},
       isLoading: false,
       selectedType: '',
-      correlativo: ''
+      correlativo: '',
+      yearActivation: ''
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
@@ -63,13 +64,18 @@ class GeneralConfiguration extends React.Component {
   }
 
   componentWillMount() {
+    let dateYear = (new Date()).getFullYear();
+
     this.props.actions.coursesGetRequest();
     this.props.actions.divisionsGetRequest();
     this.props.actions.programInstructorGetRequest();
     this.props.actions.sectionsGetRequest();
     this.props.actions.workshopsGetRequest();
     if (self.context.router.location.query.typeCategory) {
-      this.setState({typeCategory: self.context.router.location.query.typeCategory});
+      this.setState({
+        typeCategory: self.context.router.location.query.typeCategory,
+        yearActivation: dateYear
+      });
       switch (self.context.router.location.query.typeCategory) {
         case 'workshop':
           this.props.actions.workshopGetByIdRequest(self.context.router.location.query.workshopId)
@@ -189,7 +195,8 @@ class GeneralConfiguration extends React.Component {
         correlativo: this.state.correlativo,
         section: this.state.section,
         divisionId: this.state.divisionId,
-        courseId: this.state.courseId
+        courseId: this.state.courseId,
+        yearActivation: this.state.yearActivation,
       };
       switch (self.context.router.location.query.typeCategory) {
         case 'workshop':
@@ -600,7 +607,7 @@ class GeneralConfiguration extends React.Component {
                                     onTouchTap={this.props.handleCancel}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label='Next' secondary className="btn-w-md"/>
+                                      label='Siguiente' secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>

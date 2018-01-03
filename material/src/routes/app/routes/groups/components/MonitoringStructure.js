@@ -23,7 +23,7 @@ class MonitoringStructure extends React.Component {
       maximumNote: '',
       minimumNote: '',
       totalEvaluateCategory: 0,
-      calculateMultipleSelection: 'finalNote' || '',
+      calculateMultipleSelection: '',
       errors: {},
       isLoading: false
     };
@@ -238,23 +238,7 @@ class MonitoringStructure extends React.Component {
                         {errors.maximumNote && <span className="help-block text-danger">{errors.maximumNote}</span>}
                       </div>
                     </div>
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cálculus</label>
-                      <div className="col-md-9">
-                        <select
-                          className="form-control"
-                          id="calculateMultipleSelection"
-                          name="calculateMultipleSelection"
-                          value={this.state.calculateMultipleSelection}
-                          onChange={this.onChange}
-                        >
-                          <option value="finalNote">Final Note</option>
-                          <option value="items">Items</option>
-                        </select>
-                        {errors.calculateMultipleSelection &&
-                        <span className="help-block text-danger">{errors.calculateMultipleSelection}</span>}
-                      </div>
-                    </div>
+
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}

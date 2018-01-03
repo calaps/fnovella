@@ -23,16 +23,17 @@ class EvaluationStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      assistance: '',
-      percentage: '',
+      assistance: false,
+      percentage: 0,
       approvalPercentage: '',
       evaluationType: '',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
       totalEvaluateCategory: 0,
-      maximumNote: '',
-      minimumNote: '',
+      totaltotal: '',
+      maximumNote: 100,
+      minimumNote: 1,
       calculateMultipleSelection: 'finalNote' || '',
       errors: {},
       isLoading: false
@@ -158,6 +159,7 @@ class EvaluationStructure extends React.Component {
 
   isValid() {
     //local validation
+
     const {errors, isValid} = evaluationStructureValidator(this.state);
     if (!isValid) {
       this.setState({errors});
@@ -168,8 +170,16 @@ class EvaluationStructure extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
+
+    if (this.state.assistance === "true") {
+      this.setState({ totaltotal: this.state.totalEvaluateCategory + parseInt(this.state.percentage)});
+    } else {
+      this.setState({ totaltotal: this.state.totalEvaluateCategory });
+    }
+
     if (this.isValid()) {
       //reset errors object and disable submit button
+
       this.setState({errors: {}, isLoading: true});
       let data = {
         assistance: this.state.assistance,
@@ -389,36 +399,7 @@ class EvaluationStructure extends React.Component {
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
-                    <div className="form-group row">
-                      <label htmlFor="minimumNote" className="col-md-3 control-label">Nota minima</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          min="1" max="100"
-                          className="form-control"
-                          id="minimumNote"
-                          name="minimumNote"
-                          value={this.state.minimumNote}
-                          onChange={this.onChange}
-                          placeholder="eje: 1 - 100"/>
-                        {errors.minimumNote && <span className="help-block text-danger">{errors.minimumNote}</span>}
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label htmlFor="maximumNote" className="col-md-3 control-label"> Nota maxima</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          min="1" max="100"
-                          className="form-control"
-                          id="maximumNote"
-                          name="maximumNote"
-                          value={this.state.maximumNote}
-                          onChange={this.onChange}
-                          placeholder="eje: 1 - 100"/>
-                        {errors.maximumNote && <span className="help-block text-danger">{errors.maximumNote}</span>}
-                      </div>
-                    </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Calculo</label>
                       <div className="col-md-9">
@@ -439,7 +420,7 @@ class EvaluationStructure extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                    label='Back'
+                                    label='Atras'
                                     style={{marginRight: 12}}
                                     onTouchTap={this.props.handlePrev}
                                     secondary className="btn-w-md"/>

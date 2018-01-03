@@ -7,6 +7,7 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.name}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.level}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.programId}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.gradeData.description}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
           <button

@@ -6,6 +6,7 @@ class ListItem extends React.Component {
       <tr key={this.props.number}>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.divisionData.name}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.divisionData.programId}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.divisionData.description}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
           {

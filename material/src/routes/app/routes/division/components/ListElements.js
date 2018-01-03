@@ -43,6 +43,7 @@ class ListElements extends React.Component {
                     <tr>
                       <th className="mdl-data-table__cell--non-numeric">#</th>
                       <th className="mdl-data-table__cell--non-numeric">Nombre</th>
+                      <th className="mdl-data-table__cell--non-numeric">Programa</th>
                       <th className="mdl-data-table__cell--non-numeric">Descripción</th>
                     </tr>
                     </thead>

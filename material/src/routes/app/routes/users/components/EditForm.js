@@ -484,14 +484,6 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="bornDate" className="col-md-3 control-label">Fecha de nacimiento</label>
                       <div className="col-md-9">
-                        {/*<input*/}
-                        {/*type="date"*/}
-                        {/*className="form-control"*/}
-                        {/*id="bornDate"*/}
-                        {/*name="bornDate"*/}
-                        {/*value={this.state.bornDate}*/}
-                        {/*onChange={this.onChange}*/}
-                        {/*placeholder="eje: Durán"/>*/}
 
                         <DatePicker
                           hintText="eje: Durán"
@@ -557,7 +549,7 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="colony" className="col-md-3 control-label">Colonia</label>
+                      <label htmlFor="colony" className="col-md-3 control-label text-success">Colonia</label>
                       <div className="col-md-9">
                         <input
                           type="text"
@@ -566,7 +558,7 @@ class EditForm extends React.Component {
                           name="colony"
                           value={this.state.colony}
                           onChange={this.onChange}
-                          placeholder="eje: juan@gmail.com" />
+                          placeholder="eje: El Maestro" />
                         {errors.documentValue &&
                           <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
@@ -582,7 +574,7 @@ class EditForm extends React.Component {
                           name="zone"
                           value={this.state.zone}
                           onChange={this.onChange}
-                          placeholder="eje: juan@gmail.com" />
+                          placeholder="eje: 15" />
                         {errors.documentValue &&
                           <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
@@ -675,7 +667,7 @@ class EditForm extends React.Component {
                           name="cemproCode"
                           value={this.state.cemproCode}
                           onChange={this.onChange}
-                          placeholder="eje: juan@gmail.com" />
+                          placeholder="eje: 001" />
                         {errors.documentValue &&
                           <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>

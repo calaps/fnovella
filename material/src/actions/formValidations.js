@@ -511,6 +511,30 @@ export function userValidator(data) {
       errors.nationality = invalidData;
     }
   }
+  if (Validator.isEmpty(data.municipality)) {
+    errors.municipality = required;
+    if (!Validator.isEmpty(data.municipality) && !Validator.isAlpha(data.municipality)) {
+      errors.municipality = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.department)) {
+    errors.department = required;
+    if (!Validator.isEmpty(data.department) && !Validator.isAlpha(data.department)) {
+      errors.department = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.comunity)) {
+    errors.comunity = required;
+    if (!Validator.isEmpty(data.comunity) && !Validator.isAlpha(data.comunity)) {
+      errors.comunity = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.colony)) {
+    errors.colony = required;
+    if (!Validator.isEmpty(data.colony) && !Validator.isAlpha(data.colony)) {
+      errors.colony = invalidData;
+    }
+  }
   if (Validator.isEmpty(data.password)) {
     errors.password = required;
   }
@@ -705,28 +729,17 @@ export function evaluationStructureValidator(data) {
   if (Validator.isEmpty(data.approvalPercentage.toString())) {
     errors.approvalPercentage = required;
   }
-  if (Validator.isEmpty(data.maximumNote.toString())) {
-    errors.maximumNote = required;
-  }
-  if (Validator.isEmpty(data.minimumNote.toString())) {
-    errors.minimumNote = required;
-  }
+
   if(data.assistance === "true"){
     if (Validator.isEmpty(data.percentage.toString())) {
       errors.percentage = required;
     }
   }
   if (data.evaluateCategory.length === 0) {
-    errors.evaluateCategory = "Add at least one category!";
+    errors.evaluateCategory = "No has ingresado ninguna actividad para evaluar";
   }
-  if (data.totalEvaluateCategory !== 100) {
-    errors.totalEvaluateCategory = "Total should be 100!";
-  }
-  if(!Validator.isEmpty(data.maximumNote.toString()) && !Validator.isEmpty(data.minimumNote.toString())){
-    if(parseInt(data.maximumNote)<parseInt(data.minimumNote)){
-      errors.minimumNote = "This should be less then Maximum Note!";
-      errors.maximumNote = "This should be greater then Minimum Note!";
-    }
+  if (data.totaltotal !== 100) {
+    errors.totalEvaluateCategory = "El total no es 100";
   }
 
   //IsValid is just a boolean who return is errors is empty
@@ -752,7 +765,7 @@ export function satisfactionStructureValidator(data) {
     errors.evaluateCategory = "Add at least one category!";
   }
   if (data.totalEvaluateCategory !== 100) {
-    errors.totalEvaluateCategory = "Total should be 100!";
+    errors.totalEvaluateCategory = "El total debe ser 100!";
   }
   if(!Validator.isEmpty(data.maximumNote.toString()) && !Validator.isEmpty(data.minimumNote.toString())){
     if(parseInt(data.maximumNote)<parseInt(data.minimumNote)){
