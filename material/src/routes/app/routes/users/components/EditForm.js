@@ -303,6 +303,11 @@ class EditForm extends React.Component {
                 <div className="box-body padding-md">
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onAddSumbit} role="form">
+
+                    <div className="alert alert-info">
+                      <strong>Nota:</strong>Ingresar nombre tal y como aparece en el documento de identificación.
+                    </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer nombre</label>
                       <div className="col-md-9">

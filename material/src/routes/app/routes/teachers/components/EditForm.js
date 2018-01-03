@@ -371,6 +371,11 @@ class EditForm extends React.Component {
                   <p className="text-info">Ingresa la siguiente información:
                   </p>
                   <form onSubmit={this.onSubmit} role="form">
+
+                    <div className="alert alert-info">
+                      <strong>Nota:</strong>Ingresar nombre tal y como aparece en el documento de identificación.
+                    </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Primer nombre</label>
                       <div className="col-md-9">

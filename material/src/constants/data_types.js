@@ -6,12 +6,7 @@ export var data_types = {
   "Fecha": "date",
   "Fecha con tiempo": "datetime-local",
   "Email": "email",
-  "Rango": "range",
-  1: 1,
-  2: 2,
-  3: 3,
-  4: 4,
-  5: 5,
+  "Rango": "range"
 };
 
 export const evaluationPeriods = {
