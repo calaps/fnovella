@@ -45,29 +45,29 @@ class PastAssistance extends React.Component{
       var renderMonth = ()=> {
         switch (month) {
           case 1:
-              return "January";
+              return "Enero";
           case 2:
-              return "February";
+              return "Febrero";
           case 3:
-              return "March";
+              return "Marzo";
           case 4:
-              return "April";
+              return "Abriñ";
           case 5:
-              return "May";
+              return "Mayo";
           case 6:
-              return "June";
+              return "Junio";
           case 7:
-              return "July";
+              return "Julio";
           case 8:
-              return "August";
+              return "Agosto";
           case 9:
-              return "September";
+              return "Septiembre";
           case 10:
-              return "October";
+              return "Octubre";
           case 11:
-              return "November";
+              return "Noviembre";
           case 12:
-              return "December";
+              return "Diciembre";
       }
     }
       return arr.map((arr)=>{

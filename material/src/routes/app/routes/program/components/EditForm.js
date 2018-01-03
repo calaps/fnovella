@@ -511,8 +511,8 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                         >
                           <option value="">Seleciona el tipo de evaluación...</option>
-                          <option value="conocimiento">Evaluación conocimiento</option>
-                          <option value="continua">Evaluación de continua</option>
+                          <option value="conocimiento">Evaluación Inicio/Final</option>
+                          <option value="continua">Evaluación solo Final</option>
                         </select>
                         {errors.evaluationType && <span className="help-block text-danger">{errors.evaluationType}</span>}
                       </div>

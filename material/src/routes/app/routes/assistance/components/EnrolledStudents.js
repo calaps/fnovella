@@ -37,29 +37,29 @@ class EnrolledStudents extends React.Component{
     render(){
         var renderMonth = ()=> {
           switch (this.props.enrolledStudentData.month.toLowerCase()) {
-            case "january":
+            case "Enero":
                 return 1;
-            case "february":
+            case "Febrero":
                 return 2;
-            case "march":
+            case "Marzo":
                 return 3;
-            case "april":
+            case "Abril":
                 return 4;
-            case "may":
+            case "Mayo":
                 return 5;
-            case "june":
+            case "Junio":
                 return 6;
-            case "july":
+            case "Julio":
                 return 7;
-            case "august":
+            case "Agosto":
                 return 8;
-            case "september":
+            case "Septiembre":
                 return 9;
-            case "october":
+            case "Octubre":
                 return 10;
-            case "november":
+            case "Noviembre":
                 return 11;
-            case "december":
+            case "Diciembre":
                 return 12;
         }
       }
@@ -113,7 +113,7 @@ class EnrolledStudents extends React.Component{
         }
         return(
             <article>
-            <h2 className="article-title">List of students</h2>
+            <h2 className="article-title">Historial:</h2>
             <h2 className="article-title">{this.props.enrolledStudentData.month} Session {this.props.enrolledStudentData.session} </h2>
             <div className="row">
               <div className="col-xl-12">
