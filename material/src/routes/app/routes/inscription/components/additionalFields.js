@@ -186,7 +186,7 @@ class AdditionalFieldsForm extends React.Component {
 
     isValid() {
         if(this.state.calatog){
-            return true;    
+            return true;
         }else {
             this.setState({
                 errors:{
@@ -195,7 +195,7 @@ class AdditionalFieldsForm extends React.Component {
             })
         }
         return false;
-        
+
     }
 
     onSubmit(e) {
@@ -288,7 +288,7 @@ class AdditionalFieldsForm extends React.Component {
                                 className="form-control"
                                 id={field.additional_field_id}
                                 name="additional_fields"
-                                onChange={this.onChange}/> 
+                                onChange={this.onChange}/>
                                 {errors.additionalFields && <span className="help-block text-danger">{errors.additionalFields}</span>}
                         </div>
                     </div>

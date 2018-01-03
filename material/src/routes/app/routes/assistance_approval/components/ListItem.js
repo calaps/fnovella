@@ -20,33 +20,34 @@ class ListItem extends React.Component {
     var renderMonth = () => {
       switch (this.props.assistanceData.month) {
         case 1:
-          return "January";
+          return "Enero";
         case 2:
-          return "February";
+          return "Febrero";
         case 3:
-          return "March";
+          return "Marzo";
         case 4:
-          return "April";
+          return "Abril";
         case 5:
-          return "May";
+          return "Mayo";
         case 6:
-          return "June";
+          return "Junio";
         case 7:
-          return "July";
+          return "Julio";
         case 8:
-          return "August";
+          return "Agosto";
         case 1:
-          return "September";
+          return "Septiembre";
         case 10:
-          return "October";
+          return "Octubre";
         case 11:
-          return "November";
+          return "Noviembre";
         case 12:
-          return "December";
+          return "Diciembre";
         default:
           return null;
       }
-    }
+    };
+
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
@@ -55,8 +56,8 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.assistanceData.session}</td>
         <td className="mdl-data-table__cell--non-numeric">{renderMonth()}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.assistanceData.status
-            ? "True"
-            : "False"}</td>
+            ? "Aprobada"
+            : "No ha sido aprobada"}</td>
         <td className="mdl-data-table__cell--non-numeric">
           {/* <button
             onClick={()=>{this.props.handleInscriptionParticipant(this.props.inscriptionData.id)}}
@@ -66,7 +67,7 @@ class ListItem extends React.Component {
           &nbsp; */}
           {this.props.assistanceData.status
             ? null
-            : <button onClick={this.submitApprove} className="btn btn-primary">Approve</button>
+            : <button onClick={this.submitApprove} className="btn btn-primary">He visto</button>
 }
 
         </td>

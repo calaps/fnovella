@@ -86,7 +86,7 @@ class HorizontalLinearStepper extends React.Component {
           handleNext={this.handleNext}
         />;
         case 2:
-        return "Inscription Completed!";
+        return "Inscripción completada";
       default:
         return 'You\'re a long way from home sonny jim!';
     }

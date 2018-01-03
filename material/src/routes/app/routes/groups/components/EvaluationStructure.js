@@ -401,7 +401,7 @@ class EvaluationStructure extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Calculo</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Modo de evaluación</label>
                       <div className="col-md-9">
                         <select
                           className="form-control"
@@ -410,8 +410,9 @@ class EvaluationStructure extends React.Component {
                           value={this.state.calculateMultipleSelection}
                           onChange={this.onChange}
                         >
-                          <option value="finalNote">Nota final</option>
-                          <option value="items">Items</option>
+                          <option value="finalNote">Nota Inicio/final</option>
+                          <option value="items">Por tema</option>
+                          <option value="assitance">Por participación</option>
                         </select>
                         {errors.calculateMultipleSelection &&
                         <span className="help-block text-danger">{errors.calculateMultipleSelection}</span>}

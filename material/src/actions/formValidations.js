@@ -103,15 +103,15 @@ export function programValidator(data) {
       errors.name = invalidData;
     }
   }
-  if (Validator.isEmpty(data.responsable)) {
+  if (Validator.isEmpty(data.responsable.toString())) {
     errors.responsable = required;
-    if (!Validator.isEmpty(data.responsable) && !Validator.isAlphanumeric(data.responsable)) {
+    if (!Validator.isEmpty(data.responsable.toString()) && !Validator.isAlphanumeric(data.responsable.toString())) {
       errors.responsable = invalidData;
     }
   }
-  if (Validator.isEmpty(data.monthsTotal)) {
+  if (Validator.isEmpty(data.monthsTotal.toString())) {
     errors.monthsTotal = required;
-    if (!Validator.isEmpty(data.monthsTotal) && !Validator.isAlphanumeric(data.monthsTotal)) {
+    if (!Validator.isEmpty(data.monthsTotal.toString()) && !Validator.isAlphanumeric(data.monthsTotal.toString())) {
       errors.monthsTotal = invalidData;
     }
   }
@@ -121,9 +121,9 @@ export function programValidator(data) {
       errors.evaluationType = invalidData;
     }
   }
-  if (Validator.isEmpty(data.evaluationPeriod)) {
+  if (Validator.isEmpty(data.evaluationPeriod.toString())) {
     errors.evaluationPeriod = required;
-    if (!Validator.isEmpty(data.evaluationPeriod) && !Validator.isAlphanumeric(data.evaluationPeriod)) {
+    if (!Validator.isEmpty(data.evaluationPeriod.toString()) && !Validator.isAlphanumeric(data.evaluationPeriod.toString())) {
       errors.evaluationPeriod = invalidData;
     }
   }
