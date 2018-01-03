@@ -4,6 +4,10 @@ import {bindActionCreators} from 'redux';
 import {
   indicatorsGetRequestByEvaluationIdAndYear
 } from '../../../../../actions';
+import EvaluationStats from './evaluationStats';
+import BenchmarkChart from './BenchmarkChart';
+import Bar from './Bar';
+import Line from './Line';
 
 class Indicators extends React.Component {
   constructor(props) {
@@ -26,74 +30,69 @@ class Indicators extends React.Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-xl-2 col-sm-6">
-          <div className="box box-default">
-            <div className="box-top">
-              <span>{this.state.indicators.totalNumberOfStudents}</span>
-            </div>
-            <div className="box-info">
-              <span>totalNumberOfStudents</span>
-            </div>
-            <div className="box-bottom">
-              <i className="material-icons color-info">assignment</i>
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-2 col-sm-6">
-          <div className="box box-default">
-            <div className="box-top">
-              <span>{this.state.indicators.numberOfStudentsApproved}</span>
-            </div>
-            <div className="box-info">
-              <span>numberOfStudentsApproved</span>
-            </div>
-            <div className="box-bottom">
-              <i className="material-icons color-info">assignment</i>
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-2 col-sm-6">
-          <div className="box box-default">
-            <div className="box-top">
-              <span>{this.state.indicators.percentageOfStudentsApproved}</span>
-            </div>
-            <div className="box-info">
-              <span>percentageOfStudentsApproved</span>
-            </div>
-            <div className="box-bottom">
-              <i className="material-icons color-info">supervisor_account</i>
+      <div>
+        <div className="box box-default">
+          <div className="box-body">
+            <div className="row">
+              <div className="col-xl-6">
+                <div className="box box-transparent">
+                  <div className="box-header">Indicadores por evaluación</div>
+                  <div className="box-body">
+                    <div className="row text-center metrics">
+                      <div className="col-xs-6 col-md-3 metric-box">
+                        <span className="metric">{this.state.indicators.totalNumberOfStudents}</span>
+                        <span className="metric-info">Total de estudiantes</span>
+                      </div>
+                      <div className="col-xs-6 col-md-3 metric-box">
+                        <span className="metric">{this.state.indicators.numberOfStudentsApproved}</span>
+                        <span className="metric-info">Estudiantes aprovados</span>
+                      </div>
+                      <div className="col-xs-6 col-md-3 metric-box">
+                        <span className="metric">{this.state.indicators.numberOfStudentsFailed}</span>
+                        <span className="metric-info">Estudiantes reprovados</span>
+                      </div>
+                    </div>
+                    <EvaluationStats options1={this.state.indicators.percentageOfStudentsApproved} options2={this.state.indicators.percentageOfStudentsFailed}/>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-6">
+                <div className="box box-transparent">
+                  <div className="box-header">Por actividades</div>
+                  <div className="box-body">
+                    <Bar />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-xl-2 col-sm-6">
-          <div className="box box-default">
-            <div className="box-top">
-              <span>{this.state.indicators.numberOfStudentsFailed}</span>
-            </div>
-            <div className="box-info">
-              <span>numberOfStudentsFailed</span>
-            </div>
-            <div className="box-bottom">
-              <i className="material-icons color-info">school</i>
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-2 col-sm-6">
-          <div className="box box-default">
-            <div className="box-top">
-              <span>{this.state.indicators.percentageOfStudentsFailed}</span>
-            </div>
-            <div className="box-info">
-              <span>percentageOfStudentsFailed</span>
-            </div>
-            <div className="box-bottom">
-              <i className="material-icons color-info">library_books</i>
+
+        <div className="box box-default">
+          <div className="box-body">
+            <div className="row">
+              <div className="col-xl-6">
+                <div className="box box-transparent">
+                  <div className="box-header">Indicadores consolidados por programa</div>
+                  <div className="box-body">
+                    <Line />
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-6">
+                <div className="box box-transparent">
+                  <div className="box-header">Grafica</div>
+                  <div className="box-body">
+                    <BenchmarkChart options1={this.state.indicators.percentageOfStudentsApproved} options2={this.state.indicators.percentageOfStudentsFailed} />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
-    )
+    );
   }
 }
 
