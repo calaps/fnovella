@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
@@ -21,7 +22,14 @@ public class Division {
 	private Integer programa;
 	private Integer location;
 	private boolean createdGroup;
-
+	@Transient
+	private String programName;
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 	public Integer getId() {
 		return id;
 	}

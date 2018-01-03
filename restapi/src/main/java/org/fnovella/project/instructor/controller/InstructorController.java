@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import javax.mail.internet.MimeMessage;
 
 @RestController
 @RequestMapping("/instructor/")
@@ -31,6 +34,8 @@ public class InstructorController {
 	private InscriptionsInstCourseRepository inscriptionsInstCourseRepository;
 	@Autowired
 	private ProgramInstructorRepository programInstructorRepository;
+	@Autowired
+	public JavaMailSender emailSender;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
@@ -52,15 +57,24 @@ public class InstructorController {
 		ArrayList<String> errors = instructorProgram.validate();
 		if (errors.size() == 0) {
 			if (this.instructorRepository.findByEmail(instructorProgram.getInstructor().getEmail()) == null) {
-				InstructorProgram saved = new InstructorProgram();
-				saved.setInstructor(this.instructorRepository.save(instructorProgram.getInstructor()));
-				if (instructorProgram.getProgramIds() != null && !instructorProgram.getProgramIds().isEmpty()) {
-					for (Integer programId : instructorProgram.getProgramIds()) {
-						this.programInstructorRepository.save(new ProgramInstructor(programId, saved.getInstructor().getId()));	
+				if (this.instructorRepository.findByDocumentValue(instructorProgram.getInstructor().getDocumentValue()) == null) {
+					InstructorProgram saved = new InstructorProgram();
+					saved.setInstructor(this.instructorRepository.save(instructorProgram.getInstructor()));
+					if (instructorProgram.getProgramIds() != null && !instructorProgram.getProgramIds().isEmpty()) {
+						for (Integer programId : instructorProgram.getProgramIds()) {
+							this.programInstructorRepository.save(new ProgramInstructor(programId, saved.getInstructor().getId()));	
+						}
+						saved.setProgramIds(instructorProgram.getProgramIds());
 					}
-					saved.setProgramIds(instructorProgram.getProgramIds());
-				}
-				return new APIResponse(saved, null);
+					try {
+						this.sendCreatedUserEmail(saved.getInstructor());
+					} catch (Exception ex) {
+						System.out.println("Email was not send, there is an error sending it");
+					}
+					return new APIResponse(saved, null);
+				} else {
+					errors.add("Personal Document Number is already in use");
+				}				
 			} else {
 				errors.add("Email is already in use");
 			}
@@ -75,20 +89,27 @@ public class InstructorController {
 		if (toUpdate != null) {
 			if ((toUpdate.getEmail().equals(instructorProgram.getInstructor().getEmail())) || 
 					(!toUpdate.getEmail().equals(instructorProgram.getInstructor().getEmail()) && this.instructorRepository.findByEmail(instructorProgram.getInstructor().getEmail()) == null)) {
-				toUpdate.setUpdateFields(instructorProgram.getInstructor());
-				toUpdate = this.instructorRepository.saveAndFlush(toUpdate);
-				InstructorProgram saved = new InstructorProgram();
-				saved.setInstructor(toUpdate);
-				if (!this.programInstructorRepository.findByInstructor(saved.getInstructor().getId()).isEmpty()) {
-					this.programInstructorRepository.deleteByInstructor(saved.getInstructor().getId());
-				}
-				if (instructorProgram.getProgramIds() != null && !instructorProgram.getProgramIds().isEmpty()) {
-					for (Integer programId : instructorProgram.getProgramIds()) {
-						this.programInstructorRepository.save(new ProgramInstructor(programId, saved.getInstructor().getId()));	
+
+				if ((toUpdate.getDocumentValue().equals(instructorProgram.getInstructor().getDocumentValue())) || 
+					(!toUpdate.getDocumentValue().equals(instructorProgram.getInstructor().getDocumentValue()) && this.instructorRepository.findByDocumentValue(instructorProgram.getInstructor().getDocumentValue()) == null)) {
+
+					toUpdate.setUpdateFields(instructorProgram.getInstructor());
+					toUpdate = this.instructorRepository.saveAndFlush(toUpdate);
+					InstructorProgram saved = new InstructorProgram();
+					saved.setInstructor(toUpdate);
+					if (!this.programInstructorRepository.findByInstructor(saved.getInstructor().getId()).isEmpty()) {
+						this.programInstructorRepository.deleteByInstructor(saved.getInstructor().getId());
 					}
-					saved.setProgramIds(instructorProgram.getProgramIds());
+					if (instructorProgram.getProgramIds() != null && !instructorProgram.getProgramIds().isEmpty()) {
+						for (Integer programId : instructorProgram.getProgramIds()) {
+							this.programInstructorRepository.save(new ProgramInstructor(programId, saved.getInstructor().getId()));	
+						}
+						saved.setProgramIds(instructorProgram.getProgramIds());
+					}
+					return new APIResponse(saved, null);
+				} else {
+					errors.add("Personal Document Number is already in use");
 				}
-				return new APIResponse(saved, null);
 			} else {
 				errors.add("Email is already in use");
 			}
@@ -116,4 +137,14 @@ public class InstructorController {
 		errors.add("Instructor doesn't exist");
 		return new APIResponse(null, errors);
 	}
+
+	private void sendCreatedUserEmail(Instructor appUser) throws Exception {
+		MimeMessage message = emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo(appUser.getEmail());
+		helper.setText("Hola, <br><br> Tu correo es: " + appUser.getEmail() + " <br>  Y tu contraseña es: " + appUser.getPassword() + "  <br><br> Saludos.", true);
+		helper.setSubject("Bienvenido " + appUser.getFirstName());
+		emailSender.send(message);
+	}
+
 }

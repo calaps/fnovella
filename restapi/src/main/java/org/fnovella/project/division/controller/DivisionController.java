@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.fnovella.project.program.repository.ProgramRepository;
 
 @RestController
 @RequestMapping("/division/")
@@ -23,6 +24,8 @@ public class DivisionController {
 	
 	@Autowired
 	private DivisionRepository divisionRepository;
+	@Autowired
+	private ProgramRepository programRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
@@ -53,7 +56,8 @@ public class DivisionController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Division division = this.divisionRepository.findOne(id);
 		if (division != null) {
-			return new APIResponse(this.divisionRepository.findOne(id), null);
+			division.setProgramName(this.programRepository.findOne(division.getPrograma()).getName());
+			return new APIResponse(division, null);
 		}
 		errors.add("Division doesn't exist");
 		return new APIResponse(null, errors);

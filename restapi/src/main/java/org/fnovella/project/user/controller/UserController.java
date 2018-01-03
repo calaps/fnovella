@@ -85,13 +85,24 @@ public class UserController {
 		if (errors.size() == 0) {
 			AppUser appUser = this.userRepository.findByEmail(user.getEmail());
 			if (appUser == null) {
-				appUser = this.userRepository.save(user);
-				AppUserSession session = createAppUserSession(appUser);
-				this.appUserRepository.save(session);
-				appUser.setPassword("");
-				return new LoginResponse(appUser, session.getToken(), null);	
+				appUser = this.userRepository.findByDocumentValue(user.getDocumentValue());
+				if (appUser == null) {
+					appUser = this.userRepository.save(user);
+					AppUserSession session = createAppUserSession(appUser);
+					this.appUserRepository.save(session);
+					try {
+						this.sendCreatedUserEmail(appUser);
+					} catch (Exception ex) {
+						System.out.println("Email was not send, there is an error sending it");
+					}
+					appUser.setPassword("");
+					return new LoginResponse(appUser, session.getToken(), null);	
+				} else {
+					errors.add("Personal Document Number is already in use");
+				}
+			} else {
+				errors.add("Email is already in use");
 			}
-			errors.add("Email is already in use");
 		}
 		return new LoginResponse(null, null, errors);
 	}
@@ -166,10 +177,17 @@ public class UserController {
 			if (toUpdate != null) {
 				if ((toUpdate.getEmail().equals(user.getEmail())) || 
 						(!toUpdate.getEmail().equals(user.getEmail())) && this.userRepository.findByEmail(user.getEmail()) == null) {
-					toUpdate.setUpdateFields(user);
-					toUpdate = this.userRepository.saveAndFlush(toUpdate);
-					toUpdate.setPassword("");
-					return new APIResponse(toUpdate, null);	
+
+					if ((toUpdate.getDocumentValue().equals(user.getDocumentValue())) || 
+						(!toUpdate.getDocumentValue().equals(user.getDocumentValue())) && this.userRepository.findByDocumentValue(user.getDocumentValue()) == null) {
+
+						toUpdate.setUpdateFields(user);
+						toUpdate = this.userRepository.saveAndFlush(toUpdate);
+						toUpdate.setPassword("");
+						return new APIResponse(toUpdate, null);	
+					} else {
+						errors.add("Personal Document Number is already in use");
+					}
 				} else {
 					errors.add("Email is already in use");
 				}
@@ -290,6 +308,16 @@ public class UserController {
 			errors.add("Email was not sent");
 		}
 		return new APIResponse(null, errors);
+	}
+
+	private void sendCreatedUserEmail(AppUser appUser) throws Exception {
+		MimeMessage message = emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo(appUser.getEmail());
+		helper.setText("Hola, <br><br> Tu correo es: " + appUser.getEmail() + " <br>  Y tu contraseña es: " + appUser.getPassword() + "  <br><br> Saludos.", true);
+		helper.setSubject("Bienvenido " + appUser.getFirstName());
+		emailSender.send(message);
+		this.userRepository.saveAndFlush(appUser);
 	}
 
 	private void sendResetPasswordEmail(AppUser appUser) throws Exception {

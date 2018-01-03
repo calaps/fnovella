@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
 
@@ -20,6 +21,14 @@ public class Workshop {
 	private String description;
 	private Integer programId;
 	private boolean createdGroup;
+	@Transient
+	private String programName;
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 	public Integer getId() {
 		return id;
 	}

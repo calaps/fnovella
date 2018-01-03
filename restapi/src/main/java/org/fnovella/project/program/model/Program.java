@@ -223,20 +223,20 @@ public class Program {
 	}
 	public ArrayList<String> validate() {
 		 ArrayList<String> errors = new  ArrayList<String>();
-		 if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Name is required");
-		 if (!APIUtility.isNotNullOrEmpty(this.audience)) errors.add("Audience is required");
-		 if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Description is required");
-		 if (!APIUtility.isNotNullOrEmpty(this.clasification)) errors.add("Clasification is required");
-		 if (!APIUtility.isNotNullOrEmpty(this.genderAudience)) errors.add("Gender Audience is required");
-		 if (!APIUtility.isNotNullOrEmpty(this.type)) errors.add("Type is required");
-		 if (!APIUtility.isNotNullOrEmpty(this.gender)) errors.add("Gender is required");
-		 if (!APIUtility.isNotNullOrEmpty(this.evaluationType)) errors.add("Evaluation Type is required");
-		 if (this.audienceMin == null || this.audienceMin <= 0) errors.add("Audience Min is required");
-		 if (this.audienceMax == null || this.audienceMax <= 0) errors.add("Audience Max is required");
-		 if (this.responsable == null || this.responsable <= 0) errors.add("Responsable is required");
-		 if (this.monthsTotal == null || this.monthsTotal <= 0) errors.add("Months Total is required");
-		 if (this.evaluationPeriod == null || this.evaluationPeriod <= 0) errors.add("Evaluation Period is required");
-		 if (this.category == null || this.category <= 0) errors.add("Category is required");
+		 if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Nombre res requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.audience)) errors.add("Audiencia es requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Descripción es requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.clasification)) errors.add("Clasificación es requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.genderAudience)) errors.add("Género de la Audiencia es requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.type)) errors.add("Tipo es requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.gender)) errors.add("Género es requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.evaluationType)) errors.add("Tipo de Evaluación es requerido");
+		 if (this.audienceMin == null || this.audienceMin < 0) errors.add("Mínimo de Audiencia es requerido");
+		 if (this.audienceMax == null || this.audienceMax < 0) errors.add("Máximo de Audiencia es requerido");
+		 if (this.responsable == null || this.responsable <= 0) errors.add("Responsable es requerido");
+		 if (this.monthsTotal == null || this.monthsTotal <= 0) errors.add("Total de Meses Months Total is required");
+		 if (this.evaluationPeriod == null || this.evaluationPeriod <= 0) errors.add("Periodo de Evaluación es requerido");
+		 if (this.category == null || this.category <= 0) errors.add("Categoría es requerido");
 		 return errors;
 	}
 	

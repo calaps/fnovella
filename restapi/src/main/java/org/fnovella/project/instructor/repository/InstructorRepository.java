@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InstructorRepository extends JpaRepository<Instructor, Integer> {
 	Instructor findByEmail(String email);
+	Instructor findByDocumentValue(String documentValue);
 
 	@Query(value = "SELECT * FROM INSTRUCTOR where first_name like ?1% COLLATE Latin1_General_CI_AI", nativeQuery = true)
 	List<Instructor> findByFirstNameStartingWith(String firstName);

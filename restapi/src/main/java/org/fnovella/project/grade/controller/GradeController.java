@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.fnovella.project.section.repository.SectionRepository;
+import org.fnovella.project.program.repository.ProgramRepository;
 
 @RestController
 @RequestMapping("/grade/")
@@ -33,6 +34,8 @@ public class GradeController {
 	private InscriptionsPartGradeRepository inscriptionsPartGradeRepository;
 	@Autowired
 	public SectionRepository sectionRepository;
+	@Autowired
+	private ProgramRepository programRepository;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
@@ -54,7 +57,8 @@ public class GradeController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Grade grade = this.gradeRepository.findOne(id);
 		if (grade != null) {
-			return new APIResponse(this.gradeRepository.findOne(id), null);
+			grade.setProgramName(this.programRepository.findOne(grade.getProgramId()).getName());
+			return new APIResponse(grade, null);
 		}
 		errors.add("Course doesn't exist");
 		return new APIResponse(null, errors);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.fnovella.project.program.repository.ProgramRepository;
 
 @RestController
 @RequestMapping("/workshop/")
@@ -27,6 +28,8 @@ public class WorkshopController {
 	private InscriptionsInstWorkshopRepository inscriptionsInstWorkshopRepository;
 	@Autowired
 	private InscriptionsPartWorkshopRepository inscriptionsPartWorkshopRepository;
+	@Autowired
+	private ProgramRepository programRepository;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
@@ -48,6 +51,7 @@ public class WorkshopController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Workshop workshop = this.workshopRepository.findOne(id);
 		if (workshop != null) {
+			workshop.setProgramName(this.programRepository.findOne(workshop.getProgramId()).getName());
 			return new APIResponse(workshop, null);
 		}
 		errors.add("Workshop doesn't exist");

@@ -21,6 +21,7 @@ public interface UserRepository extends JpaRepository<AppUser, Integer> {
 	List<AppUser> findByPrivilege(Integer privileId);
 	AppUser findByEmailAndPassword(String email, String password);
 	AppUser findByEmail(String email);
+	AppUser findByDocumentValue(String documentValue);
 	@Query(value = "SELECT * FROM APP_USER where first_name like ?1% COLLATE Latin1_General_CI_AI", nativeQuery = true)
 	List<AppUser> findByFirstNameStartingWith(String firstName);
 	Page<AppUser> findByAppCode(String appCode, Pageable pageable);

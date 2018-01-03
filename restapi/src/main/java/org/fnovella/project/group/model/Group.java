@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Column;
 
 import org.fnovella.project.group.service.TypeCategory;
 import org.fnovella.project.utility.APIUtility;
@@ -44,6 +45,7 @@ public class Group {
     private Integer nsOct;
     private Integer nsNov;
     private Integer nsDec;
+    private Integer yearActivation;
 
     public Integer getId() {
         return id;
@@ -230,6 +232,14 @@ public class Group {
         this.nsDec = nsDec;
     }
 
+    public Integer getYearActivation() {
+        return yearActivation;
+    }
+
+    public void setYearActivation(Integer yearActivation) {
+        this.yearActivation = yearActivation;
+    }
+
     public Group(String typeCategory, Integer type, String correlativo, Integer courseId, Integer workshopId,
                  Integer divisionId, Integer section, Integer instructor, Integer nsJan, Integer nsFeb, Integer nsMar,
                  Integer nsApr, Integer nsMay, Integer nsJun, Integer nsJul, Integer nsAug, Integer nsSep, Integer nsOct,
@@ -269,6 +279,7 @@ public class Group {
         if (!APIUtility.isNotNullOrEmpty(this.typeCategory)) errors.add("Type cateogry is required");
         if (!APIUtility.isNotNullOrEmpty(this.correlativo)) errors.add("Correlativo is required");
         if (this.type == null || this.type <= 0) errors.add("Type is required");
+        if (this.yearActivation == null || this.yearActivation <= 0) errors.add("Year Activation is required");
         if (this.instructor == null || this.instructor <= 0) errors.add("Instructor is required");
         if (this.inscriptionsStart == null) errors.add("Inscriptions Start is required");
         if (this.inscriptionsEnd == null) errors.add("Inscriptions End is required");
@@ -299,6 +310,7 @@ public class Group {
         if (group.divisionId != null && group.divisionId > 0) this.divisionId = group.divisionId;
         if (group.section != null && group.section > 0) this.section = group.section;
         if (group.instructor != null && group.instructor > 0) this.instructor = group.instructor;
+        if (group.yearActivation != null && group.yearActivation > 0) this.yearActivation = group.yearActivation;
         if (group.nsJan != null && group.nsJan > 0) this.nsJan = group.nsJan;
         if (group.nsFeb != null && group.nsFeb > 0) this.nsFeb = group.nsFeb;
         if (group.nsMar != null && group.nsMar > 0) this.nsMar = group.nsMar;

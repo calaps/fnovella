@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Transient;
 import javax.persistence.Id;
 
 import org.fnovella.project.utility.APIUtility;
@@ -27,6 +28,14 @@ public class Course {
 	private Integer programId;
 	private Integer instructorId;
 	private boolean createdGroup;
+	@Transient
+	private String programName;
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 	
 	public Integer getGrade() {
 		return grade;
