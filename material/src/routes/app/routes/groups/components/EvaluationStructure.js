@@ -333,8 +333,8 @@ class EvaluationStructure extends React.Component {
                           value={this.state.evaluationType}
                           onChange={this.onChange}
                         >
-                          <option value="conocimiento">Evaluación conocimiento</option>
-                          <option value="continua">Evaluación de continua</option>
+                          <option value="conocimiento">Evaluación Inicio/Fin</option>
+                          <option value="continua">Evaluación Final</option>
                         </select>
                         {errors.evaluationType &&
                         <span className="help-block text-danger">{errors.evaluationType}</span>}
@@ -395,13 +395,13 @@ class EvaluationStructure extends React.Component {
                     <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
                     <div className="form-group row">
                       <label htmlFor="totalEvaluateCategory"
-                             className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
+                             className="col-md-3 offset-md-3 control-label">Total de actividades: {this.state.totalEvaluateCategory}</label>
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Modo de evaluación</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de evaluaciones</label>
                       <div className="col-md-9">
                         <select
                           className="form-control"
@@ -410,9 +410,18 @@ class EvaluationStructure extends React.Component {
                           value={this.state.calculateMultipleSelection}
                           onChange={this.onChange}
                         >
-                          <option value="finalNote">Nota Inicio/final</option>
-                          <option value="items">Por tema</option>
-                          <option value="assitance">Por participación</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">4</option>
+                          <option value="6">4</option>
+                          <option value="7">4</option>
+                          <option value="8">4</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
                         </select>
                         {errors.calculateMultipleSelection &&
                         <span className="help-block text-danger">{errors.calculateMultipleSelection}</span>}

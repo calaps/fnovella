@@ -338,7 +338,7 @@ class GeneralConfiguration extends React.Component {
 
               <div className="box box-default">
                 <div className="box-body padding-md">
-                  <p className="text-info">Ingresa la siguiente información: </p>
+                  <p className="text-info">Ingresa el número de sesiones por mes: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
                       <label htmlFor="typeCategory" className="col-md-3 control-label">Tipo de grupo</label>
@@ -375,7 +375,7 @@ class GeneralConfiguration extends React.Component {
                     </div>
                     {selectBox()}
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inscriptions start</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de inicio de inscripción</label>
                       <div className="col-md-9">
                         <DatePicker
                           hintText="eje: Durán"
@@ -387,7 +387,7 @@ class GeneralConfiguration extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inscriptions end</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de final de inscripción</label>
                       <div className="col-md-9">
                         <DatePicker
                           hintText="eje: Durán"

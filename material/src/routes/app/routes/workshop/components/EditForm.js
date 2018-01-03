@@ -266,7 +266,7 @@ class EditForm extends React.Component {
                                     onTouchTap={this.handleCancel}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ? 'Update' : 'Add'} secondary className="btn-w-md"/>
+                                      label={this.state.isEditing ? 'Cancelar' : 'Agregar'} secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>

@@ -21,7 +21,7 @@ class MainOptions extends React.Component {
                   <div className="ibox-icon">
                     <a href="javascript:;"><i className="material-icons">list</i></a>
                   </div>
-                  <h5>{optionsName}s</h5>
+                  <h5>{optionsName}s para catalogos</h5>
                 </div>
               </div>
 
