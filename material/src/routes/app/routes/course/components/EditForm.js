@@ -342,8 +342,8 @@ class EditForm extends React.Component {
                           value={this.state.openCourse}
                           className="form-control">
                           <option value="" disabled>Selecione la curso</option>
-                          <option value={true}>true</option>
-                          <option value={false}>false</option>
+                          <option value={true}>Si</option>
+                          <option value={false}>No</option>
                         </select>
                         {errors.openCourse && <span className="help-block text-danger">{errors.openCourse}</span>}
                       </div>
@@ -397,8 +397,8 @@ class EditForm extends React.Component {
                           disabled={this.state.isLoading}
                           type="submit"
                           label={this.state.isEditing
-                          ? 'Update'
-                          : 'Add'}
+                          ? 'Actualizar'
+                          : 'Agregar'}
                           secondary
                           className="btn-w-md"/>
                       </div>

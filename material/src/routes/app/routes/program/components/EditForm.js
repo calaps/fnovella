@@ -513,6 +513,7 @@ class EditForm extends React.Component {
                           <option value="">Seleciona el tipo de evaluación...</option>
                           <option value="conocimiento">Evaluación Inicio/Final</option>
                           <option value="continua">Evaluación solo Final</option>
+                          <option value="periodica">Evaluación periodica</option>
                         </select>
                         {errors.evaluationType && <span className="help-block text-danger">{errors.evaluationType}</span>}
                       </div>
@@ -690,7 +691,7 @@ class EditForm extends React.Component {
                                     onTouchTap={this.handleCancel}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ? 'Update' : 'Add'}
+                                      label={this.state.isEditing ? 'Actualizar' : 'Agregar'}
                                       secondary className="btn-w-md"/>
                       </div>
                     </div>
