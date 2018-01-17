@@ -21,10 +21,10 @@ class EditForm extends React.Component {
       calPeriodsGrade: 'no data',
       calPeriodsWorkshop: 'no data',
       calPeriodsDivision: 'no data',
-      evaluationStructure: 'null',
-      freeCourses: '',
+      evaluationStructure: 'no data',
+      freeCourses: true,
       location: 1,
-      monitoringStructure: 'null',
+      monitoringStructure: 'no data',
       nsJan: 0,
       nsFeb: 0,
       nsMar: 0,
@@ -38,8 +38,8 @@ class EditForm extends React.Component {
       nsNov: 0,
       nsDec: 0,
       numberSessions: 1,
-      responsable: 4,
-      satisfactionStructure: 'null',
+      responsable: 1,
+      satisfactionStructure: 'no data',
       temporality: '',
       year: '',
       errors: {},
@@ -87,7 +87,7 @@ class EditForm extends React.Component {
         numberSessions: this.state.numberSessions,
         responsable: this.state.responsable,
         satisfactionStructure: this.state.satisfactionStructure,
-        temporality: this.state.temporality,
+        temporality: parseInt(this.state.temporality, 8),
         year: this.state.year,
         nsJan: this.state.nsJan || 0,
         nsFeb: this.state.nsFeb || 0,
@@ -190,9 +190,8 @@ class EditForm extends React.Component {
                           name="freeCourses"
                           value={this.state.freeCourses}
                           onChange={this.onChange} >
-                          <option value="">selecciona...</option>
-                          <option value="true">Si</option>
-                          <option value="false">No</option>
+                          <option value={true}>Si</option>
+                          <option value={false}>No</option>
                         </select>
 
                         {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
@@ -236,13 +235,13 @@ class EditForm extends React.Component {
 
                     <div style={{marginTop: 12}}>
                       <FlatButton
-                        label='Back'
+                        label='retroceder'
                         style={{marginRight: 12}}
                         onTouchTap={this.props.handlePrev}
                       />
                       <RaisedButton
                         type='submit'
-                        label='Next'
+                        label='sigueinte'
                         primary
                       />
                     </div>

@@ -56,12 +56,6 @@ export function programActivationValidator(data) {
 
   let errors = {}; //errors star with an empty object
 
-  if (Validator.isEmpty(data.freeCourses)) {
-    errors.freeCourses = required;
-    if (!Validator.isEmpty(data.freeCourses) && !Validator.isAlphanumeric(data.freeCourses)) {
-      errors.freeCourses = invalidData;
-    }
-  }
   if (Validator.isEmpty(data.temporality)) {
     errors.temporality = required;
     if (!Validator.isEmpty(data.temporality) && !Validator.isAlphanumeric(data.temporality)) {
@@ -762,7 +756,7 @@ export function satisfactionStructureValidator(data) {
     errors.maximumNote = required;
   }
   if (data.evaluateCategory.length === 0) {
-    errors.evaluateCategory = "Add at least one category!";
+    errors.evaluateCategory = "Ingresa una categoria a evaluar";
   }
   if (data.totalEvaluateCategory !== 100) {
     errors.totalEvaluateCategory = "El total debe ser 100!";

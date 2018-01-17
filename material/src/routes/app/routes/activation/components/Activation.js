@@ -37,7 +37,7 @@ class MainOptions extends React.Component {
                         <div className="ibox-icon">
                           <a><i className="material-icons">assignment</i></a>
                         </div>
-                        <h6>Ver programas</h6>
+                        <h6>Lista de activaciones</h6>
                       </div>
                     </div>
                   </div>

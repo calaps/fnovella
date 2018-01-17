@@ -85,12 +85,12 @@ class ProgramsListElements extends React.Component {
         </Table>
         <div style={{marginTop: 12}}>
           <FlatButton
-            label='Cancelar'
+            label='cancelar'
             style={{marginRight: 12}}
             onTouchTap={this.props.handleCancel}
           />
           <RaisedButton
-            label='Continuar'
+            label='siguiente'
             primary
             onTouchTap={() => {
               this.props.handleNext(data)

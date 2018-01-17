@@ -1,4 +1,5 @@
 import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class ListItem extends React.Component {
   constructor() {
@@ -44,6 +45,22 @@ class ListItem extends React.Component {
             onClick={()=>{this.props.onDelete(this.props.activationData.id)}}
 
             type="submit" className="btn btn-primary">Delete</button> */}
+          &nbsp;
+          &nbsp;
+          <RaisedButton
+            disabled={this.state.isLoading}
+            label='Evaluación 1'
+            primary
+            onTouchTap={this.onGroupActivate}
+          />
+          &nbsp;
+          &nbsp;
+          <RaisedButton
+            disabled={this.state.isLoading}
+            label='Evaluación 2'
+            primary
+            onTouchTap={this.onGroupActivate}
+          />
           &nbsp;
           &nbsp;
           <button

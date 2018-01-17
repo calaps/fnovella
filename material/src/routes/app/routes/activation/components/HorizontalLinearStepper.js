@@ -8,10 +8,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import EditForm from './EditForm';
 import ProgramsListElements from './ProgramListElements';
+import PerformanceStructure from './PerformanceStructure';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  programActivationsAddRequest
+  programActivationsAddRequest,
+  evaluationAddRequest,
+  evaluationActivityAddRequest,
+  evaluationRangeAddRequest
 } from '../../../../../actions';
 
 
@@ -25,7 +29,15 @@ class HorizontalLinearStepper extends React.Component {
       isLoading: false,
       formData: {},
       programId: '',
-      programClasification: 'no data'
+      programClasification: 'null',
+      performanceStructure: {},
+      performanceStructureRangeId: '',
+      performanceStructureId: '',
+      performanceStructureRangeCreated: false,
+      performanceStructureCreated: false,
+      performanceActivityCreated: false,
+      activationId: 0,
+      programActive: false
     };
     this.handleCancel = this.handleCancel.bind(this);
   }
@@ -64,7 +76,32 @@ class HorizontalLinearStepper extends React.Component {
           handleNext={this.handleNext}
         />;
       case 2:
-        return 'Resumen de activación';
+        return <PerformanceStructure
+          handlePrev={this.handlePrev}
+          handleNext={this.handleNext}
+        />;
+      case 3:
+        return <div>
+          <p>
+            <a>
+              Activación de programa y estructura de evaluación de desempeño
+            </a><br />La activación esta configurada exitosamente. Presione activar para finalizar.
+          </p>
+          <div style={{marginTop: 12}}>
+            <FlatButton
+              label='retroceder'
+              disabled={this.state.isLoading}
+              onTouchTap={this.handlePrev}
+              style={{marginRight: 12}}
+            />
+            <RaisedButton
+              disabled={this.state.isLoading}
+              label='activar'
+              primary
+              onTouchTap={this.handleNext}
+            />
+          </div>
+        </div>;
       default:
         return 'You\'re a long way from home sonny jim!';
     }
@@ -79,13 +116,13 @@ class HorizontalLinearStepper extends React.Component {
             programId: data.programId,
             programClasification: data.programClasification,
             stepIndex: stepIndex + 1,
-            finished: stepIndex >= 2,
+            finished: stepIndex >= 3,
             errors: {}
           });
         } else {
           this.setState({
             errors: {
-              programIdError: 'Selecciona un programa antes de continuar'
+              programIdError: 'Aún no has seleccionado el programa a activar'
             }
           });
         }
@@ -121,23 +158,97 @@ class HorizontalLinearStepper extends React.Component {
             nsDec: data.nsDec,
           },
           stepIndex: stepIndex + 1,
-          finished: stepIndex >= 2,
+          finished: stepIndex >= 3,
           errors: {}
         });
         break;
       case 2:
+        this.setState({
+          stepIndex: stepIndex + 1,
+          finished: stepIndex >= 3,
+          performanceStructure: data,
+          errors: {}
+        });
+        break;
+        case 3:
         this.props.actions.programActivationsAddRequest(this.state.formData).then(
+          // Create a program Activation
           (response) => {
-            if(response){
-              this.props.changeView('VIEW_ELEMENT');
+            if(response) {
+              // setting activationID returned in response
+              this.setState({activationId: response.data.id, programActive: true});
+
+              // setting range for forth form through minimumNote and maximumNote
+              let performanceStructureRange = {
+                min: this.state.performanceStructure.minimumNote,
+                max: this.state.performanceStructure.maximumNote
+              };
+              // console.log("hitting performanceStructureRange api");
+              this.props.actions.evaluationRangeAddRequest(performanceStructureRange)
+                .then(
+                  (response) => {
+                    if (response) {
+                      //setting performanceStructureRangeId returned in response
+                      this.setState({
+                        performanceStructureRangeId: response.data.id,
+                        performanceStructureRangeCreated: true
+                      });
+                      // console.log("response from performanceStructureRange api: ", response.data.id);
+                      //setting performanceStructureData to hit evaluation add api
+                      let performanceStructureData = {
+                        approvalPercentage: this.state.performanceStructure.approvalPercentage,
+                        evaluationSubtype: this.state.performanceStructure.evaluationSubtype,
+                        evaluationType: this.state.evaluationStructure.evaluationType,
+                        dateEnd: this.state.generalConfiguration.inscriptionsEnd,
+                        dateStart: this.state.generalConfiguration.inscriptionsStart,
+                        session: 0,
+                        group: null, // #joseph
+                        program: this.state.groupId, // #joseph
+                        range: this.state.performanceStructureRangeId
+                      };
+                      // console.log("hitting performanceStructureData api");
+                      this.props.actions.evaluationAddRequest(performanceStructureData)
+                        .then(
+                          (response) => {
+                            if (response) {
+                              //setting performanceStructureId returned in response
+                              this.setState({
+                                performanceStructureId: response.data.id,
+                                performanceStructureCreated: true
+                              });
+                              // console.log("response from performanceStructureData api: ", response.data.id);
+                              //setting performanceStructureActivityData to hit evaluationActivity add api
+                              for (let act of this.state.performanceStructure.evaluateCategory) {
+                                let performanceStructureActivityData = {
+                                  evaluation: this.state.performanceStructureId,
+                                  parentId: 0,
+                                  range: this.state.performanceStructureRangeId
+                                };
+                                performanceStructureActivityData.name = act.name;
+                                performanceStructureActivityData.percentage = act.percentage;
+                                // console.log("hitting performanceStructureActivityData api, ", performanceStructureActivityData);
+                                this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData);
+                              }
+                              this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
+                            }
+                          },
+                          (error) => {
+                            console.log("An Error occur with the Evaluation API: ", error);
+                          });
+                    }
+                  },
+                  (error) => {
+                    console.log("An Error occur with the Structure Range API: ", error);
+                  });
+
             }
           }, (error) => {
             //alert'fail');
-            console.log('error occoured with rest api: ', error);
+            console.log('Error con Program Activation API: ', error);
           }
         );
         // console.log("formData",this.state.formData);
-        return 'Resumen de activación';
+        return 'Activación del programa finalizada';
       default:
         return 'You\'re a long way from home sonny jim!';
     }
@@ -156,56 +267,24 @@ class HorizontalLinearStepper extends React.Component {
             <div style={{width: '100%', maxWidth: 900, margin: 'auto'}}>
               <Stepper activeStep={stepIndex}>
                 <Step>
-                  <StepLabel>Selecciona el programa a activar:</StepLabel>
+                  <StepLabel>Selecciona el programa</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Ingresa la configuración</StepLabel>
+                  <StepLabel>Configuración</StepLabel>
+                </Step>
+                <Step>
+                  <StepLabel>Evaluación de desempeño</StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>Activar</StepLabel>
                 </Step>
               </Stepper>
               <div style={contentStyle}>
-                {finished ? (
-                  <p>
-                    <a
-                      href="javascript:;"
-                      onClick={(event) => {
-                        event.preventDefault();
-                        this.setState({stepIndex: 0, finished: false});
-                      }}
-                    >
-                      Activar otro programa
-                    </a> El programa ha sido activado correctamente para el inicio del ciclo escolar.
-                  </p>
-                ) : (
-                  <div>
-                    <div>{this.getStepContent(stepIndex)}</div>
-                    {
-                      stepIndex === 2 ?
-                        <div style={{marginTop: 12}}>
-                          <FlatButton
-                            label='Back'
-                            onTouchTap={this.handlePrev}
-                            style={{marginRight: 12}}
-                          />
-                          <RaisedButton
-                            label='Activate'
-                            primary
-                            onTouchTap={this.handleNext}
-                          />
-                        </div>
-                        : null
-                    }
-                    {errors.programIdError && <span className="help-block text-danger">{errors.programIdError}</span>}
-                  </div>
-                )}
+                <div>
+                  <div>{this.getStepContent(stepIndex)}</div>
+                </div>
               </div>
 
-              <div className="callout callout-info">
-                <p>Acticación de programas para que se puedan crear grados, cursos o talleres.</p>
-                <p>Nota: Este formulario necesita de los catalogos para poder funcionar.</p>
-              </div>
             </div>
 
           </div>
@@ -219,7 +298,10 @@ class HorizontalLinearStepper extends React.Component {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      programActivationsAddRequest
+      programActivationsAddRequest,
+      evaluationAddRequest,
+      evaluationActivityAddRequest,
+      evaluationRangeAddRequest
     }, dispatch)
   };
 }

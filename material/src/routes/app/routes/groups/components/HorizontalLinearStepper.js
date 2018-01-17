@@ -175,7 +175,7 @@ class HorizontalLinearStepper extends React.Component {
           stepIndex: stepIndex + 1,
           finished: stepIndex >= 6,
           errors: {},
-          performanceStructure: data
+          Structure: dataperformance
         });
         break;
       default:
