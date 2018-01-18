@@ -36,18 +36,20 @@ class GeneralConfiguration extends React.Component {
       workshopId: '',
       inscriptionsEnd: new Date(),
       inscriptionsStart: new Date(),
-      nsJan: '',
-      nsFeb: '',
-      nsMar: '',
-      nsApr: '',
-      nsMay: '',
-      nsJun: '',
-      nsJul: '',
-      nsAug: '',
-      nsSep: '',
-      nsOct: '',
-      nsNov: '',
-      nsDec: '',
+      months: ["nsJan", "nsFeb", "nsMar", "nsApr", "nsMay", "nsJun", "nsJul", "nsAug", "nsSep", "nsOct", "nsNov", "nsDec"],
+      monthsToRender: [],
+      nsJan: 0,
+      nsFeb: 0,
+      nsMar: 0,
+      nsApr: 0,
+      nsMay: 0,
+      nsJun: 0,
+      nsJul: 0,
+      nsAug: 0,
+      nsSep: 0,
+      nsOct: 0,
+      nsNov: 0,
+      nsDec: 0,
       errors: {},
       isLoading: false,
       selectedType: '',
@@ -225,13 +227,59 @@ class GeneralConfiguration extends React.Component {
   handleChangeStartDate(event, date) {
     this.setState({
       inscriptionsStart: date,
+      monthsToRender: this.state.months.slice(date.getMonth(), this.state.inscriptionsEnd.getMonth() + 1)
     });
   }
 
   handleChangeEndDate(event, date) {
     this.setState({
       inscriptionsEnd: date,
+      monthsToRender: this.state.months.slice(this.state.inscriptionsStart.getMonth(), date.getMonth() + 1)
     });
+  }
+
+  renderName(val) {
+    switch (val){
+      case "nsJan":
+        return "Enero";
+        break;
+      case "nsFeb":
+        return "Febrero";
+        break;
+      case "nsMar":
+        return "Marzo";
+        break;
+      case "nsApr":
+        return "Abril";
+        break;
+      case "nsMay":
+        return "Mayo";
+        break;
+      case "nsJun":
+        return "Junio";
+        break;
+      case "nsJul":
+        return "Julio";
+        break;
+      case "nsAug":
+        return "Agosto";
+        break;
+      case "nsSep":
+        return "Septimbre";
+        break;
+      case "nsOct":
+        return "Octubre";
+        break;
+      case "nsNov":
+        return "Noviembre";
+        break;
+      case "nsDic":
+        return "Diciembre";
+        break;
+      default:
+        return "Error";
+        break;
+    }
   }
 
   render() {
@@ -244,6 +292,22 @@ class GeneralConfiguration extends React.Component {
                        value={arr.instructor || arr.id}>{arr.instructorName || arr.name}</option>
       });
     };
+
+    const monthsRender = map(this.state.monthsToRender, (val, key) =>
+      <div className="form-group">
+          <label htmlFor="inputEmail3" key={key} className="control-label">{this.renderName(val)}:</label>
+          <div>
+            <input
+              type="number"
+              className="form-control"
+              id={val}
+              name={val}
+              value={this.state.val}
+              onChange={this.onChange}
+              placeholder="número de sesiones..."/>
+        </div>
+      </div>
+    );
 
     const typeCategories = map(typeCategory, (val, key) =>
       <option key={val} value={val}>{key}</option>
@@ -399,205 +463,9 @@ class GeneralConfiguration extends React.Component {
                       </div>
                     </div>
 
-                    <p className="text-info">Ingresa la siguiente información: </p>
+                    <p className="text-info">Ingresa la cantidad de sesiones por mes... </p>
 
-                    <div className="form-group row">
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Enero:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsJan"
-                            name="nsJan"
-                            value={this.state.nsJan}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsJan &&
-                          <span className="help-block text-danger">{errors.nsJan}</span>}
-                        </div>
-                      </div>
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Febrero:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsFeb"
-                            name="nsFeb"
-                            value={this.state.nsFeb}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsFeb &&
-                          <span className="help-block text-danger">{errors.nsFeb}</span>}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Marzo:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsMar"
-                            name="nsMar"
-                            value={this.state.nsMar}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsMar &&
-                          <span className="help-block text-danger">{errors.nsMar}</span>}
-                        </div>
-                      </div>
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Abril:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsApr"
-                            name="nsApr"
-                            value={this.state.nsApr}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsApr &&
-                          <span className="help-block text-danger">{errors.nsApr}</span>}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Mayo:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsMay"
-                            name="nsMay"
-                            value={this.state.nsMay}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsMay &&
-                          <span className="help-block text-danger">{errors.nsMay}</span>}
-                        </div>
-                      </div>
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Junio:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsJun"
-                            name="nsJun"
-                            value={this.state.nsJun}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsJun &&
-                          <span className="help-block text-danger">{errors.nsJun}</span>}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Julio:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsJul"
-                            name="nsJul"
-                            value={this.state.nsJul}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsJul &&
-                          <span className="help-block text-danger">{errors.nsJul}</span>}
-                        </div>
-                      </div>
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Agosto:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsAug"
-                            name="nsAug"
-                            value={this.state.nsAug}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsAug &&
-                          <span className="help-block text-danger">{errors.nsAug}</span>}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Septiembre:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsSep"
-                            name="nsSep"
-                            value={this.state.nsSep}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsSep &&
-                          <span className="help-block text-danger">{errors.nsSep}</span>}
-                        </div>
-                      </div>
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Octubre:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsOct"
-                            name="nsOct"
-                            value={this.state.nsOct}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsOct &&
-                          <span className="help-block text-danger">{errors.nsOct}</span>}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Noviembre:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsNov"
-                            name="nsNov"
-                            value={this.state.nsNov}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsNov &&
-                          <span className="help-block text-danger">{errors.nsNov}</span>}
-                        </div>
-                      </div>
-                      <div className="col">
-                        <label htmlFor="inputEmail3" className="control-label">Diciembre:</label>
-                        <div>
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="nsDec"
-                            name="nsDec"
-                            value={this.state.nsDec}
-                            onChange={this.onChange}
-                            placeholder="eje: 12"/>
-                          {errors.nsDec &&
-                          <span className="help-block text-danger">{errors.nsDec}</span>}
-                        </div>
-                      </div>
-                    </div>
+                    { monthsRender }
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
