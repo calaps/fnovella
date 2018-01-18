@@ -7,7 +7,8 @@ import { evaluationPeriods} from "../../../../../constants/data_types";
 import {bindActionCreators} from 'redux';
 import map from "lodash-es/map"; //to use map in a object
 import {
-  sedesGetRequest
+  sedesGetRequest,
+  usersGetRequest
 } from '../../../../../actions';
 
 let self;
@@ -38,12 +39,12 @@ class EditForm extends React.Component {
       nsNov: 0,
       nsDec: 0,
       numberSessions: 1,
-      responsable: 1,
+      responsable: null,
       satisfactionStructure: 'no data',
       temporality: '',
       year: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
     };
     {/* Makes a Bind of the actions, onChange, onSummit */}
     this.onSubmit = this.onSubmit.bind(this);
@@ -54,6 +55,7 @@ class EditForm extends React.Component {
   componentWillMount() {
     const currentYear = (new Date).getFullYear();
     this.props.actions.sedesGetRequest();
+    this.props.actions.usersGetRequest();
     this.setState({
       year: currentYear
     });
@@ -85,9 +87,9 @@ class EditForm extends React.Component {
         location: this.state.location,
         monitoringStructure: this.state.monitoringStructure,
         numberSessions: this.state.numberSessions,
-        responsable: this.state.responsable,
         satisfactionStructure: this.state.satisfactionStructure,
         temporality: parseInt(this.state.temporality, 8),
+        responsable: this.state.responsable,
         year: this.state.year,
         nsJan: this.state.nsJan || 0,
         nsFeb: this.state.nsFeb || 0,
@@ -148,11 +150,25 @@ class EditForm extends React.Component {
           name = "grados";
           nameVar = "calPeriodsGrade";
           break;
-        case "courses":
+        case "course":
           name = "cursos";
           nameVar = "calPeriodsCourse";
           break;
       };
+
+    //Users options
+    let responsibleOpt = () => {
+      // console.log("this.props.users: ", this.props.users);
+      if (this.props.users.content) {
+        let users = this.props.users.content;
+        return users.map((user) => {
+          return <option key={user.id} value={user.id}>{user.firstName + ' ' + user.firstLastName}</option>
+        });
+      }
+      else {
+        return null;
+      }
+    };
 
     return (
       <article className="article padding-lg-v article-bordered">
@@ -167,17 +183,20 @@ class EditForm extends React.Component {
                   <form onSubmit={this.onSubmit} role="form">
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de {name}</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Si tiene director seleccione...</label>
                       <div className="col-md-9">
-                        <input
-                          type="date"
+                        <select
+                          name="responsable"
+                          id="responsable"
+                          onChange={this.onChange}
+                          value={this.state.responsable}
                           className="form-control"
-                          id={nameVar}
-                          name={nameVar}
-                          value={this.state.nameVar}
-                          onChange={this.onChange} />
-                        {errors.nameVar &&
-                        <span className="help-block text-danger">{errors.nameVar}</span>}
+                        >
+                          <option value="">Selecciona al responsable...</option>
+                          {responsibleOpt()}
+                        </select>
+                        {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
+                        <FlatButton secondary href="#/app/users">Agregar usuario</FlatButton>
                       </div>
                     </div>
 
@@ -198,6 +217,9 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
+                    <h6>Temporalidad: </h6>
+                    <hr/>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Temporalidad</label>
                       <div className="col-md-9">
@@ -209,10 +231,25 @@ class EditForm extends React.Component {
                           value={this.state.temporality}
                           onChange={this.onChange}
                           placeholder="eje: Trimestral">
-                          <option value="">selecciona la opción...</option>
+                          <option value={null}>selecciona la opción...</option>
                           { optionsPeriods }
                         </select>
                         {errors.temporality && <span className="help-block text-danger">{errors.temporality}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de {name}</label>
+                      <div className="col-md-9">
+                        <input
+                          type="date"
+                          className="form-control"
+                          id={nameVar}
+                          name={nameVar}
+                          value={this.state.nameVar}
+                          onChange={this.onChange} />
+                        {errors.nameVar &&
+                        <span className="help-block text-danger">{errors.nameVar}</span>}
                       </div>
                     </div>
 
@@ -241,7 +278,7 @@ class EditForm extends React.Component {
                       />
                       <RaisedButton
                         type='submit'
-                        label='sigueinte'
+                        label='siguiente'
                         primary
                       />
                     </div>
@@ -265,7 +302,8 @@ class EditForm extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    sedes: state.sedes
+    sedes: state.sedes,
+    users: state.users
   }
 }
 
@@ -273,7 +311,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      sedesGetRequest
+      sedesGetRequest,
+      usersGetRequest
     }, dispatch)
   };
 }

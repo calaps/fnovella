@@ -2,16 +2,17 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
-import map from "lodash-es/map"; //to use map in a object
+import map from "lodash-es/map"; // to use map in a object
 import {typeCategory} from '../../../../../constants/data_types';
-import {groupValidator} from "../../../../../actions/formValidations"; //form validations
+import {groupValidator} from "../../../../../actions/formValidations"; // form validations
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types'; //for user prop-types
+import PropTypes from 'prop-types'; // for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   coursesGetRequest,
   divisionsGetRequest,
   programInstructorGetRequest,
+  usersGetRequest,
   sectionsGetRequest,
   workshopsGetRequest,
   workshopGetByIdRequest,
@@ -30,6 +31,7 @@ class GeneralConfiguration extends React.Component {
       courseId: '',
       divisionId: '',
       instructor: '',
+      coordinator: '',
       section: '',
       type: 1,
       typeCategory: '',
@@ -70,6 +72,7 @@ class GeneralConfiguration extends React.Component {
 
     this.props.actions.coursesGetRequest();
     this.props.actions.divisionsGetRequest();
+    this.props.actions.usersGetRequest();
     this.props.actions.programInstructorGetRequest();
     this.props.actions.sectionsGetRequest();
     this.props.actions.workshopsGetRequest();
@@ -394,6 +397,20 @@ class GeneralConfiguration extends React.Component {
       }
     };
 
+    //Users options
+    let responsibleOpt = () => {
+      // console.log("this.props.users: ", this.props.users);
+      if (this.props.users.content) {
+        let users = this.props.users.content;
+        return users.map((user) => {
+          return <option key={user.id} value={user.id}>{user.firstName + ' ' + user.firstLastName}</option>
+        });
+      }
+      else {
+        return null;
+      }
+    };
+
     return (
       <article className="article padding-lg-v article-bordered">
         <div className="container-fluid with-maxwidth">
@@ -402,8 +419,12 @@ class GeneralConfiguration extends React.Component {
 
               <div className="box box-default">
                 <div className="box-body padding-md">
-                  <p className="text-info">Ingresa el número de sesiones por mes: </p>
+
                   <form onSubmit={this.onSubmit} role="form">
+
+                    <h6>Configuración general: </h6>
+                    <hr/>
+
                     <div className="form-group row">
                       <label htmlFor="typeCategory" className="col-md-3 control-label">Tipo de grupo</label>
                       <div className="col-md-9">
@@ -418,6 +439,29 @@ class GeneralConfiguration extends React.Component {
                           {typeCategories}
                         </select>
                         {errors.typeCategory && <span className="help-block text-danger">{errors.typeCategory}</span>}
+                      </div>
+                    </div>
+
+                    {selectBox()}
+
+                    <h6>Personal: </h6>
+                    <hr/>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Seleccione el coordinador</label>
+                      <div className="col-md-9">
+                        <select
+                          name="responsable"
+                          id="responsable"
+                          onChange={this.onChange}
+                          value={this.state.coordinator}
+                          className="form-control"
+                        >
+                          <option value="">Selecciona al responsable...</option>
+                          {responsibleOpt()}
+                        </select>
+                        {errors.coordinator && <span className="help-block text-danger">{errors.coordinator}</span>}
+                        <FlatButton secondary href="#/app/users">Agregar usuario</FlatButton>
                       </div>
                     </div>
 
@@ -437,7 +481,10 @@ class GeneralConfiguration extends React.Component {
                         {errors.instructor && <span className="help-block text-danger">{errors.instructor}</span>}
                       </div>
                     </div>
-                    {selectBox()}
+
+                    <h6>Inscripciones: </h6>
+                    <hr/>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de inicio de inscripción</label>
                       <div className="col-md-9">
@@ -450,6 +497,7 @@ class GeneralConfiguration extends React.Component {
                         <span className="help-block text-danger">{errors.inscriptionsStart}</span>}
                       </div>
                     </div>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de final de inscripción</label>
                       <div className="col-md-9">
@@ -463,7 +511,8 @@ class GeneralConfiguration extends React.Component {
                       </div>
                     </div>
 
-                    <p className="text-info">Ingresa la cantidad de sesiones por mes... </p>
+                    <h6>Sesiones: </h6>
+                    <hr/>
 
                     { monthsRender }
 
@@ -502,6 +551,7 @@ function mapStateToProps(state) {
   return {
     courses: state.courses,
     divisions: state.divisions,
+    users: state.users,
     programInstructors: state.programInstructors,
     sections: state.sections,
     workshops: state.workshops
@@ -514,6 +564,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       coursesGetRequest,
       divisionsGetRequest,
+      usersGetRequest,
       programInstructorGetRequest,
       sectionsGetRequest,
       workshopsGetRequest,
