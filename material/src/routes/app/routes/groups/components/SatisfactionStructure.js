@@ -20,12 +20,14 @@ class SatisfactionStructure extends React.Component {
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
+      evaluationType: 1,
       maximumNote: '',
       minimumNote: '',
       totalEvaluateCategory: 0,
       calculateMultipleSelection: 'noData',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      evaluationType: ''
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
@@ -65,6 +67,7 @@ class SatisfactionStructure extends React.Component {
         calculateMultipleSelection: this.state.calculateMultipleSelection,
         totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory,
         evaluationSubtype: 3,
+        evaluationType: parseInt(this.state.evaluationType, 8)
       };
       this.props.handleNext(data);
     }
@@ -149,6 +152,25 @@ class SatisfactionStructure extends React.Component {
                 <div className="box-body padding-md">
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
+                      <div className="col-md-9">
+                        <select
+                          className="form-control"
+                          id="evaluationType"
+                          name="evaluationType"
+                          value={this.state.evaluationType}
+                          onChange={this.onChange}
+                        >
+                          <option value="1">Evaluación Final</option>
+                          <option value="2">Evaluación Inicio/Fin</option>
+                          <option value="3">Evaluación Periodica</option>
+
+                        </select>
+                        {errors.evaluationType &&
+                        <span className="help-block text-danger">{errors.evaluationType}</span>}
+                      </div>
+                    </div>
                     <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Porcentaje de aprobación</label>
                       <div className="col-md-9">

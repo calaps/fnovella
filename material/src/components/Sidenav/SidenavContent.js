@@ -114,8 +114,12 @@ class SidebarContent extends React.Component {
       <ul className="nav" ref={(c) => { this.nav = c; }}>
         <li className="nav-header"><span>Menu de Programa: </span></li>
         <li><FlatButton href="#/app/dashboard"><i className="nav-icon material-icons">home</i><span className="nav-text">Panel de control</span></FlatButton></li>
-        <li><FlatButton href="#/app/program"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programas</span></FlatButton>
+        <li><FlatButton href="#/app/program"><i className="nav-icon material-icons">assignment</i><span className="nav-text">Programas</span></FlatButton></li>
+        {this.state.permission.pprogramActivation &&
+        <li>
+          <FlatButton href="#/app/activation"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activar programa</span></FlatButton>
         </li>
+        }
         <li><FlatButton href="#/app/clasification"><i className="nav-icon material-icons">grade</i><span className="nav-text">Clasificaciones</span></FlatButton>
           <ul>
             <li><FlatButton className="prepend-icon" href="#/app/grade"><span>Grados</span></FlatButton>
@@ -129,11 +133,6 @@ class SidebarContent extends React.Component {
             <li><FlatButton className="prepend-icon" href="#/app/division"><span>Division</span></FlatButton></li>
           </ul>
         </li>
-      {this.state.permission.pprogramActivation &&
-        <li>
-          <FlatButton href="#/app/activation"><i className="nav-icon material-icons">check_circle</i><span className="nav-text">Activaciones</span></FlatButton>
-        </li>
-      }
         <li><FlatButton href="#/app/students"><i className="nav-icon material-icons">supervisor_account</i><span className="nav-text">Participantes</span></FlatButton></li>
         <li><FlatButton href="#/app/teachers"><i className="nav-icon material-icons">school</i><span className="nav-text">Educadores</span></FlatButton></li>
 

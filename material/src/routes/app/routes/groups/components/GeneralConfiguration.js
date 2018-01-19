@@ -198,6 +198,7 @@ class GeneralConfiguration extends React.Component {
         nsNov: this.state.nsNov || 0,
         nsDec: this.state.nsDec || 0,
         correlativo: this.state.correlativo,
+        coordinator: this.state.coordinator,
         section: this.state.section,
         divisionId: this.state.divisionId,
         courseId: this.state.courseId,
@@ -451,13 +452,13 @@ class GeneralConfiguration extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Seleccione el coordinador</label>
                       <div className="col-md-9">
                         <select
-                          name="responsable"
-                          id="responsable"
+                          name="coordinator"
+                          id="coordinator"
                           onChange={this.onChange}
                           value={this.state.coordinator}
                           className="form-control"
                         >
-                          <option value="">Selecciona al responsable...</option>
+                          <option value="">Selecciona al coordinator...</option>
                           {responsibleOpt()}
                         </select>
                         {errors.coordinator && <span className="help-block text-danger">{errors.coordinator}</span>}

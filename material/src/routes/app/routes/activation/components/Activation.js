@@ -22,7 +22,7 @@ class MainOptions extends React.Component {
                   <div className="ibox-icon">
                     <a href="javascript:;"><i className="material-icons">check_circle</i></a>
                   </div>
-                  <h5>{optionsName}es</h5>
+                  <h5>{optionsName}es de programas</h5>
                 </div>
               </div>
 
@@ -51,19 +51,6 @@ class MainOptions extends React.Component {
                           <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
                         <h6>Nueva activación</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4">
-                  <div className="box box-default">
-                    <div className="box-body">
-                      <div className="icon-box ibox-plain ibox-center">
-                        <div className="ibox-icon">
-                          <a href="javascript:;"><i className="material-icons">dashboard</i></a>
-                        </div>
-                        <h6>Catalogos</h6>
                       </div>
                     </div>
                   </div>

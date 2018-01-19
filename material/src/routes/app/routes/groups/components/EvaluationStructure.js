@@ -26,7 +26,7 @@ class EvaluationStructure extends React.Component {
       assistance: false,
       percentage: 0,
       approvalPercentage: '',
-      evaluationType: '',
+      evaluationType: 1,
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
@@ -47,114 +47,6 @@ class EvaluationStructure extends React.Component {
     this.isEvaluateCategoryAndPercentageNull = this.isEvaluateCategoryAndPercentageNull.bind(this);
     this.onRemoveEvaluateCategoryAndPercentage = this.onRemoveEvaluateCategoryAndPercentage.bind(this);
     self = this;
-  }
-
-  componentWillMount() {
-    switch (self.context.router.location.query.typeCategory) {
-      case 'workshop':
-        this.props.actions.workshopGetByIdRequest(self.context.router.location.query.workshopId)
-          .then(
-            (response) => {
-              if (response) {
-                this.props.actions.programGetByIdRequest(response.data.programId)
-                  .then(
-                    (response) => {
-                      if (response) {
-                        this.setState({
-                          evaluationType: response.data.evaluationType
-                        })
-                      }
-                    },
-                    (error) => {
-                      console.log("Ha ocurrido un error con el API");
-                    })
-              }
-            },
-            (error) => {
-              console.log("Ha ocurrido un error con el API");
-            });
-        break;
-      case 'section':
-        this.props.actions.sectionGetByIdRequest(self.context.router.location.query.sectionId)
-          .then(
-            (response) => {
-              if (response) {
-                this.props.actions.gradeGetByIdRequest(response.data.grade)
-                  .then(
-                    (response) => {
-                      if (response) {
-                        this.props.actions.programGetByIdRequest(response.data.programId)
-                          .then(
-                            (response) => {
-                              if (response) {
-                                this.setState({
-                                  evaluationType: response.data.evaluationType
-                                })
-                              }
-                            },
-                            (error) => {
-                              console.log("An Error occur with the Rest API");
-                            })
-                      }
-                    },
-                    (error) => {
-                      console.log("An Error occur with the Rest API");
-                    })
-              }
-            },
-            (error) => {
-              console.log("An Error occur with the Rest API");
-            });
-        break;
-      case 'division':
-        this.props.actions.divisionGetByIdRequest(self.context.router.location.query.divisionId)
-          .then(
-            (response) => {
-              if (response) {
-                this.props.actions.programGetByIdRequest(response.data.programa)
-                  .then(
-                    (response) => {
-                      if (response) {
-                        this.setState({
-                          evaluationType: response.data.evaluationType
-                        })
-                      }
-                    },
-                    (error) => {
-                      console.log("An Error occur with the Rest API");
-                    })
-              }
-            },
-            (error) => {
-              console.log("An Error occur with the Rest API");
-            });
-        break;
-      case 'course':
-        this.props.actions.courseGetByIdRequest(self.context.router.location.query.courseId)
-          .then(
-            (response) => {
-              if (response) {
-                this.props.actions.programGetByIdRequest(response.data.programId)
-                  .then(
-                    (response) => {
-                      if (response) {
-                        this.setState({
-                          evaluationType: response.data.evaluationType
-                        })
-                      }
-                    },
-                    (error) => {
-                      console.log("An Error occur with the Rest API");
-                    })
-              }
-            },
-            (error) => {
-              console.log("An Error occur with the Rest API");
-            });
-        break;
-      default:
-        break;
-    }
   }
 
   isValid() {
@@ -191,12 +83,9 @@ class EvaluationStructure extends React.Component {
         calculateMultipleSelection: this.state.calculateMultipleSelection,
         totalEvaluateCategoryPercentage: this.state.totalEvaluateCategory,
         evaluationSubtype: 1,
+        evaluationType: parseInt(this.state.evaluationType, 8)
       };
-      if (this.state.evaluationType === 'continua') {
-        data.evaluationType = 2;
-      } else {
-        data.evaluationType = 1;
-      }
+
       this.props.handleNext(data);
     }
   }
@@ -326,15 +215,16 @@ class EvaluationStructure extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
                       <div className="col-md-9">
                         <select
-                          disabled
                           className="form-control"
                           id="evaluationType"
                           name="evaluationType"
                           value={this.state.evaluationType}
                           onChange={this.onChange}
                         >
-                          <option value="conocimiento">Evaluación Inicio/Fin</option>
-                          <option value="continua">Evaluación Final</option>
+                          <option value="1">Evaluación Final</option>
+                          <option value="2">Evaluación Inicio/Fin</option>
+                          <option value="3">Evaluación Periodica</option>
+
                         </select>
                         {errors.evaluationType &&
                         <span className="help-block text-danger">{errors.evaluationType}</span>}

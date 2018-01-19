@@ -10,7 +10,6 @@ import GeneralConfiguration from './GeneralConfiguration';
 import EvaluationStructure from './EvaluationStructure';
 import SatisfactionStructure from './SatisfactionStructure';
 import MonitoringStructure from './MonitoringStructure';
-import PerformanceStructure from './PerformanceStructure';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
@@ -35,7 +34,6 @@ class HorizontalLinearStepper extends React.Component {
       evaluationStructure: {},
       satisfactionStructure: {},
       monitoringStructure: {},
-      performanceStructure: {},
       groupId: '',
       evaluationStructureRangeId: '',
       evaluationStructureId: '',
@@ -43,8 +41,6 @@ class HorizontalLinearStepper extends React.Component {
       satisfactionStructureId: '',
       monitoringStructureRangeId: '',
       monitoringStructureId: '',
-      performanceStructureRangeId: '',
-      performanceStructureId: '',
       groupCreated: false,
       evaluationStructureRangeCreated: false,
       evaluationStructureCreated: false,
@@ -54,10 +50,7 @@ class HorizontalLinearStepper extends React.Component {
       satisfactionActivityCreated: false,
       monitoringStructureRangeCreated: false,
       monitoringStructureCreated: false,
-      monitoringActivityCreated: false,
-      performanceStructureRangeCreated: false,
-      performanceStructureCreated: false,
-      performanceActivityCreated: false,
+      monitoringActivityCreated: false
     };
     this.handleCancel = this.handleCancel.bind(this);
     this.onGroupActivate = this.onGroupActivate.bind(this);
@@ -104,11 +97,6 @@ class HorizontalLinearStepper extends React.Component {
           handleNext={this.handleNext}
         />;
       case 4:
-        return <PerformanceStructure
-          handlePrev={this.handlePrev}
-          handleNext={this.handleNext}
-        />;
-      case 5:
         return <div>
           <p>
             <a>
@@ -141,7 +129,7 @@ class HorizontalLinearStepper extends React.Component {
       case 0:
         this.setState({
           stepIndex: stepIndex + 1,
-          finished: stepIndex >= 6,
+          finished: stepIndex >= 5,
           errors: {},
           generalConfiguration: data
         });
@@ -149,7 +137,7 @@ class HorizontalLinearStepper extends React.Component {
       case 1:
         this.setState({
           stepIndex: stepIndex + 1,
-          finished: stepIndex >= 6,
+          finished: stepIndex >= 5,
           errors: {},
           evaluationStructure: data
         });
@@ -157,7 +145,7 @@ class HorizontalLinearStepper extends React.Component {
       case 2:
         this.setState({
           stepIndex: stepIndex + 1,
-          finished: stepIndex >= 6,
+          finished: stepIndex >= 5,
           errors: {},
           satisfactionStructure: data
         });
@@ -165,17 +153,9 @@ class HorizontalLinearStepper extends React.Component {
       case 3:
         this.setState({
           stepIndex: stepIndex + 1,
-          finished: stepIndex >= 6,
+          finished: stepIndex >= 5,
           errors: {},
           monitoringStructure: data
-        });
-        break;
-      case 4:
-        this.setState({
-          stepIndex: stepIndex + 1,
-          finished: stepIndex >= 6,
-          errors: {},
-          Structure: dataperformance
         });
         break;
       default:
@@ -266,7 +246,7 @@ class HorizontalLinearStepper extends React.Component {
                                     let satisfactionStructureData = {
                                       approvalPercentage: this.state.satisfactionStructure.approvalPercentage,
                                       evaluationSubtype: this.state.satisfactionStructure.evaluationSubtype,
-                                      evaluationType: this.state.evaluationStructure.evaluationType,
+                                      evaluationType: this.state.satisfactionStructure.evaluationType,
                                       dateEnd: this.state.generalConfiguration.inscriptionsEnd,
                                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                                       session: 0,
@@ -318,7 +298,7 @@ class HorizontalLinearStepper extends React.Component {
                                                     let monitoringStructureData = {
                                                       approvalPercentage: this.state.monitoringStructure.approvalPercentage,
                                                       evaluationSubtype: this.state.monitoringStructure.evaluationSubtype,
-                                                      evaluationType: this.state.evaluationStructure.evaluationType,
+                                                      evaluationType: this.state.monitoringStructure.evaluationType,
                                                       dateEnd: this.state.generalConfiguration.inscriptionsEnd,
                                                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                                                       session: 0,
@@ -348,69 +328,7 @@ class HorizontalLinearStepper extends React.Component {
                                                               // console.log("hitting monitoringStructureActivityData api, ", monitoringStructureActivityData);
                                                               this.props.actions.evaluationActivityAddRequest(monitoringStructureActivityData);
                                                             }
-
-                                                            //for fifth form
-                                                            // setting range for forth form through minimumNote and maximumNote
-                                                            let performanceStructureRange = {
-                                                              min: this.state.performanceStructure.minimumNote,
-                                                              max: this.state.performanceStructure.maximumNote
-                                                            };
-                                                            // console.log("hitting performanceStructureRange api");
-                                                            this.props.actions.evaluationRangeAddRequest(performanceStructureRange)
-                                                              .then(
-                                                                (response) => {
-                                                                  if (response) {
-                                                                    //setting performanceStructureRangeId returned in response
-                                                                    this.setState({
-                                                                      performanceStructureRangeId: response.data.id,
-                                                                      performanceStructureRangeCreated: true
-                                                                    });
-                                                                    // console.log("response from performanceStructureRange api: ", response.data.id);
-                                                                    //setting performanceStructureData to hit evaluation add api
-                                                                    let performanceStructureData = {
-                                                                      approvalPercentage: this.state.performanceStructure.approvalPercentage,
-                                                                      evaluationSubtype: this.state.performanceStructure.evaluationSubtype,
-                                                                      evaluationType: this.state.evaluationStructure.evaluationType,
-                                                                      dateEnd: this.state.generalConfiguration.inscriptionsEnd,
-                                                                      dateStart: this.state.generalConfiguration.inscriptionsStart,
-                                                                      session: 0,
-                                                                      group: this.state.groupId,
-                                                                      range: this.state.performanceStructureRangeId
-                                                                    };
-                                                                    // console.log("hitting performanceStructureData api");
-                                                                    this.props.actions.evaluationAddRequest(performanceStructureData)
-                                                                      .then(
-                                                                        (response) => {
-                                                                          if (response) {
-                                                                            //setting performanceStructureId returned in response
-                                                                            this.setState({
-                                                                              performanceStructureId: response.data.id,
-                                                                              performanceStructureCreated: true
-                                                                            });
-                                                                            // console.log("response from performanceStructureData api: ", response.data.id);
-                                                                            //setting performanceStructureActivityData to hit evaluationActivity add api
-                                                                            for (let act of this.state.performanceStructure.evaluateCategory) {
-                                                                              let performanceStructureActivityData = {
-                                                                                evaluation: this.state.performanceStructureId,
-                                                                                parentId: 0,
-                                                                                range: this.state.performanceStructureRangeId
-                                                                              };
-                                                                              performanceStructureActivityData.name = act.name;
-                                                                              performanceStructureActivityData.percentage = act.percentage;
-                                                                              // console.log("hitting performanceStructureActivityData api, ", performanceStructureActivityData);
-                                                                              this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData);
-                                                                            }
-                                                                            this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
-                                                                          }
-                                                                        },
-                                                                        (error) => {
-                                                                          console.log("An Error occur with the Rest API: ", error);
-                                                                        });
-                                                                  }
-                                                                },
-                                                                (error) => {
-                                                                  console.log("An Error occur with the Rest API: ", error);
-                                                                });
+                                                            this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
                                                           }
                                                         },
                                                         (error) => {
@@ -467,13 +385,10 @@ class HorizontalLinearStepper extends React.Component {
                   <StepLabel>Estructura de evaluación</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Satisfacción</StepLabel>
+                  <StepLabel>Evaluación de satisfacción</StepLabel>
                 </Step>
                 <Step>
-                  <StepLabel>Monitoreo</StepLabel>
-                </Step>
-                <Step>
-                  <StepLabel>Desempeño</StepLabel>
+                  <StepLabel>Evaluación de monitoreo</StepLabel>
                 </Step>
                 <Step>
                   <StepLabel>Activar</StepLabel>
