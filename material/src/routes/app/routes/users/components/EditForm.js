@@ -52,7 +52,7 @@ class EditForm extends React.Component {
       colony: this.props.userData.colony || '',
       zone: this.props.userData.zone || '',
       id: this.props.userData.id || '',
-      appCode: this.props.userData.appCode || 'abc',
+      appCode: this.props.userData.cemproCode || 'abc',
       phon: 1,
       errors: {},
       isLoading: false,
@@ -148,7 +148,7 @@ class EditForm extends React.Component {
         gender: this.state.gender,
         colony: this.state.colony,
         zone: this.state.zone,
-        appCode: this.state.appCode,
+        appCode: this.state.cemproCode,
         phon: this.state.phon
       };
       if (this.state.isEditing) {

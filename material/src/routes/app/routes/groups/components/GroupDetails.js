@@ -8,6 +8,14 @@ import {
   evaluationGetByGroupIdAndEvaluationSubtype
 } from '../../../../../actions';
 import PropTypes from 'prop-types';
+import Avatar from 'material-ui/Avatar';
+import Chip from 'material-ui/Chip';
+
+const styles = {
+  chip: {
+    margin: 4,
+  }
+};
 
 class GroupDetails extends React.Component {
   constructor(props) {
@@ -74,7 +82,7 @@ class GroupDetails extends React.Component {
       }
     });
   }
-  
+
   onRouteToInscriptionView() {
     let {groupData} = this.state;
     this.context.router.push({
@@ -141,7 +149,24 @@ onRouteToAssistanceApproval (){
       )
   }
 
+  renderTypeName() {
+    const {groupData} = this.state;
+    switch (groupData.typeCategory) {
+      case 'workshop':
+        return 'Taller';
+      case 'division':
+        return 'Division';
+      case 'course':
+        return 'Curso';
+      case 'section':
+        return 'Sección';
+      default :
+        return 'no name';
+    }
+  };
+
   render() {
+
     return (
       <div className="container-fluid no-breadcrumbs page-dashboard">
 
@@ -153,8 +178,26 @@ onRouteToAssistanceApproval (){
                   <h1 className="hero-title">{this.state.groupData.correlativo}</h1>
                 </div>
               <div className="row">
-                  <div className="hero-tagline">Instructor: {this.state.groupInstructorName}</div>
-                  <div className="hero-tagline">Tipo: {this.state.groupData.typeCategory}</div>
+                <div className="hero-tagline">
+                  Instructor:
+                  <Chip style={styles.chip}>
+                    <Avatar size={32}>I</Avatar>
+                    {this.state.groupInstructorName}
+                  </Chip>
+                </div>
+                <div className="hero-tagline">
+                  Coordinador:
+                  <Chip style={styles.chip}>
+                    <Avatar size={32}>C</Avatar>
+                    Juan Pablo Ortiz
+                  </Chip>
+                </div>
+                  <div className="hero-tagline">
+                    Tipo:
+                    <Chip style={styles.chip}>
+                      { this.renderTypeName() }
+                    </Chip>
+                  </div>
               </div>
             </section>
             <hr/>

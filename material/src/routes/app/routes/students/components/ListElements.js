@@ -89,9 +89,9 @@ class ListElements extends React.Component {
                       onChange={(e) => { this.setState({ searchValue: e.target.value }) }}
                       value={this.state.searchValue}
                     >
-                      <option value="Name">por Nombre</option>
-                      <option value="Id">por ID</option>
-                      <option value="Code">por Código</option>
+                      <option value="Name">por nombre de estudiante</option>
+                      <option value="Id">por documento de identificación</option>
+                      <option value="Code">por codigo de ministerio</option>
                     </select>
                     <IconButton
                       iconStyle={{ color: 'white' }}
