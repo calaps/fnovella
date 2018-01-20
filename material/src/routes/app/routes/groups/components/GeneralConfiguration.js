@@ -38,6 +38,8 @@ class GeneralConfiguration extends React.Component {
       workshopId: '',
       inscriptionsEnd: new Date(),
       inscriptionsStart: new Date(),
+      programDateEnd: new Date(),
+      programDateStart: new Date(),
       months: ["nsJan", "nsFeb", "nsMar", "nsApr", "nsMay", "nsJun", "nsJul", "nsAug", "nsSep", "nsOct", "nsNov", "nsDec"],
       monthsToRender: [],
       nsJan: 0,
@@ -64,6 +66,8 @@ class GeneralConfiguration extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
     this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
+    this.handleChangeStartDateProgram = this.handleChangeStartDateProgram.bind(this);
+    this.handleChangeEndDateProgram = this.handleChangeEndDateProgram.bind(this);
     self = this;
   }
 
@@ -185,6 +189,8 @@ class GeneralConfiguration extends React.Component {
         typeCategory: this.state.typeCategory,
         inscriptionsStart: this.state.inscriptionsStart,
         inscriptionsEnd: this.state.inscriptionsEnd,
+        programDateEnd: this.state.programDateEnd,
+        programDateStart: this.state.programDateStart,
         nsJan: this.state.nsJan || 0,
         nsFeb: this.state.nsFeb || 0,
         nsMar: this.state.nsMar || 0,
@@ -239,6 +245,18 @@ class GeneralConfiguration extends React.Component {
     this.setState({
       inscriptionsEnd: date,
       monthsToRender: this.state.months.slice(this.state.inscriptionsStart.getMonth(), date.getMonth() + 1)
+    });
+  }
+
+  handleChangeStartDateProgram(event, date) {
+    this.setState({
+      programDateStart: date
+    });
+  }
+
+  handleChangeEndDateProgram(event, date) {
+    this.setState({
+      programDateEnd: date
     });
   }
 
@@ -440,6 +458,30 @@ class GeneralConfiguration extends React.Component {
                           {typeCategories}
                         </select>
                         {errors.typeCategory && <span className="help-block text-danger">{errors.typeCategory}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de inicio de programa</label>
+                      <div className="col-md-9">
+                        <DatePicker
+                          value={this.state.programDateStart}
+                          onChange={this.handleChangeStartDate}
+                        />
+                        {errors.programDateStart &&
+                        <span className="help-block text-danger">{errors.programDateStart}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de final de programa</label>
+                      <div className="col-md-9">
+                        <DatePicker
+                          value={this.state.programDateEnd}
+                          onChange={this.handleChangeEndDate}
+                        />
+                        {errors.programDateEnd &&
+                        <span className="help-block text-danger">{errors.programDateEnd}</span>}
                       </div>
                     </div>
 

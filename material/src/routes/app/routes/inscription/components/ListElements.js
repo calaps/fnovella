@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import IconButton from 'material-ui/IconButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Search from 'material-ui/svg-icons/action/search';
 import {
   participantsGetRequestBySearch,
@@ -21,6 +22,7 @@ class ListElements extends React.Component {
       searchValue: 'Name',
       inputValue: '',
       inscriptions:[],
+      showResults: false
     };
     this.onDeleteButton = this
       .onDeleteButton
@@ -97,10 +99,10 @@ class ListElements extends React.Component {
           .participantsGetRequestBySearch();
         break;
     }
+    this.setState({ showResults: true });
   }
 
   render() {
-    console.log("idddddddddddddd",this.props);
     let i = 1;
     let {showInscriptions} = this.props;
     let renderRegistration = () => {
@@ -197,7 +199,11 @@ class ListElements extends React.Component {
 
                 <div className="row">
                   <div className="col-xl-5">
-                    <div >Búsqueda avanzada</div>
+                    <RaisedButton
+                      label='Agregar alumno'
+                      primary
+                      href="/#/app/students"
+                    />
                   </div>
                   <div className="col-xl-7 text-right">
                     <input
@@ -243,7 +249,8 @@ class ListElements extends React.Component {
 
               <div className="box-body no-padding-h">
 
-                <div className="box box-default table-box mdl-shadow--2dp">
+                { this.state.showResults ?
+                  <div className="box box-default table-box mdl-shadow--2dp">
                   <table className="mdl-data-table">
                     <thead>
                       <tr>
@@ -280,6 +287,11 @@ class ListElements extends React.Component {
                     totalElements={this.props.participants.totalElements}
                     getRequest={this.props.actions.participantGetRequest}/>
                 </div>
+                  :
+                  <div className="box box-default table-box mdl-shadow--2dp">
+                    <p>Para mostrar los resultados comienza a buscar...</p>
+                  </div>
+                }
 
               </div>
             </div>

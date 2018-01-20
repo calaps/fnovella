@@ -5,8 +5,6 @@ import {
   StepLabel,
 } from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
-import EditForm from './EditForm';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {

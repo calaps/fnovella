@@ -222,7 +222,7 @@ class AdditionalFieldsForm extends React.Component {
                             group: this.state.groupId,
                             period: this.state.period,
                             year: this.state.year,
-                            status: 1
+                            status: 0
                         }
                         this
                         .props

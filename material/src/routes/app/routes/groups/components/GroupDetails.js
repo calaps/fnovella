@@ -10,11 +10,17 @@ import {
 import PropTypes from 'prop-types';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
+import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+import Toggle from 'material-ui/Toggle';
 
 const styles = {
   chip: {
     margin: 4,
   }
+};
+var divStyle = {
+  padding: "30px"
 };
 
 class GroupDetails extends React.Component {
@@ -25,7 +31,8 @@ class GroupDetails extends React.Component {
       groupInstructorName: '',
       groupData: this.props.groupData,
       groupEvaluations: [],
-      evaluationSubtype: []
+      evaluationSubtype: [],
+      expanded: false,
     };
     // this.onRouteToEvaluation = this.onRouteToEvaluation.bind(this);
     this.onRouteToInscription = this.onRouteToInscription.bind(this);
@@ -35,6 +42,15 @@ class GroupDetails extends React.Component {
     this.selectCategoryId = this.selectCategoryId.bind(this);
     this.onRouteToInscriptionApprove = this.onRouteToInscriptionApprove.bind(this);
   }
+
+  // Changes for the card
+  handleExpandChange = (expanded) => {
+    this.setState({expanded: expanded});
+  };
+
+  handleToggle = () => {
+    this.setState({expanded: !this.state.expanded});
+  };
 
   componentWillMount() {
 
@@ -172,34 +188,64 @@ onRouteToAssistanceApproval (){
 
         <QueueAnim type="bottom" className="ui-animate">
 
-          <div key="1">
-            <section className="hero">
-                <div className="hero-content">
-                  <h1 className="hero-title">{this.state.groupData.correlativo}</h1>
-                </div>
-              <div className="row">
-                <div className="hero-tagline">
-                  Instructor:
-                  <Chip style={styles.chip}>
-                    <Avatar size={32}>I</Avatar>
-                    {this.state.groupInstructorName}
-                  </Chip>
-                </div>
-                <div className="hero-tagline">
-                  Coordinador:
-                  <Chip style={styles.chip}>
-                    <Avatar size={32}>C</Avatar>
-                    Juan Pablo Ortiz
-                  </Chip>
-                </div>
-                  <div className="hero-tagline">
-                    Tipo:
-                    <Chip style={styles.chip}>
-                      { this.renderTypeName() }
-                    </Chip>
+          <div key="1 text-justify">
+            <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+                <CardHeader
+                  actAsExpander={false}
+                  showExpandableButton={false}
+                />
+                <CardText>
+
+                  <div className="row">
+                    <div className="hero-content text-center">
+                      <h1 style={divStyle} className="hero-title">{this.state.groupData.correlativo}</h1>
+                    </div>
+                    <div className="hero-tagline">
+                      <label className="control-label">Tipo</label>
+                      <Chip style={styles.chip}>
+                        <Avatar size={32}>T</Avatar>
+                        { this.renderTypeName() }
+                      </Chip>
+                    </div>
+                    <div className="hero-tagline">
+                      Instructor:
+                      <Chip style={styles.chip}>
+                        <Avatar size={32}>I</Avatar>
+                        {this.state.groupInstructorName}
+                      </Chip>
+                    </div>
+                    <div className="hero-tagline">
+                      Coordinador:
+                      <Chip style={styles.chip}>
+                        <Avatar size={32}>C</Avatar>
+                        Juan Pablo Ortiz
+                      </Chip>
+                    </div>
                   </div>
-              </div>
-            </section>
+
+                </CardText>
+                <CardTitle title="Configuración" subtitle="Modificaciones a grupo" expandable={true} />
+                <CardText expandable={true}>
+
+                  <Toggle
+                    label="Permitir inscripciones extemporaneas"
+                    defaultToggled={true}
+                    labelPosition="right"
+                    style={styles.toggle}
+                  />
+                  <Toggle
+                    label="Permitir evaluaciones extemporaneas"
+                    defaultToggled={true}
+                    labelPosition="right"
+                    style={styles.toggle}
+                  />
+
+                </CardText>
+                <CardActions>
+                  <FlatButton label="Mostar configuración avanzada" onClick={this.handleToggle} />
+                </CardActions>
+              </Card>
+
             <hr/>
           </div>
 
