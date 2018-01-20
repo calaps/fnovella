@@ -92,6 +92,7 @@ class ListElements extends React.Component {
                       <option value="Name">por nombre de estudiante</option>
                       <option value="Id">por documento de identificación</option>
                       <option value="Code">por codigo de ministerio</option>
+
                     </select>
                     <IconButton
                       iconStyle={{ color: 'white' }}
