@@ -10,15 +10,18 @@ import java.util.List;
 
 public class UserSearch {
 
-	private Integer id;
+	private String documentValue;
 	private String firstName;
 	private String appCode;
-	public Integer getId() {
-		return id;
+
+	public String getDocumentValue() {
+		return documentValue;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+
+	public void setDocumentValue(String documentValue) {
+		this.documentValue = documentValue;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -34,27 +37,27 @@ public class UserSearch {
 	
 	public Page<AppUser> getResults(UserRepository userRepository, Pageable pageable) {
 
-		boolean useId = this.id != null && this.id > 0;
+		boolean useDocument = this.documentValue != null && !this.documentValue.trim().equals("");
 		boolean useName = APIUtility.isNotNullOrEmpty(this.firstName);
 		boolean useAppCode = APIUtility.isNotNullOrEmpty(this.appCode);
-		if (useName && useAppCode && useId) {
-			List<AppUser> users = userRepository.findByFirstNameStartingWithAndAppCodeAndId(this.firstName, this.appCode, this.id);
+		if (useName && useAppCode && useDocument) {
+			List<AppUser> users = userRepository.findByFirstNameStartingWithAndAppCodeAndDocumentValue(this.firstName, this.appCode, this.documentValue);
 			return new PageImpl<>(users, pageable, users.size());
 		} else if (useName && useAppCode) {
 			List<AppUser> users = userRepository.findByFirstNameStartingWithAndAppCode(this.firstName, this.appCode);
 			return new PageImpl<>(users, pageable, users.size());
-		} else if (useName && useId) {
-			List<AppUser> users = userRepository.findByFirstNameStartingWithAndId(this.firstName, this.id);
+		} else if (useName && useDocument) {
+			List<AppUser> users = userRepository.findByFirstNameStartingWithAndDocumentValue(this.firstName, this.documentValue);
 			return new PageImpl<>(users, pageable, users.size());
-		}  else if (useAppCode && useId) {
-			return userRepository.findByAppCodeAndId(this.appCode, this.id, pageable);
+		}  else if (useAppCode && useDocument) {
+			return userRepository.findByAppCodeAndDocumentValue(this.appCode, this.documentValue, pageable);
 		}  else if (useName) {
 			List<AppUser> users = userRepository.findByFirstNameStartingWith(this.firstName);
 			return new PageImpl<>(users, pageable, users.size());
 		}  else if (useAppCode) {
 			return userRepository.findByAppCode(this.appCode, pageable);
-		}  else if (useId) {
-			return userRepository.findById(this.id, pageable);
+		}  else if (useDocument) {
+			return userRepository.findByDocumentValue(this.documentValue, pageable);
 		} else {
 			return userRepository.findAll(pageable);
 		}

@@ -48,6 +48,9 @@ public class ProgramActivation {
 	private Integer nsOct;
 	private Integer nsNov;
 	private Integer nsDec;
+	private boolean evaluation1;
+	private boolean evaluation2;
+
 	public Integer getId() {
 		return id;
 	}
@@ -213,12 +216,29 @@ public class ProgramActivation {
 	public void setYear(Integer year) {
 		this.year = year;
 	}
+
+	public boolean isEvaluation1() {
+		return evaluation1;
+	}
+
+	public void setEvaluation1(boolean evaluation1) {
+		this.evaluation1 = evaluation1;
+	}
+
+	public boolean isEvaluation2() {
+		return evaluation2;
+	}
+
+	public void setEvaluation2(boolean evaluation2) {
+		this.evaluation2 = evaluation2;
+	}
+
 	public ProgramActivation(Integer programId, String calPeriodsGrade, String calPeriodsCourse,
-			String calPeriodsWorkshop, Integer responsable, String evaluationStructure, String satisfactionStructure,
-			String monitoringStructure, Integer location, boolean freeCourses, Integer temporality, Integer year,
-			boolean activationStatus, Integer numberSessions, Integer nsJan, Integer nsFeb, Integer nsMar,
-			Integer nsApr, Integer nsMay, Integer nsJun, Integer nsJul, Integer nsAug, Integer nsSep, Integer nsOct,
-			Integer nsNov, Integer nsDec) {
+							 String calPeriodsWorkshop, Integer responsable, String evaluationStructure, String satisfactionStructure,
+							 String monitoringStructure, Integer location, boolean freeCourses, Integer temporality, Integer year,
+							 boolean activationStatus, Integer numberSessions, Integer nsJan, Integer nsFeb, Integer nsMar,
+							 Integer nsApr, Integer nsMay, Integer nsJun, Integer nsJul, Integer nsAug, Integer nsSep, Integer nsOct,
+							 Integer nsNov, Integer nsDec, boolean evaluation1, boolean evaluation2) {
 		super();
 		this.programId = programId;
 		this.calPeriodsGrade = calPeriodsGrade;
@@ -246,6 +266,8 @@ public class ProgramActivation {
 		this.nsOct = nsOct;
 		this.nsNov = nsNov;
 		this.nsDec = nsDec;
+		this.evaluation1 = evaluation1;
+		this.evaluation2 = evaluation2;
 	}
 	public ProgramActivation() {
 		super();
@@ -256,7 +278,6 @@ public class ProgramActivation {
 		if (!APIUtility.isNotNullOrEmpty(this.calPeriodsGrade)) errors.add("Cal Periods Grade is required");
 		if (!APIUtility.isNotNullOrEmpty(this.calPeriodsCourse)) errors.add("Cal Periods Course is required");
 		if (!APIUtility.isNotNullOrEmpty(this.calPeriodsWorkshop)) errors.add("Cal Periods Workshop is required");
-		if (this.responsable == null || this.responsable <= 0) errors.add("Responsable is required");
 		if (!APIUtility.isNotNullOrEmpty(this.evaluationStructure)) errors.add("Evaluation Structure is required");
 		if (!APIUtility.isNotNullOrEmpty(this.satisfactionStructure)) errors.add("Satisfaction Structure is required");
 		if (!APIUtility.isNotNullOrEmpty(this.monitoringStructure)) errors.add("Monitoring Structure is required");
@@ -293,5 +314,7 @@ public class ProgramActivation {
 		if (programActivation.nsDec != null && programActivation.nsDec > 0) this.nsDec = programActivation.nsDec;
 		this.freeCourses = programActivation.freeCourses;
 		this.activationStatus = programActivation.activationStatus;
+		this.evaluation1 = programActivation.evaluation1;
+		this.evaluation2 = programActivation.evaluation2;
 	}
 }

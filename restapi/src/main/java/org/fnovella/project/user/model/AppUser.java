@@ -29,7 +29,7 @@ public class AppUser {
 	@Length(max = 20)
 	@Column(name = "second_lastname")
 	private String secondLastName;
-	@Column(nullable = true)
+	@Column()
 	private Integer privilege;
 	@Length(max = 20)
 	private String documentType;

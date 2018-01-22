@@ -46,6 +46,11 @@ public class Group {
     private Integer nsNov;
     private Integer nsDec;
     private Integer yearActivation;
+    private Date programDateStart;
+    private Date programDateEnd;
+    private boolean insExtra;
+    private boolean evsExtra;
+    private Integer coordinator;
 
     public Integer getId() {
         return id;
@@ -240,10 +245,51 @@ public class Group {
         this.yearActivation = yearActivation;
     }
 
+    public Date getProgramDateStart() {
+        return programDateStart;
+    }
+
+    public void setProgramDateStart(Date programDateStart) {
+        this.programDateStart = programDateStart;
+    }
+
+    public Date getProgramDateEnd() {
+        return programDateEnd;
+    }
+
+    public void setProgramDateEnd(Date programDateEnd) {
+        this.programDateEnd = programDateEnd;
+    }
+
+    public boolean isInsExtra() {
+        return insExtra;
+    }
+
+    public void setInsExtra(boolean insExtra) {
+        this.insExtra = insExtra;
+    }
+
+    public boolean isEvsExtra() {
+        return evsExtra;
+    }
+
+    public void setEvsExtra(boolean evsExtra) {
+        this.evsExtra = evsExtra;
+    }
+
+    public Integer getCoordinator() {
+        return coordinator;
+    }
+
+    public void setCoordinator(Integer coordinator) {
+        this.coordinator = coordinator;
+    }
+
     public Group(String typeCategory, Integer type, String correlativo, Integer courseId, Integer workshopId,
                  Integer divisionId, Integer section, Integer instructor, Integer nsJan, Integer nsFeb, Integer nsMar,
                  Integer nsApr, Integer nsMay, Integer nsJun, Integer nsJul, Integer nsAug, Integer nsSep, Integer nsOct,
-                 Integer nsNov, Integer nsDec, Date inscriptionsStart, Date inscriptionsEnd) {
+                 Integer nsNov, Integer nsDec, Date inscriptionsStart, Date inscriptionsEnd, Date programDateStart,
+                 Date programDateEnd, boolean insExtra, boolean evsExtra, Integer coordinator) {
         super();
         this.typeCategory = typeCategory;
         this.type = type;
@@ -267,6 +313,11 @@ public class Group {
         this.nsDec = nsDec;
         this.inscriptionsStart = inscriptionsStart;
         this.inscriptionsEnd = inscriptionsEnd;
+        this.programDateStart = programDateStart;
+        this.programDateEnd = programDateEnd;
+        this.insExtra = insExtra;
+        this.evsExtra = evsExtra;
+        this.coordinator = coordinator;
     }
 
     public Group() {
@@ -323,8 +374,13 @@ public class Group {
         if (group.nsOct != null && group.nsOct > 0) this.nsOct = group.nsOct;
         if (group.nsNov != null && group.nsNov > 0) this.nsNov = group.nsNov;
         if (group.nsDec != null && group.nsDec > 0) this.nsDec = group.nsDec;
+        if (group.coordinator != null && group.coordinator > 0) this.coordinator = group.coordinator;
         if (group.inscriptionsStart != null) this.inscriptionsStart = group.inscriptionsStart;
         if (group.inscriptionsEnd != null) this.inscriptionsEnd = group.inscriptionsEnd;
+        this.programDateStart = group.programDateStart != null ? group.programDateStart : this.programDateStart;
+        this.programDateEnd = group.programDateEnd != null ? group.programDateEnd : this.programDateEnd;
+        this.insExtra = group.insExtra;
+        this.evsExtra = group.evsExtra;
     }
 
 }

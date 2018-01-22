@@ -223,7 +223,7 @@ public class Program {
 	}
 	public ArrayList<String> validate() {
 		 ArrayList<String> errors = new  ArrayList<String>();
-		 if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Nombre res requerido");
+		 if (!APIUtility.isNotNullOrEmpty(this.name)) errors.add("Nombre es requerido");
 		 if (!APIUtility.isNotNullOrEmpty(this.audience)) errors.add("Audiencia es requerido");
 		 if (!APIUtility.isNotNullOrEmpty(this.description)) errors.add("Descripción es requerido");
 		 if (!APIUtility.isNotNullOrEmpty(this.clasification)) errors.add("Clasificación es requerido");
@@ -234,7 +234,7 @@ public class Program {
 		 if (this.audienceMin == null || this.audienceMin < 0) errors.add("Mínimo de Audiencia es requerido");
 		 if (this.audienceMax == null || this.audienceMax < 0) errors.add("Máximo de Audiencia es requerido");
 		 if (this.responsable == null || this.responsable <= 0) errors.add("Responsable es requerido");
-		 if (this.monthsTotal == null || this.monthsTotal <= 0) errors.add("Total de Meses Months Total is required");
+		 if (this.monthsTotal == null || this.monthsTotal <= 0) errors.add("Total de Meses es requerido");
 		 if (this.evaluationPeriod == null || this.evaluationPeriod <= 0) errors.add("Periodo de Evaluación es requerido");
 		 if (this.category == null || this.category <= 0) errors.add("Categoría es requerido");
 		 return errors;

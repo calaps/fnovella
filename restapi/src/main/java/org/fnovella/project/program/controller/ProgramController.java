@@ -129,7 +129,7 @@ public class ProgramController {
 
 			return new APIResponse(saved, null);
 		}
-		errors.add("Program doesn't exist");
+		errors.add("El programa no existe.");
 		return new APIResponse(null, errors);
 	}
 
@@ -164,7 +164,7 @@ public class ProgramController {
 			programService.delete(id);
 		} else {
 			List<String> errors = new ArrayList<>();
-			errors.add("Program with id : " + id + " not exist!");
+			errors.add("Programa con número de id : " + id + " no existe!");
 			return new APIResponse(null, errors);
 		}
 		return new APIResponse(programRepository.findOne(id) == null, null);
