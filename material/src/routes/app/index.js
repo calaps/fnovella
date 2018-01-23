@@ -28,7 +28,8 @@ module.exports = {
         require('./routes/groups'), // Calaps App Inscription Approval\
         require('./routes/evaluation'), // Calaps App Inscription Approval\
         require('./routes/assistance'), //assistance control
-        require('./routes/assistance_approval') //assistance approval
+        require('./routes/assistance_approval'), //assistance approval
+        require('./routes/search') //search
       ]);
     });
   },

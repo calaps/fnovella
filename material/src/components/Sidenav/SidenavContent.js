@@ -138,17 +138,33 @@ class SidebarContent extends React.Component {
 
         <li><FlatButton href="#/app/extra"><i className="nav-icon material-icons">remove_red_eye</i><span className="nav-text">Visualización</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/visualization/programs"><span>Programas</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/visualization/programs"><span>Vista de arbol</span></FlatButton></li>
             <li><FlatButton className="prepend-icon" href="#/app/groups"><span className="nav-text">Todos los grupos</span></FlatButton></li>
           </ul>
         </li>
 
+        <li><FlatButton href="#/app/clasification"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
+          <ul>
+            <li><FlatButton className="prepend-icon" href="#/app/indicators"><span>Por fundación</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/indicators"><span>Por programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/indicators"><span>Por grupo</span></FlatButton></li>
+          </ul>
+        </li>
+
+        <li><FlatButton href="#/app/search"><i className="nav-icon material-icons">search</i><span className="nav-text">Buscar</span></FlatButton></li>
+
         <li className="nav-divider" />
         <li className="nav-header"><span>Menu de aplicación</span></li>
-        {this.state.permission.pcatalogsEntry &&
-          <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Catalogos</span></FlatButton></li>
-        }
-        <li><FlatButton href="#/app/category"><i className="nav-icon material-icons">list</i><span className="nav-text">Categorias</span></FlatButton></li>
+
+        <li><FlatButton href="#/app/category"><i className="nav-icon material-icons">list</i><span className="nav-text">Sistema</span></FlatButton>
+          <ul>
+            <li><FlatButton href="#/app/category"><i className="nav-icon material-icons">list</i><span className="nav-text">Categorias</span></FlatButton></li>
+            {this.state.permission.pcatalogsEntry &&
+            <li><FlatButton href="#/app/catalog"><i className="nav-icon material-icons">dashboard</i><span className="nav-text">Catalogos</span></FlatButton></li>
+            }
+          </ul>
+
+        </li>
         <li><FlatButton href="#/app/locations"><i className="nav-icon material-icons">add_location</i><span className="nav-text">Sedes</span></FlatButton></li>
         <li><FlatButton href="#/app/privileges"><i className="nav-icon material-icons">pan_tool</i><span className="nav-text">Privilegios</span></FlatButton></li>
         <li><FlatButton href="#/app/users"><i className="nav-icon material-icons">perm_identity</i><span className="nav-text">Usuarios</span></FlatButton></li>
