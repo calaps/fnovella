@@ -1,7 +1,6 @@
 import React from 'react';
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import DatePicker from 'material-ui/DatePicker'; //date
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
