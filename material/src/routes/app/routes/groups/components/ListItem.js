@@ -11,7 +11,7 @@ class ListItem extends React.Component {
           <button
             onClick={()=>{this.props.onView(this.props.groupData)}}
 
-            type="submit" className="btn btn-primary">View</button>
+            type="submit" className="btn btn-info">Visualizar</button>
           &nbsp;
           &nbsp;
           {/*<button

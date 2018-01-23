@@ -145,9 +145,9 @@ class SidebarContent extends React.Component {
 
         <li><FlatButton href="#/app/clasification"><i className="nav-icon material-icons">insert_chart</i><span className="nav-text">Indicadores</span></FlatButton>
           <ul>
-            <li><FlatButton className="prepend-icon" href="#/app/indicators"><span>Por fundación</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/indicators"><span>Por programa</span></FlatButton></li>
-            <li><FlatButton className="prepend-icon" href="#/app/indicators"><span>Por grupo</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/indicators/fundation"><span>Por fundación</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/indicators/program"><span>Por programa</span></FlatButton></li>
+            <li><FlatButton className="prepend-icon" href="#/app/indicators/group"><span>Por grupo</span></FlatButton></li>
           </ul>
         </li>
 

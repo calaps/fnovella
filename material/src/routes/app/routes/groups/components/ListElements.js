@@ -29,7 +29,28 @@ class ListElements extends React.Component {
     let i = 1;
     return (
       <article className="article">
-        <h2 className="article-title">Lista de grupos</h2>
+
+        <div className="container-fluid with-maxwidth">
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="box box-default">
+                <div className="box-body">
+                  <div className="icon-box ibox-plain ibox-center">
+                    <div className="ibox-icon">
+                      <a href="javascript:;">
+                        <i className="material-icons">insert_chart</i>
+                      </a>
+                    </div>
+                    <h6>Todos los programas</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <h2 className="article-title">Lista de completa</h2>
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">
