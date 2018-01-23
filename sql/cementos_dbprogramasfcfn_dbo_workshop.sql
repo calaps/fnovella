@@ -1,10 +1,2 @@
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('string', 1, 'string', 42, 2, 0);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Flauta', 1, 'Musica para que aprendan a tocar flauta', 19, 4, 0);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Carpienteria', 1, 'Contrucción de muebles', 6, 2, 0);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('program location relation', 30, 'working now', 51, null, 1);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Cocina', 30, 'Cocina', 51, null, 0);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('dasd', 27, 'asd', 42, null, 0);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('dsad', 27, 'dasd', 42, null, 0);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Visit Brazil', 27, 'Intrudocción a Robotica a los niños', 42, null, 0);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('dad', 27, 'sad', 42, null, 1);
-INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('abc', 27, 'abc', 42, null, 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Taller A', 1, 'Descipción de taller...', 110, null, 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Taller B', 1, 'Descipción de taller...	Visualizar grupo', 110, null, 0);

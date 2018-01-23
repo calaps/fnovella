@@ -1,12 +1,3 @@
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (33, 0, 2, 1, '2017-12-10', '2017-12-10', 21);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (33, 0, 2, 3, '2017-12-10', '2017-12-10', 22);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (33, 0, 2, 4, '2017-12-10', '2017-12-10', 23);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (33, 0, 2, 2, '2017-12-10', '2017-12-10', 24);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (34, 0, 2, 3, '2017-12-10', '2017-12-10', 25);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (34, 0, 2, 1, '2017-12-10', '2017-12-10', 26);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (34, 0, 2, 4, '2017-12-10', '2017-12-10', 28);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (34, 0, 2, 2, '2017-12-10', '2017-12-10', 27);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (37, 0, 2, 3, '2017-12-12', '2017-12-12', 38);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (37, 0, 2, 1, '2017-12-12', '2017-12-12', 37);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (37, 0, 2, 2, '2017-12-12', '2017-12-12', 39);
-INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range) VALUES (37, 0, 2, 4, '2017-12-12', '2017-12-12', 40);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range, approval_percentage, programActivation, status) VALUES (66, 0, 1, 1, '2018-01-19', '2018-03-08', 151, 65, null, null);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range, approval_percentage, programActivation, status) VALUES (66, 0, 2, 3, '2018-01-19', '2018-03-08', 152, 65, null, null);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range, approval_percentage, programActivation, status) VALUES (66, 0, 1, 2, '2018-01-19', '2018-03-08', 153, 66, null, null);
