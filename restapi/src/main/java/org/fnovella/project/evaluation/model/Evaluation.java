@@ -20,6 +20,7 @@ public class Evaluation {
 	private Date dateEnd;
 	private Integer range;
 	private Integer approvalPercentage;
+	private Integer programActivation;
 
 
 	public Integer getId() {
@@ -79,11 +80,20 @@ public class Evaluation {
 	public void setRange(Integer range) {
 		this.range = range;
 	}
+
+	public Integer getProgramActivation() {
+		return programActivation;
+	}
+
+	public void setProgramActivation(Integer programActivation) {
+		this.programActivation = programActivation;
+	}
+
 	public Evaluation() {
 		super();
 	}
 	public Evaluation(Integer group, Integer session, Integer evaluationType, Integer evaluationSubtype, Date dateStart,
-			Date dateEnd, Integer range, Integer approvalPercentage) {
+			Date dateEnd, Integer range, Integer approvalPercentage, Integer programActivation) {
 		super();
 		this.approvalPercentage = approvalPercentage;
 		this.group = group;
@@ -93,10 +103,16 @@ public class Evaluation {
 		this.dateStart = dateStart;
 		this.dateEnd = dateEnd;
 		this.range = range;
+		this.programActivation = programActivation;
 	}
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
-		if (this.group == null || this.group < 0) errors.add("Group is required");
+		if ((this.group == null || this.group < 0) && (this.programActivation == null || this.programActivation < 0) ) {
+			errors.add("Group or Program Activation is required");
+		}
+		if (this.group != null && this.group > 0 && this.programActivation != null && this.programActivation > 0) {
+			errors.add("You can only add Group or Program Activation, but not both.");
+		}
 		if (this.session == null || this.session < 0) errors.add("Session is required");
 		if (this.evaluationType == null || this.evaluationType < 0) errors.add("Evaluation Type is required");
 		if (this.evaluationSubtype == null || this.evaluationSubtype < 0) errors.add("Evaluation Sub Type is required");
@@ -107,7 +123,6 @@ public class Evaluation {
 		return errors;
 	}
 	public void setUpdateFields(Evaluation evaluation) {
-		if (evaluation.group != null && evaluation.group > 0) this.group = evaluation.group;
 		if (evaluation.session != null && evaluation.session > 0) this.session = evaluation.session;
 		if (evaluation.evaluationType != null && evaluation.evaluationType > 0) this.evaluationType = evaluation.evaluationType;
 		if (evaluation.evaluationSubtype != null && evaluation.evaluationSubtype > 0) this.evaluationSubtype = evaluation.evaluationSubtype;
@@ -115,5 +130,7 @@ public class Evaluation {
 		if (evaluation.approvalPercentage != null && evaluation.approvalPercentage > 0) this.approvalPercentage = evaluation.approvalPercentage;
 		if (evaluation.dateStart != null) this.dateStart = evaluation.dateStart;
 		if (evaluation.dateEnd != null) this.dateEnd = evaluation.dateEnd;
+		this.group = evaluation.group;
+		this.programActivation = evaluation.programActivation;
 	}
 }
