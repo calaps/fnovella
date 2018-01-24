@@ -20,6 +20,7 @@ public class Evaluation {
 	private Date dateEnd;
 	private Integer range;
 	private Integer approvalPercentage;
+	@Column(name = "[programactivation]")
 	private Integer programActivation;
 
 

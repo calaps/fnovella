@@ -15,13 +15,13 @@ public class Assistance {
     private Integer inscription;
     private Integer session;
     private Date date;
-    private boolean status;
+    private Integer status;
     private Integer month;
 
     public Assistance() {
     }
 
-    public Assistance(Integer inscription, Integer session, Date date, boolean status, Integer month) {
+    public Assistance(Integer inscription, Integer session, Date date, Integer status, Integer month) {
         this.inscription = inscription;
         this.session = session;
         this.date = date;
@@ -61,11 +61,11 @@ public class Assistance {
         this.date = date;
     }
 
-    public boolean isStatus() {
+    public Integer isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -83,6 +83,7 @@ public class Assistance {
         if (this.month == null || this.month <= 0) errors.add("Month is required");
         if (this.session == null || this.session <= 0) errors.add("Session is required");
         if (this.date == null) errors.add("Date is required");
+        if (this.status == null) errors.add("Status is required");
         return errors;
     }
 
@@ -91,5 +92,6 @@ public class Assistance {
         if (assistance.month != null && assistance.month > 0) this.month = assistance.month;
         if (assistance.session != null && assistance.session > 0) this.session = assistance.session;
         if (assistance.date != null) this.date = assistance.date;
+        if (assistance.status != null) this.status = assistance.status;
     }
 }

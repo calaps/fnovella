@@ -22,7 +22,6 @@ public class Division {
 	private Integer programa;
 	private Integer location;
 	private boolean createdGroup;
-	private String description;
 	@Transient
 	private String programName;
 	public String getProgramName() {
@@ -71,21 +70,12 @@ public class Division {
 		this.createdGroup = createdGroup;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Division(String name, Integer programa, Integer location, boolean createdGroup, String description) {
+	public Division(String name, Integer programa, Integer location, boolean createdGroup) {
 		super();
 		this.name = name;
 		this.programa = programa;
 		this.location = location;
 		this.createdGroup = createdGroup;
-		this.description = description;
 	}
 
 	public Division() {
@@ -102,7 +92,6 @@ public class Division {
 
 	public void setUpdateFields(Division division) {
 		if (APIUtility.isNotNullOrEmpty(division.name)) this.name = division.name;
-		if (APIUtility.isNotNullOrEmpty(division.description)) this.description = division.description;
 		if (division.programa != null && division.programa > 0) this.programa = division.programa;
 		if (division.location != null && division.location > 0) this.location = division.location;
 		this.createdGroup = division.createdGroup;
