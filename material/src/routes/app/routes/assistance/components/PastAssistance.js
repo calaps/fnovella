@@ -22,6 +22,9 @@ class PastAssistance extends React.Component{
       group:{}
     }
   }
+  vistaConsolidad(){
+    this.props.changeView('VIEW_CONSOLITATE');
+  }
 
   componentWillMount(){
     this.props.actions.assistanceGetByGroupId(this.props.query.id,0,10000);
@@ -33,13 +36,13 @@ class PastAssistance extends React.Component{
 
   }
   render(){
-    var assistance = this.props.assistance.content || [];
-    var i=0;
-    var num=0;
+    const assistance = this.props.assistance.content || [];
+    let num = 1;
 
-    var renderSessions=(sessions,month) => {
-      var arr=[];
-      for(var i=0;i< sessions;i++){
+    const renderSessions = (sessions, month) => {
+      const arr = [];
+      let i;
+      for (i = 0; i < sessions; i++) {
         arr.push(i);
       }
       var renderMonth = ()=> {
@@ -69,18 +72,19 @@ class PastAssistance extends React.Component{
           case 12:
               return "Diciembre";
       }
-    }
+    };
       return arr.map((arr)=>{
-      var _assistance = assistance.find((_assistance)=>{
+      const _assistance = assistance.find((_assistance)=>{
         return _assistance.session == arr+1 && _assistance.month == month
-      })
+      });
       if(_assistance){
+        let number = num++;
         return <PastAssistanceListItem
-          key={num++}
+          key={number}
           changeView={this.props.changeView}
-          number={num++}
+          number={number}
           date={this.state.group.inscriptionsStart}
-          session ={arr+1}
+          session={arr + 1}
           month= {renderMonth()}
         />
       }
@@ -89,6 +93,11 @@ class PastAssistance extends React.Component{
         return(
         <article>
         <h2 className="article-title">Lista de asistencias pasadas</h2>
+          <RaisedButton
+            label='Vista consolidad'
+            primary
+            onTouchTap={this.vistaConsolidad.bind(this)}
+          />
         <div className="row">
           <div className="col-xl-12">
             <div className="box box-transparent">

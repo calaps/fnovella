@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import FlatButton from 'material-ui/FlatButton';
 import {
   participantsGetRequestBySearch,
   participantGetRequest,
@@ -13,10 +14,14 @@ import {
 } from '../../../../../actions';
 import PastAssistance from './PastAssistance';
 
+const style = {
+  background: '#66bb6a',
+  color: 'white'
+};
 const size = 10; // limit
 const number = 0; // page
 
-class ListElements extends React.Component {
+class ConsolitateView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,11 +30,11 @@ class ListElements extends React.Component {
       group: {}
     };
   }
+  handleBack() {
+    this.props.changeView('VIEW_ELEMENTS');
+  }
   componentWillMount() {
-    this
-      .props
-      .actions
-      .inscriptionParticipantGetByGroupId(this.props.query.id, number, size);
+    this.props.actions.inscriptionParticipantGetByGroupId(this.props.query.id, number, size);
     this
       .props
       .actions
@@ -100,9 +105,9 @@ class ListElements extends React.Component {
         arr.push(i);
       }
       return arr.map((arr) => {
-      var _assistance = assistance.find((_assistance) => {
-        return _assistance.session == arr && _assistance.month == currentMonth + 1
-      });
+        var _assistance = assistance.find((_assistance) => {
+          return _assistance.session == arr && _assistance.month == currentMonth + 1
+        });
         if (_assistance) {
           return null;
         } else {
@@ -116,7 +121,7 @@ class ListElements extends React.Component {
                     .props
                     .changeView('ADD_ASSISTANCE', arr)
                 }}>
-              { 'Pasar evaluación ' + arr}
+                { 'Pasar evaluación ' + arr}
               </button>
             </td>
           );
@@ -156,40 +161,74 @@ class ListElements extends React.Component {
     };
     return (
       <article className="article">
-        <h3 className="article-title">Evaluaciones disponibles para {renderCurrentMonth(currentMonth)}</h3>
+        <h3 className="article-title">
+          <FlatButton onTouchTap={this.handleBack.bind(this)}><i className="material-icons">keyboard_backspace</i></FlatButton>
+          Vista consolidada</h3>
+
+        <div className="container-fluid">
           <div className="row">
             <div className="col-xl-12">
-              <div className="box box-transparent">
-                <div className="box-body no-padding-h">
 
-                  <div className="box box-default table-box mdl-shadow--2dp">
-                    <table className="mdl-data-table">
-                      <thead>
-                        <tr>
-                          <th className="mdl-data-table__cell--non-numeric">#</th>
-                          <th className="mdl-data-table__cell--non-numeric">Mes actual</th>
-                          <th className="mdl-data-table__cell--non-numeric">Numero de sesiones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <tr>
-                        <td className="mdl-data-table__cell--non-numeric">0</td>
-                        <td className="mdl-data-table__cell--non-numeric">{renderCurrentMonth(currentMonth)}</td>
-                        <td className="mdl-data-table__cell--non-numeric">{NumOfSessions()}</td>
+              <div className="box box-default">
+                <div className="box-body">
 
-                        {renderSessionButtons()}
-
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                  <table className="table table-bordered">
+                    <thead>
+                    <tr>
+                      <th colSpan="2" style={style}>Indicadores</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                      <td>Participantes iniciales</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td>Participantes activos al final del período</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td>% de deserción</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" style={style}>-</td>
+                    </tr>
+                    <tr>
+                      <td>% de retención anual</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td>% de deserción bimestral / mensual</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td>% de asistencia sostenida</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td>% de asistencia sostenida con justificación</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td>% de estudiantes que aprobarón la materia</td>
+                      <td>1</td>
+                    </tr>
+                    <tr>
+                      <td>Cumplimiento de llenado</td>
+                      <td>1</td>
+                    </tr>
+                    </tbody>
+                  </table>
 
                 </div>
               </div>
+
             </div>
           </div>
+        </div>
 
-          <PastAssistance changeView={this.props.changeView} query={this.props.query} />
+        <PastAssistance changeView={this.props.changeView} query={this.props.query} />
       </article>
 
     );
@@ -221,4 +260,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(ListElements);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(ConsolitateView);

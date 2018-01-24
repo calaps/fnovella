@@ -1,53 +1,56 @@
 import React from 'react';
+import Chip from 'material-ui/Chip';
+
+const styles = {
+  chip: {
+    margin: 4,
+  }
+};
 
 class ListItem extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
-      catalog:"",
+    this.state = {
+      catalog: "1", // By degault is always option 1 = assist
       date: new Date(),
     }
-    this.onChange=this.onChange.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.AddAssistance = this.AddAssistance.bind(this);
   }
-  componentDidMount(){
+  componentDidMount() {
     this.AddAssistance();
   }
-  onChange(e){
+  onChange(e) {
     this.setState({
       [e.target.name]: e.target.value
-    })
+    });
     this.AddAssistance(e.target.value);
 
   }
   AddAssistance(value){
-    let data = {
+    const data = {
       inscription: this.props.inscriptionData.id,
       date: this.state.date,
       month: this.state.date.getMonth() + 1,
       session: this.props.sessionNum,
-      value: (value)? value:'',
+      value: this.state.catalog,
       participant:this.props.participantData.id,
+  };
+    this.props.AddAssistance(data);
   }
-
-    this.props.AddAssistance(data)
-  }
-  render () {
-    var calatogsOpt = () => {
-      return this.props.catalogs
-          ? this
-              .props
-              .catalogs
-              .map((catalog) => {
-                  return <option  key={catalog.id} value={catalog.type}>{catalog.name}</option>
-              })
-          : null
-  }
+  render() {
+    const calatogsOpt = () => {
+      return this.props.catalogs ? this.props.catalogs.map((catalog) => {
+        return <option key={catalog.id} value={catalog.type}>{catalog.name}</option>;
+      }) : null;
+    };
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.participantData.id}</td>
         <td className="mdl-data-table__cell--non-numeric" >
-          {this.props.participantData.firstName + " " + this.props.participantData.firstLastname}
+          <Chip style={styles.chip}>
+            {this.props.participantData.firstName + " " + this.props.participantData.firstLastname}
+          </Chip>
         </td>
         <td className="mdl-data-table__cell--non-numeric" >
           {this.props.sessionNum}
@@ -60,7 +63,6 @@ class ListItem extends React.Component {
           value={this.state.catalog}
           onChange={this.onChange}
           >
-          <option value="" >Seleccionar</option>
             {calatogsOpt()}
           </select>
         </td>
