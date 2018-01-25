@@ -8,11 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Column;
 
 import org.fnovella.project.group.service.TypeCategory;
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
+import org.fnovella.project.program.model.Program;
 
 @Entity
 @Table(name = "[group]")
@@ -51,6 +53,8 @@ public class Group {
     private boolean insExtra;
     private boolean evsExtra;
     private Integer coordinator;
+    @Transient
+    private Program program;
 
     public Integer getId() {
         return id;
@@ -82,6 +86,14 @@ public class Group {
 
     public void setSection(Integer section) {
         this.section = section;
+    }
+
+    public Program getProgram() {
+        return program;
+    }
+
+    public void setProgram(Program program) {
+        this.program = program;
     }
 
     public Integer getInstructor() {

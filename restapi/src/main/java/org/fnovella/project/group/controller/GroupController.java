@@ -14,16 +14,30 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.fnovella.project.program.model.Program;
+import org.fnovella.project.group.service.TypeCategory;
+import org.fnovella.project.course.model.Course;
+import org.fnovella.project.course.repository.CourseRepository;
+import org.fnovella.project.program.repository.ProgramRepository;
+import org.fnovella.project.division.repository.DivisionRepository;
+import org.fnovella.project.workshop.repository.WorkshopRepository;
 
 @RestController
 @RequestMapping("/group/")
 public class GroupController {
 
-
 	@Autowired
 	private GroupRepository groupRepository;
 	@Autowired
 	private GroupService groupService;
+	@Autowired
+	private CourseRepository courseRepository;
+	@Autowired
+	private ProgramRepository programRepository;
+	@Autowired
+	private DivisionRepository divisionRepository;
+	@Autowired
+	private WorkshopRepository workshopRepository;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
@@ -71,6 +85,21 @@ public class GroupController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Group group = this.groupRepository.findOne(id);
 		if (group != null) {
+			Program program = null;
+			if (group.getTypeCategory() != null ){
+				 switch (group.getTypeCategory().toUpperCase()) {
+		            case "COURSE":
+		            	program = this.programRepository.findOne(this.courseRepository.findOne(group.getCourseId()).getProgramId());
+		                break;
+		            case "DIVISION":
+		                program = this.programRepository.findOne(this.divisionRepository.findOne(group.getDivisionId()).getPrograma());
+		                break;
+		            case "WORKSHOP":
+		            	program = this.programRepository.findOne(this.workshopRepository.findOne(group.getWorkshopId()).getProgramId());
+		                break;
+		        }
+			}
+			group.setProgram(program);
 			return new APIResponse(group, null);
 		}
 		errors.add("Group doesn't exist");
