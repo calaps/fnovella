@@ -39,6 +39,11 @@ public class GroupController {
 	@Autowired
 	private WorkshopRepository workshopRepository;
 
+	@RequestMapping(value = "insights/{group}", method = RequestMethod.GET)
+	public APIResponse getInsights(@RequestHeader("authorization") String authorization, @PathVariable("group") Integer group) {
+		return new APIResponse(this.groupService.getInsight(group), null);
+	}
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.groupRepository.findAll(pageable), null);

@@ -3,22 +3,17 @@ package org.fnovella.project.group.model;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 import org.fnovella.project.group.service.TypeCategory;
 import org.fnovella.project.utility.APIUtility;
+import org.fnovella.project.utility.inter.Agroupation;
 import org.hibernate.validator.constraints.Length;
 import org.fnovella.project.program.model.Program;
 
 @Entity
 @Table(name = "[group]")
-public class Group {
+public class Group implements Agroupation{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

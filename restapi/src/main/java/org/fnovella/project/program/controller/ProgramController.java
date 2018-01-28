@@ -48,6 +48,11 @@ public class ProgramController {
 	@Autowired
 	private ProgramService programService;
 
+	@RequestMapping(value = "insights/{program}", method = RequestMethod.GET)
+	public APIResponse getInsights(@RequestHeader("authorization") String authorization, @RequestParam("program") Integer program) {
+		return new APIResponse(this.programService.getInsight(program), null);
+	}
+
 	@RequestMapping(value = "", method=RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, @RequestParam("type") int type, 
 			Pageable pageable) {

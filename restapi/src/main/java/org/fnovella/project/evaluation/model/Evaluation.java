@@ -22,6 +22,7 @@ public class Evaluation {
 	private Integer approvalPercentage;
 	@Column(name = "[programactivation]")
 	private Integer programActivation;
+	private Integer status;
 
 
 	public Integer getId() {
@@ -90,11 +91,19 @@ public class Evaluation {
 		this.programActivation = programActivation;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	public Evaluation() {
 		super();
 	}
 	public Evaluation(Integer group, Integer session, Integer evaluationType, Integer evaluationSubtype, Date dateStart,
-			Date dateEnd, Integer range, Integer approvalPercentage, Integer programActivation) {
+			Date dateEnd, Integer range, Integer approvalPercentage, Integer programActivation, Integer status) {
 		super();
 		this.approvalPercentage = approvalPercentage;
 		this.group = group;
@@ -105,6 +114,7 @@ public class Evaluation {
 		this.dateEnd = dateEnd;
 		this.range = range;
 		this.programActivation = programActivation;
+		this.status = status;
 	}
 	public ArrayList<String> validate() {
 		ArrayList<String> errors = new ArrayList<String>();
@@ -118,6 +128,7 @@ public class Evaluation {
 		if (this.evaluationType == null || this.evaluationType < 0) errors.add("Evaluation Type is required");
 		if (this.evaluationSubtype == null || this.evaluationSubtype < 0) errors.add("Evaluation Sub Type is required");
 		if (this.range == null || this.range < 0) errors.add("Range is required");
+		if (this.status == null || this.status < 0) errors.add("Status is required");
 		if (this.dateStart == null) errors.add("Date Start is required");
 		if (this.dateEnd == null) errors.add("Date End is required");
 		if (this.approvalPercentage == null) errors.add("Approval Percentage is required");
@@ -128,6 +139,7 @@ public class Evaluation {
 		if (evaluation.evaluationType != null && evaluation.evaluationType > 0) this.evaluationType = evaluation.evaluationType;
 		if (evaluation.evaluationSubtype != null && evaluation.evaluationSubtype > 0) this.evaluationSubtype = evaluation.evaluationSubtype;
 		if (evaluation.range != null && evaluation.range > 0) this.range = evaluation.range;
+		if (evaluation.status != null && evaluation.status > 0) this.status = evaluation.status;
 		if (evaluation.approvalPercentage != null && evaluation.approvalPercentage > 0) this.approvalPercentage = evaluation.approvalPercentage;
 		if (evaluation.dateStart != null) this.dateStart = evaluation.dateStart;
 		if (evaluation.dateEnd != null) this.dateEnd = evaluation.dateEnd;

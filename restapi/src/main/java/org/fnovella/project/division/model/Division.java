@@ -9,10 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
+import org.fnovella.project.utility.inter.Agroupation;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-public class Division {
+public class Division implements Agroupation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

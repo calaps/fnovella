@@ -9,9 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
+import org.fnovella.project.utility.inter.Agroupation;
 
 @Entity
-public class Workshop {
+public class Workshop implements Agroupation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
