@@ -131,11 +131,20 @@ class EditForm extends React.Component {
       this.setState({errors: {}, isLoading: true});
       // this.context.router.history.push('/');
 
+      let secondName = '';
+      let secondLastName = '';
+      (this.state.secondName.toString() === '')
+        ? secondName = '_'
+        : this.state.secondLastName;
+      (this.state.secondLastName.toString() === '')
+        ? secondLastName = '_'
+        : this.state.secondLastName;
+
       let data = {
         firstName: this.state.firstName,
-        secondName: this.state.secondName,
+        secondName: secondName,
         firstLastName: this.state.firstLastName,
-        secondLastName: this.state.secondLastName,
+        secondLastName: secondLastName,
         privilege: this.state.privilege,
         bornDate: convertDateToHTMLInputDateValue(this.state.bornDate),
         documentType: this.state.documentType || 'sometype',

@@ -509,18 +509,6 @@ export function userValidator(data) {
       errors.firstLastName = invalidData;
     }
   }
-  if (Validator.isEmpty(data.secondName)) {
-    errors.secondName = required;
-    if (!Validator.isEmpty(data.secondName) && !Validator.isAlpha(data.secondName)) {
-      errors.secondName = invalidData;
-    }
-  }
-  if (Validator.isEmpty(data.secondLastName)) {
-    errors.secondLastName = required;
-    if (!Validator.isEmpty(data.secondLastName) && !Validator.isAlpha(data.secondLastName)) {
-      errors.secondLastName = invalidData;
-    }
-  }
   if (Validator.isEmpty(data.nationality)) {
     errors.nationality = required;
     if (!Validator.isEmpty(data.nationality) && !Validator.isAlpha(data.nationality)) {
