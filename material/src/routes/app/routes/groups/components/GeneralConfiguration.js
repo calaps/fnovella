@@ -236,27 +236,27 @@ class GeneralConfiguration extends React.Component {
 
   handleChangeStartDate(event, date) {
     this.setState({
-      inscriptionsStart: date,
-      monthsToRender: this.state.months.slice(date.getMonth(), this.state.inscriptionsEnd.getMonth() + 1)
+      inscriptionsStart: date
     });
   }
 
   handleChangeEndDate(event, date) {
     this.setState({
-      inscriptionsEnd: date,
-      monthsToRender: this.state.months.slice(this.state.inscriptionsStart.getMonth(), date.getMonth() + 1)
+      inscriptionsEnd: date
     });
   }
 
   handleChangeStartDateProgram(event, date) {
     this.setState({
-      programDateStart: date
+      programDateStart: date,
+      monthsToRender: this.state.months.slice(date.getMonth(), this.state.programDateEnd.getMonth() + 1)
     });
   }
 
   handleChangeEndDateProgram(event, date) {
     this.setState({
-      programDateEnd: date
+      programDateEnd: date,
+      monthsToRender: this.state.months.slice(this.state.programDateStart.getMonth(), date.getMonth() + 1)
     });
   }
 
