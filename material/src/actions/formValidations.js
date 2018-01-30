@@ -70,6 +70,17 @@ export function programActivationValidator(data) {
 
 export function programValidatorIndicator(data){
   let errors = {}; //errors star with an empty object
+  if (Validator.isEmpty(data.programId)) {
+    errors.programId = required;
+    if (!Validator.isEmpty(data.programId) && !Validator.isAlphanumeric(data.programId)) {
+      errors.programId = invalidData;
+    }
+  }
+  //IsValid is just a boolean who return is errors is empty
+  return {errors, isValid: isEmpty(errors)};
+}
+export function groupValidatorIndicator(data){
+  let errors = {}; //errors star with an empty object
   if (Validator.isEmpty(data.groupId)) {
     errors.groupId = required;
     if (!Validator.isEmpty(data.groupId) && !Validator.isAlphanumeric(data.groupId)) {

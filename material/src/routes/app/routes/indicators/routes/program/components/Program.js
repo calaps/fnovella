@@ -4,8 +4,10 @@ import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
-  programGetRequest
+  programGetRequest,
+  indicatorsGetProgram
 } from '../../../../../../../actions';
+import {programValidatorIndicator} from '../../../../../../../actions/formValidations';
 
 const style = {
   background: '#66bb6a',
@@ -27,7 +29,7 @@ class MainOptions extends React.Component {
                         <i className="material-icons">insert_chart</i>
                       </a>
                     </div>
-                    <h6>Indicadores de programa</h6>
+                    <h6>Indicadores de Programa</h6>
                   </div>
                 </div>
               </div>
@@ -46,15 +48,45 @@ class IndicadoresFundation extends React.Component {
     this.state = {
       isLoading: false,
       programId: '',
+      indicators: {},
       errors: {}
     };
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   componentWillMount() {
     this.props.actions.programGetRequest(0, 10000);
   }
+  onChange(e) {
+    this.setState({[e.target.name]: e.target.value, isLoading: false});
+  }
+  onSubmit(e){
+    e.preventDefault();
+    if (this.isValid()) {
+      this.setState({
+        isLoading: true
+      });
+      this.props.actions.indicatorsGetProgram(this.state.programId).then(() => {
+          this.setState({
+            isLoading: false,
+            errors: {}
+          });
+        }
+      );
+    }
+  }
+  isValid() {
+    const {errors, isValid} = programValidatorIndicator(this.state);
+    if (!isValid) {
+      this.setState({errors});
+      return false;
+    }
+    return true;
+  }
   render() {
 
     const { errors } = this.state;
+    let { indicators } = this.props;
 
     const programsOpt = () => {
       const programs = this.props.programs.content || [];
@@ -82,10 +114,10 @@ class IndicadoresFundation extends React.Component {
                         value={this.state.programId}
                         className="form-control"
                       >
-                        <option value="" disabled>Selecione el programa...</option>
+                        <option value="">Selecione el programa...</option>
                         {programsOpt()}
                       </select>
-                      {errors.groupId && <span className="help-block text-danger">{errors.groupId}</span>}
+                      {errors.programId && <span className="help-block text-danger">{errors.groupId}</span>}
                     </div>
                     <div className="col-md-3">
                       <RaisedButton
@@ -107,42 +139,50 @@ class IndicadoresFundation extends React.Component {
                   <tbody>
                   <tr>
                     <td>Participantes iniciales</td>
-                    <td>1</td>
+                    <td>{ indicators.totalParticipants }</td>
                   </tr>
                   <tr>
-                    <td>Participantes activos al final del período</td>
-                    <td>1</td>
+                    <td>% de activos al final del período</td>
+                    <td>{ indicators.activeParticipants } %</td>
                   </tr>
                   <tr>
                     <td>% de deserción</td>
-                    <td>1</td>
+                    <td>{ indicators.inactiveParticipants } %</td>
                   </tr>
                   <tr>
                     <td colSpan="2" style={style}>-</td>
                   </tr>
                   <tr>
                     <td>% de retención anual</td>
-                    <td>1</td>
+                    <td>{ indicators.activeParticipants } %</td>
                   </tr>
                   <tr>
                     <td>% de deserción bimestral / mensual</td>
-                    <td>1</td>
+                    <td>{ indicators.inactiveParticipants } %</td>
                   </tr>
                   <tr>
                     <td>% de asistencia sostenida</td>
-                    <td>1</td>
+                    <td>{ indicators.sustainedParticipants } %</td>
                   </tr>
                   <tr>
                     <td>% de asistencia sostenida con justificación</td>
-                    <td>1</td>
+                    <td>{ indicators.justifiedParticipants } %</td>
                   </tr>
                   <tr>
                     <td>% de estudiantes que aprobarón la materia</td>
-                    <td>1</td>
+                    <td>{ indicators.approvedParticipants } %</td>
+                  </tr>
+                  <tr>
+                    <td>Cantidad total de sesiones</td>
+                    <td>{ indicators.sessionAssistance }</td>
+                  </tr>
+                  <tr>
+                    <td>Cantidad total de asistencias</td>
+                    <td>{ indicators.totalAssistance }</td>
                   </tr>
                   <tr>
                     <td>Cumplimiento de llenado</td>
-                    <td>1</td>
+                    <td>{ indicators.accomplishment } %</td>
                   </tr>
                   </tbody>
                 </table>
@@ -176,14 +216,16 @@ class Program extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    programs: state.programs
+    programs: state.programs,
+    indicators: state.indicators
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      programGetRequest
+      programGetRequest,
+      indicatorsGetProgram
     }, dispatch)
   };
 }

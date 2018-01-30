@@ -7,7 +7,7 @@ import {
   groupsGetRequest,
   indicatorsGetGroup
 } from '../../../../../../../actions';
-import {programValidatorIndicator} from '../../../../../../../actions/formValidations'; // form validations
+import {groupValidatorIndicator} from '../../../../../../../actions/formValidations'; // form validations
 
 const style = {
   background: '#66bb6a',
@@ -76,7 +76,7 @@ class IndicadoresFundation extends React.Component {
     }
   }
   isValid() {
-    const {errors, isValid} = programValidatorIndicator(this.state);
+    const {errors, isValid} = groupValidatorIndicator(this.state);
     if (!isValid) {
       this.setState({errors});
       return false;
@@ -89,8 +89,8 @@ class IndicadoresFundation extends React.Component {
     let { indicators } = this.props;
 
     const groupsOpt = () => {
-      const programs = this.props.groups.content || [];
-      return programs.map((group) => {
+      const groups = this.props.groups.content || [];
+      return groups.map((group) => {
         return <option key={group.id} value={group.id}>{group.correlativo}</option>
       });
     };
