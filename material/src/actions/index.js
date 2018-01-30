@@ -51,3 +51,4 @@ export * from './inscriptionParticipants';
 export * from './evaluations';
 export * from './assistance';
 export * from './assistanceParticipant';
+export * from './indicators';

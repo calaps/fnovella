@@ -18,9 +18,10 @@ let initialState = {
   divisions: {},
   dashboard: {},
   categories: [],
-  sections : {},
-  programLocations:{},
-  programInstructors:{},
+  sections: {},
+  programLocations: {},
+  programInstructors: {},
+  indicators: {},
   progress: {
     requestInProgress: 0
   },

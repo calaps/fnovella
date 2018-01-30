@@ -29,6 +29,7 @@ import inscriptions from './inscriptions';
 import inscriptionParticipants from './inscriptionParticipants';
 import assistance from './assistance';
 import assistanceParticipant from './assistanceParticipant';
+import indicators from './indicators';
 
 const reducers = {
   routing: routerReducer,
@@ -56,6 +57,7 @@ const reducers = {
   snackBar,
   programAdditionalFields,
   groups,
+  indicators,
   participantAdditionalFiels,
   inscriptions,
   inscriptionParticipants,
