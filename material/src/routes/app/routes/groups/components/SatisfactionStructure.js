@@ -1,12 +1,12 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
+import uuid from 'uuid';
 import IconButton from 'material-ui/IconButton';
 import map from "lodash-es/map"; //to use map in a object
 import {satisfactionStructureValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
-import uuid from "uuid";
 import {bindActionCreators} from 'redux';
 import {} from '../../../../../actions';
 
@@ -27,7 +27,6 @@ class SatisfactionStructure extends React.Component {
       calculateMultipleSelection: 'noData',
       errors: {},
       isLoading: false,
-      evaluationType: ''
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }

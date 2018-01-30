@@ -2,6 +2,7 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import {bindActionCreators} from 'redux';
+import uuid from 'uuid';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; // for user prop-types
 import IconButton from 'material-ui/IconButton';

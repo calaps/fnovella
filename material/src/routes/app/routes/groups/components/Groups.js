@@ -8,13 +8,13 @@ import {bindActionCreators} from 'redux';
 import {
   groupGetByEntityIdRequest
 } from '../../../../../actions';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 class Groups extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "VIEW_LIST",
+      active: 'VIEW_LIST',
       groupData: {}
     };
     this.onEditGroup = this.onEditGroup.bind(this);
@@ -59,8 +59,8 @@ class Groups extends React.Component {
   }
 
   onEditGroup(groupData) {
-    /*this.setState({groupData});
-    this.changeView('ADD_ELEMENT', false);*/
+    /* this.setState({groupData});
+    this.changeView('ADD_ELEMENT', false); */
   }
 
   onViewGroup(groupData) {
@@ -89,9 +89,9 @@ class Groups extends React.Component {
       this.context.router.push({
         pathname: '/app/groups',
         query: {
-          id : id,
-          typeCategory : groupData.typeCategory,
-          view : 'true'
+          id: id,
+          typeCategory: groupData.typeCategory,
+          view: 'true'
         }
       });
     this.setState({groupData});
@@ -109,9 +109,9 @@ class Groups extends React.Component {
     switch (this.state.active) {
       case 'ADD_ELEMENT':
         return <HorizontalLinearStepper changeView={this.changeView} groupData={this.state.groupData}/>;
-      case "VIEW_LIST":
+      case 'VIEW_LIST':
         return <ListElements onEdit={this.onEditGroup} onView={this.onViewGroup}/>;
-      case "VIEW_GROUP":
+      case 'VIEW_GROUP':
         return <GroupDetails groupData={this.state.groupData}/>;
       default:
         return null;

@@ -542,13 +542,6 @@ export function userValidator(data) {
   if (Validator.isEmpty(data.password)) {
     errors.password = required;
   }
-  if (Validator.isEmpty(data.confirm_password)) {
-    errors.confirm_password = required;
-  }
-  if (!Validator.isEmpty(data.confirm_password) && !Validator.equals(data.password, data.confirm_password)) {
-    errors.confirm_password = passwordMatch;
-  }
-
   //IsValid is just a boolean who return is errors is empty
   return {errors, isValid: isEmpty(errors)};
 

@@ -45,7 +45,6 @@ class EditForm extends React.Component {
       cellphone: this.props.userData.cellphone || '',
       email: this.props.userData.email || '',
       password: this.props.userData.password || '',
-      confirm_password: this.props.userData.confirm_password || '',
       cemproCode: this.props.userData.cemproCode || '',
       gender: this.props.userData.gender || '',
       colony: this.props.userData.colony || '',
@@ -68,13 +67,6 @@ class EditForm extends React.Component {
       this.setState({privileges: data.data});
     });
     this.props.actions.catalogsGetRequest();
-  }
-  componentDidMount() {
-    if (this.state.isEditing) {
-      this.setState({
-        confirm_password: this.state.password
-      });
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -99,7 +91,6 @@ class EditForm extends React.Component {
         cellphone: '',
         email: '',
         password: '',
-        confirm_password: '',
         cemproCode: '',
         gender: '',
         colony: '',
@@ -159,7 +150,6 @@ class EditForm extends React.Component {
         cellphone: this.state.cellphone,
         email: this.state.email,
         password: this.state.password,
-        confirm_password: this.state.confirm_password,
         cemproCode: this.state.cemproCode,
         gender: this.state.gender,
         colony: this.state.colony,
@@ -228,7 +218,7 @@ class EditForm extends React.Component {
 
   generatePassword() {
     const generatedPassword = generatePassword();
-    this.setState({password: generatedPassword, confirm_password: generatedPassword});
+    this.setState({password: generatedPassword});
 
     //Show Modal with the password generated
     this.handleOpen();
@@ -450,8 +440,6 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    {!this.state.isEditing &&
-                    <div>
                       <div className="form-group row">
                         <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
                         <div className="col-md-9">
@@ -468,25 +456,6 @@ class EditForm extends React.Component {
                             contraseña</FlatButton>
                         </div>
                       </div>
-
-                      <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Confirmar
-                          contraseña</label>
-                        <div className="col-md-9">
-                          <input
-                            type="password"
-                            className="form-control"
-                            id="confirm_password"
-                            name="confirm_password"
-                            value={this.state.confirm_password}
-                            onChange={this.onChange}
-                            placeholder="******"/>
-                          {errors.confirm_password &&
-                          <span className="help-block text-danger">{errors.confirm_password}</span>}
-                        </div>
-                      </div>
-                    </div>
-                    }
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Privelgio del
