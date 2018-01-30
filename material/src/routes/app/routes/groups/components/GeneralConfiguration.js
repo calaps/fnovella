@@ -466,7 +466,7 @@ class GeneralConfiguration extends React.Component {
                       <div className="col-md-9">
                         <DatePicker
                           value={this.state.programDateStart}
-                          onChange={this.handleChangeStartDate}
+                          onChange={this.handleChangeStartDateProgram}
                         />
                         {errors.programDateStart &&
                         <span className="help-block text-danger">{errors.programDateStart}</span>}
@@ -478,7 +478,7 @@ class GeneralConfiguration extends React.Component {
                       <div className="col-md-9">
                         <DatePicker
                           value={this.state.programDateEnd}
-                          onChange={this.handleChangeEndDate}
+                          onChange={this.handleChangeEndDateProgram}
                         />
                         {errors.programDateEnd &&
                         <span className="help-block text-danger">{errors.programDateEnd}</span>}
