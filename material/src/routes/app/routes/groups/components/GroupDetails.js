@@ -126,29 +126,31 @@ class GroupDetails extends React.Component {
   }
 
 
-onRouteToAssistance (){
-  let {groupData} = this.state;
-  this.context.router.push({
-    pathname: '/app/assistance',
-    query: {
-      id: groupData.id,
-      // name: groupData.correlativo,
-      // typeCategory: groupData.typeCategory,
-      // typeCategoryId: this.selectCategoryId(),
-      // add: true
-    }
-  });
+  onRouteToAssistance() {
+    let {groupData} = this.state;
+    this.context.router.push({
+      pathname: '/app/assistance',
+      query: {
+        id: groupData.id,
+        // name: groupData.correlativo,
+        // typeCategory: groupData.typeCategory,
+        // typeCategoryId: this.selectCategoryId(),
+        // add: true
+      }
+    });
 
-}
-onRouteToAssistanceApproval (){
-  let {groupData} = this.state;
-  this.context.router.push({
-    pathname: '/app/assistance_approval',
-    query: {
-      id: groupData.id,
-     }
-  });
-}
+  }
+
+  onRouteToAssistanceApproval() {
+    let {groupData} = this.state;
+    this.context.router.push({
+      pathname: '/app/assistance_approval',
+      query: {
+        id: groupData.id,
+      }
+    });
+  }
+
   onRouteToEvaluation(evaluationSubtypeId) {
     this.props.actions.evaluationGetByGroupIdAndEvaluationSubtype(this.state.groupData.id, parseInt(evaluationSubtypeId))
       .then(
@@ -190,61 +192,61 @@ onRouteToAssistanceApproval (){
 
           <div key="1 text-justify">
             <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
-                <CardHeader
-                  actAsExpander={false}
-                  showExpandableButton={false}
-                />
-                <CardText>
+              <CardHeader
+                actAsExpander={false}
+                showExpandableButton={false}
+              />
+              <CardText>
 
-                  <div className="row">
-                    <div className="hero-content text-center">
-                      <h1 style={divStyle} className="hero-title">{this.state.groupData.correlativo}</h1>
-                    </div>
-                    <div className="hero-tagline">
-                      <label className="control-label">Tipo</label>
-                      <Chip style={styles.chip}>
-                        <Avatar size={32}>T</Avatar>
-                        { this.renderTypeName() }
-                      </Chip>
-                    </div>
-                    <div className="hero-tagline">
-                      Instructor:
-                      <Chip style={styles.chip}>
-                        <Avatar size={32}>I</Avatar>
-                        {this.state.groupInstructorName}
-                      </Chip>
-                    </div>
-                    <div className="hero-tagline">
-                      Coordinador:
-                      <Chip style={styles.chip}>
-                        <Avatar size={32}>C</Avatar>
-                        Juan Pablo Ortiz
-                      </Chip>
-                    </div>
+                <div className="row">
+                  <div className="hero-content text-center">
+                    <h1 style={divStyle} className="hero-title">{this.state.groupData.correlativo}</h1>
                   </div>
+                  <div className="hero-tagline">
+                    <label className="control-label">Tipo</label>
+                    <Chip style={styles.chip}>
+                      <Avatar size={32}>T</Avatar>
+                      {this.renderTypeName()}
+                    </Chip>
+                  </div>
+                  <div className="hero-tagline">
+                    Instructor:
+                    <Chip style={styles.chip}>
+                      <Avatar size={32}>I</Avatar>
+                      {this.state.groupInstructorName}
+                    </Chip>
+                  </div>
+                  <div className="hero-tagline">
+                    Coordinador:
+                    <Chip style={styles.chip}>
+                      <Avatar size={32}>C</Avatar>
+                      Juan Pablo Ortiz
+                    </Chip>
+                  </div>
+                </div>
 
-                </CardText>
-                <CardTitle title="Configuración" subtitle="Modificaciones a grupo" expandable={true} />
-                <CardText expandable={true}>
+              </CardText>
+              <CardTitle title="Configuración" subtitle="Modificaciones a grupo" expandable={true}/>
+              <CardText expandable={true}>
 
-                  <Toggle
-                    label="Permitir inscripciones extemporaneas"
-                    defaultToggled={true}
-                    labelPosition="right"
-                    style={styles.toggle}
-                  />
-                  <Toggle
-                    label="Permitir evaluaciones extemporaneas"
-                    defaultToggled={true}
-                    labelPosition="right"
-                    style={styles.toggle}
-                  />
+                <Toggle
+                  label="Permitir inscripciones extemporaneas"
+                  defaultToggled={true}
+                  labelPosition="right"
+                  style={styles.toggle}
+                />
+                <Toggle
+                  label="Permitir evaluaciones extemporaneas"
+                  defaultToggled={true}
+                  labelPosition="right"
+                  style={styles.toggle}
+                />
 
-                </CardText>
-                <CardActions>
-                  <FlatButton label="Mostar configuración avanzada" onClick={this.handleToggle} />
-                </CardActions>
-              </Card>
+              </CardText>
+              <CardActions>
+                <FlatButton label="Mostar configuración avanzada" onClick={this.handleToggle}/>
+              </CardActions>
+            </Card>
 
             <hr/>
           </div>
@@ -253,93 +255,69 @@ onRouteToAssistanceApproval (){
             <article className="article padding-lg-v article-dark article-bordered">
 
 
-                <div className="row">
+              <div className="row">
 
-                  {this.state.privileges.pstudentInscription ?
-                    <div className="col-xl-4">
-                      <a onClick={this.onRouteToInscription}>
-                        <div className="box box-default">
-                          <div className="box-body">
-                            <div className="icon-box ibox-plain ibox-center">
-                              <div className="ibox-icon">
-                                <i className="material-icons">assignment</i>
-                              </div>
-                              <h3>Inscripciones</h3>
-                              <p>Crear, eliminar y visualizar programas. Los programas son la base principal
-                                de la estructura de la fundación.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    : null
-                  }
-
+                {this.state.privileges.pstudentInscription ?
                   <div className="col-xl-4">
-                    <a onClick={this.onRouteToInscriptionView}>
+                    <a onClick={this.onRouteToInscription}>
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">
                             <div className="ibox-icon">
                               <i className="material-icons">assignment</i>
                             </div>
-                            <h3>Alumnos inscritos</h3>
-                            <p>Crear, eliminar y visualizar docentes. Los docentes son los instructures que
-                              se asigna a cada grado, curso.</p>
+                            <h3>Inscripciones</h3>
+                            <p>Inscribe participantes al grupo.</p>
                           </div>
                         </div>
                       </div>
                     </a>
                   </div>
+                  : null
+                }
 
-                  {this.state.privileges.pstudentApproval ?
-                    <div className="col-xl-4">
-                      <a onClick={this.onRouteToInscriptionApprove}>
-                        <div className="box box-default">
-                          <div className="box-body">
-                            <div className="icon-box ibox-plain ibox-center">
-                              <div className="ibox-icon">
-                                  <i className="material-icons">assignment</i>
-                              </div>
-                              <h3>Aprobación de inscripciones</h3>
-                              <p>Los alumnos son los estudiantes asignados a las secciones, tallers, grados o
-                                cursos.</p>
-                            </div>
+                <div className="col-xl-4">
+                  <a onClick={this.onRouteToInscriptionView}>
+                    <div className="box box-default">
+                      <div className="box-body">
+                        <div className="icon-box ibox-plain ibox-center">
+                          <div className="ibox-icon">
+                            <i className="material-icons">assignment</i>
                           </div>
+                          <h3>Alumnos inscritos</h3>
+                          <p>Visualiza los alumnos inscritos al grupo.</p>
                         </div>
-                      </a>
+                      </div>
                     </div>
-                    : null
-                  }
-
+                  </a>
                 </div>
 
-                <div className="row">
-
-                  {this.state.privileges.pnotesEntry ?
-                    <div className="col-xl-4">
-                      <a  onClick={this.onRouteToAssistance}>
-                        <div className="box box-default">
-                          <div className="box-body">
-                            <div className="icon-box ibox-plain ibox-center">
-                              <div className="ibox-icon">
-                                <a href="javascript:;">
-                                  <i className="material-icons">assignment_turned_in</i>
-                                </a>
-                              </div>
-                              <h3>Asistencia</h3>
-                              <p>Crear, eliminar y visualizar personal. (Eston son los usuarios de la
-                                aplicación, capaces de editar o modificar la información).</p>
+                {this.state.privileges.pstudentApproval ?
+                  <div className="col-xl-4">
+                    <a onClick={this.onRouteToInscriptionApprove}>
+                      <div className="box box-default">
+                        <div className="box-body">
+                          <div className="icon-box ibox-plain ibox-center">
+                            <div className="ibox-icon">
+                              <i className="material-icons">assignment</i>
                             </div>
+                            <h3>Aprobación de inscripciones</h3>
+                            <p>Verifica que las inscripciones sean correctas</p>
                           </div>
                         </div>
-                      </a>
-                    </div>
-                    : null
-                  }
+                      </div>
+                    </a>
+                  </div>
+                  : null
+                }
 
+              </div>
+
+              <div className="row">
+
+                {this.state.privileges.pnotesEntry ?
                   <div className="col-xl-4">
-                    <a onClick={this.onRouteToAssistanceApproval}>
+                    <a onClick={this.onRouteToAssistance}>
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">
@@ -348,66 +326,38 @@ onRouteToAssistanceApproval (){
                                 <i className="material-icons">assignment_turned_in</i>
                               </a>
                             </div>
-                            <h3>Aprobación de Asistencia</h3>
-                            <p>Si necesitas ayuda acerca del funcionamiento de la aplicación puedes hacer
-                              click aqui para obtener respuesta a preguntas frecuentes</p>
+                            <h3>Asistencia</h3>
+                            <p>Controla las asistencias por sesión de grupo de los alumnos inscritos</p>
                           </div>
                         </div>
-
                       </div>
                     </a>
                   </div>
+                  : null
+                }
 
-                  {this.state.privileges.pnotesEntry ?
-                    <div className="col-xl-4">
-                      <a onClick={()=>this.onRouteToEvaluation('1')}>
-                        <div className="box box-default">
-                          <div className="box-body">
-                            <div className="icon-box ibox-plain ibox-center">
-                              <div className="ibox-icon">
-                                <a href="javascript:;">
-                                  <i className="material-icons">assignment</i>
-                                </a>
-                              </div>
-                              <h3>Evaluación Conomiento/Continua</h3>
-                              <p>Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de
-                                datos con letiables de información para el programa.</p>
-                            </div>
+                <div className="col-xl-4">
+                  <a onClick={this.onRouteToAssistanceApproval}>
+                    <div className="box box-default">
+                      <div className="box-body">
+                        <div className="icon-box ibox-plain ibox-center">
+                          <div className="ibox-icon">
+                            <a href="javascript:;">
+                              <i className="material-icons">assignment_turned_in</i>
+                            </a>
                           </div>
+                          <h3>Aprobación de Asistencia</h3>
+                          <p>Una vez terminadas el control de asistencias las puedes aprobar.</p>
                         </div>
-                      </a>
-                    </div>
-                    : null
-                  }
+                      </div>
 
+                    </div>
+                  </a>
                 </div>
 
-                <div className="row">
-
-                  {this.state.privileges.pmonitoringEntry ?
-                    <div className="col-xl-4">
-                      <a onClick={()=>this.onRouteToEvaluation('2')}>
-                        <div className="box box-default">
-                          <div className="box-body">
-                            <div className="icon-box ibox-plain ibox-center">
-                              <div className="ibox-icon">
-                                <a href="javascript:;">
-                                  <i className="material-icons">assignment</i>
-                                </a>
-                              </div>
-                              <h3>Evaluación de Monitoreo</h3>
-                              <p>Crear, eliminar y visualizar personal. (Eston son los usuarios de la
-                                aplicación, capaces de editar o modificar la información).</p>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    : null
-                  }
-
+                {this.state.privileges.pnotesEntry ?
                   <div className="col-xl-4">
-                    <a onClick={()=>this.onRouteToEvaluation('4')}>
+                    <a onClick={() => this.onRouteToEvaluation('1')}>
                       <div className="box box-default">
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">
@@ -416,38 +366,63 @@ onRouteToAssistanceApproval (){
                                 <i className="material-icons">assignment</i>
                               </a>
                             </div>
-                            <h3>Evaluación de desempeño</h3>
-                            <p>Si necesitas ayuda acerca del funcionamiento de la aplicación puedes hacer
-                              click aqui para obtener respuesta a preguntas frecuentes</p>
+                            <h3>Evaluación Conomiento</h3>
+                            <p>Pasa la evaluación de conocimiento configurada en la creación de grupo</p>
                           </div>
                         </div>
                       </div>
                     </a>
                   </div>
+                  : null
+                }
 
-                  {this.state.privileges.pevaluationEntry ?
-                    <div className="col-xl-4">
-                      <a onClick={()=>this.onRouteToEvaluation('3')}>
-                        <div className="box box-default">
-                          <div className="box-body">
-                            <div className="icon-box ibox-plain ibox-center">
-                              <div className="ibox-icon">
-                                <a href="javascript:;">
-                                  <i className="material-icons">assignment</i>
-                                </a>
-                              </div>
-                              <h3>Evaluación de satisfacción</h3>
-                              <p>Crear, eliminar y visualizar catalogos. Los catalogos son estructuras de
-                                datos con letiables de información para el programa.</p>
+              </div>
+
+              <div className="row">
+
+                {this.state.privileges.pmonitoringEntry ?
+                  <div className="col-xl-4">
+                    <a onClick={() => this.onRouteToEvaluation('2')}>
+                      <div className="box box-default">
+                        <div className="box-body">
+                          <div className="icon-box ibox-plain ibox-center">
+                            <div className="ibox-icon">
+                              <a href="javascript:;">
+                                <i className="material-icons">assignment</i>
+                              </a>
                             </div>
+                            <h3>Evaluación de Monitoreo</h3>
+                            <p>Pasa la evaluación de monitoreo configurada en la creación de grupo</p>
                           </div>
                         </div>
-                      </a>
-                    </div>
-                    : null
-                  }
+                      </div>
+                    </a>
+                  </div>
+                  : null
+                }
 
-                </div>
+                {this.state.privileges.pevaluationEntry ?
+                  <div className="col-xl-4">
+                    <a onClick={() => this.onRouteToEvaluation('3')}>
+                      <div className="box box-default">
+                        <div className="box-body">
+                          <div className="icon-box ibox-plain ibox-center">
+                            <div className="ibox-icon">
+                              <a href="javascript:;">
+                                <i className="material-icons">assignment</i>
+                              </a>
+                            </div>
+                            <h3>Evaluación de satisfacción</h3>
+                            <p>Pasa la evaluación de satisfacción configurada en la creación de grupo</p>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  : null
+                }
+
+              </div>
 
             </article>
           </div>
