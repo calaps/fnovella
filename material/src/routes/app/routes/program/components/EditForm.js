@@ -33,7 +33,7 @@ class EditForm extends React.Component {
       provider: typeof this.props.programData.provider === "boolean" ? this.props.programData.provider : true,
       clasification: this.props.programData.clasification || '',
       evaluationPeriod: this.props.programData.evaluationPeriod || '',
-      freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : true,
+      freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : false,
       type: this.props.programData.type || 'type',
       id: this.props.programData.id || '',
       genderAudience: this.props.programData.genderAudience || '',
@@ -106,7 +106,7 @@ class EditForm extends React.Component {
         provider: true,
         clasification: '',
         evaluationPeriod: '',
-        freeCourses: true,
+        freeCourses: false,
         type: 'type',
         id: '',
         genderAudience: 'male',
@@ -479,24 +479,6 @@ class EditForm extends React.Component {
                           <option value="division">Categorias</option>
                         </select>
                         {errors.clasification && <span className="help-block text-danger">{errors.clasification}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tiene cursos libres?</label>
-                      <div className="col-md-9">
-                        <select
-                          name="freeCourses"
-                          id="freeCourses"
-                          onChange={this.onChange}
-                          value={this.state.freeCourses}
-                          className="form-control"
-                        >
-                          <option value="" disabled>Selecciona...</option>
-                          <option value={true}>Si</option>
-                          <option value={false}>No</option>
-                        </select>
-                        {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
                       </div>
                     </div>
 
