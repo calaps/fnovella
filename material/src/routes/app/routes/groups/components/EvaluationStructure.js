@@ -1,13 +1,11 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
-import IconButton from 'material-ui/IconButton';
-import map from "lodash-es/map"; //to use map in a object
-import {evaluationStructureValidator} from "../../../../../actions/formValidations"; //form validations
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types'; //for user prop-types
-import uuid from "uuid";
 import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types'; // for user prop-types
+import IconButton from 'material-ui/IconButton';
+import {evaluationStructureValidator} from '../../../../../actions/formValidations'; // form validations
 import {
   workshopGetByIdRequest,
   programGetByIdRequest,
@@ -38,8 +36,6 @@ class EvaluationStructure extends React.Component {
       errors: {},
       isLoading: false
     };
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeEvaluateCategoryAndPercentage = this.onChangeEvaluateCategoryAndPercentage.bind(this);
@@ -63,14 +59,14 @@ class EvaluationStructure extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
-    if (this.state.assistance === "true") {
-      this.setState({ totaltotal: this.state.totalEvaluateCategory + parseInt(this.state.percentage)});
+    if (this.state.assistance === 'true') {
+      this.setState({ totaltotal: this.state.totalEvaluateCategory + parseInt(this.state.percentage, 8)});
     } else {
       this.setState({ totaltotal: this.state.totalEvaluateCategory });
     }
 
     if (this.isValid()) {
-      //reset errors object and disable submit button
+      // reset errors object and disable submit button
 
       this.setState({errors: {}, isLoading: true});
       let data = {
@@ -284,8 +280,9 @@ class EvaluationStructure extends React.Component {
                     {errors.evaluateCategory &&
                     <span className="col-md-5 offset-md-3 help-block text-danger">{errors.evaluateCategory}</span>}
                     <div className="form-group row">
-                      <label htmlFor="totalEvaluateCategory"
-                             className="col-md-3 offset-md-3 control-label">Total de actividades: {this.state.totalEvaluateCategory}</label>
+                      <label
+                        htmlFor="totalEvaluateCategory"
+                        className="col-md-3 offset-md-3 control-label">Total de actividades: {this.state.totalEvaluateCategory}</label>
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
@@ -305,9 +302,9 @@ class EvaluationStructure extends React.Component {
                           <option value="3">3</option>
                           <option value="4">4</option>
                           <option value="5">4</option>
-                          <option value="6">4</option>
-                          <option value="7">4</option>
-                          <option value="8">4</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
                           <option value="9">9</option>
                           <option value="10">10</option>
                           <option value="11">11</option>
@@ -319,13 +316,18 @@ class EvaluationStructure extends React.Component {
                     </div>
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <FlatButton disabled={this.state.isLoading}
-                                    label='Atras'
-                                    style={{marginRight: 12}}
-                                    onTouchTap={this.props.handlePrev}
-                                    secondary className="btn-w-md"/>
-                        <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label='Siguiente' secondary className="btn-w-md"/>
+                        <FlatButton
+                          disabled={this.state.isLoading}
+                          label='Atras'
+                          style={{marginRight: 12}}
+                          onTouchTap={this.props.handlePrev}
+                          secondary className="btn-w-md" />
+                        <RaisedButton
+                          disabled={this.state.isLoading}
+                          type="submit"
+                          label='Siguiente'
+                          secondary
+                          className="btn-w-md" />
                       </div>
                     </div>
                   </form>
@@ -348,8 +350,7 @@ EvaluationStructure.contextTypes = {
 };
 
 function mapStateToProps(state) {
-  //pass the providers
-  return {}
+  return {};
 }
 
 /* Map Actions to Props */

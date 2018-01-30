@@ -5,7 +5,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import {programValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types'; //for user prop-types
+import PropTypes from 'prop-types'; // for user prop-types
 import {bindActionCreators} from 'redux';
 import {
   programAddRequest,
@@ -16,7 +16,7 @@ import {
   programLocationByProgramIdGetRequest,
   programAdditionalFieldsByProgramIdGetRequest
 } from '../../../../../actions';
-//Evaluation Periods function
+// Evaluation Periods function
 import map from "lodash-es/map"; //to use map in a object
 import { evaluationPeriods } from '../../../../../constants/data_types';
 
@@ -41,7 +41,7 @@ class EditForm extends React.Component {
       "audienceMax": typeof this.props.programData.audienceMax === "number" ? this.props.programData.audienceMax : 0,
       "audienceMin": typeof this.props.programData.audienceMin === "number" ? this.props.programData.audienceMin : 0,
       "evaluationPerformmance": typeof this.props.programData.evaluationPerformmance === "boolean" ? this.props.programData.evaluationPerformmance : true,
-      "evaluationType": this.props.programData.evaluationType || '',
+      "evaluationType": this.props.programData.evaluationType || '_',
       "gender": this.props.programData.gender || 'male',
       "implementationLocation": this.props.programData.implementationLocation || '',
       "indicatorsEvaluation": typeof this.props.programData.indicatorsEvaluation === "boolean" ? this.props.programData.indicatorsEvaluation : true,
@@ -341,9 +341,9 @@ class EditForm extends React.Component {
                           <option value="">Selecciona al responsable...</option>
                           {responsibleOpt()}
                         </select>
-                        {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
-                        <FlatButton secondary href="#/app/users">Agregar usuario</FlatButton>
-                        </div>
+                        {errors.responsable && <span className="help-block text-danger">{errors.responsable} </span>}
+                        <FlatButton secondary href="#/app/users"> Agregar usuario</FlatButton>
+                      </div>
                     </div>
 
                     <h6>Audiencia: </h6>
@@ -478,25 +478,6 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
-                      <div className="col-md-9">
-                        <select
-                          className="form-control"
-                          id="evaluationType"
-                          name="evaluationType"
-                          value={this.state.evaluationType}
-                          onChange={this.onChange}
-                        >
-                          <option value="">Seleciona el tipo de evaluación...</option>
-                          <option value="conocimiento">Evaluación Inicio/Final</option>
-                          <option value="continua">Evaluación solo Final</option>
-                          <option value="periodica">Evaluación periodica</option>
-                        </select>
-                        {errors.evaluationType && <span className="help-block text-danger">{errors.evaluationType}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de desempeño</label>
                       <div className="col-md-9">
                         <select
@@ -598,7 +579,7 @@ class EditForm extends React.Component {
                     </div>
 
                     <h6>Información adicional: </h6>
-                    <hr/>
+                    <hr />
 
                     <div className="form-group row">
                       {
@@ -627,14 +608,19 @@ class EditForm extends React.Component {
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <FlatButton disabled={this.state.isLoading}
-                                    label='Cancel'
-                                    style={{marginRight: 12}}
-                                    onTouchTap={this.handleCancel}
-                                    secondary className="btn-w-md"/>
-                        <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ? 'Actualizar' : 'Agregar'}
-                                      secondary className="btn-w-md"/>
+                        <FlatButton
+                          disabled={this.state.isLoading}
+                          label='Cancel'
+                          style={{marginRight: 12}}
+                          onTouchTap={this.handleCancel}
+                          secondary
+                          className="btn-w-md" />
+                        <RaisedButton
+                          disabled={this.state.isLoading}
+                          type="submit"
+                          label={this.state.isEditing ? 'Actualizar' : 'Agregar'}
+                          secondary
+                          className="btn-w-md" />
                       </div>
                     </div>
                   </form>
@@ -666,13 +652,13 @@ class EditForm extends React.Component {
   }
 }
 
-//To get the routers
+// To get the routers
 EditForm.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
-  //pass the providers
+  // pass the providers
   return {
     categories: state.categories,
     users: state.users,
