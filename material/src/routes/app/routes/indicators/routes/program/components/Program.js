@@ -117,7 +117,7 @@ class IndicadoresFundation extends React.Component {
                         <option value="">Selecione el programa...</option>
                         {programsOpt()}
                       </select>
-                      {errors.programId && <span className="help-block text-danger">{errors.groupId}</span>}
+                      {errors.programId && <span className="help-block text-danger">{errors.programId}</span>}
                     </div>
                     <div className="col-md-3">
                       <RaisedButton
