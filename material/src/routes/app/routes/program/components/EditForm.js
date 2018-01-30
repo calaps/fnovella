@@ -32,7 +32,7 @@ class EditForm extends React.Component {
       description: this.props.programData.description || '',
       provider: typeof this.props.programData.provider === "boolean" ? this.props.programData.provider : true,
       clasification: this.props.programData.clasification || '',
-      evaluationPeriod: this.props.programData.evaluationPeriod || '',
+      evaluationPeriod: this.props.programData.evaluationPeriod || 99,
       freeCourses: typeof this.props.programData.freeCourses === "boolean" ? this.props.programData.freeCourses : false,
       type: this.props.programData.type || 'type',
       id: this.props.programData.id || '',
@@ -47,7 +47,7 @@ class EditForm extends React.Component {
       "indicatorsEvaluation": typeof this.props.programData.indicatorsEvaluation === "boolean" ? this.props.programData.indicatorsEvaluation : true,
       "indicatorsPerformmance": typeof this.props.programData.indicatorsPerformmance === "boolean" ? this.props.programData.indicatorsPerformmance : true,
       "indicatorsSatisfaction": typeof this.props.programData.indicatorsSatisfaction === "boolean" ? this.props.programData.indicatorsSatisfaction : true,
-      "monthsTotal": typeof this.props.programData.monthsTotal === "number" ? this.props.programData.monthsTotal : '',
+      "monthsTotal": typeof this.props.programData.monthsTotal === "number" ? this.props.programData.monthsTotal : 99,
       "responsable": typeof this.props.programData.responsable === "number" ? this.props.programData.responsable : '',
       locationIds: [],
       categoryIds: [],
@@ -105,7 +105,7 @@ class EditForm extends React.Component {
         description: '',
         provider: true,
         clasification: '',
-        evaluationPeriod: '',
+        evaluationPeriod: 99,
         freeCourses: false,
         type: 'type',
         id: '',
@@ -120,7 +120,7 @@ class EditForm extends React.Component {
         "indicatorsEvaluation": true,
         "indicatorsPerformmance": true,
         "indicatorsSatisfaction": true,
-        "monthsTotal": '',
+        "monthsTotal": 99,
         "responsable": 0,
         locationIds: [],
         categoryIds: []
@@ -243,11 +243,6 @@ class EditForm extends React.Component {
     const months = [1,2,3,4,5,6,7, 8, 9, 10, 11, 12];
     const monthsOptions = map(months, (x) =>
       <option key={x} value={x}>{x}</option>
-    );
-
-    //evaluation period options
-    const evaluationPeriodOptions = map(evaluationPeriods, (key, val) =>
-      <option key={key} value={key}>{val}</option>
     );
 
     // location options
@@ -520,43 +515,8 @@ class EditForm extends React.Component {
                       </div>
                     </div>
 
-                    <h6>Temporalidad: </h6>
+                    <h6>Proveedor: </h6>
                     <hr/>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de meses</label>
-                      <div className="col-md-9">
-                        <select
-                          className="form-control"
-                          id="monthsTotal"
-                          name="monthsTotal"
-                          value={this.state.monthsTotal}
-                          onChange={this.onChange}
-                        >
-                          <option value="">Cantidad de meses...</option>
-                          { monthsOptions }
-                        </select>
-                        {errors.monthsTotal && <span className="help-block text-danger">{errors.monthsTotal}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Periodo de evaluación (cada cuanto
-                        se evalua)</label>
-                      <div className="col-md-9">
-                        <select
-                          className="form-control"
-                          id="evaluationPeriod"
-                          name="evaluationPeriod"
-                          value={this.state.evaluationPeriod}
-                          onChange={this.onChange}
-                        >
-                          <option value="">Selecciona el periodo...</option>
-                          {evaluationPeriodOptions}
-                        </select>
-                        {errors.evaluationPeriod && <span className="help-block text-danger">{errors.evaluationPeriod}</span>}
-                      </div>
-                    </div>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Tiene proveedor</label>
