@@ -1,6 +1,7 @@
 export var data_types = {
   "Texto": "text",
   "Número": "number",
+  "Decimal": "decimal",
   "Color": "color",
   "Dirección web": "url",
   "Fecha": "date",

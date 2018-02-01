@@ -283,12 +283,21 @@ class AdditionalFieldsForm extends React.Component {
                     <div className="form-group row" key={field.additional_field_id}>
                         <label htmlFor={field.additional_field_id} className="col-md-3 control-label">{field.intialValue}</label>
                         <div className="col-md-9">
+                          {(field.type === 'decimal') ?
                             <input
-                                type={field.type}
-                                className="form-control"
-                                id={field.additional_field_id}
-                                name="additional_fields"
-                                onChange={this.onChange}/>
+                              type='number'
+                              className="form-control"
+                              step="0.01"
+                              id={field.additional_field_id}
+                              name="additional_fields"
+                              onChange={this.onChange}/> :
+                            <input
+                              type={field.type}
+                              className="form-control"
+                              id={field.additional_field_id}
+                              name="additional_fields"
+                              onChange={this.onChange} />
+                          }
                                 {errors.additionalFields && <span className="help-block text-danger">{errors.additionalFields}</span>}
                         </div>
                     </div>
