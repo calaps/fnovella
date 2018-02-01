@@ -16,7 +16,7 @@ class SatisfactionStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      approvalPercentage: '',
+      approvalPercentage: '99',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
@@ -171,19 +171,33 @@ class SatisfactionStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Porcentaje de aprobación</label>
+                      <label htmlFor="minimumNote" className="col-md-3 control-label">Nota minima</label>
                       <div className="col-md-9">
                         <input
                           type="number"
                           min="1" max="100"
                           className="form-control"
-                          id="approvalPercentage"
-                          name="approvalPercentage"
-                          value={this.state.approvalPercentage}
+                          id="minimumNote"
+                          name="minimumNote"
+                          value={this.state.minimumNote}
                           onChange={this.onChange}
                           placeholder="eje: 1 - 100"/>
-                        {errors.approvalPercentage &&
-                        <span className="help-block text-danger">{errors.approvalPercentage}</span>}
+                        {errors.minimumNote && <span className="help-block text-danger">{errors.minimumNote}</span>}
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <label htmlFor="maximumNote" className="col-md-3 control-label">Nota maxima</label>
+                      <div className="col-md-9">
+                        <input
+                          type="number"
+                          min="1" max="100"
+                          className="form-control"
+                          id="maximumNote"
+                          name="maximumNote"
+                          value={this.state.maximumNote}
+                          onChange={this.onChange}
+                          placeholder="eje: 1 - 100"/>
+                        {errors.maximumNote && <span className="help-block text-danger">{errors.maximumNote}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
@@ -228,36 +242,6 @@ class SatisfactionStructure extends React.Component {
                              className="col-md-3 offset-md-3 control-label">Total: {this.state.totalEvaluateCategory}</label>
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
-                    </div>
-                    <div className="form-group row">
-                      <label htmlFor="minimumNote" className="col-md-3 control-label">Nota minima</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          min="1" max="100"
-                          className="form-control"
-                          id="minimumNote"
-                          name="minimumNote"
-                          value={this.state.minimumNote}
-                          onChange={this.onChange}
-                          placeholder="eje: 1 - 100"/>
-                        {errors.minimumNote && <span className="help-block text-danger">{errors.minimumNote}</span>}
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label htmlFor="maximumNote" className="col-md-3 control-label">Nota maxima</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          min="1" max="100"
-                          className="form-control"
-                          id="maximumNote"
-                          name="maximumNote"
-                          value={this.state.maximumNote}
-                          onChange={this.onChange}
-                          placeholder="eje: 1 - 100"/>
-                        {errors.maximumNote && <span className="help-block text-danger">{errors.maximumNote}</span>}
-                      </div>
                     </div>
 
                     <div className="form-group row">

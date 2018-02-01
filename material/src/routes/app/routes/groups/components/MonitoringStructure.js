@@ -16,7 +16,7 @@ class MonitoringStructure extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      approvalPercentage: '',
+      approvalPercentage: '99',
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
@@ -168,22 +168,6 @@ class MonitoringStructure extends React.Component {
                         </select>
                         {errors.evaluationType &&
                         <span className="help-block text-danger">{errors.evaluationType}</span>}
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Porcentage de aprobación</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          min="1" max="100"
-                          className="form-control"
-                          id="approvalPercentage"
-                          name="approvalPercentage"
-                          value={this.state.approvalPercentage}
-                          onChange={this.onChange}
-                          placeholder="eje: 1 - 100"/>
-                        {errors.approvalPercentage &&
-                        <span className="help-block text-danger">{errors.approvalPercentage}</span>}
                       </div>
                     </div>
                     <div className="form-group row">
