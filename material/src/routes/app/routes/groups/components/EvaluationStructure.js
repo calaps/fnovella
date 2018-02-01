@@ -60,12 +60,6 @@ class EvaluationStructure extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
-    if (this.state.assistance === 'true') {
-      this.setState({ totaltotal: this.state.totalEvaluateCategory + parseInt(this.state.percentage, 8)});
-    } else {
-      this.setState({ totaltotal: this.state.totalEvaluateCategory });
-    }
-
     if (this.isValid()) {
       // reset errors object and disable submit button
 
@@ -88,7 +82,20 @@ class EvaluationStructure extends React.Component {
   }
 
   onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    if (e.target.name === 'percentage') {
+      this.setState({
+        totaltotal: (this.state.assistance === 'true') ? (this.state.totalEvaluateCategory + parseInt(e.target.value)) : this.state.totalEvaluateCategory,
+        percentage: parseInt(e.target.value)
+      });
+    } else if (e.target.name === 'assistance') {
+      this.setState({
+        assistance: e.target.value,
+        totaltotal: (e.target.value === 'true') ? (this.state.totaltotal + this.state.percentage) : (this.state.totaltotal - this.state.percentage)
+      });
+    }  else {
+      this.setState({[e.target.name]: e.target.value,
+        totaltotal: (this.state.assistance === 'true') ? (this.state.totalEvaluateCategory + parseInt(e.target.value)) : this.state.totalEvaluateCategory,});
+    }
   }
 
   onChangeEvaluateCategoryAndPercentage(e) {
@@ -103,21 +110,25 @@ class EvaluationStructure extends React.Component {
       name: this.state.evaluateCategoryName,
       percentage: this.state.evaluateCategoryPercentage
     };
+    let number = this.state.totalEvaluateCategory + parseInt(obj.percentage);
     this.setState({
       evaluateCategory: [
         ...this.state.evaluateCategory, obj
       ],
-      totalEvaluateCategory: this.state.totalEvaluateCategory + parseInt(obj.percentage)
+      totalEvaluateCategory: number,
+      totaltotal: (this.state.assistance === 'true') ? (parseInt(this.state.percentage) + number) : number,
     });
   }
 
   onRemoveEvaluateCategoryAndPercentage(cat) {
     for (let i = 0; i < this.state.evaluateCategory.length; i++) {
       if (this.state.evaluateCategory[i].id === cat.id) {
+        let number = this.state.totalEvaluateCategory - parseInt(cat.percentage);
         this.setState({
-          totalEvaluateCategory: this.state.totalEvaluateCategory - parseInt(cat.percentage),
+          totalEvaluateCategory: number,
+          totaltotal: (this.state.assistance === 'true') ? (parseInt(this.state.percentage) + number) : number,
           ...this.state.evaluateCategory.splice(i, 1)
-        })
+        });
       }
     }
   }
@@ -283,7 +294,7 @@ class EvaluationStructure extends React.Component {
                     <div className="form-group row">
                       <label
                         htmlFor="totalEvaluateCategory"
-                        className="col-md-3 offset-md-3 control-label">Total de actividades: {this.state.totalEvaluateCategory}</label>
+                        className="col-md-3 offset-md-3 control-label">Total de actividades: { this.state.totaltotal }</label>
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
