@@ -33,7 +33,7 @@ class EvaluationStructure extends React.Component {
       totaltotal: '',
       maximumNote: 100,
       minimumNote: 1,
-      calculateMultipleSelection: 'finalNote' || '',
+      calculateMultipleSelection: 'finalNote' || '99',
       errors: {},
       isLoading: false
     };
@@ -238,6 +238,35 @@ class EvaluationStructure extends React.Component {
                         <span className="help-block text-danger">{errors.evaluationType}</span>}
                       </div>
                     </div>
+                    { this.state.evaluationType === '3' &&
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de evaluaciones</label>
+                      <div className="col-md-9">
+                        <select
+                          className="form-control"
+                          id="calculateMultipleSelection"
+                          name="calculateMultipleSelection"
+                          value={this.state.calculateMultipleSelection}
+                          onChange={this.onChange}
+                        >
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                        </select>
+                        {errors.calculateMultipleSelection &&
+                        <span className="help-block text-danger">{errors.calculateMultipleSelection}</span>}
+                      </div>
+                    </div>
+                    }
                     <div className="form-group row">
                       <label htmlFor="correlativo" className="col-md-3 control-label">Porcentage requerido para aprobar</label>
                       <div className="col-md-9">
@@ -297,34 +326,6 @@ class EvaluationStructure extends React.Component {
                         className="col-md-3 offset-md-3 control-label">Total de actividades: { this.state.totaltotal }</label>
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de evaluaciones</label>
-                      <div className="col-md-9">
-                        <select
-                          className="form-control"
-                          id="calculateMultipleSelection"
-                          name="calculateMultipleSelection"
-                          value={this.state.calculateMultipleSelection}
-                          onChange={this.onChange}
-                        >
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                          <option value="12">12</option>
-                        </select>
-                        {errors.calculateMultipleSelection &&
-                        <span className="help-block text-danger">{errors.calculateMultipleSelection}</span>}
-                      </div>
                     </div>
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">

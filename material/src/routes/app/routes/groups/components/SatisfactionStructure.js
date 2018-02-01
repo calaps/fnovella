@@ -24,7 +24,7 @@ class SatisfactionStructure extends React.Component {
       maximumNote: '',
       minimumNote: '',
       totalEvaluateCategory: 0,
-      calculateMultipleSelection: 'noData',
+      calculateMultipleSelection: '99',
       errors: {},
       isLoading: false,
     };
@@ -170,6 +170,35 @@ class SatisfactionStructure extends React.Component {
                         <span className="help-block text-danger">{errors.evaluationType}</span>}
                       </div>
                     </div>
+                    { this.state.evaluationType === '3' &&
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de evaluaciones</label>
+                      <div className="col-md-9">
+                        <select
+                          className="form-control"
+                          id="calculateMultipleSelection"
+                          name="calculateMultipleSelection"
+                          value={this.state.calculateMultipleSelection}
+                          onChange={this.onChange}
+                        >
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                        </select>
+                        {errors.calculateMultipleSelection &&
+                        <span className="help-block text-danger">{errors.calculateMultipleSelection}</span>}
+                      </div>
+                    </div>
+                    }
                     <div className="form-group row">
                       <label htmlFor="minimumNote" className="col-md-3 control-label">Nota minima</label>
                       <div className="col-md-9">
