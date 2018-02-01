@@ -301,6 +301,60 @@ export function studentValidator(data) {
 
   let errors = {}; //errors star with an empty object
 
+  if (Validator.isEmpty(data.documentType)) {
+    errors.documentType = required;
+    if (!Validator.isEmpty(data.documentType) && !Validator.isAlphanumeric(data.documentType)) {
+      errors.documentType = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.documentValue)) {
+    errors.documentValue = required;
+    if (!Validator.isEmpty(data.documentValue) && !Validator.isAlphanumeric(data.documentValue)) {
+      errors.documentValue = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.department)) {
+    errors.department = required;
+    if (!Validator.isEmpty(data.department) && !Validator.isAlphanumeric(data.department)) {
+      errors.department = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.municipality)) {
+    errors.municipality = required;
+    if (!Validator.isEmpty(data.municipality) && !Validator.isAlphanumeric(data.municipality)) {
+      errors.municipality = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.community)) {
+    errors.community = required;
+    if (!Validator.isEmpty(data.community) && !Validator.isAlphanumeric(data.community)) {
+      errors.community = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.profession)) {
+    errors.profession = required;
+    if (!Validator.isEmpty(data.profession) && !Validator.isAlphanumeric(data.profession)) {
+      errors.profession = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.appCode)) {
+    errors.appCode = required;
+    if (!Validator.isEmpty(data.appCode) && !Validator.isAlphanumeric(data.appCode)) {
+      errors.appCode = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.colony)) {
+    errors.colony = required;
+    if (!Validator.isEmpty(data.colony) && !Validator.isAlphanumeric(data.colony)) {
+      errors.colony = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.zone)) {
+    errors.zone = required;
+    if (!Validator.isEmpty(data.zone) && !Validator.isAlphanumeric(data.zone)) {
+      errors.zone = invalidData;
+    }
+  }
   if (Validator.isEmpty(data.address)) {
     errors.address = required;
     if (!Validator.isEmpty(data.address) && !Validator.isAlphanumeric(data.address)) {
@@ -335,18 +389,6 @@ export function studentValidator(data) {
     errors.firstLastname = required;
     if (!Validator.isEmpty(data.firstLastname) && !Validator.isAlpha(data.firstLastname)) {
       errors.firstLastname = invalidData;
-    }
-  }
-  if (Validator.isEmpty(data.secondName)) {
-    errors.secondName = required;
-    if (!Validator.isEmpty(data.secondName) && !Validator.isAlpha(data.secondName)) {
-      errors.secondName = invalidData;
-    }
-  }
-  if (Validator.isEmpty(data.secondLastname)) {
-    errors.secondLastname = required;
-    if (!Validator.isEmpty(data.secondLastname) && !Validator.isAlpha(data.secondLastname)) {
-      errors.secondLastname = invalidData;
     }
   }
   if (Validator.isEmpty(data.nacionality)) {
@@ -411,12 +453,72 @@ export function studentContactValidator(data) {
 export function tutorValidator(data) {
   // console.log(data);
 
-  let errors = {}; //errors star with an empty object
+  let errors = {}; // errors star with an empty object
 
+  if (Validator.isEmpty(data.appCode)) {
+    errors.appCode = required;
+    if (!Validator.isEmpty(data.appCode) && !Validator.isAlphanumeric(data.appCode)) {
+      errors.appCode = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.password)) {
+    errors.password = required;
+    if (!Validator.isEmpty(data.password) && !Validator.isAlphanumeric(data.password)) {
+      errors.password = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.colony)) {
+    errors.colony = required;
+    if (!Validator.isEmpty(data.colony) && !Validator.isAlphanumeric(data.colony)) {
+      errors.colony = invalidData;
+    }
+  }
   if (Validator.isEmpty(data.address)) {
     errors.address = required;
     if (!Validator.isEmpty(data.address) && !Validator.isAlphanumeric(data.address)) {
       errors.address = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.department)) {
+    errors.department = required;
+    if (!Validator.isEmpty(data.department) && !Validator.isAlphanumeric(data.department)) {
+      errors.department = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.community)) {
+    errors.community = required;
+    if (!Validator.isEmpty(data.community) && !Validator.isAlphanumeric(data.community)) {
+      errors.community = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.profession)) {
+    errors.profession = required;
+    if (!Validator.isEmpty(data.profession) && !Validator.isAlphanumeric(data.profession)) {
+      errors.profession = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.municipality)) {
+    errors.municipality = required;
+    if (!Validator.isEmpty(data.municipality) && !Validator.isAlphanumeric(data.municipality)) {
+      errors.municipality = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.documentValue)) {
+    errors.documentValue = required;
+    if (!Validator.isEmpty(data.documentValue) && !Validator.isAlphanumeric(data.documentValue)) {
+      errors.documentValue = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.documentType)) {
+    errors.documentType = required;
+    if (!Validator.isEmpty(data.documentType) && !Validator.isAlphanumeric(data.documentType)) {
+      errors.documentType = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.privilege.toString())) {
+    errors.privilege = required;
+    if (!Validator.isEmpty(data.privilege.toString()) && !Validator.isAlphanumeric(data.privilege.toString())) {
+      errors.privilege = invalidData;
     }
   }
   // if(Validator.isEmpty(data.bornDate)) {   errors.bornDate = required; }
@@ -444,18 +546,6 @@ export function tutorValidator(data) {
       errors.firstLastname = invalidData;
     }
   }
-  if (Validator.isEmpty(data.secondName)) {
-    errors.secondName = required;
-    if (!Validator.isEmpty(data.secondName) && !Validator.isAlpha(data.secondName)) {
-      errors.secondName = invalidData;
-    }
-  }
-  if (Validator.isEmpty(data.secondLastname)) {
-    errors.secondLastname = required;
-    if (!Validator.isEmpty(data.secondLastname) && !Validator.isAlpha(data.secondLastname)) {
-      errors.secondLastname = invalidData;
-    }
-  }
   if (Validator.isEmpty(data.nacionality)) {
     errors.nacionality = required;
     if (!Validator.isEmpty(data.nacionality) && !Validator.isAlpha(data.nacionality)) {
@@ -477,6 +567,42 @@ export function userValidator(data) {
     errors.address = required;
     if (!Validator.isEmpty(data.address) && !Validator.isAlphanumeric(data.address)) {
       errors.address = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.privilege.toString())) {
+    errors.privilege = required;
+    if (!Validator.isEmpty(data.privilege.toString()) && !Validator.isAlphanumeric(data.privilege.toString())) {
+      errors.privilege = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.profession)) {
+    errors.profession = required;
+    if (!Validator.isEmpty(data.profession) && !Validator.isAlphanumeric(data.profession)) {
+      errors.profession = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.documentType)) {
+    errors.documentType = required;
+    if (!Validator.isEmpty(data.documentType) && !Validator.isAlphanumeric(data.documentType)) {
+      errors.documentType = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.documentValue)) {
+    errors.documentValue = required;
+    if (!Validator.isEmpty(data.documentValue) && !Validator.isAlphanumeric(data.documentValue)) {
+      errors.documentValue = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.zone)) {
+    errors.zone = required;
+    if (!Validator.isEmpty(data.zone) && !Validator.isAlphanumeric(data.zone)) {
+      errors.zone = invalidData;
+    }
+  }
+  if (Validator.isEmpty(data.colony)) {
+    errors.colony = required;
+    if (!Validator.isEmpty(data.colony) && !Validator.isAlphanumeric(data.colony)) {
+      errors.colony = invalidData;
     }
   }
   if (Validator.isEmpty(data.bornDate.toString())) {

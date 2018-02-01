@@ -1,16 +1,16 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import Dialog from 'material-ui/Dialog'; // Dialog to show password
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import map from "lodash-es/map"; //to use map in a object
+import map from 'lodash-es/map'; //to use map in a object
 import { personal_documents, gender, countries } from '../../../../../constants/data_types';
-import { tutorValidator } from "../../../../../actions/formValidations"; //form validations
-import generatePassword from "../../../../../actions/passwordGenerator"; // password generator
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { tutorValidator } from '../../../../../actions/formValidations'; // form validations
+import generatePassword from '../../../../../actions/passwordGenerator'; // password generator;
 import { convertDateToHTMLInputDateValue } from '../../../../../utils/helpers';
 import {
   educatorsAddRequest,
@@ -28,9 +28,7 @@ class EditForm extends React.Component {
     super(props);
     this.state = {
       open: false,
-      isEditing: (this.props.teacherData.id)
-        ? true
-        : false,
+      isEditing: !!(this.props.teacherData.id),
       id: this.props.teacherData.id || '',
       firstName: this.props.teacherData.firstName || '',
       secondName: this.props.teacherData.secondName || '',
@@ -103,12 +101,12 @@ class EditForm extends React.Component {
         zone: '',
         privilege: 2, // default is 2 for instructor
         programIds: []
-      })
+      });
     }
   }
 
   isValid() {
-    //local validation
+    // local validation
     const { errors, isValid } = tutorValidator(this.state);
     if (!isValid) {
       this.setState({ errors });
@@ -120,14 +118,16 @@ class EditForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      //reset errros object and disable submit button
+      // reset errros object and disable submit button
       this.setState({ errors: {}, isLoading: true });
+      const secondName = (this.state.secondName.toString() === '') ? '_' : this.state.secondName;
+      const secondLastName = (this.state.secondLastname.toString() === '') ? '_' : this.state.secondLastname;
       let data = {
         instructor: {
           firstName: this.state.firstName,
-          secondName: this.state.secondName,
+          secondName: secondName,
           firstLastname: this.state.firstLastname,
-          secondLastname: this.state.secondLastname,
+          secondLastname: secondLastName,
           bornDate: convertDateToHTMLInputDateValue(this.state.bornDate),
           documentType: this.state.documentType || 'ABC',
           documentValue: this.state.documentValue,
@@ -166,7 +166,7 @@ class EditForm extends React.Component {
                 .changeView('VIEW_ELEMENT');
             }
           }, (error) => {
-            console.log("An Error occur with the Rest API");
+            console.log('An Error occur with the Rest API');
             self.setState({
               errors: {
                 ...self.state.errors,
@@ -188,7 +188,7 @@ class EditForm extends React.Component {
             }
           }, (error) => {
             //alert'fail');
-            console.log("An Error occur with the Rest API");
+            console.log('An Error occur with the Rest API');
             self.setState({
               errors: {
                 ...self.state.errors,
@@ -342,7 +342,7 @@ class EditForm extends React.Component {
           primaryText={program.name} />);
       })
     };
-    //Privilege options
+    // Privilege options
     let privilegesOpt = () => {
       let privileges = this.state.privileges || [];
       return privileges.map((privilege) => {
@@ -733,7 +733,7 @@ class EditForm extends React.Component {
                       <div className="offset-md-3 col-md-10">
                         <FlatButton
                           disabled={this.state.isLoading}
-                          label='Cancel'
+                          label='cancelar'
                           style={{
                             marginRight: 12
                           }}
@@ -744,8 +744,8 @@ class EditForm extends React.Component {
                           disabled={this.state.isLoading}
                           type="submit"
                           label={this.state.isEditing
-                            ? 'Update'
-                            : 'Add'}
+                            ? 'actualizar'
+                            : 'crear'}
                           secondary
                           className="btn-w-md" />
                       </div>

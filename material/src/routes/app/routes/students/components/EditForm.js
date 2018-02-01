@@ -43,9 +43,6 @@ class EditForm extends React.Component {
       isLoading: false
     };
     this.onSubmit = this.onSubmit.bind(this);
-    {
-      /* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onChange = this.onChange.bind(this);
     this._handleCancel = this._handleCancel.bind(this);
     self = this;
@@ -72,13 +69,15 @@ class EditForm extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      //reset errors object and disable submit button
+      // reset errors object and disable submit button
       this.setState({errors: {}, isLoading: true});
+      const secondName = (this.state.secondName.toString() === '') ? '_' : this.state.secondName;
+      const secondLastName = (this.state.secondLastname.toString() === '') ? '_' : this.state.secondLastname;
       let data = {
         firstName: this.state.firstName,
-        secondName: this.state.secondName,
+        secondName: secondName,
         firstLastname: this.state.firstLastname,
-        secondLastname: this.state.secondLastname,
+        secondLastname: secondLastName,
         bornDate: convertDateToHTMLInputDateValue(this.state.bornDate),
         documentType: this.state.documentType,
         documentValue: this.state.documentValue,
@@ -117,15 +116,15 @@ class EditForm extends React.Component {
     const documentType = map(personal_documents, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-    //Defaul gender
+    // Defaul gender
     const genders = map(gender, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-    //countries
+    // countries
     const nacionality = map(countries, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-    //Department options
+    // Department options
     let departmentsOpt = () => {
       let catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
@@ -134,7 +133,7 @@ class EditForm extends React.Component {
         }
       });
     };
-    //Municipality options
+    // Municipality options
     let municipalitiesOpt = () => {
       let catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
@@ -143,7 +142,7 @@ class EditForm extends React.Component {
         }
       });
     };
-    //Community options
+    // Community options
     let communitiesOpt = () => {
       let catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
@@ -506,7 +505,7 @@ class EditForm extends React.Component {
 function mapStateToProps(state) {
   return {
     catalogs: state.catalogs
-  }
+  };
 }
 
 /* Map Actions to Props */

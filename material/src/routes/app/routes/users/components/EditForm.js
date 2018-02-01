@@ -1,14 +1,14 @@
 import React from "react";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
 import Dialog from 'material-ui/Dialog'; // Dialog to show password
-import map from 'lodash-es/map'; //to use map in a object
+import map from 'lodash-es/map'; // to use map in a object
 import {personal_documents, gender, countries, privileges} from '../../../../../constants/data_types';
-import {userValidator} from "../../../../../actions/formValidations"; //form validations
-import generatePassword from "../../../../../actions/passwordGenerator"; // password generator
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {userValidator} from '../../../../../actions/formValidations'; // form validations
+import generatePassword from '../../../../../actions/passwordGenerator'; // password generator
 import {
   usersAddRequest,
   usersUpdateRequest,
@@ -22,7 +22,7 @@ let self;
 class EditForm extends React.Component {
   constructor(props) {
     super(props);
-    console.log("this.props.userData: ", this.props.userData);
+    console.log('this.props.userData: ', this.props.userData);
     this.state = {
       open: false,
       isEditing: (this.props.userData.id) ? true : false,
@@ -63,7 +63,7 @@ class EditForm extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.privilegesGetAllRequest().then(data => {
+    this.props.actions.privilegesGetAllRequest().then((data) => {
       this.setState({privileges: data.data});
     });
     this.props.actions.catalogsGetRequest();
@@ -96,7 +96,7 @@ class EditForm extends React.Component {
         colony: '',
         zone: '',
         id: '',
-        appCode: '',
+        appCode: 'abc',
         phon: 1,
       });
     }
@@ -104,7 +104,7 @@ class EditForm extends React.Component {
 
 
   isValid() {
-    //local validation
+    // local validation
     const {errors, isValid} = userValidator(this.state);
     if (!isValid) {
       this.setState({errors});
@@ -113,7 +113,6 @@ class EditForm extends React.Component {
     return true;
   }
 
-
   onAddSumbit(e) {
     e.preventDefault();
 
@@ -121,17 +120,10 @@ class EditForm extends React.Component {
       // reset errros object and disable submit button
       this.setState({errors: {}, isLoading: true});
       // this.context.router.history.push('/');
+      const secondName = (this.state.secondName.toString() === '') ? '_' : this.state.secondName;
+      const secondLastName = (this.state.secondLastName.toString() === '') ? '_' : this.state.secondLastName;
 
-      let secondName = '';
-      let secondLastName = '';
-      (this.state.secondName.toString() === '')
-        ? secondName = '_'
-        : this.state.secondLastName;
-      (this.state.secondLastName.toString() === '')
-        ? secondLastName = '_'
-        : this.state.secondLastName;
-
-      let data = {
+      const data = {
         firstName: this.state.firstName,
         secondName: secondName,
         firstLastName: this.state.firstLastName,
@@ -161,34 +153,34 @@ class EditForm extends React.Component {
         data.id = this.state.id;
       }
 
-      console.log("data: ", data);
+      console.log('data: ', data);
       console.log(this.state.isEditing);
 
 
-      //we store  a function in the props
+      // we store  a function in the props
       this.state.isEditing ?
         this.props.actions.usersUpdateRequest(data).then(
           (response) => {
-            //Save the default object as a provider
+            // Save the default object as a provider
             if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
           },
           (error) => {
-            console.log("An Error occur with the Rest API");
+            console.log('An Error occur with the Rest API');
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           })
         :
         this.props.actions.usersAddRequest(data).then(
           (response) => {
-            //Save the default object as a provider
+            // Save the default object as a provider
             if (response) {
               self.props.changeView('VIEW_ELEMENT');
             }
           },
           (error) => {
-            //alert'fail');
-            console.log("An Error occur with the Rest API", error);
+            // alert'fail');
+            console.log('An Error occur with the Rest API', error);
             self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
           });
 
@@ -207,7 +199,7 @@ class EditForm extends React.Component {
     }
   }
 
-  //Modal and password generator
+  // Modal and password generator
   handleOpen = () => {
     this.setState({open: true});
   };
@@ -220,14 +212,14 @@ class EditForm extends React.Component {
     const generatedPassword = generatePassword();
     this.setState({password: generatedPassword});
 
-    //Show Modal with the password generated
+    // Show Modal with the password generated
     this.handleOpen();
 
   }
 
   render() {
 
-    //For the modal password
+    // For the modal password
     const actions = [
       <FlatButton
         label="Listo, la he copiado"
@@ -243,35 +235,35 @@ class EditForm extends React.Component {
       <option key={val} value={val}>{key}</option>
     );
 
-    //Department options
-    let privilegesOpt = () => {
-      let privileges = this.state.privileges || [];
+    // Department options
+    const privilegesOpt = () => {
+      const privileges = this.state.privileges || [];
       return privileges.map((privilege) => {
         return <option key={privilege.id} value={privilege.id}>{privilege.privilegeName}</option>
       });
     };
 
-    //Department options
-    let departmentsOpt = () => {
-      let catalogs = this.props.catalogs.content || [];
+    // Department options
+    const departmentsOpt = () => {
+      const catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
         if (catalog.category === 2) {
           return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
         }
       });
     };
-    //Municipality options
-    let municipalitiesOpt = () => {
-      let catalogs = this.props.catalogs.content || [];
+    // Municipality options
+    const municipalitiesOpt = () => {
+      const catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
         if (catalog.category === 1) {
           return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
         }
       });
     };
-    //Community options
-    let communitiesOpt = () => {
-      let catalogs = this.props.catalogs.content || [];
+    // Community options
+    const communitiesOpt = () => {
+      const catalogs = this.props.catalogs.content || [];
       return catalogs.map((catalog) => {
         if (catalog.category === 3) {
           return <option key={catalog.id} value={catalog.name}>{catalog.name}</option>
@@ -279,11 +271,11 @@ class EditForm extends React.Component {
       });
     };
 
-    //Default gender
+    // Default gender
     const genders = map(gender, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
-    //countries
+    // countries
     const nationality = map(countries, (val, key) =>
       <option key={val} value={val}>{key}</option>
     );
@@ -307,7 +299,7 @@ class EditForm extends React.Component {
               <div className="box box-default">
                 <div className="box-body padding-md">
                   <p className="text-info">Ingresa la siguiente información: </p>
-                  <form onSubmit={this.onAddSumbit} role="form">
+                  <form onSubmit={this.onAddSumbit}>
 
                     <div className="alert alert-info">
                       <strong>Nota:</strong>Ingresar nombre tal y como aparece en el documento de identificación.
@@ -323,7 +315,7 @@ class EditForm extends React.Component {
                           name="firstName"
                           value={this.state.firstName}
                           onChange={this.onChange}
-                          placeholder="eje: Diego"/>
+                          placeholder="eje: Diego" />
                         {errors.firstName && <span className="help-block text-danger">{errors.firstName}</span>}
                       </div>
                     </div>
@@ -338,7 +330,7 @@ class EditForm extends React.Component {
                           name="secondName"
                           value={this.state.secondName}
                           onChange={this.onChange}
-                          placeholder="eje: Arturo"/>
+                          placeholder="eje: Arturo" />
                         {errors.secondName && <span className="help-block text-danger">{errors.secondName}</span>}
                       </div>
                     </div>
@@ -353,7 +345,7 @@ class EditForm extends React.Component {
                           name="firstLastName"
                           value={this.state.firstLastName}
                           onChange={this.onChange}
-                          placeholder="eje: Perez"/>
+                          placeholder="eje: Perez" />
                         {errors.firstLastName &&
                         <span className="help-block text-danger">{errors.firstLastName}</span>}
                       </div>
@@ -369,7 +361,7 @@ class EditForm extends React.Component {
                           name="secondLastName"
                           value={this.state.secondLastName}
                           onChange={this.onChange}
-                          placeholder="eje: Durán"/>
+                          placeholder="eje: Durán" />
                         {errors.secondLastName &&
                         <span className="help-block text-danger">{errors.secondLastName}</span>}
                       </div>
@@ -418,7 +410,7 @@ class EditForm extends React.Component {
                           name="documentValue"
                           value={this.state.documentValue}
                           onChange={this.onChange}
-                          placeholder="eje: 999499812"/>
+                          placeholder="eje: 999499812" />
                         {errors.documentValue &&
                         <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
@@ -435,30 +427,30 @@ class EditForm extends React.Component {
                           name="email"
                           value={this.state.email}
                           onChange={this.onChange}
-                          placeholder="eje: juan@gmail.com"/>
+                          placeholder="eje: juan@gmail.com" />
                         {errors.email && <span className="help-block text-danger">{errors.email}</span>}
                       </div>
                     </div>
 
-                      <div className="form-group row">
-                        <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
-                        <div className="col-md-9">
-                          <input
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.onChange}
-                            placeholder="******"/>
-                          {errors.password && <span className="help-block text-danger">{errors.password}</span>}
-                          <FlatButton secondary onClick={this.generatePassword.bind(this)}>Generar
-                            contraseña</FlatButton>
-                        </div>
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Contraseña</label>
+                      <div className="col-md-9">
+                        <input
+                          type="password"
+                          className="form-control"
+                          id="password"
+                          name="password"
+                          value={this.state.password}
+                          onChange={this.onChange}
+                          placeholder="******" />
+                        {errors.password && <span className="help-block text-danger">{errors.password}</span>}
+                        <FlatButton secondary onClick={this.generatePassword.bind(this)}>Generar
+                          contraseña</FlatButton>
                       </div>
+                    </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Privelgio del
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label text-info">Privilegio del
                         usuario</label>
                       <div className="col-md-9">
                         <select
@@ -534,9 +526,8 @@ class EditForm extends React.Component {
                           className="form-control"
                         >
                           <option value="" disabled>Selecciona la municipalidad</option>
-                          {/*{categoryOpt('municipalidad')}*/}
                           {municipalitiesOpt(1)}
-                          {/*dont change, that func is recieving id not a string*/}
+                          {/* dont change, that func is recieving id not a string */}
                         </select>
                         {errors.municipality && <span className="help-block text-danger">{errors.municipality}</span>}
                       </div>
@@ -552,9 +543,9 @@ class EditForm extends React.Component {
                           name="colony"
                           value={this.state.colony}
                           onChange={this.onChange}
-                          placeholder="eje: El Maestro"/>
-                        {errors.documentValue &&
-                        <span className="help-block text-danger">{errors.documentValue}</span>}
+                          placeholder="eje: El Maestro" />
+                        {errors.colony &&
+                        <span className="help-block text-danger">{errors.colony}</span>}
                       </div>
                     </div>
 
@@ -568,9 +559,9 @@ class EditForm extends React.Component {
                           name="zone"
                           value={this.state.zone}
                           onChange={this.onChange}
-                          placeholder="eje: 15"/>
-                        {errors.documentValue &&
-                        <span className="help-block text-danger">{errors.documentValue}</span>}
+                          placeholder="eje: 15" />
+                        {errors.zone &&
+                        <span className="help-block text-danger">{errors.zone}</span>}
                       </div>
                     </div>
 
@@ -601,7 +592,7 @@ class EditForm extends React.Component {
                           name="address"
                           value={this.state.address}
                           onChange={this.onChange}
-                          placeholder="eje: Km 18. Carretera a El Salvador"/>
+                          placeholder="eje: Km 18. Carretera a El Salvador" />
                         {errors.address && <span className="help-block text-danger">{errors.address}</span>}
                       </div>
                     </div>
@@ -616,7 +607,7 @@ class EditForm extends React.Component {
                           name="profession"
                           value={this.state.profession}
                           onChange={this.onChange}
-                          placeholder="eje: Profesor"/>
+                          placeholder="eje: Profesor" />
                         {errors.profession && <span className="help-block text-danger">{errors.profession}</span>}
                       </div>
                     </div>
@@ -631,7 +622,7 @@ class EditForm extends React.Component {
                           name="phone"
                           value={this.state.phone}
                           onChange={this.onChange}
-                          placeholder="eje: 24245757"/>
+                          placeholder="eje: 24245757" />
                         {errors.phone && <span className="help-block text-danger">{errors.phone}</span>}
                       </div>
                     </div>
@@ -646,7 +637,7 @@ class EditForm extends React.Component {
                           name="cellphone"
                           value={this.state.cellphone}
                           onChange={this.onChange}
-                          placeholder="eje: 55329090"/>
+                          placeholder="eje: 55329090" />
                         {errors.cellphone && <span className="help-block text-danger">{errors.cellphone}</span>}
                       </div>
                     </div>
@@ -661,7 +652,7 @@ class EditForm extends React.Component {
                           name="cemproCode"
                           value={this.state.cemproCode}
                           onChange={this.onChange}
-                          placeholder="eje: 001"/>
+                          placeholder="eje: 001" />
                         {errors.documentValue &&
                         <span className="help-block text-danger">{errors.documentValue}</span>}
                       </div>
@@ -669,10 +660,12 @@ class EditForm extends React.Component {
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <RaisedButton disabled={this.state.isLoading}
-                                      type="submit"
-                                      label={this.state.isEditing ? 'Actualizar' : 'Crear'} secondary
-                                      className="btn-w-md"> </RaisedButton>
+                        <RaisedButton
+                          disabled={this.state.isLoading}
+                          type="submit"
+                          label={this.state.isEditing ? 'Actualizar' : 'Crear'}
+                          secondary
+                          className="btn-w-md" />
                       </div>
                     </div>
 
@@ -707,12 +700,12 @@ class EditForm extends React.Component {
 }
 
 function mapStateToProps(state) {
-  //pass the providers
+  // pass the providers
   return {
     // auth: state.auth
     catalogs: state.catalogs,
     privileges: state.privileges
-  }
+  };
 }
 
 /* Map Actions to Props */
