@@ -199,6 +199,7 @@ class HorizontalLinearStepper extends React.Component {
                       dateEnd: this.state.generalConfiguration.inscriptionsEnd,
                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                       session: 0,
+                      status: 0,
                       group: this.state.groupId,
                       range: this.state.evaluationStructureRangeId
                     };
@@ -250,6 +251,7 @@ class HorizontalLinearStepper extends React.Component {
                                       dateEnd: this.state.generalConfiguration.inscriptionsEnd,
                                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                                       session: 0,
+                                      status: 0,
                                       group: this.state.groupId,
                                       range: this.state.satisfactionStructureRangeId
                                     };
@@ -302,6 +304,7 @@ class HorizontalLinearStepper extends React.Component {
                                                       dateEnd: this.state.generalConfiguration.inscriptionsEnd,
                                                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                                                       session: 0,
+                                                      status: 0,
                                                       group: this.state.groupId,
                                                       range: this.state.monitoringStructureRangeId
                                                     };
