@@ -33,6 +33,7 @@ class AddAssistance extends React.Component {
       session: 1,
       group: '',
       assistanceData: [],
+      infoMessage: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -40,17 +41,32 @@ class AddAssistance extends React.Component {
     this.addRequest = this.addRequest.bind(this);
   }
   componentWillMount() {
+    // List of students enrolled in the group
     this.props.actions.inscriptionParticipantGetByGroupId(this.props.query.id, number, size);
+    // Specific inscription table by ID
     this.props.actions.inscriptionGetByGroupId(this.props.query.id).then((response) => {
       if (response) {
-        this.setState({inscriptions: response.data});
+        this.setState({inscriptions: response.data}, () => {
+          const inscription = this.state.inscriptions.find((_inscription) => {
+            // Show information about activation?
+            return (parseInt(_inscription.status, 8) === 0);
+          });
+          // Result about information
+          this.setState({
+            infoMessage: !!(inscription)
+          });
+        });
       }
     });
+    // Complete inscription tables
     this.props.actions.inscriptionGetRequest(0, 1000);
+    // Complete list of students
     this.props.actions.participantGetRequest(0, 1000);
+    // Specific group get by ID
     this.props.actions.groupGetByIdRequest(this.props.query.id).then((res) => {
       this.setState({group: res.data});
     });
+    // Get catalogs by specific category
     this.props.actions.categoriesGetRequest().then((res) => {
       let i;
       for (i = 0; i < res.data.length; i++) {
@@ -110,7 +126,7 @@ class AddAssistance extends React.Component {
       for (i = 0; i < assistanceData.length;i++) {
         this.addRequest(assistanceData[i]);
       }
-      //Reloads page to prevent button again
+      // Reloads page to prevent button again
       window.location.reload();
     }
   }
@@ -118,7 +134,7 @@ class AddAssistance extends React.Component {
     let assistance = this.state.assistanceData.find((element) => { return element.inscription == data.inscription });
     let _assistanceData = this.state.assistanceData;
     if (assistance) {
-      _assistanceData = _assistanceData.map((element) => element.inscription ==  assistance.inscription ? {...element, value : data.value} : element);
+      _assistanceData = _assistanceData.map((element) => element.inscription ==  assistance.inscription ? {...element, value: data.value} : element);
     } else {
       _assistanceData.push(data);
     }
@@ -126,10 +142,11 @@ class AddAssistance extends React.Component {
       assistanceData: _assistanceData
     });
   }
+
   render() {
     const {errors} = this.state;
     let i = 0;
-    const renderCurrentMonth = (month) => {
+    const renderCurrentMonth = () => {
       switch (this.state.date.getMonth() + 1) {
         case 1:
           return 'enero';
@@ -168,8 +185,8 @@ class AddAssistance extends React.Component {
       const participants = this.props.participants.content || [];
       return inscriptionParticipants.map((inscriptionParticipant) => {
         const inscription = inscriptions.find((_inscription) => {
-          //The inscription must be previusly aproved
-          if(parseInt(_inscription.status, 8) === 1){
+          // The inscription must be previusly aproved
+          if (parseInt(_inscription.status, 8) === 1) {
             return (_inscription.id == inscriptionParticipant.inscription);
           }
         });
@@ -200,6 +217,11 @@ class AddAssistance extends React.Component {
             <div className="box box-transparent">
               <div className="box-body no-padding-h">
                 <form onSubmit={this.onSubmit}>
+                  { this.state.infoMessage &&
+                  <div className="alert alert-info">
+                    <strong>Alerta:</strong>Las inscripciones no han sido aprobadas
+                  </div>
+                  }
                   <div className="box box-default table-box mdl-shadow--2dp">
                     <table className="mdl-data-table">
                       <thead>
