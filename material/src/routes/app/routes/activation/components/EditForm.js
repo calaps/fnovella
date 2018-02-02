@@ -1,16 +1,17 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import FlatButton from 'material-ui/FlatButton';
-import {programActivationValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
-import { evaluationPeriods} from "../../../../../constants/data_types";
 import {bindActionCreators} from 'redux';
-import map from "lodash-es/map"; //to use map in a object
+import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import {programActivationValidator} from "../../../../../actions/formValidations"; // form validations
+import {evaluationPeriods} from "../../../../../constants/data_types";
+import map from 'lodash-es/map'; // to use map in a object
 import {
   sedesGetRequest,
   usersGetRequest
 } from '../../../../../actions';
-
+import UserForm from '../../users/components/EditForm'; // EditForm for Users creation
 let self;
 
 class EditForm extends React.Component {
@@ -45,12 +46,28 @@ class EditForm extends React.Component {
       year: '',
       errors: {},
       isLoading: false,
+      open: false, // Dialog state
+      userData: {} // Dialog state
     };
-    {/* Makes a Bind of the actions, onChange, onSummit */}
+    {/* Makes a Bind of the actions, onChange, onSummit */
+    }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     self = this;
   }
+
+  //Dialog functions
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+  handleFinish = () => {
+    this.setState({open: false});
+    this.props.actions.usersGetRequest(); // whenRefresh
+  };
 
   componentWillMount() {
     const currentYear = (new Date).getFullYear();
@@ -116,16 +133,16 @@ class EditForm extends React.Component {
 
   render() {
 
+    // User for modal window
+    const actions = [
+      <FlatButton
+        label="Cancelar"
+        primary={true}
+        onClick={this.handleClose}
+      />
+    ];
+
     const {errors} = this.state;
-
-
-    //Sedes || location options
-    let sedesOpt = () => {
-      let sedes = this.props.sedes.content || [];
-      return sedes.map((sede) => {
-        return <option key={sede.id} value={sede.id}>{sede.name}</option>
-      });
-    };
 
     const optionsPeriods = map(evaluationPeriods, (key, value) =>
       <option value={key} key={key}>{value}</option>
@@ -137,26 +154,27 @@ class EditForm extends React.Component {
     let name = 'null';
     let nameVar = 'null';
 
-      switch (this.props.clasification) {
-        case "workshop":
-          name = "talleres";
-          nameVar = "calPeriodsWorkshop";
-          break;
-        case "division":
-          name = "divisiones";
-          nameVar = "calPeriodsDivision";
-          break;
-        case "grades":
-          name = "grados";
-          nameVar = "calPeriodsGrade";
-          break;
-        case "course":
-          name = "cursos";
-          nameVar = "calPeriodsCourse";
-          break;
-      };
+    switch (this.props.clasification) {
+      case "workshop":
+        name = "talleres";
+        nameVar = "calPeriodsWorkshop";
+        break;
+      case "division":
+        name = "divisiones";
+        nameVar = "calPeriodsDivision";
+        break;
+      case "grades":
+        name = "grados";
+        nameVar = "calPeriodsGrade";
+        break;
+      case "course":
+        name = "cursos";
+        nameVar = "calPeriodsCourse";
+        break;
+    }
+    ;
 
-    //Users options
+    // Users options
     let responsibleOpt = () => {
       // console.log("this.props.users: ", this.props.users);
       if (this.props.users.content) {
@@ -183,7 +201,8 @@ class EditForm extends React.Component {
                   <form onSubmit={this.onSubmit} role="form">
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Si tiene director seleccione...</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Si tiene director
+                        seleccione...</label>
                       <div className="col-md-9">
                         <select
                           name="responsable"
@@ -196,9 +215,21 @@ class EditForm extends React.Component {
                           {responsibleOpt()}
                         </select>
                         {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
-                        <FlatButton secondary href="#/app/users">Agregar usuario</FlatButton>
+                        <FlatButton secondary onClick={this.handleOpen}>Agregar usuario</FlatButton>
                       </div>
                     </div>
+
+                    <Dialog
+                      title="Agregar Usuario"
+                      actions={actions}
+                      autoDetectWindowHeight
+                      autoScrollBodyContent
+                      modal={false}
+                      open={this.state.open}
+                      onRequestClose={this.handleClose}
+                    >
+                      <UserForm dialog changeView={this.handleFinish} userData={this.state.userData} />
+                    </Dialog>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Ofrece cursos libres?</label>
@@ -208,7 +239,7 @@ class EditForm extends React.Component {
                           id="freeCourses"
                           name="freeCourses"
                           value={this.state.freeCourses}
-                          onChange={this.onChange} >
+                          onChange={this.onChange}>
                           <option value={true}>Si</option>
                           <option value={false}>No</option>
                         </select>
@@ -232,14 +263,15 @@ class EditForm extends React.Component {
                           onChange={this.onChange}
                           placeholder="eje: Trimestral">
                           <option value={null}>selecciona la opción...</option>
-                          { optionsPeriods }
+                          {optionsPeriods}
                         </select>
                         {errors.temporality && <span className="help-block text-danger">{errors.temporality}</span>}
                       </div>
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de {name}</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización
+                        de {name}</label>
                       <div className="col-md-9">
                         <input
                           type="date"
@@ -247,7 +279,7 @@ class EditForm extends React.Component {
                           id={nameVar}
                           name={nameVar}
                           value={this.state.nameVar}
-                          onChange={this.onChange} />
+                          onChange={this.onChange}/>
                         {errors.nameVar &&
                         <span className="help-block text-danger">{errors.nameVar}</span>}
                       </div>

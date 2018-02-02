@@ -1,12 +1,14 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import FlatButton from 'material-ui/FlatButton'; // For Buttons
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import {programValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; // for user prop-types
 import {bindActionCreators} from 'redux';
+import map from "lodash-es/map"; // to use map in a object
+import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import FlatButton from 'material-ui/FlatButton'; // For Buttons
+import Dialog from 'material-ui/Dialog';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import {programValidator} from '../../../../../actions/formValidations'; // form validations
 import {
   programAddRequest,
   programUpdateRequest,
@@ -16,9 +18,7 @@ import {
   programLocationByProgramIdGetRequest,
   programAdditionalFieldsByProgramIdGetRequest
 } from '../../../../../actions';
-// Evaluation Periods function
-import map from "lodash-es/map"; //to use map in a object
-import { evaluationPeriods } from '../../../../../constants/data_types';
+import UserForm from '../../users/components/EditForm'; // EditForm for Users creation
 
 let self;
 
@@ -52,10 +52,10 @@ class EditForm extends React.Component {
       locationIds: [],
       categoryIds: [],
       errors: {},
-      isLoading: false
+      isLoading: false,
+      open: false, // Dialog state
+      userData: {} // Dialog state
     };
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
@@ -63,6 +63,19 @@ class EditForm extends React.Component {
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     self = this;
   }
+
+  // Dialog functions
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+  handleFinish = () => {
+    this.setState({open: false});
+    this.props.actions.usersGetRequest(); //whenRefresh
+  };
 
   componentWillMount() {
     this.props.actions.categoriesGetRequest();
@@ -238,6 +251,15 @@ class EditForm extends React.Component {
 
   render() {
 
+    // User for modal window
+    const actions = [
+      <FlatButton
+        label="Cancelar"
+        primary={true}
+        onClick={this.handleClose}
+      />
+    ];
+
     const {errors} = this.state;
 
     const months = [1,2,3,4,5,6,7, 8, 9, 10, 11, 12];
@@ -342,12 +364,24 @@ class EditForm extends React.Component {
                           {responsibleOpt()}
                         </select>
                         {errors.responsable && <span className="help-block text-danger">{errors.responsable} </span>}
-                        <FlatButton secondary href="#/app/users"> Agregar usuario</FlatButton>
+                        <FlatButton secondary onClick={this.handleOpen}>Agregar usuario</FlatButton>
                       </div>
                     </div>
 
+                    <Dialog
+                      title="Agregar Usuario"
+                      actions={actions}
+                      autoDetectWindowHeight
+                      autoScrollBodyContent
+                      modal={false}
+                      open={this.state.open}
+                      onRequestClose={this.handleClose}
+                    >
+                      <UserForm dialog changeView={this.handleFinish} userData={this.state.userData} />
+                    </Dialog>
+
                     <h6>Audiencia: </h6>
-                    <hr/>
+                    <hr />
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Genero</label>

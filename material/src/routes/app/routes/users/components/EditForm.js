@@ -678,6 +678,7 @@ class EditForm extends React.Component {
 
             </div>
 
+            {!this.props.dialog &&
             <div className="col-xl-3 col-lg-6">
               <div className="card bg-color-white">
                 <div className="card-content">
@@ -691,6 +692,7 @@ class EditForm extends React.Component {
                 </div>
               </div>
             </div>
+            }
 
           </div>
         </div>

@@ -80,8 +80,8 @@ class MainOptions extends React.Component {
                           <h6>Carga masiva (CSV)</h6>
                         </div>
                       </div>
+                      </div>
                     </div>
-                  </div>
                 }
               </div>
             </div>
@@ -114,10 +114,7 @@ class Student extends React.Component {
     console.log("running component will mount");
 
     // API action
-    this
-      .props
-      .actions
-      .privilegesGetRequest().then(data => {
+    this.props.actions.privilegesGetRequest().then(data => {
         this.setState({ permission: data.data });
       });
   }
