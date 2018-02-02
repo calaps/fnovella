@@ -512,12 +512,12 @@ class UpdateForm extends React.Component {
                       </div>
                     </div>
                     <FlatButton
-                      label="Cancel"
+                      label="cancelar"
                       onTouchTap={this._handleCancel}
                       style={{marginRight: 12}}
                     />
                     <RaisedButton
-                      label='Update'
+                      label='actualizar'
                       primary
                       type='submit'
                     />

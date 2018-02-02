@@ -1,13 +1,14 @@
 import React from "react";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import map from 'lodash-es/map'; // to use map in a object
+import PropTypes from 'prop-types'; // for user prop-types
+import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
-import map from "lodash-es/map"; // to use map in a object
 import {typeCategory} from '../../../../../constants/data_types';
-import {groupValidator} from "../../../../../actions/formValidations"; // form validations
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types'; // for user prop-types
-import {bindActionCreators} from 'redux';
+import {groupValidator} from '../../../../../actions/formValidations'; // form validations
 import {
   coursesGetRequest,
   divisionsGetRequest,
@@ -20,6 +21,7 @@ import {
   courseGetByIdRequest,
   sectionGetByIdRequest
 } from '../../../../../actions';
+import UserForm from '../../users/components/EditForm'; // EditForm for Users creation
 
 let self;
 
@@ -40,7 +42,7 @@ class GeneralConfiguration extends React.Component {
       inscriptionsStart: new Date(),
       programDateEnd: new Date(),
       programDateStart: new Date(),
-      months: ["nsJan", "nsFeb", "nsMar", "nsApr", "nsMay", "nsJun", "nsJul", "nsAug", "nsSep", "nsOct", "nsNov", "nsDec"],
+      months: ['nsJan', 'nsFeb', 'nsMar', 'nsApr', 'nsMay', 'nsJun', 'nsJul', 'nsAug', 'nsSep', 'nsOct', 'nsNov', 'nsDec'],
       monthsToRender: [],
       nsJan: 0,
       nsFeb: 0,
@@ -58,7 +60,9 @@ class GeneralConfiguration extends React.Component {
       isLoading: false,
       selectedType: '',
       correlativo: '',
-      yearActivation: ''
+      yearActivation: '',
+      open: false, // Dialog state
+      userData: {} // Dialog state
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
@@ -70,6 +74,19 @@ class GeneralConfiguration extends React.Component {
     this.handleChangeEndDateProgram = this.handleChangeEndDateProgram.bind(this);
     self = this;
   }
+
+  //Dialog functions
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+  handleFinish = () => {
+    this.setState({open: false});
+    this.props.actions.usersGetRequest(); // whenRefresh
+  };
 
   componentWillMount() {
     let dateYear = (new Date()).getFullYear();
@@ -102,7 +119,7 @@ class GeneralConfiguration extends React.Component {
                 }
               },
               (error) => {
-                console.log("An Error occur with the Rest API: ", error);
+                console.log('An Error occur with the Rest API: ', error);
               });
           break;
         case 'section':
@@ -121,7 +138,7 @@ class GeneralConfiguration extends React.Component {
                 }
               },
               (error) => {
-                console.log("An Error occur with the Rest API: ", error);
+                console.log('An Error occur with the Rest API: ', error);
               });
           break;
         case 'division':
@@ -140,7 +157,7 @@ class GeneralConfiguration extends React.Component {
                 }
               },
               (error) => {
-                console.log("An Error occur with the Rest API: ", error);
+                console.log('An Error occur with the Rest API: ', error);
               });
           break;
         case 'course':
@@ -159,7 +176,7 @@ class GeneralConfiguration extends React.Component {
                 }
               },
               (error) => {
-                console.log("An Error occur with the Rest API: ", error);
+                console.log('An Error occur with the Rest API: ', error);
               });
           break;
         default:
@@ -261,50 +278,59 @@ class GeneralConfiguration extends React.Component {
   }
 
   renderName(val) {
-    switch (val){
-      case "nsJan":
-        return "Enero";
+    switch (val) {
+      case 'nsJan':
+        return 'Enero';
         break;
-      case "nsFeb":
-        return "Febrero";
+      case 'nsFeb':
+        return 'Febrero';
         break;
-      case "nsMar":
-        return "Marzo";
+      case 'nsMar':
+        return 'Marzo';
         break;
-      case "nsApr":
-        return "Abril";
+      case 'nsApr':
+        return 'Abril';
         break;
-      case "nsMay":
-        return "Mayo";
+      case 'nsMay':
+        return 'Mayo';
         break;
-      case "nsJun":
-        return "Junio";
+      case 'nsJun':
+        return 'Junio';
         break;
-      case "nsJul":
-        return "Julio";
+      case 'nsJul':
+        return 'Julio';
         break;
-      case "nsAug":
-        return "Agosto";
+      case 'nsAug':
+        return 'Agosto';
         break;
-      case "nsSep":
-        return "Septimbre";
+      case 'nsSep':
+        return 'Septimbre';
         break;
-      case "nsOct":
-        return "Octubre";
+      case 'nsOct':
+        return 'Octubre';
         break;
-      case "nsNov":
-        return "Noviembre";
+      case 'nsNov':
+        return 'Noviembre';
         break;
-      case "nsDic":
-        return "Diciembre";
+      case 'nsDic':
+        return 'Diciembre';
         break;
       default:
-        return "Error";
+        return 'Error';
         break;
     }
   }
 
   render() {
+
+    // User for modal window
+    const actions = [
+      <FlatButton
+        label="Cancelar"
+        primary={true}
+        onClick={this.handleClose}
+      />
+    ];
 
     const {errors} = this.state;
 
@@ -317,16 +343,16 @@ class GeneralConfiguration extends React.Component {
 
     const monthsRender = map(this.state.monthsToRender, (val, key) =>
       <div className="form-group">
-          <label htmlFor="inputEmail3" key={key} className="control-label">{this.renderName(val)}:</label>
-          <div>
-            <input
-              type="number"
-              className="form-control"
-              id={val}
-              name={val}
-              value={this.state.val}
-              onChange={this.onChange}
-              placeholder="número de sesiones..."/>
+        <label htmlFor="inputEmail3" key={key} className="control-label">{this.renderName(val)}:</label>
+        <div>
+          <input
+            type="number"
+            className="form-control"
+            id={val}
+            name={val}
+            value={this.state.val}
+            onChange={this.onChange}
+            placeholder="número de sesiones..."/>
         </div>
       </div>
     );
@@ -342,12 +368,13 @@ class GeneralConfiguration extends React.Component {
             <div className="form-group row">
               <label htmlFor="workshopId" className="col-md-3 control-label">Workshop</label>
               <div className="col-md-9">
-                <select disabled={this.state.selectedType === 'workshop'}
-                        name="workshopId"
-                        id="workshopId"
-                        onChange={this.onChange}
-                        value={this.state.workshopId}
-                        className="form-control"
+                <select
+                  disabled={this.state.selectedType === 'workshop'}
+                  name="workshopId"
+                  id="workshopId"
+                  onChange={this.onChange}
+                  value={this.state.workshopId}
+                  className="form-control"
                 >
                   <option value="" disabled>Selecione el workshop</option>
                   {selectOpt(this.props.workshops.content || [])}
@@ -361,12 +388,13 @@ class GeneralConfiguration extends React.Component {
             <div className="form-group row">
               <label htmlFor="section" className="col-md-3 control-label">Sección</label>
               <div className="col-md-9">
-                <select disabled={this.state.selectedType === 'section'}
-                        name="section"
-                        id="section"
-                        onChange={this.onChange}
-                        value={this.state.section}
-                        className="form-control"
+                <select
+                  disabled={this.state.selectedType === 'section'}
+                  name="section"
+                  id="section"
+                  onChange={this.onChange}
+                  value={this.state.section}
+                  className="form-control"
                 >
                   <option value="" disabled>Selecione el sección</option>
                   {selectOpt(this.props.sections.content || [])}
@@ -380,12 +408,13 @@ class GeneralConfiguration extends React.Component {
             <div className="form-group row">
               <label htmlFor="divisionId" className="col-md-3 control-label">Division</label>
               <div className="col-md-9">
-                <select disabled={this.state.selectedType === 'division'}
-                        name="divisionId"
-                        id="divisionId"
-                        onChange={this.onChange}
-                        value={this.state.divisionId}
-                        className="form-control"
+                <select
+                  disabled={this.state.selectedType === 'division'}
+                  name="divisionId"
+                  id="divisionId"
+                  onChange={this.onChange}
+                  value={this.state.divisionId}
+                  className="form-control"
                 >
                   <option value="" disabled>Selecione el division</option>
                   {selectOpt(this.props.divisions.content || [])}
@@ -399,12 +428,13 @@ class GeneralConfiguration extends React.Component {
             <div className="form-group row">
               <label htmlFor="courseId" className="col-md-3 control-label">Course</label>
               <div className="col-md-9">
-                <select disabled={this.state.selectedType === 'course'}
-                        name="courseId"
-                        id="courseId"
-                        onChange={this.onChange}
-                        value={this.state.courseId}
-                        className="form-control"
+                <select
+                  disabled={this.state.selectedType === 'course'}
+                  name="courseId"
+                  id="courseId"
+                  onChange={this.onChange}
+                  value={this.state.courseId}
+                  className="form-control"
                 >
                   <option value="" disabled>Selecione el course</option>
                   {selectOpt(this.props.courses.content || [])}
@@ -416,7 +446,7 @@ class GeneralConfiguration extends React.Component {
       }
     };
 
-    //Users options
+    // Users options
     let responsibleOpt = () => {
       // console.log("this.props.users: ", this.props.users);
       if (this.props.users.content) {
@@ -447,12 +477,13 @@ class GeneralConfiguration extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="typeCategory" className="col-md-3 control-label">Tipo de grupo</label>
                       <div className="col-md-9">
-                        <select disabled
-                                name="typeCategory"
-                                id="typeCategory"
-                                onChange={this.onChange}
-                                value={this.state.typeCategory}
-                                className="form-control"
+                        <select
+                          disabled
+                          name="typeCategory"
+                          id="typeCategory"
+                          onChange={this.onChange}
+                          value={this.state.typeCategory}
+                          className="form-control"
                         >
                           <option value="" disabled>Selecciona el typeCategory</option>
                           {typeCategories}
@@ -462,7 +493,8 @@ class GeneralConfiguration extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de inicio de programa</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de inicio de
+                        programa</label>
                       <div className="col-md-9">
                         <DatePicker
                           value={this.state.programDateStart}
@@ -488,7 +520,7 @@ class GeneralConfiguration extends React.Component {
                     {selectBox()}
 
                     <h6>Personal: </h6>
-                    <hr/>
+                    <hr />
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Seleccione el coordinador</label>
@@ -504,9 +536,21 @@ class GeneralConfiguration extends React.Component {
                           {responsibleOpt()}
                         </select>
                         {errors.coordinator && <span className="help-block text-danger">{errors.coordinator}</span>}
-                        <FlatButton secondary href="#/app/users">Agregar usuario</FlatButton>
+                        <FlatButton secondary onClick={this.handleOpen}>Agregar usuario</FlatButton>
                       </div>
                     </div>
+
+                    <Dialog
+                      title="Agregar Usuario"
+                      actions={actions}
+                      autoDetectWindowHeight
+                      autoScrollBodyContent
+                      modal={false}
+                      open={this.state.open}
+                      onRequestClose={this.handleClose}
+                    >
+                      <UserForm dialog changeView={this.handleFinish} userData={this.state.userData} />
+                    </Dialog>
 
                     <div className="form-group row">
                       <label htmlFor="instructor" className="col-md-3 control-label">Instructor</label>
@@ -529,7 +573,8 @@ class GeneralConfiguration extends React.Component {
                     <hr/>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de inicio de inscripción</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de inicio de
+                        inscripción</label>
                       <div className="col-md-9">
                         <DatePicker
                           hintText="eje: Durán"
@@ -542,7 +587,8 @@ class GeneralConfiguration extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de final de inscripción</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de final de
+                        inscripción</label>
                       <div className="col-md-9">
                         <DatePicker
                           hintText="eje: Durán"
@@ -557,17 +603,19 @@ class GeneralConfiguration extends React.Component {
                     <h6>Sesiones: </h6>
                     <hr/>
 
-                    { monthsRender }
+                    {monthsRender}
 
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
-                        <FlatButton disabled={this.state.isLoading}
-                                    label='Cancelar'
-                                    style={{marginRight: 12}}
-                                    onTouchTap={this.props.handleCancel}
-                                    secondary className="btn-w-md"/>
-                        <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label='Siguiente' secondary className="btn-w-md"/>
+                        <FlatButton
+                          disabled={this.state.isLoading}
+                          label='Cancelar'
+                          style={{marginRight: 12}}
+                          onTouchTap={this.props.handleCancel}
+                          secondary className="btn-w-md"/>
+                        <RaisedButton
+                          disabled={this.state.isLoading} type="submit"
+                          label='Siguiente' secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>
