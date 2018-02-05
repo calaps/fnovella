@@ -219,3 +219,30 @@ export function programActivationsUpdateRequest(data) {
     })
   }
 }
+
+export function programActivationsGetByIdRequest(activationId) {
+  return function (dispatch) {
+    return new Promise(function(resolve, reject){{
+      dispatch({
+        type: PROGRESS_ADD_REQUEST
+      });
+      // API
+      HTTP('get', '/program_activation/' + activationId, null,{authorization: localStorage.getItem('@fnovella:token')})
+        .then(function (response) {
+          if(response.data.errors===null){
+            resolve(response.data);
+          }else{
+            reject(response.data)
+          }
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(()=>{
+          dispatch({
+            type: PROGRESS_REMOVE_REQUEST
+          });
+        })
+    }})
+  }
+}

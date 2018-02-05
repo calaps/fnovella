@@ -200,7 +200,8 @@ class HorizontalLinearStepper extends React.Component {
                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                       session: 0,
                       status: 0,
-                      group: this.state.groupId,
+                      group: this.state.groupId, // #joseph
+                      program: null, // #joseph
                       range: this.state.evaluationStructureRangeId
                     };
                     // console.log("hitting evaluationStructureData api");
@@ -252,7 +253,8 @@ class HorizontalLinearStepper extends React.Component {
                                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                                       session: 0,
                                       status: 0,
-                                      group: this.state.groupId,
+                                      group: this.state.groupId, // #joseph
+                                      program: null, // #joseph
                                       range: this.state.satisfactionStructureRangeId
                                     };
                                     // console.log("hitting satisfactionStructureData api");
@@ -305,7 +307,8 @@ class HorizontalLinearStepper extends React.Component {
                                                       dateStart: this.state.generalConfiguration.inscriptionsStart,
                                                       session: 0,
                                                       status: 0,
-                                                      group: this.state.groupId,
+                                                      group: this.state.groupId, // #joseph
+                                                      program: null, // #joseph
                                                       range: this.state.monitoringStructureRangeId
                                                     };
                                                     // console.log("hitting monitoringStructureData api");

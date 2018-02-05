@@ -1,18 +1,26 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import QueueAnim from 'rc-queue-anim';
-import {
-  privilegesGetRequest,
-  educatorsGetByIdRequest,
-  evaluationGetByGroupIdAndEvaluationSubtype
-} from '../../../../../actions';
 import PropTypes from 'prop-types';
 import Avatar from 'material-ui/Avatar';
 import Chip from 'material-ui/Chip';
 import {Card, CardActions, CardHeader, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Toggle from 'material-ui/Toggle';
+import {connect} from 'react-redux';
+import QueueAnim from 'rc-queue-anim';
+import {
+  privilegesGetRequest,
+  educatorsGetByIdRequest,
+  evaluationGetByGroupIdAndEvaluationSubtype,
+
+  workshopGetByIdRequest,
+  divisionGetByIdRequest,
+  courseGetByIdRequest,
+  sectionGetByIdRequest,
+  programActivationsGetRequest,
+
+  usersGetRequest
+} from '../../../../../actions';
 
 const styles = {
   chip: {
@@ -53,32 +61,112 @@ class GroupDetails extends React.Component {
   };
 
   componentWillMount() {
+    const id = this.selectCategoryId();
+    const {groupData} = this.state;
 
-    this.props.actions.privilegesGetRequest()
-      .then(data => {
-        this.setState({privileges: data.data});
+    this.props.actions.privilegesGetRequest().then((data) => {
+      this.setState({privileges: data.data});
+    });
+
+    this.props.actions.educatorsGetByIdRequest(this.state.groupData.instructor).then((response) => {
+      if (response) {
+        this.setState({groupInstructorName: response.data.firstName + ' ' + response.data.firstLastname});
+      }
+    });
+
+    this.props.actions.usersGetRequest(0, 10000).then(() => {
+      // Set name of coordinator
+      const userCoordinator = this.props.users.content.findIndex((element) => {
+        return element.id === this.props.groupData.coordinator;
+      });
+      if (userCoordinator !== undefined) {
+        this.setState({coordinator: this.props.users.content[userCoordinator]});
+      }
+
+      //Search the director
+      this.props.actions.programActivationsGetRequest(0, 10000).then(() => {
+        let programID = '';
+        switch (groupData.typeCategory) {
+          case 'workshop':
+            this.props.actions.workshopGetByIdRequest(id).then((response) => {
+              programID = response.data.programId;
+              const programActivationID = this.props.programActivations.content.findIndex((element) => {
+                return element.programId === programID;
+              });
+              const programActivation = this.props.programActivations.content[programActivationID];
+              const userDirector = this.props.users.content.findIndex((element) => {
+                return element.id === programActivation.responsable
+              });
+              if (userDirector !== undefined) {
+                this.setState({director: this.props.users.content[userDirector]});
+              }
+            });
+            break;
+          case 'division':
+            this.props.actions.divisionGetByIdRequest(id).then((response) => {
+              programID = response.data.programId;
+              const programActivationID = this.props.programActivations.content.findIndex((element) => {
+                return element.programa === programID;
+              });
+              const programActivation = this.props.programActivations.content[programActivationID];
+              const userDirector = this.props.users.content.findIndex((element) => {
+                return element.id === programActivation.responsable
+              });
+              if (userDirector !== undefined) {
+                this.setState({director: this.props.users.content[userDirector]});
+              }
+            });
+            break;
+          case 'course':
+            this.props.actions.courseGetByIdRequest(id).then((response) => {
+              programID = response.data.programId;
+              const programActivationID = this.props.programActivations.content.findIndex((element) => {
+                return element.programId === programID;
+              });
+              const programActivation = this.props.programActivations.content[programActivationID];
+              const userDirector = this.props.users.content.findIndex((element) => {
+                return element.id === programActivation.responsable
+              });
+              if (userDirector !== undefined) {
+                this.setState({director: this.props.users.content[userDirector]});
+              }
+            });
+            break;
+          case 'section':
+            this.props.actions.sectionGetByIdRequest(id).then((response) => {
+              programID = response.data.programId;
+              const programActivationID = this.props.programActivations.content.findIndex((element) => {
+                return element.programId === programID;
+              });
+              const programActivation = this.props.programActivations.content[programActivationID];
+              const userDirector = this.props.users.content.findIndex((element) => {
+                return element.id === programActivation.responsable
+              });
+              if (userDirector !== undefined) {
+                this.setState({director: this.props.users.content[userDirector]});
+              }
+            });
+            break;
+          default :
+            return null;
+        }
+
       });
 
-    this.props.actions.educatorsGetByIdRequest(this.state.groupData.instructor)
-      .then(
-        (response) => {
-          if (response) {
-            this.setState({groupInstructorName: response.data.firstName + ' ' + response.data.firstLastname});
-          }
-        }
-      );
+    });
+
   }
 
   selectCategoryId() {
     let {groupData} = this.state;
     switch (groupData.typeCategory) {
-      case "workshop":
+      case 'workshop':
         return groupData.workshopId;
-      case "division":
+      case 'division':
         return groupData.divisionId;
-      case "course":
+      case 'course':
         return groupData.courseId;
-      case "section":
+      case 'section':
         return groupData.section;
       default :
         return null;
@@ -216,13 +304,24 @@ class GroupDetails extends React.Component {
                       {this.state.groupInstructorName}
                     </Chip>
                   </div>
+                  {this.state.director &&
+                  <div className="hero-tagline">
+                    Director:
+                    <Chip style={styles.chip}>
+                      <Avatar size={32}>D</Avatar>
+                      {this.state.director.firstName + ' ' + this.state.director.firstLastName}
+                    </Chip>
+                  </div>
+                  }
+                  {this.state.coordinator &&
                   <div className="hero-tagline">
                     Coordinador:
                     <Chip style={styles.chip}>
                       <Avatar size={32}>C</Avatar>
-                      Juan Pablo Ortiz
+                      {this.state.coordinator.firstName + ' ' + this.state.coordinator.firstLastName}
                     </Chip>
                   </div>
+                  }
                 </div>
 
               </CardText>
@@ -421,7 +520,6 @@ class GroupDetails extends React.Component {
                   </div>
                   : null
                 }
-
               </div>
 
             </article>
@@ -430,7 +528,7 @@ class GroupDetails extends React.Component {
         </QueueAnim>
 
       </div>
-    )
+    );
   };
 }
 
@@ -439,8 +537,11 @@ GroupDetails.contextTypes = {
 };
 
 function mapStateToProps(state) {
-  //pass the providers
-  return {}
+  // pass the providers
+  return {
+    programActivations: state.programActivations,
+    users: state.users
+  };
 }
 
 /* Map Actions to Props */
@@ -449,7 +550,13 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       privilegesGetRequest,
       educatorsGetByIdRequest,
-      evaluationGetByGroupIdAndEvaluationSubtype
+      evaluationGetByGroupIdAndEvaluationSubtype,
+      workshopGetByIdRequest,
+      divisionGetByIdRequest,
+      courseGetByIdRequest,
+      sectionGetByIdRequest,
+      programActivationsGetRequest,
+      usersGetRequest
     }, dispatch)
   };
 }

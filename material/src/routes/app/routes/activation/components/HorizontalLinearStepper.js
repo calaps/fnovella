@@ -198,12 +198,13 @@ class HorizontalLinearStepper extends React.Component {
                       let performanceStructureData = {
                         approvalPercentage: this.state.performanceStructure.approvalPercentage,
                         evaluationSubtype: this.state.performanceStructure.evaluationSubtype,
-                        evaluationType: this.state.evaluationStructure.evaluationType,
-                        dateEnd: this.state.generalConfiguration.inscriptionsEnd,
-                        dateStart: this.state.generalConfiguration.inscriptionsStart,
+                        evaluationType: this.state.performanceStructure.evaluationType,
+                        dateEnd: new Date(),
+                        dateStart: new Date(),
                         session: 0,
-                        group: null, // #joseph
-                        program: this.state.groupId, // #joseph
+                        status: 0,
+                        group: 66, // #joseph
+                        program: this.state.programId, // #joseph
                         range: this.state.performanceStructureRangeId
                       };
                       // console.log("hitting performanceStructureData api");
@@ -229,7 +230,7 @@ class HorizontalLinearStepper extends React.Component {
                                 // console.log("hitting performanceStructureActivityData api, ", performanceStructureActivityData);
                                 this.props.actions.evaluationActivityAddRequest(performanceStructureActivityData);
                               }
-                              this.context.router.push('/app/' + this.context.router.location.query.typeCategory);
+                              this.props.changeView("VIEW_ELEMENT");
                             }
                           },
                           (error) => {
