@@ -652,8 +652,8 @@ class EditForm extends React.Component {
                           value={this.state.cemproCode}
                           onChange={this.onChange}
                           placeholder="eje: 001" />
-                        {errors.documentValue &&
-                        <span className="help-block text-danger">{errors.documentValue}</span>}
+                        {errors.cemproCode &&
+                        <span className="help-block text-danger">{errors.cemproCode}</span>}
                       </div>
                     </div>
 

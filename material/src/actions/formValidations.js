@@ -563,6 +563,13 @@ export function userValidator(data) {
 
   let errors = {}; //errors star with an empty object
 
+  if (Validator.isEmpty(data.cemproCode)) {
+    errors.cemproCode = required;
+    if (!Validator.isEmpty(data.cemproCode) && !Validator.isAlphanumeric(data.cemproCode)) {
+      errors.cemproCode = invalidData;
+    }
+  }
+
   if (Validator.isEmpty(data.address)) {
     errors.address = required;
     if (!Validator.isEmpty(data.address) && !Validator.isAlphanumeric(data.address)) {
