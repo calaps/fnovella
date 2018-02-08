@@ -2,7 +2,6 @@ import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import IconButton from 'material-ui/IconButton';
-import map from "lodash-es/map"; //to use map in a object
 import {satisfactionStructureValidator} from "../../../../../actions/formValidations"; //form validations
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'; //for user prop-types
@@ -20,7 +19,7 @@ class MonitoringStructure extends React.Component {
       evaluateCategory: [],
       evaluateCategoryName: null,
       evaluateCategoryPercentage: null,
-      evaluationType: 1,
+      evaluationType: 3,
       maximumNote: '',
       minimumNote: '',
       totalEvaluateCategory: 0,
@@ -150,55 +149,7 @@ class MonitoringStructure extends React.Component {
               <div className="box box-default">
                 <div className="box-body padding-md">
                   <p className="text-info">Ingresa la siguiente información: </p>
-                  <form onSubmit={this.onSubmit} role="form">
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
-                      <div className="col-md-9">
-                        <select
-                          className="form-control"
-                          id="evaluationType"
-                          name="evaluationType"
-                          value={this.state.evaluationType}
-                          onChange={this.onChange}
-                        >
-                          <option value="1">Evaluación Final</option>
-                          <option value="2">Evaluación Inicio/Fin</option>
-                          <option value="3">Evaluación Periodica</option>
-
-                        </select>
-                        {errors.evaluationType &&
-                        <span className="help-block text-danger">{errors.evaluationType}</span>}
-                      </div>
-                    </div>
-                    { this.state.evaluationType === '3' &&
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de evaluaciones</label>
-                      <div className="col-md-9">
-                        <select
-                          className="form-control"
-                          id="calculateMultipleSelection"
-                          name="calculateMultipleSelection"
-                          value={this.state.calculateMultipleSelection}
-                          onChange={this.onChange}
-                        >
-                          <option value="1">1</option>
-                          <option value="2">2</option>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                          <option value="12">12</option>
-                        </select>
-                        {errors.calculateMultipleSelection &&
-                        <span className="help-block text-danger">{errors.calculateMultipleSelection}</span>}
-                      </div>
-                    </div>
-                    }
+                  <form onSubmit={this.onSubmit}>
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Selecciona las actividades a evaluar</label>
                       <div className="col-md-4">

@@ -127,7 +127,7 @@ class Section extends React.Component {
     this.context.router.push({
       pathname: '/app/groups',
       query: {
-        section: sectionId,
+        sectionId: sectionId,
         typeCategory: 'section',
         add : 'true'
       }
