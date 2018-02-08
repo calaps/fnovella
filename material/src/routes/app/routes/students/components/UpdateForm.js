@@ -22,9 +22,9 @@ class UpdateForm extends React.Component {
     this.state = {
       isEditing: (this.props.participantData.id) ? true : false,
       firstName: this.props.participantData.firstName || '',
-      secondName: this.props.participantData.secondName || '',
+      secondName: (this.props.participantData.secondName.toString() === '_') ? '' : this.props.participantData.secondName,
       firstLastname: this.props.participantData.firstLastname || '',
-      secondLastname: this.props.participantData.secondLastname || '',
+      secondLastname: (this.props.participantData.secondLastname.toString() === '_') ? '' : this.props.participantData.secondLastname,
       bornDate: (this.props.participantData.bornDate)? new Date(this.props.participantData.bornDate)
         : new Date(),
       documentType: this.props.participantData.documentType || '',
@@ -105,11 +105,13 @@ class UpdateForm extends React.Component {
     if (this.isValid()) {
       //reset errros object and disable submit button
       this.setState({errors: {}, isLoading: true});
+      const secondName = (this.state.secondName.toString() === '') ? '_' : this.state.secondName;
+      const secondLastName = (this.state.secondLastname.toString() === '') ? '_' : this.state.secondLastname;
       let data = {
         firstName: this.state.firstName,
-        secondName: this.state.secondName,
+        secondName: secondName,
         firstLastname: this.state.firstLastname,
-        secondLastname: this.state.secondLastname,
+        secondLastname: secondLastName,
         bornDate: convertDateToHTMLInputDateValue(this.state.bornDate),
         documentType: this.state.documentType,
         documentValue: this.state.documentValue,

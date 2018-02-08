@@ -27,9 +27,9 @@ class EditForm extends React.Component {
       open: false,
       isEditing: (this.props.userData.id) ? true : false,
       firstName: this.props.userData.firstName || '',
-      secondName: this.props.userData.secondName || '',
+      secondName: (this.props.userData.secondName.toString() === '_') ? '' : this.props.userData.secondName,
       firstLastName: this.props.userData.firstLastName || '',
-      secondLastName: this.props.userData.secondLastName || '',
+      secondLastName: (this.props.userData.secondLastName.toString() === '_') ? '' : this.props.userData.secondLastName,
       privilege: this.props.userData.privilege || '',
       bornDate: (this.props.userData.bornDate) ? new Date(this.props.userData.bornDate)
         : new Date(),

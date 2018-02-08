@@ -31,9 +31,9 @@ class EditForm extends React.Component {
       isEditing: !!(this.props.teacherData.id),
       id: this.props.teacherData.id || '',
       firstName: this.props.teacherData.firstName || '',
-      secondName: this.props.teacherData.secondName || '',
+      secondName: (this.props.teacherData.secondName.toString() === '_') ? '' : this.props.teacherData.secondName,
       firstLastname: this.props.teacherData.firstLastname || '',
-      secondLastname: this.props.teacherData.secondLastname || '',
+      secondLastname: (this.props.teacherData.secondLastname.toString() === '_') ? '' : this.props.teacherData.secondLastname,
       bornDate: (this.props.teacherData.bornDate) ? new Date(this.props.teacherData.bornDate)
         : new Date(),
       documentType: this.props.teacherData.documentType || '',
