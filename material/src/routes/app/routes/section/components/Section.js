@@ -127,11 +127,11 @@ class Section extends React.Component {
     this.context.router.push({
       pathname: '/app/groups',
       query: {
-        sectionId: sectionId,
+        section: sectionId,
         typeCategory: 'section',
         add : 'true'
       }
-    })
+    });
   }
 
   onViewGroup(sectionId) {
