@@ -127,7 +127,7 @@ class EditForm extends React.Component {
         secondName: secondName,
         firstLastName: this.state.firstLastName,
         secondLastName: secondLastName,
-        privilege: this.state.privilege,
+        privilege: parseInt(this.state.privilege, 10),
         bornDate: convertDateToHTMLInputDateValue(this.state.bornDate),
         documentType: this.state.documentType || 'sometype',
         documentValue: this.state.documentValue,
@@ -138,7 +138,7 @@ class EditForm extends React.Component {
         profession: this.state.profession,
         address: this.state.address,
         phone: this.state.phone,
-        cellphone: this.state.cellphone,
+        cellphone: parseInt(this.state.cellphone, 10),
         email: this.state.email,
         password: this.state.password,
         cemproCode: this.state.cemproCode,
@@ -146,7 +146,7 @@ class EditForm extends React.Component {
         colony: this.state.colony,
         zone: this.state.zone,
         appCode: this.state.cemproCode,
-        phon: this.state.phon
+        phon: parseInt(this.state.phone, 10)
       };
       if (this.state.isEditing) {
         data.id = this.state.id;

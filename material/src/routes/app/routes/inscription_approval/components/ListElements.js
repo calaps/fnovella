@@ -1,22 +1,14 @@
 import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import IconButton from 'material-ui/IconButton';
-import Search from 'material-ui/svg-icons/action/search';
 import {
-  participantsGetRequestBySearch,
-  participantGetRequest, 
-  inscriptionParticipantGetRequest, 
-  inscriptionGetRequest,
+  participantGetRequest,
   inscriptionUpdateRequest,
   inscriptionGetByGroupId,
-  inscriptionParticipantGetByGroupId,
+  inscriptionParticipantGetByGroupId
 } from '../../../../../actions';
 import ListItem from './ListItem';
-import Pagination from '../../../../../components/Pagination'
 
-let size = 10; //limit
-let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
@@ -24,38 +16,31 @@ class ListElements extends React.Component {
     this.state = {
       searchValue: 'Name',
       inputValue: '',
-      inscriptions:[]
     };
-    this.approveInscription=this.approveInscription.bind(this);
+    this.approveInscription = this.approveInscription.bind(this);
   }
-  componentWillMount() {
-      this
-        .props
-        .actions
-        .inscriptionGetRequest(0, 1000);
-        this.props.actions.inscriptionGetByGroupId(this.props.query.id)
-        .then((res)=>{
-          this.setState({inscriptions:res.data});
-        })
-        this
-        .props
-        .actions
-        .participantGetRequest(0, 1000);
-    } 
 
-  
-  approveInscription(inscriptionData){
-    // console.log("dadasd",inscriptionData);
-    let data= {
+  componentWillMount() {
+    this.props.actions.inscriptionGetByGroupId(this.props.query.id).then((res) => {
+      this.setState({inscriptions: res.data}); // Get inscriptions by group ID
+    });
+    this.props.actions.inscriptionParticipantGetByGroupId(this.props.query.id).then((res) => {
+      this.setState({participants: res.data}); // Get inscription_participants by group ID
+    });
+    this.props.actions.participantGetRequest(0, 1000); // Get All Participants
+  }
+
+
+  approveInscription(inscriptionData) { // When approve inscription change the default value to 1
+    const data = {
       ...inscriptionData,
       status: 1
-    }
+    };
     this.props.actions.inscriptionUpdateRequest(data);
   }
-  
+
   render() {
-    // console.log("Render",this.props.inscriptions);
-    var i= 1;
+    let i = 1;
     return (
       <article className="article">
         <h2 className="article-title">Lista de participantes</h2>
@@ -80,27 +65,18 @@ class ListElements extends React.Component {
                     <tbody>
                       {
                         this.state.inscriptions
-                        ? this
-                          .state
-                          .inscriptions
-                          .map((inscription) => {
-                            return <ListItem
+                          ? this.state.inscriptions.map((inscription) => {
+                            return (<ListItem
                               handleInscriptionParticipant={this.props.handleInscriptionParticipant}
                               key={inscription.id}
-                              changeView={this.props.changeView}
                               number={i++}
                               inscriptionData={inscription}
                               approveInscription={this.approveInscription}
-                              /> 
-                          })
-                        : null
+                            />);
+                          }) : null
                       }
                     </tbody>
                   </table>
-                  {/* <Pagination
-                    totalPages={this.props.inscriptions.totalPages}
-                    totalElements={this.props.inscriptions.totalElements}
-                    getRequest={this.props.actions.inscriptionGetRequest}/> */}
                 </div>
 
               </div>
@@ -115,28 +91,23 @@ class ListElements extends React.Component {
 }
 
 
-
 function mapStateToProps(state) {
-  //pass the providers
   return {
     participants: state.participants,
-    inscriptions: state.inscriptions, 
+    inscriptions: state.inscriptions,
     inscriptionParticipants: state.inscriptionParticipants
-  }
+  };
 }
 
-/* Map Actions to Props */
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       participantGetRequest,
-      participantsGetRequestBySearch,
-      inscriptionParticipantGetRequest,
       inscriptionUpdateRequest,
-      inscriptionGetRequest,
-      inscriptionGetByGroupId
+      inscriptionGetByGroupId,
+      inscriptionParticipantGetByGroupId
     }, dispatch)
   };
 }
 
-  module.exports = connect(mapStateToProps, mapDispatchToProps)(ListElements);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(ListElements);

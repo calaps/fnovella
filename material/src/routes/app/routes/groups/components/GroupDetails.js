@@ -398,7 +398,9 @@ class GroupDetails extends React.Component {
                         <div className="box-body">
                           <div className="icon-box ibox-plain ibox-center">
                             <div className="ibox-icon">
-                              <i className="material-icons">assignment</i>
+                              <a href="javascript:;">
+                                <i className="material-icons">assignment</i>
+                              </a>
                             </div>
                             <h3>Aprobación de inscripciones</h3>
                             <p>Verifica que las inscripciones sean correctas</p>
