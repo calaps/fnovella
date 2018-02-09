@@ -38,4 +38,9 @@ public class GradeServiceImpl implements GradeService {
             gradeRepository.deleteByProgramId(programId);
         }
     }
+
+    @Override
+    public Grade findByGradeId(Integer id) {
+        return this.gradeRepository.findOne(id);
+    }
 }

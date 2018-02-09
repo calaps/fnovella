@@ -1,13 +1,13 @@
 package org.fnovella.project.program.model;
 
 public class InsightProgramDTO {
-    private Double totalParticipants;
-    private Double activeParticipants;
-    private Double inactiveParticipants;
-    private Double justifiedParticipants;
-    private Double approvedParticipants;
-    private Double accomplishment;
-    private Double totalAssistance;
+    private Double totalParticipants = 0.0;
+    private Double activeParticipants = 0.0;
+    private Double inactiveParticipants = 0.0;
+    private Double justifiedParticipants = 0.0;
+    private Double approvedParticipants = 0.0;
+    private Double accomplishment = 0.0;
+    private Double totalAssistance = 0.0;
 
     public Double getTotalParticipants() {
         return totalParticipants;

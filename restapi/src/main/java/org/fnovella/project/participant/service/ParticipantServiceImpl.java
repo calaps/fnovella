@@ -3,10 +3,10 @@ package org.fnovella.project.participant.service;
 import org.fnovella.project.utility.APIUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
-import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -22,10 +22,14 @@ public class ParticipantServiceImpl implements ParticipantService {
     public Integer getActiveParticipant(Integer groupId) {
         List<Integer> participants = this.getParticipants(groupId);
         Integer countActive = 0;
-        for (Integer participantId : participants) {
-            countActive += this.isActiveParticipant(participantId);
-        }
-        return countActive * 100 / participants.size();
+        if (CollectionUtils.isEmpty(participants)) {
+            return 0;
+        } else {
+            for (Integer participantId : participants) {
+                countActive += this.isActiveParticipant(participantId);
+            }
+            return countActive * 100 / participants.size();
+        }        
     }
 
     private Integer isActiveParticipant(Integer idParticipant) {

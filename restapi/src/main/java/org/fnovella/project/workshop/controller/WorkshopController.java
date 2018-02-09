@@ -8,6 +8,7 @@ import org.fnovella.project.inscriptions_part_workshop.repository.InscriptionsPa
 import org.fnovella.project.utility.model.APIResponse;
 import org.fnovella.project.workshop.model.Workshop;
 import org.fnovella.project.workshop.repository.WorkshopRepository;
+import org.fnovella.project.workshop.service.WorkshopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,9 +32,12 @@ public class WorkshopController {
 	@Autowired
 	private ProgramRepository programRepository;
 
+	@Autowired
+	private WorkshopService workshopService;
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
-		return new APIResponse(this.workshopRepository.findAll(pageable), null);
+		return new APIResponse(this.workshopService.getAllWorkshops(pageable), null);
 	}
 
 	@RequestMapping(value = "by-location/{location}", method = RequestMethod.GET)
