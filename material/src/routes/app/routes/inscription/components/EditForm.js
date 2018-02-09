@@ -1,6 +1,4 @@
 import React from "react";
-import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
-import FlatButton from 'material-ui/FlatButton';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {inscriptionParticipantGetRequestById, inscriptionGetRequestById, participantGetRequestById, inscriptionUpdateRequest} from '../../../../../actions';
