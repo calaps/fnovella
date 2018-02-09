@@ -1,5 +1,7 @@
 package org.fnovella.project.group.repository;
 
+import java.util.List;
+
 import org.fnovella.project.group.model.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,5 +16,9 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
     Page<Group> findByDivisionId(Integer divisionId, Pageable pageable);
     Page<Group> findBySection(Integer section, Pageable pageable);
     Page<Group> findByInstructor(Integer instructor, Pageable pageable);
+    List<Group> findByWorkshopId(Integer workshopId);
+    List<Group> findByCourseId(Integer courseId);
+    List<Group> findByDivisionId(Integer divisionId);
+    List<Group> findBySection(Integer sectionId);
 
 }
