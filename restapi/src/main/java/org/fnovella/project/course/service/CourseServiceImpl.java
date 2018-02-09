@@ -5,7 +5,10 @@ import org.fnovella.project.course.repository.CourseRepository;
 import org.fnovella.project.group.model.Group;
 import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
 import org.fnovella.project.inscriptions_part_course.repository.InscriptionsPartCourseRepository;
+import org.fnovella.project.program.service.ProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +22,9 @@ public class CourseServiceImpl implements CourseService {
     private InscriptionsInstCourseRepository inscriptionsInstCourseRepository;
     @Autowired
     private InscriptionsPartCourseRepository inscriptionsPartCourseRepository;
+
+    @Autowired
+    private ProgramService programService;
 
     @Override
     public void updateCreatedGroup(Group group, boolean createdGroup) {
@@ -61,5 +67,17 @@ public class CourseServiceImpl implements CourseService {
             inscriptionsInstCourseRepository.deleteByCourseId(course.getId());
             inscriptionsPartCourseRepository.deleteByCourseId(course.getId());
         });
+    }
+
+    @Override
+    public Page<Course> getAllCourses(Pageable pageable) {
+        final Page<Course> courses = this.courseRepository.findAll(pageable);
+        if (courses == null) {
+            return null;
+        }
+        for (final Course course : courses.getContent()) {
+            course.setCreatedGroup(this.programService.isProgramActive(course.getProgramId()));
+        }
+        return courses;
     }
 }

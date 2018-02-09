@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.fnovella.project.section.model.Section;
 import org.fnovella.project.section.repository.SectionRepository;
+import org.fnovella.project.section.service.SectionService;
 import org.fnovella.project.utility.model.APIResponse;
 import org.fnovella.project.course.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,13 @@ public class SectionController {
 	private SectionRepository sectionRepository;
 	@Autowired
 	private CourseRepository courseRepository;
-	
+
+	@Autowired
+	private SectionService sectionService;
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
-		return new APIResponse(this.sectionRepository.findAll(pageable), null);
+		return new APIResponse(this.sectionService.getAllSections(pageable), null);
 	}
 
 	@RequestMapping(value = "{id}/courses", method=RequestMethod.GET)

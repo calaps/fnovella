@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.fnovella.project.division.model.Division;
 import org.fnovella.project.division.repository.DivisionRepository;
+import org.fnovella.project.division.service.DivisionService;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,13 @@ public class DivisionController {
 	private DivisionRepository divisionRepository;
 	@Autowired
 	private ProgramRepository programRepository;
-	
+
+	@Autowired
+	private DivisionService divisionService;
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse get(@RequestHeader("authorization") String authorization, Pageable pageable) {
-		return new APIResponse(this.divisionRepository.findAll(pageable), null);
+		return new APIResponse(this.divisionService.getAllDivisions(pageable), null);
 	}
 
 	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)

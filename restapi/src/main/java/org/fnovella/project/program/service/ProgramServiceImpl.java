@@ -288,6 +288,23 @@ public class ProgramServiceImpl implements ProgramService {
         return groups;
     }
     
+    public Boolean isProgramActive(final Integer programId) {
+        final Integer currentYear = Year.now().getValue();
+        final List<ProgramActivation> programActivations =
+                this.programActivationRepository.findByProgramIdAndYear(programId, currentYear);
+        if (CollectionUtils.isEmpty(programActivations)) {
+            return false;
+        } else {
+            for (final ProgramActivation programActivation : programActivations) {
+                if (programActivation.isActivationStatus()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     private List<Group> getGroups(List<Agroupation> agroupations) {
         List<Group> groups = new ArrayList<>();
         for (Agroupation agroupation : agroupations) {

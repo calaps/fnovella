@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.fnovella.project.course.model.Course;
 import org.fnovella.project.course.repository.CourseRepository;
+import org.fnovella.project.course.service.CourseService;
 import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
 import org.fnovella.project.inscriptions_part_course.repository.InscriptionsPartCourseRepository;
 import org.fnovella.project.utility.model.APIResponse;
@@ -30,10 +31,13 @@ public class CourseController {
 	private InscriptionsPartCourseRepository inscriptionsPartCourseRepository;
 	@Autowired
 	private ProgramRepository programRepository;
+
+	@Autowired
+	private CourseService courseService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
-		return new APIResponse(this.courseRepository.findAll(pageable), null);
+		return new APIResponse(this.courseService.getAllCourses(pageable), null);
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)

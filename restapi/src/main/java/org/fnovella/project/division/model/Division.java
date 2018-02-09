@@ -20,6 +20,7 @@ public class Division implements Agroupation {
 	private Integer id;
 	@Length(max=50)
 	private String name;
+	private String description;
 	private Integer programa;
 	private Integer location;
 	private boolean createdGroup;
@@ -46,6 +47,14 @@ public class Division implements Agroupation {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 	public Integer getPrograma() {
 		return programa;

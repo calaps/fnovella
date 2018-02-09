@@ -10,4 +10,6 @@ public interface ProgramService {
     InsightProgramDTO getInsightsByProgram(Integer programId);
 
     InsightProgramDTO getInsightsForAllPrograms();
+
+    Boolean isProgramActive(final Integer programId);
 }
