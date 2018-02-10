@@ -27,7 +27,7 @@ class ListItem extends React.Component {
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.activationData.id}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.activationData.programId}</td>
+        <td className="mdl-data-table__cell--non-numeric">{this.props.activationData.nameProgram}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.activationData.year}</td>
         <td className="mdl-data-table__cell--non-numeric">
           {
