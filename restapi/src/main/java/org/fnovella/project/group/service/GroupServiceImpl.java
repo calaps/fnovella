@@ -19,8 +19,11 @@ import org.fnovella.project.section.service.SectionService;
 import org.fnovella.project.workshop.service.WorkshopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
+
+import java.time.Year;
 import java.util.List;
 
 @Service
@@ -115,6 +118,45 @@ public class GroupServiceImpl implements GroupService {
         }
         return accumulator / evaluations.size();
     }
-
-
-}
+    
+    public boolean isGroupExistsForClassification(final Integer classificationId, final TypeCategory typeCategory) {
+        final Integer currentYear = Year.now().getValue();
+        boolean isGroupExist = false;
+        List<Group> groups;
+        switch (typeCategory) {
+        case WORKSHOP:
+            groups = groupRepository.findByWorkshopIdAndYearActivation(classificationId, currentYear);
+            if (CollectionUtils.isEmpty(groups)) {
+                isGroupExist = false;
+            } else {
+                isGroupExist = true;
+            }
+            break;
+        case DIVISION:
+            groups = groupRepository.findByDivisionIdAndYearActivation(classificationId, currentYear);
+            if (CollectionUtils.isEmpty(groups)) {
+                isGroupExist = false;
+            } else {
+                isGroupExist = true;
+            }
+            break;
+        case COURSE:
+            groups = groupRepository.findByCourseIdAndYearActivation(classificationId, currentYear);
+            if (CollectionUtils.isEmpty(groups)) {
+                isGroupExist = false;
+            } else {
+                isGroupExist = true;
+            }
+            break;
+        case SECTION:
+            groups = groupRepository.findBySectionAndYearActivation(classificationId, currentYear);
+            if (CollectionUtils.isEmpty(groups)) {
+                isGroupExist = false;
+            } else {
+                isGroupExist = true;
+            }
+            break;
+        }
+        return isGroupExist;
+    }
+ }

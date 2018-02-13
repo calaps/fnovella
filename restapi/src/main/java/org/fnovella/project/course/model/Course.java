@@ -30,6 +30,8 @@ public class Course implements Agroupation {
 	private Integer instructorId;
 	private boolean createdGroup;
 	@Transient
+	private boolean groupExists;
+	@Transient
 	private String programName;
 	public String getProgramName() {
 		return programName;
@@ -100,6 +102,12 @@ public class Course implements Agroupation {
 	public void setCreatedGroup(boolean createdGroup) {
 		this.createdGroup = createdGroup;
 	}
+	public boolean isGroupExists() {
+        return groupExists;
+    }
+    public void setGroupExists(boolean groupExists) {
+        this.groupExists = groupExists;
+    }
 	public Course(String name, Integer location, String description, boolean openCourse, Integer grade,
 			Integer programId, Integer instructorId, boolean createdGroup, Integer section) {
 		super();

@@ -1,6 +1,8 @@
 package org.fnovella.project.workshop.service;
 
 import org.fnovella.project.group.model.Group;
+import org.fnovella.project.group.service.GroupService;
+import org.fnovella.project.group.service.TypeCategory;
 import org.fnovella.project.program.service.ProgramService;
 import org.fnovella.project.workshop.model.Workshop;
 import org.fnovella.project.workshop.repository.WorkshopRepository;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 public class WorkshopServiceImpl implements WorkshopService {
     @Autowired
     private WorkshopRepository workshopRepository;
+    
+    @Autowired
+    private GroupService groupService;
 
     @Autowired
     private ProgramService programService;
@@ -34,6 +39,9 @@ public class WorkshopServiceImpl implements WorkshopService {
         }
         for (final Workshop workshop : workshops.getContent()) {
             workshop.setCreatedGroup(this.programService.isProgramActive(workshop.getProgramId()));
+        }
+        for (final Workshop workshop : workshops.getContent()) {
+            workshop.setGroupExists(this.groupService.isGroupExistsForClassification(workshop.getId(), TypeCategory.WORKSHOP));
         }
         return workshops;
     }

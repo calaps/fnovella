@@ -4,6 +4,8 @@ import org.fnovella.project.course.service.CourseService;
 import org.fnovella.project.grade.model.Grade;
 import org.fnovella.project.grade.service.GradeService;
 import org.fnovella.project.group.model.Group;
+import org.fnovella.project.group.service.GroupService;
+import org.fnovella.project.group.service.TypeCategory;
 import org.fnovella.project.program.service.ProgramService;
 import org.fnovella.project.section.model.Section;
 import org.fnovella.project.section.repository.SectionRepository;
@@ -27,6 +29,9 @@ public class SectionServiceImpl implements SectionService {
 
     @Autowired
     private ProgramService programService;
+    
+    @Autowired
+    private GroupService groupService;
 
     @Override
     public void updateCreatedGroup(Group group, boolean createdGroup) {
@@ -59,6 +64,9 @@ public class SectionServiceImpl implements SectionService {
         for (final Section section : sections.getContent()) {
             final Grade grade = this.gradeService.findByGradeId(section.getGrade());
             section.setCreatedGroup(this.programService.isProgramActive(grade.getProgramId()));
+        }
+        for (final Section section : sections.getContent()) {
+            section.setGroupExists(this.groupService.isGroupExistsForClassification(section.getId(), TypeCategory.SECTION));
         }
         return sections;
     }

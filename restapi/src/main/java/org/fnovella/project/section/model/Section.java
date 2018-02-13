@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
@@ -25,6 +26,8 @@ public class Section {
 	private String jornada;
 	private Integer location;
 	private boolean createdGroup;
+	@Transient
+	private boolean groupExists;
 	public Integer getId() {
 		return id;
 	}
@@ -80,6 +83,14 @@ public class Section {
 	public void setCreatedGroup(boolean createdGroup) {
 		this.createdGroup = createdGroup;
 	}
+	
+	public boolean isGroupExists() {
+        return groupExists;
+    }
+
+    public void setGroupExists(boolean groupExists) {
+        this.groupExists = groupExists;
+    }
 
 	public Section(Integer grade, String name, String code, String jornada, Integer location, boolean createdGroup) {
 		this.grade = grade;

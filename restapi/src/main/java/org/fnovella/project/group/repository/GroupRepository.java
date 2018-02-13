@@ -20,5 +20,9 @@ public interface GroupRepository extends JpaRepository<Group, Integer> {
     List<Group> findByCourseId(Integer courseId);
     List<Group> findByDivisionId(Integer divisionId);
     List<Group> findBySection(Integer sectionId);
+    List<Group> findByWorkshopIdAndYearActivation(Integer classificationId, Integer currentYear);
+    List<Group> findByDivisionIdAndYearActivation(Integer classificationId, Integer currentYear);
+    List<Group> findByCourseIdAndYearActivation(Integer classificationId, Integer currentYear);
+    List<Group> findBySectionAndYearActivation(Integer classificationId, Integer currentYear);
 
 }

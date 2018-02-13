@@ -26,6 +26,8 @@ public class Division implements Agroupation {
 	private boolean createdGroup;
 	@Transient
 	private String programName;
+	@Transient
+	private boolean groupExists;
 	public String getProgramName() {
 		return programName;
 	}
@@ -79,6 +81,14 @@ public class Division implements Agroupation {
 	public void setCreatedGroup(boolean createdGroup) {
 		this.createdGroup = createdGroup;
 	}
+
+	public boolean isGroupExists() {
+        return groupExists;
+    }
+
+    public void setGroupExists(boolean groupExists) {
+        this.groupExists = groupExists;
+    }
 
 	public Division(String name, Integer programa, Integer location, boolean createdGroup) {
 		super();
