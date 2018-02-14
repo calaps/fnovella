@@ -82,8 +82,6 @@ public class CourseServiceImpl implements CourseService {
         }
         for (final Course course : courses.getContent()) {
             course.setCreatedGroup(this.programService.isProgramActive(course.getProgramId()));
-        }
-        for (final Course course : courses.getContent()) {
             course.setGroupExists(this.groupService.isGroupExistsForClassification(course.getId(), TypeCategory.COURSE));
         }
         return courses;

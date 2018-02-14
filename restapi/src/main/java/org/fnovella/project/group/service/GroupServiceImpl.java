@@ -118,45 +118,19 @@ public class GroupServiceImpl implements GroupService {
         }
         return accumulator / evaluations.size();
     }
-    
+
     public boolean isGroupExistsForClassification(final Integer classificationId, final TypeCategory typeCategory) {
         final Integer currentYear = Year.now().getValue();
-        boolean isGroupExist = false;
-        List<Group> groups;
         switch (typeCategory) {
         case WORKSHOP:
-            groups = groupRepository.findByWorkshopIdAndYearActivation(classificationId, currentYear);
-            if (CollectionUtils.isEmpty(groups)) {
-                isGroupExist = false;
-            } else {
-                isGroupExist = true;
-            }
-            break;
+            return !CollectionUtils.isEmpty(groupRepository.findByWorkshopIdAndYearActivation(classificationId, currentYear));
         case DIVISION:
-            groups = groupRepository.findByDivisionIdAndYearActivation(classificationId, currentYear);
-            if (CollectionUtils.isEmpty(groups)) {
-                isGroupExist = false;
-            } else {
-                isGroupExist = true;
-            }
-            break;
+            return !CollectionUtils.isEmpty(groupRepository.findByDivisionIdAndYearActivation(classificationId, currentYear));
         case COURSE:
-            groups = groupRepository.findByCourseIdAndYearActivation(classificationId, currentYear);
-            if (CollectionUtils.isEmpty(groups)) {
-                isGroupExist = false;
-            } else {
-                isGroupExist = true;
-            }
-            break;
+            return !CollectionUtils.isEmpty(groupRepository.findByCourseIdAndYearActivation(classificationId, currentYear));
         case SECTION:
-            groups = groupRepository.findBySectionAndYearActivation(classificationId, currentYear);
-            if (CollectionUtils.isEmpty(groups)) {
-                isGroupExist = false;
-            } else {
-                isGroupExist = true;
-            }
-            break;
+            return !CollectionUtils.isEmpty(groupRepository.findBySectionAndYearActivation(classificationId, currentYear));
         }
-        return isGroupExist;
+        return false;
     }
  }

@@ -64,8 +64,6 @@ public class SectionServiceImpl implements SectionService {
         for (final Section section : sections.getContent()) {
             final Grade grade = this.gradeService.findByGradeId(section.getGrade());
             section.setCreatedGroup(this.programService.isProgramActive(grade.getProgramId()));
-        }
-        for (final Section section : sections.getContent()) {
             section.setGroupExists(this.groupService.isGroupExistsForClassification(section.getId(), TypeCategory.SECTION));
         }
         return sections;

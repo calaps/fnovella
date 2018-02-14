@@ -39,8 +39,6 @@ public class WorkshopServiceImpl implements WorkshopService {
         }
         for (final Workshop workshop : workshops.getContent()) {
             workshop.setCreatedGroup(this.programService.isProgramActive(workshop.getProgramId()));
-        }
-        for (final Workshop workshop : workshops.getContent()) {
             workshop.setGroupExists(this.groupService.isGroupExistsForClassification(workshop.getId(), TypeCategory.WORKSHOP));
         }
         return workshops;

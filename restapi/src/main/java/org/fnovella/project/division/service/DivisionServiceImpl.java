@@ -40,8 +40,6 @@ public class DivisionServiceImpl implements DivisionService {
         }
         for (final Division division : divisions.getContent()) {
             division.setCreatedGroup(this.programService.isProgramActive(division.getPrograma()));
-        }
-        for (final Division division : divisions.getContent()) {
             division.setGroupExists(this.groupService.isGroupExistsForClassification(division.getId(), TypeCategory.DIVISION));
         }
         return divisions;
