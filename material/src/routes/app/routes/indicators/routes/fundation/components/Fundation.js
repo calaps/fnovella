@@ -1,6 +1,12 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
-import {connect } from 'react-redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import NumericLabel from 'react-pretty-numbers';
+import {
+  programGetRequest,
+  indicatorsGetRquest
+} from '../../../../../../../actions';
 
 const style = {
   background: '#66bb6a',
@@ -22,7 +28,7 @@ class MainOptions extends React.Component {
                         <i className="material-icons">insert_chart</i>
                       </a>
                     </div>
-                    <h6>Indicadores de fundación</h6>
+                    <h6>Indicadores generales de fundación</h6>
                   </div>
                 </div>
               </div>
@@ -35,68 +41,96 @@ class MainOptions extends React.Component {
   }
 }
 
-class IndicadoresFundacion extends React.Component {
+class IndicadoresFundation extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      programId: '',
+      indicators: {},
+      errors: {}
+    };
   }
+
+  componentWillMount() {
+    this.props.actions.indicatorsGetRquest();
+  }
+
   render() {
-    return(
-      <table className="table table-bordered">
-        <thead>
-        <tr>
-          <th colSpan="2" style={style}>Indicadores</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>Participantes iniciales</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Participantes activos al final del período</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>% de deserción</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td colSpan="2" style={style}>-</td>
-        </tr>
-        <tr>
-          <td>% de retención anual</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>% de deserción bimestral / mensual</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>% de asistencia sostenida</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>% de asistencia sostenida con justificación</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>% de estudiantes que aprobarón la materia</td>
-          <td>1</td>
-        </tr>
-        <tr>
-          <td>Cumplimiento de llenado</td>
-          <td>1</td>
-        </tr>
-        </tbody>
-      </table>
+    var option = {
+      percentage: true,
+      precision: 6
+    };
+
+    const {indicators} = this.props;
+
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xl-12">
+
+            <div className="box box-default">
+              <div className="box-body padding-md">
+
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th colSpan="2" style={style}>Indicadores</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Participantes iniciales</td>
+                      <td>{indicators.totalParticipants}</td>
+                    </tr>
+                    <tr>
+                      <td>% de activos al final del período</td>
+                      <td>{indicators.activeParticipants}</td>
+                    </tr>
+                    <tr>
+                      <td>% de deserción</td>
+                      <td>{indicators.inactiveParticipants} %</td>
+                    </tr>
+                    <tr>
+                      <td colSpan="2" style={style}>-</td>
+                    </tr>
+                    <tr>
+                      <td>% de retención anual</td>
+                      <td>{indicators.activeParticipants} %</td>
+                    </tr>
+                    <tr>
+                      <td>% de deserción bimestral / mensual</td>
+                      <td>{indicators.inactiveParticipants} %</td>
+                    </tr>
+                    <tr>
+                      <td>% de asistencia sostenida con justificación</td>
+                      <td>{indicators.justifiedParticipants} %</td>
+                    </tr>
+                    <tr>
+                      <td>% de estudiantes que aprobarón la materia</td>
+                      <td>{indicators.approvedParticipants} %</td>
+                    </tr>
+                    <tr>
+                      <td>Cantidad total de asistencias</td>
+                      <td>{indicators.totalAssistance}</td>
+                    </tr>
+                    <tr>
+                      <td>Cumplimiento de llenado</td>
+                      <td>{indicators.accomplishment} %</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     );
   }
 }
 
 class Fundation extends React.Component {
-  constructor(props){
-    super(props);
-  }
 
   render() {
     return (
@@ -105,7 +139,7 @@ class Fundation extends React.Component {
         <QueueAnim type="bottom" className="ui-animate">
           <div key="1"><MainOptions/></div>
           <hr/>
-          <div key="2"><IndicadoresFundacion /></div>
+          <div key="2"><IndicadoresFoundationConnected/></div>
         </QueueAnim>
 
       </div>
@@ -113,5 +147,22 @@ class Fundation extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    programs: state.programs,
+    indicators: state.indicators
+  };
+}
 
-module.exports = connect()(Fundation);
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      programGetRequest,
+      indicatorsGetRquest
+    }, dispatch)
+  };
+}
+
+const IndicadoresFoundationConnected = connect(mapStateToProps, mapDispatchToProps)(IndicadoresFundation);
+
+module.exports = Fundation;

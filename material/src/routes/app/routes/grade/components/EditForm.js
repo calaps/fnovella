@@ -309,8 +309,8 @@ class EditForm extends React.Component {
                           disabled={this.state.isLoading}
                           type="submit"
                           label={this.state.isEditing
-                          ? 'Update'
-                          : 'Add'}
+                          ? 'actualizar'
+                          : 'agregar'}
                           secondary
                           className="btn-w-md"/>
                       </div>

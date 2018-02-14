@@ -255,14 +255,6 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="location" className="col-md-3 control-label">Ingresa la ubicación</label>
                       <div className="col-md-9">
-                        {/* <textarea
-                          type="text"
-                          className="form-control"
-                          id="location"
-                          name="location"
-                          value={this.state.location}
-                          onChange={this.onChange}
-                          placeholder="eje: About this category" /> */}
                           <select
                           name="location"
                           id="location"
@@ -281,12 +273,12 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                    label='Cancel'
+                                    label='cancelar'
                                     style={{marginRight: 12}}
                                     onTouchTap={this.handleCancel}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing?'Update':'Add'}
+                                      label={this.state.isEditing?'actualizar':'agregar'}
                                       secondary className="btn-w-md" />
                       </div>
                     </div>

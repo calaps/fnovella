@@ -123,7 +123,7 @@ class IndicadoresFundation extends React.Component {
                       <RaisedButton
                         disabled={this.state.isLoading}
                         type="submit"
-                        label="Buscar"
+                        label="visualizar"
                         secondary
                         className="btn-w-md" />
                     </div>

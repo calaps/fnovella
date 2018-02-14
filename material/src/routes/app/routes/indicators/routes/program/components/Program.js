@@ -161,20 +161,12 @@ class IndicadoresFundation extends React.Component {
                     <td>{ indicators.inactiveParticipants } %</td>
                   </tr>
                   <tr>
-                    <td>% de asistencia sostenida</td>
-                    <td>{ indicators.sustainedParticipants } %</td>
-                  </tr>
-                  <tr>
                     <td>% de asistencia sostenida con justificación</td>
                     <td>{ indicators.justifiedParticipants } %</td>
                   </tr>
                   <tr>
                     <td>% de estudiantes que aprobarón la materia</td>
                     <td>{ indicators.approvedParticipants } %</td>
-                  </tr>
-                  <tr>
-                    <td>Cantidad total de sesiones</td>
-                    <td>{ indicators.sessionAssistance }</td>
                   </tr>
                   <tr>
                     <td>Cantidad total de asistencias</td>
