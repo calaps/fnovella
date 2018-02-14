@@ -1,7 +1,7 @@
 import React from 'react';
 
 class ListItem extends React.Component {
-  render () {
+  render() {
     return (
       <tr>
         <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
@@ -9,31 +9,50 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.workshopData.name}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.workshopData.programId}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.workshopData.description}</td>
-        <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
-          {
-            (this.props.workshopData.createdGroup)
-              ?
+        <td className="mdl-data-table__cell--non-numeric" style={{textAlign: 'right'}}>
+          {(this.props.workshopData.createdGroup) ?
+            (this.props.workshopData.groupExists) ?
               <button
-                onClick={()=>{this.props.onViewGroup(this.props.workshopData.id)}}
-
-                type="submit" className="btn btn-info">Visualizar grupo</button>
+                onClick={() => {
+                  this.props.onViewGroup(this.props.workshopData.id);
+                }}
+                type="submit"
+                className="btn btn-info">
+                Visualizar grupo
+              </button>
               :
               <button
-                onClick={()=>{this.props.onCreateGroup(this.props.workshopData.id)}}
-
-                type="submit" className="btn btn-primary">Crear grupo</button>
+                onClick={() => {
+                  this.props.onCreateGroup(this.props.workshopData.id);
+                }}
+                type="submit"
+                className="btn btn-primary">
+                Crear grupo
+              </button>
+            :
+            <button
+              disabled
+              className="btn btn-primary">
+              El programa no esta activado
+            </button>
           }
           &nbsp;
           &nbsp;
           <button
-            onClick={()=>{this.props.onEdit(this.props.workshopData)}}
+            onClick={() => {
+              this.props.onEdit(this.props.workshopData)
+            }}
 
-            type="submit" className="btn btn-primary">Editar</button>
+            type="submit" className="btn btn-primary">Editar
+          </button>
           &nbsp;
           <button
-            onClick={()=>{this.props.onDelete(this.props.workshopData.id)}}
+            onClick={() => {
+              this.props.onDelete(this.props.workshopData.id)
+            }}
 
-            type="submit" className="btn btn-danger">Eliminar</button>
+            type="submit" className="btn btn-danger">Eliminar
+          </button>
           &nbsp;
         </td>
       </tr>

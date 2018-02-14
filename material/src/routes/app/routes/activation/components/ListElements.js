@@ -22,6 +22,7 @@ class ListElements extends React.Component {
   }
 
   componentWillMount() {
+    /** DISPLAY PROGRAM NAME FRONT-END **/
     // Search for all the program Activations
     this.props.actions.programActivationsGetRequest(number, size).then(() => {
       // Assign the activations to the props
@@ -59,6 +60,7 @@ class ListElements extends React.Component {
         });
       });
     });
+    /** DISPLAY PROGRAM NAME FRONT-END END **/
   }
 
   onDeleteButton(id) {

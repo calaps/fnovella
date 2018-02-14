@@ -9,18 +9,31 @@ class ListItem extends React.Component {
         <td className="mdl-data-table__cell--non-numeric">{this.props.divisionData.programa}</td>
         <td className="mdl-data-table__cell--non-numeric">{this.props.divisionData.description}</td>
         <td className="mdl-data-table__cell--non-numeric" style={{textAlign:'right'}}>
-          {
-            (this.props.divisionData.createdGroup)
-              ?
+          {(this.props.divisionData.createdGroup) ?
+            (this.props.divisionData.groupExists) ?
               <button
-                onClick={()=>{this.props.onViewGroup(this.props.divisionData.id)}}
-
-                type="submit" className="btn btn-info">Visualizar grupo</button>
+                onClick={() => {
+                  this.props.onViewGroup(this.props.divisionData.id);
+                }}
+                type="submit"
+                className="btn btn-info">
+                Visualizar grupo
+              </button>
               :
               <button
-                onClick={()=>{this.props.onCreateGroup(this.props.divisionData.id)}}
-
-                type="submit" className="btn btn-primary">Crear grupo</button>
+                onClick={() => {
+                  this.props.onCreateGroup(this.props.divisionData.id);
+                }}
+                type="submit"
+                className="btn btn-primary">
+                Crear grupo
+              </button>
+            :
+            <button
+              disabled
+              className="btn btn-primary">
+              El programa no esta activado
+            </button>
           }
           &nbsp;
           &nbsp;
