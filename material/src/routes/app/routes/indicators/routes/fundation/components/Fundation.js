@@ -46,13 +46,17 @@ class IndicadoresFundation extends React.Component {
     super(props);
     this.state = {
       programId: '',
-      indicators: {},
+      indicators: '',
       errors: {}
     };
   }
 
   componentWillMount() {
-    this.props.actions.indicatorsGetRquest();
+    this.props.actions.indicatorsGetRquest().then(() => {
+      this.setState({
+        indicators: this.props.indicators
+      });
+    });
   }
 
   render() {
@@ -61,7 +65,7 @@ class IndicadoresFundation extends React.Component {
       precision: 6
     };
 
-    const {indicators} = this.props;
+    const {indicators} = this.state;
 
     return (
       <div className="container-fluid">
@@ -77,47 +81,49 @@ class IndicadoresFundation extends React.Component {
                       <th colSpan="2" style={style}>Indicadores</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  {indicators !== '' ?
+                    <tbody>
                     <tr>
                       <td>Participantes iniciales</td>
                       <td>{indicators.totalParticipants}</td>
                     </tr>
                     <tr>
                       <td>% de activos al final del período</td>
-                      <td>{indicators.activeParticipants}</td>
+                      <td>{indicators.activeParticipants.toFixed(2)} %</td>
                     </tr>
                     <tr>
                       <td>% de deserción</td>
-                      <td>{indicators.inactiveParticipants} %</td>
+                      <td>{indicators.inactiveParticipants.toFixed(2)} %</td>
                     </tr>
                     <tr>
                       <td colSpan="2" style={style}>-</td>
                     </tr>
                     <tr>
                       <td>% de retención anual</td>
-                      <td>{indicators.activeParticipants} %</td>
+                      <td>{indicators.activeParticipants.toFixed(2)} %</td>
                     </tr>
                     <tr>
                       <td>% de deserción bimestral / mensual</td>
-                      <td>{indicators.inactiveParticipants} %</td>
+                      <td>{indicators.inactiveParticipants.toFixed(2)} %</td>
                     </tr>
                     <tr>
                       <td>% de asistencia sostenida con justificación</td>
-                      <td>{indicators.justifiedParticipants} %</td>
+                      <td>{indicators.justifiedParticipants.toFixed(2)} %</td>
                     </tr>
                     <tr>
                       <td>% de estudiantes que aprobarón la materia</td>
-                      <td>{indicators.approvedParticipants} %</td>
+                      <td>{indicators.approvedParticipants.toFixed(2)} %</td>
                     </tr>
                     <tr>
                       <td>Cantidad total de asistencias</td>
-                      <td>{indicators.totalAssistance}</td>
+                      <td>{indicators.totalAssistance.toFixed(2)}</td>
                     </tr>
                     <tr>
                       <td>Cumplimiento de llenado</td>
-                      <td>{indicators.accomplishment} %</td>
+                      <td>{indicators.accomplishment.toFixed(2)} %</td>
                     </tr>
                   </tbody>
+                  : <div>Por favor espere...</div>}
                 </table>
 
               </div>
