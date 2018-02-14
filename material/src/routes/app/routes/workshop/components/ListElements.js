@@ -3,26 +3,66 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
   workshopsGetRequest,
-  workshopsDeleteRequest
+  workshopsDeleteRequest,
+  programGetRequest
 } from '../../../../../actions';
 import ListItem from './ListItem';
-import Pagination from '../../../../../components/Pagination'
+import Pagination from '../../../../../components/Pagination';
 
 /** *
  * Fake element list render....
  * */
-let size = 10; //limit
-let number = 0; //page
+const size = 10; // limit
+const number = 0; // page
 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      workshops: {}
+    }
     this.onDeleteButton = this.onDeleteButton.bind(this);
   }
 
   componentWillMount() {
-    // type: 2 reflects all programs
-    this.props.actions.workshopsGetRequest(number, size);
+    /** DISPLAY PROGRAM NAME FRONT-END **/
+    this.props.actions.workshopsGetRequest(number, size).then(() => {
+      // Assign the activations to the props
+      this.setState({
+        workshops: this.props.workshops
+      }, () => {
+        // once assigned get the Programs info
+        this.props.actions.programGetRequest(0, 1000).then(() => {
+          // Makes a Map to every element in the program activations
+          // This lets would be used to add the names to the array
+          let currentProgramActivation = '';
+          let programId = '';
+          let currentName = '';
+          let newProgramActications = this.state.workshops.content; // Create a new array since async state update
+
+          // Loop every ProgramActivation
+          Object.keys(this.state.workshops.content).forEach((key) => {
+            currentProgramActivation = this.state.workshops.content[key];
+            // Search for the current name
+            programId = this.props.programs.content.findIndex((element) => {
+              return currentProgramActivation.programId === element.id;
+            });
+            // Search the name
+            currentName = this.props.programs.content[programId].name;
+            // New object with the program name
+            currentProgramActivation.nameProgram = currentName;
+            newProgramActications[key] = currentProgramActivation;
+          });
+          let newStateUpdate = this.state.workshops;
+          newStateUpdate.content = newProgramActications;
+          this.setState({
+            workshops: newStateUpdate
+          });
+          // Add the name property to the state
+        });
+      });
+    });
+    /** DISPLAY PROGRAM NAME FRONT-END END **/
   }
 
   onDeleteButton(id) {
@@ -43,19 +83,18 @@ class ListElements extends React.Component {
                 <div className="box box-default table-box mdl-shadow--2dp">
                   <table className="mdl-data-table table-striped">
                     <thead>
-                    <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Id</th>
-                      <th className="mdl-data-table__cell--non-numeric">Name</th>
-                      <th className="mdl-data-table__cell--non-numeric">Programa</th>
-                      <th className="mdl-data-table__cell--non-numeric">Description</th>
-                    </tr>
+                      <tr>
+                        <th className="mdl-data-table__cell--non-numeric">#</th>
+                        <th className="mdl-data-table__cell--non-numeric">Id</th>
+                        <th className="mdl-data-table__cell--non-numeric">Name</th>
+                        <th className="mdl-data-table__cell--non-numeric">Programa</th>
+                        <th className="mdl-data-table__cell--non-numeric">Description</th>
+                      </tr>
                     </thead>
 
                     <tbody>
-
                     {
-                      this.props.workshops.content ? this.props.workshops.content.map((workshop) => {
+                      this.state.workshops.content ? this.state.workshops.content.map((workshop) => {
                         return <ListItem key={workshop.id} onDelete={this.onDeleteButton}
                                          number={i++} onViewGroup={this.props.onViewGroup}
                                          onEdit={this.props.onEdit}
@@ -82,10 +121,12 @@ class ListElements extends React.Component {
     );
   }
 }
+
 function mapStateToProps(state) {
-  //pass the providers
+  // pass the providers
   return {
-    workshops: state.workshops
+    workshops: state.workshops,
+    programs: state.programs
   }
 }
 
@@ -94,7 +135,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       workshopsGetRequest,
-      workshopsDeleteRequest
+      workshopsDeleteRequest,
+      programGetRequest
     }, dispatch)
   };
 }

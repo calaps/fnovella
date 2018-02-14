@@ -37,6 +37,9 @@ class EditForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     self = this;
+    if(this.state.isEditing){
+      this.props.actions.programLocationByProgramIdGetRequest(this.state.programId);
+    }
   }
 
   componentWillMount() {
@@ -152,19 +155,11 @@ class EditForm extends React.Component {
       if(this.state.programId){
         let sedes = this.props.sedes.content || [];
         let programLocationRelation = this.props.programLocations.content || [];
-
-        // console.log("programLocationRelation: ", programLocationRelation);
-        // console.log("this.state.programId: ", this.state.programId);
-
         // separate the locations first
         let programLocations = [];
         for(let i=0; i<programLocationRelation.length; i++){
           programLocations.push(programLocationRelation[i].location);
         }
-
-        // console.log("programLocations: ", programLocations);
-        // console.log("sedes: ", sedes);
-
         return sedes.map((sede) => {
           if(programLocations.indexOf(sede.id)>=0){
             return <option key={sede.id} value={sede.id}>{sede.name}</option>
@@ -242,7 +237,7 @@ class EditForm extends React.Component {
                     </div>
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ubicación</label>
                       <div className="col-md-9">
                         <select
                           name="location"
@@ -261,12 +256,12 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                    label='Cancel'
+                                    label='atras'
                                     style={{marginRight: 12}}
                                     onTouchTap={this.handleCancel}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ? 'Cancelar' : 'Agregar'} secondary className="btn-w-md"/>
+                                      label={this.state.isEditing ? 'editar' : 'agregar'} secondary className="btn-w-md"/>
                       </div>
                     </div>
                   </form>

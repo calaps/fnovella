@@ -691,7 +691,7 @@ export function workshopValidator(data) {
       errors.name = invalidData;
     }
   }
-  if (Validator.isEmpty(data.location)) {
+  if (Validator.isEmpty(data.location.toString())) {
     errors.location = required;
   }
   if (Validator.isEmpty(data.description)) {
@@ -700,7 +700,7 @@ export function workshopValidator(data) {
       errors.description = invalidData;
     }
   }
-  if (Validator.isEmpty(data.programId)) {
+  if (Validator.isEmpty(data.programId.toString())) {
     errors.programId = required;
   }
   // if(Validator.isEmpty(data.instructorId)) {   errors.instructorId = required;
