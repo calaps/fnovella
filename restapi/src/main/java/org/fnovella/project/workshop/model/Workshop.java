@@ -24,6 +24,15 @@ public class Workshop implements Agroupation {
 	private boolean createdGroup;
 	@Transient
 	private String programName;
+	@Transient
+	private boolean groupExists;
+	
+	public boolean isGroupExists() {
+        return groupExists;
+    }
+    public void setGroupExists(boolean groupExists) {
+        this.groupExists = groupExists;
+    }
 	public String getProgramName() {
 		return programName;
 	}

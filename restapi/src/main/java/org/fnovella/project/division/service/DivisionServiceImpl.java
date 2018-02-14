@@ -3,6 +3,8 @@ package org.fnovella.project.division.service;
 import org.fnovella.project.division.model.Division;
 import org.fnovella.project.division.repository.DivisionRepository;
 import org.fnovella.project.group.model.Group;
+import org.fnovella.project.group.service.GroupService;
+import org.fnovella.project.group.service.TypeCategory;
 import org.fnovella.project.program.service.ProgramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,9 @@ public class DivisionServiceImpl implements DivisionService {
 
     @Autowired
     private ProgramService programService;
+    
+    @Autowired
+    private GroupService groupService;
 
     @Override
     public void updateCreatedGroup(Group group, boolean createdGroup) {
@@ -35,6 +40,7 @@ public class DivisionServiceImpl implements DivisionService {
         }
         for (final Division division : divisions.getContent()) {
             division.setCreatedGroup(this.programService.isProgramActive(division.getPrograma()));
+            division.setGroupExists(this.groupService.isGroupExistsForClassification(division.getId(), TypeCategory.DIVISION));
         }
         return divisions;
     }

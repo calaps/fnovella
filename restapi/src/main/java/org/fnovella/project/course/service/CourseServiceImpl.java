@@ -3,6 +3,8 @@ package org.fnovella.project.course.service;
 import org.fnovella.project.course.model.Course;
 import org.fnovella.project.course.repository.CourseRepository;
 import org.fnovella.project.group.model.Group;
+import org.fnovella.project.group.service.GroupService;
+import org.fnovella.project.group.service.TypeCategory;
 import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
 import org.fnovella.project.inscriptions_part_course.repository.InscriptionsPartCourseRepository;
 import org.fnovella.project.program.service.ProgramService;
@@ -25,6 +27,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private ProgramService programService;
+    
+    @Autowired
+    private GroupService groupService;
 
     @Override
     public void updateCreatedGroup(Group group, boolean createdGroup) {
@@ -77,6 +82,7 @@ public class CourseServiceImpl implements CourseService {
         }
         for (final Course course : courses.getContent()) {
             course.setCreatedGroup(this.programService.isProgramActive(course.getProgramId()));
+            course.setGroupExists(this.groupService.isGroupExistsForClassification(course.getId(), TypeCategory.COURSE));
         }
         return courses;
     }

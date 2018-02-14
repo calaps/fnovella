@@ -13,4 +13,6 @@ public interface GroupService {
     InsightGroupDTO getInsight(Integer idGroup);
 
     long getApprovedParticipants(Integer idGroup);
+    
+    boolean isGroupExistsForClassification(Integer classificationId, TypeCategory typeCategory);
 }

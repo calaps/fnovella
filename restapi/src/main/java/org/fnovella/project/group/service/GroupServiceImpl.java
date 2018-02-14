@@ -19,8 +19,11 @@ import org.fnovella.project.section.service.SectionService;
 import org.fnovella.project.workshop.service.WorkshopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
+
+import java.time.Year;
 import java.util.List;
 
 @Service
@@ -116,5 +119,18 @@ public class GroupServiceImpl implements GroupService {
         return accumulator / evaluations.size();
     }
 
-
-}
+    public boolean isGroupExistsForClassification(final Integer classificationId, final TypeCategory typeCategory) {
+        final Integer currentYear = Year.now().getValue();
+        switch (typeCategory) {
+        case WORKSHOP:
+            return !CollectionUtils.isEmpty(groupRepository.findByWorkshopIdAndYearActivation(classificationId, currentYear));
+        case DIVISION:
+            return !CollectionUtils.isEmpty(groupRepository.findByDivisionIdAndYearActivation(classificationId, currentYear));
+        case COURSE:
+            return !CollectionUtils.isEmpty(groupRepository.findByCourseIdAndYearActivation(classificationId, currentYear));
+        case SECTION:
+            return !CollectionUtils.isEmpty(groupRepository.findBySectionAndYearActivation(classificationId, currentYear));
+        }
+        return false;
+    }
+ }
