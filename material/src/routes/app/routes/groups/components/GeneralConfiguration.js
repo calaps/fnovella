@@ -7,6 +7,7 @@ import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
+import areIntlLocalesSupported from 'intl-locales-supported'; // For Date Picker format
 import {typeCategory} from '../../../../../constants/data_types';
 import {groupValidator} from '../../../../../actions/formValidations'; // form validations
 import {
@@ -24,6 +25,15 @@ import {
 import UserForm from '../../users/components/EditForm'; // EditForm for Users creation
 
 let self;
+let DateTimeFormat;
+
+if (areIntlLocalesSupported(['es-GT'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl'); // new Module with date Formats
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/es-GT');
+}
 
 class GeneralConfiguration extends React.Component {
   constructor(props) {
@@ -497,6 +507,11 @@ class GeneralConfiguration extends React.Component {
                         programa</label>
                       <div className="col-md-9">
                         <DatePicker
+                          hintText="Ingresa fecha"
+                          DateTimeFormat={DateTimeFormat}
+                          okLabel="seleccionar"
+                          cancelLabel="cancelar"
+                          locale="es-GT"
                           value={this.state.programDateStart}
                           onChange={this.handleChangeStartDateProgram}
                         />
@@ -509,6 +524,11 @@ class GeneralConfiguration extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de final de programa</label>
                       <div className="col-md-9">
                         <DatePicker
+                          hintText="Ingresa fecha"
+                          DateTimeFormat={DateTimeFormat}
+                          okLabel="seleccionar"
+                          cancelLabel="cancelar"
+                          locale="es-GT"
                           value={this.state.programDateEnd}
                           onChange={this.handleChangeEndDateProgram}
                         />
@@ -577,7 +597,11 @@ class GeneralConfiguration extends React.Component {
                         inscripción</label>
                       <div className="col-md-9">
                         <DatePicker
-                          hintText="eje: Durán"
+                          hintText="Ingresa fecha"
+                          DateTimeFormat={DateTimeFormat}
+                          okLabel="seleccionar"
+                          cancelLabel="cancelar"
+                          locale="es-GT"
                           value={this.state.inscriptionsStart}
                           onChange={this.handleChangeStartDate}
                         />
@@ -591,7 +615,11 @@ class GeneralConfiguration extends React.Component {
                         inscripción</label>
                       <div className="col-md-9">
                         <DatePicker
-                          hintText="eje: Durán"
+                          hintText="Ingresa fecha"
+                          DateTimeFormat={DateTimeFormat}
+                          okLabel="seleccionar"
+                          cancelLabel="cancelar"
+                          locale="es-GT"
                           value={this.state.inscriptionsEnd}
                           onChange={this.handleChangeEndDate}
                         />

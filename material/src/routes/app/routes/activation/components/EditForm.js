@@ -4,6 +4,8 @@ import {bindActionCreators} from 'redux';
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import DatePicker from 'material-ui/DatePicker'; // For date Picker
+import areIntlLocalesSupported from 'intl-locales-supported'; // For Date Picker format
 import {programActivationValidator} from "../../../../../actions/formValidations"; // form validations
 import {evaluationPeriods} from "../../../../../constants/data_types";
 import map from 'lodash-es/map'; // to use map in a object
@@ -11,8 +13,19 @@ import {
   sedesGetRequest,
   usersGetRequest
 } from '../../../../../actions';
-import UserForm from '../../users/components/EditForm'; // EditForm for Users creation
+import UserForm from '../../users/components/EditForm';
+import {convertDateToHTMLInputDateValue} from "../../../../../utils/helpers"; // EditForm for Users creation
+
 let self;
+let DateTimeFormat;
+
+if (areIntlLocalesSupported(['es-GT'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl'); // new Module with date Formats
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/es-GT');
+}
 
 class EditForm extends React.Component {
   constructor(props) {
@@ -94,11 +107,11 @@ class EditForm extends React.Component {
       //reset errros object and disable submit button
       this.setState({errors: {}, isLoading: true});
       let data = {
+        calPeriodsCourse: convertDateToHTMLInputDateValue(this.state.calPeriodsCourse),
+        calPeriodsGrade: convertDateToHTMLInputDateValue(this.state.calPeriodsGrade),
+        calPeriodsWorkshop: convertDateToHTMLInputDateValue(this.state.calPeriodsWorkshop),
+        calPeriodsDivision: convertDateToHTMLInputDateValue(this.state.calPeriodsDivision),
         activationStatus: this.state.activationStatus,
-        calPeriodsCourse: this.state.calPeriodsCourse,
-        calPeriodsGrade: this.state.calPeriodsGrade,
-        calPeriodsWorkshop: this.state.calPeriodsWorkshop,
-        calPeriodsDivision: this.state.calPeriodsDivision,
         evaluationStructure: this.state.evaluationStructure,
         freeCourses: this.state.freeCourses,
         location: this.state.location,
@@ -127,8 +140,20 @@ class EditForm extends React.Component {
     }
   }
 
-  onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+  onChange(e, value) {
+    if (!e) {
+      // its a date field according datepicker component
+      console.log(value);
+      this.setState({
+        calPeriodsWorkshop: new Date(value),
+        calPeriodsDivision: new Date(value),
+        calPeriodsGrade: new Date(value),
+        calPeriodsCourse: new Date(value)
+      });
+    }
+    else {
+      this.setState({[e.target.name]: e.target.value});
+    }
   }
 
   render() {
@@ -273,13 +298,17 @@ class EditForm extends React.Component {
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización
                         de {name}</label>
                       <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
+                        <DatePicker
+                          hintText="Ingresa fecha"
+                          DateTimeFormat={DateTimeFormat}
+                          okLabel="seleccionar"
+                          cancelLabel="cancelar"
+                          locale="es-GT"
                           id={nameVar}
                           name={nameVar}
-                          value={this.state.nameVar}
-                          onChange={this.onChange}/>
+                          value={this.state[nameVar]}
+                          onChange={this.onChange}
+                        />
                         {errors.nameVar &&
                         <span className="help-block text-danger">{errors.nameVar}</span>}
                       </div>

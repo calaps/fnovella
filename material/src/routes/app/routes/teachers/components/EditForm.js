@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import FlatButton from 'material-ui/FlatButton'; // For Buttons
 import DatePicker from 'material-ui/DatePicker'; // Datepicker
+import areIntlLocalesSupported from 'intl-locales-supported'; // For Date Picker format
 import Dialog from 'material-ui/Dialog'; // Dialog to show password
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -22,6 +23,15 @@ import {
 } from '../../../../../actions';
 
 let self;
+let DateTimeFormat;
+
+if (areIntlLocalesSupported(['es-GT'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl'); // new Module with date Formats
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/es-GT');
+}
 
 class EditForm extends React.Component {
   constructor(props) {
@@ -524,17 +534,13 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Fecha de nacimiento</label>
                       <div className="col-md-9">
-                        {/*<input*/}
-                        {/*type="date"*/}
-                        {/*className="form-control"*/}
-                        {/*id="bornDate"*/}
-                        {/*name="bornDate"*/}
-                        {/*value={this.state.bornDate}*/}
-                        {/*onChange={this.onChange}*/}
-                        {/*placeholder="eje: Durán"/>*/}
 
                         <DatePicker
-                          hintText="eje: Durán"
+                          hintText="Ingresa fecha"
+                          DateTimeFormat={DateTimeFormat}
+                          okLabel="seleccionar"
+                          cancelLabel="cancelar"
+                          locale="es-GT"
                           value={this.state.bornDate}
                           onChange={this.onChange}
                         />
