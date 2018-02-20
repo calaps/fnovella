@@ -1,4 +1,15 @@
 import React from 'react';
+import Chip from 'material-ui/Chip';
+import {
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+
+const styles = {
+  chip: {
+    margin: 4,
+  }
+};
 
 class ListItem extends React.Component {
   constructor(props) {
@@ -12,25 +23,20 @@ class ListItem extends React.Component {
   }
 
   render() {
-    let {showInscriptions} = this.props;
     return (
-      <tr>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.number}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.id}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.group}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.period}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.year}</td>
-        <td className="mdl-data-table__cell--non-numeric">{this.props.inscriptionData.status ? "True" : "False"}</td>
-        <td className="mdl-data-table__cell--non-numeric">
-          <button
-            onClick={() => {
-              this.props.handleInscriptionParticipant(this.props.inscriptionData.id)
-            }}
-            type="submit" className="btn btn-primary">Visualizar estudiantes
-          </button>
-
-          &nbsp;
-          &nbsp;
+      <TableRow>
+        <TableRowColumn>{this.props.number}</TableRowColumn>
+        <TableRowColumn>
+          <Chip
+            style={styles.chip}>
+            {this.props.participantData.firstName} {this.props.participantData.firstLastname}
+          </Chip>
+        </TableRowColumn>
+        <TableRowColumn><a href={this.props.participantData.email}>{this.props.participantData.email}</a></TableRowColumn>
+        <TableRowColumn>{(this.props.participantData.gender === 'male') ? 'hombre' : 'mujer'}</TableRowColumn>
+        <TableRowColumn>{this.props.inscriptionData.id}</TableRowColumn>
+        <TableRowColumn>{(this.props.inscriptionData.status == 1) ? <label className={"text-success"}>Aprovado</label> : <label className={"text-warning"}>Pendiente</label>}</TableRowColumn>
+        <TableRowColumn>
           {
             this.props.inscriptionData.status ? null :
               <button
@@ -38,9 +44,8 @@ class ListItem extends React.Component {
 
                 className="btn btn-primary">Aprovar inscripción</button>
           }
-
-        </td>
-      </tr>
+        </TableRowColumn>
+      </TableRow>
     );
   }
 }
