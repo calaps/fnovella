@@ -160,9 +160,9 @@ export function catalogsValidator(data) {
 
   let errors = {}; //errors star with an empty object
 
-  if (Validator.isEmpty(data.category)) {
+  if (Validator.isEmpty(data.category.toString())) {
     errors.category = required;
-    if (!Validator.isEmpty(data.category) && !Validator.isAlphanumeric(data.category)) {
+    if (!Validator.isEmpty(data.category.toString()) && !Validator.isAlphanumeric(data.category.toString())) {
       errors.category = invalidData;
     }
   }

@@ -192,12 +192,12 @@ class EditForm extends React.Component {
                     <div className="form-group row">
                       <div className="offset-md-3 col-md-10">
                         <FlatButton disabled={this.state.isLoading}
-                                    label='Cancel'
+                                    label='cancelar'
                                     style={{marginRight: 12}}
                                     onTouchTap={this.handleCancel}
                                     secondary className="btn-w-md"/>
                         <RaisedButton disabled={this.state.isLoading} type="submit"
-                                      label={this.state.isEditing ? 'Update' : 'Add'}
+                                      label={this.state.isEditing ? 'actualizar' : 'agregar'}
                                       secondary className="btn-w-md"/>
                       </div>
                     </div>
