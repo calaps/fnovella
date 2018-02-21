@@ -55,12 +55,25 @@ class ProgramsListElements extends React.Component {
       programClasification: this.state.clasification
     };
     let findMatch = '';
+    let sameYearActivation = false;
+    const currentYear = (new Date).getFullYear();
     for (let i = 0; i < this.props.programs.numberOfElements; i++) {
-      // logic to display number -1 index of activation
+      // Does it have an activation?
       findMatch = this.props.programActivations.content.findIndex((element) => {
         return element.programId === this.props.programs.content[i].id;
       });
+      if (findMatch !== -1) { // If activation exist then it is the same year?
+        sameYearActivation = (this.props.programActivations.content[findMatch].year === currentYear);
+      }
       if (findMatch === -1) {
+        tableRows.push(
+          <TableRow key={i} selected={this.state.selectedRow.indexOf(i) !== -1}>
+            <TableRowColumn>{[i + 1]}</TableRowColumn>
+            <TableRowColumn>{this.props.programs.content[i].name}</TableRowColumn>
+            <TableRowColumn>{this.props.programs.content[i].description}</TableRowColumn>
+          </TableRow>
+        );
+      } else if (sameYearActivation === false) {
         tableRows.push(
           <TableRow key={i} selected={this.state.selectedRow.indexOf(i) !== -1}>
             <TableRowColumn>{[i + 1]}</TableRowColumn>
