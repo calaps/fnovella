@@ -763,18 +763,21 @@ class EditForm extends React.Component {
 
             </div>
 
+            {!this.props.dialog &&
             <div className="col-xl-3 col-lg-6">
               <div className="card bg-color-white">
                 <div className="card-content">
                   <span className="card-title">Uso de catalogos</span>
-                  <p>El siguiente foromulario hace uso de catalogos, para agregar nuevos catalogos
-                    deveras editarlos previamente en la sección de la página.</p>
+                  <p>El siguiente foromulario hace uso de catalogos, para agregar nuevos catalogos deveras editarlos
+                    previamente
+                    en la sección de la página.</p>
                 </div>
                 <div className="card-action">
                   <a href="#/app/catalog">Ver catalogos</a>
                 </div>
               </div>
             </div>
+            }
 
           </div>
 

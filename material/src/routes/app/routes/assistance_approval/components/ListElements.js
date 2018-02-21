@@ -1,8 +1,6 @@
 import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import IconButton from 'material-ui/IconButton';
-import Search from 'material-ui/svg-icons/action/search';
 import {
   assistanceGetRequest,
   inscriptionGetByGroupId,
@@ -15,35 +13,28 @@ import {
 import ListItem from './ListItem';
 import Pagination from '../../../../../components/Pagination'
 
-let size = 5; //limit
-let number = 0; //page
-
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       inscriptions: [],
-      assistances:{}
+      assistances: {}
     };
-    this.approveAssistance=this.approveAssistance.bind(this);
+    this.approveAssistance = this.approveAssistance.bind(this);
   }
+
   componentWillMount() {
-      this
-        .props
-        .actions
-        .assistanceGetRequest(0, 1000);
-        this.props.actions.inscriptionGetByGroupId(this.props.query.id)
-        .then((res)=>{
-          this.setState({
-            inscriptions:res.data
-          })
-        })
-    }
+    this.props.actions.assistanceGetRequest(0, 1000);
+    this.props.actions.inscriptionGetByGroupId(this.props.query.id).then((res) => {
+      this.setState({
+        inscriptions: res.data
+      })
+    })
+  }
 
 
-  approveAssistance(assistanceData){
-    console.log("dadasd",assistanceData);
-    let data= {
+  approveAssistance(assistanceData) {
+    let data = {
       ...assistanceData,
       status: 1
     }
@@ -51,7 +42,7 @@ class ListElements extends React.Component {
   }
 
   render() {
-    var i= 1;
+    var i = 1;
     let renderAssisance = () => {
       let assistance = this.props.assistance.content || [];
       let inscriptions = this.state.inscriptions;
@@ -65,12 +56,12 @@ class ListElements extends React.Component {
         //   return (_participant.id == inscriptionParticipant.participant)
         // });
         if (inscription) {
-          return<ListItem
-          key={_assistance.id}
-          changeView={this.props.changeView}
-          number={i++}
-          assistanceData={_assistance}
-          approveAssistance={this.approveAssistance}
+          return <ListItem
+            key={_assistance.id}
+            changeView={this.props.changeView}
+            number={i++}
+            assistanceData={_assistance}
+            approveAssistance={this.approveAssistance}
           />
         }
       })
@@ -97,26 +88,15 @@ class ListElements extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                    {
-                      renderAssisance()
-                  //     this.props.assistance.content? this.props.assistance.content.map((assistance) => {
-                  //       return <ListItem
-                  //       key={assistance.id}
-                  //       changeView={this.props.changeView}
-                  //       number={i++}
-                  //       assistanceData={assistance}
-                  //       approveAssistance={this.approveAssistance}
-                  //       />
-                  // }):null
-                  }
+                      {renderAssisance()}
                     </tbody>
                   </table>
-                    <Pagination
+                  <Pagination
                     totalPages={this.props.assistance.totalPages}
                     totalElements={this.props.assistance.totalElements}
                     getRequest={this.props.actions.assistanceGetRequest}
-                    />
-                  </div>
+                  />
+                </div>
 
               </div>
             </div>
@@ -130,11 +110,10 @@ class ListElements extends React.Component {
 }
 
 
-
 function mapStateToProps(state) {
-  //pass the providers
+  // pass the providers
   return {
-    assistance:  state.assistance,
+    assistance: state.assistance,
     participants: state.participants,
     inscriptions: state.inscriptions,
     inscriptionParticipants: state.inscriptionParticipants
@@ -156,4 +135,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-  module.exports = connect(mapStateToProps, mapDispatchToProps)(ListElements);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(ListElements);

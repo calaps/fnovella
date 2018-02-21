@@ -23,6 +23,7 @@ import {
   sectionGetByIdRequest
 } from '../../../../../actions';
 import UserForm from '../../users/components/EditForm'; // EditForm for Users creation
+import TeacherForm from '../../teachers/components/EditForm'; // EditForm for Instructor creation
 
 let self;
 let DateTimeFormat;
@@ -72,7 +73,9 @@ class GeneralConfiguration extends React.Component {
       correlativo: '',
       yearActivation: '',
       open: false, // Dialog state
-      userData: {} // Dialog state
+      openInstructor: false, // Dialog state for instructor
+      userData: {}, // Dialog state
+      teacherData: {} // Dialog state for instructor
     };
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
@@ -85,17 +88,28 @@ class GeneralConfiguration extends React.Component {
     self = this;
   }
 
-  //Dialog functions
+  // Dialog functions for User
   handleOpen = () => {
     this.setState({open: true});
   };
-
   handleClose = () => {
     this.setState({open: false});
   };
   handleFinish = () => {
     this.setState({open: false});
     this.props.actions.usersGetRequest(); // whenRefresh
+  };
+
+  // Dialog functions for Instructor
+  handleOpenInstrucor = () => {
+    this.setState({openInstructor: true});
+  };
+  handleCloseInstrucor = () => {
+    this.setState({openInstructor: false});
+  };
+  handleFinishInstructor = () => {
+    this.setState({openInstructor: false});
+    this.props.actions.programInstructorGetRequest(); // whenRefresh
   };
 
   componentWillMount() {
@@ -341,6 +355,14 @@ class GeneralConfiguration extends React.Component {
         onClick={this.handleClose}
       />
     ];
+    // User for modal window for instructor
+    const actionsInstructor = [
+      <FlatButton
+        label="Cancelar"
+        primary={true}
+        onClick={this.handleCloseInstrucor}
+      />
+    ];
 
     const {errors} = this.state;
 
@@ -540,7 +562,7 @@ class GeneralConfiguration extends React.Component {
                     {selectBox()}
 
                     <h6>Personal: </h6>
-                    <hr />
+                    <hr/>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Seleccione el coordinador</label>
@@ -569,7 +591,7 @@ class GeneralConfiguration extends React.Component {
                       open={this.state.open}
                       onRequestClose={this.handleClose}
                     >
-                      <UserForm dialog changeView={this.handleFinish} userData={this.state.userData} />
+                      <UserForm dialog changeView={this.handleFinish} userData={this.state.userData}/>
                     </Dialog>
 
                     <div className="form-group row">
@@ -586,8 +608,21 @@ class GeneralConfiguration extends React.Component {
                           {selectOpt(this.props.programInstructors.content || [])}
                         </select>
                         {errors.instructor && <span className="help-block text-danger">{errors.instructor}</span>}
+                        <FlatButton secondary onClick={this.handleOpenInstrucor}>Agregar instructor</FlatButton>
                       </div>
                     </div>
+
+                    <Dialog
+                      title="Agregar Instructor"
+                      actions={actionsInstructor}
+                      autoDetectWindowHeight
+                      autoScrollBodyContent
+                      modal={false}
+                      open={this.state.openInstructor}
+                      onRequestClose={this.handleCloseInstrucor}
+                    >
+                      <TeacherForm dialog changeView={this.handleFinishInstructor} teacherData={this.state.teacherData}/>
+                    </Dialog>
 
                     <h6>Inscripciones: </h6>
                     <hr/>
