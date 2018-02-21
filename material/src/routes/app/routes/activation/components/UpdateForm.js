@@ -1,55 +1,81 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import DatePicker from 'material-ui/DatePicker'; // For date Picker
+import Dialog from 'material-ui/Dialog';
+import areIntlLocalesSupported from 'intl-locales-supported';
 import FlatButton from 'material-ui/FlatButton';
-import {programActivationValidator} from "../../../../../actions/formValidations"; //form validations
+import map from 'lodash-es/map'; // to use map in a object
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {programActivationValidator} from '../../../../../actions/formValidations'; // form validations
 import {
   programActivationsUpdateRequest,
-  sedesGetRequest
+  sedesGetRequest,
+  usersGetRequest
 } from '../../../../../actions';
+import UserForm from '../../users/components/EditForm';
+import {convertDateToHTMLInputDateValue} from '../../../../../utils/helpers';
+import {evaluationPeriods} from '../../../../../constants/data_types';
 
 let self;
+let DateTimeFormat;
+
+if (areIntlLocalesSupported(['es-GT'])) {
+  DateTimeFormat = global.Intl.DateTimeFormat;
+} else {
+  const IntlPolyfill = require('intl'); // new Module with date Formats
+  DateTimeFormat = IntlPolyfill.DateTimeFormat;
+  require('intl/locale-data/jsonp/es-GT');
+}
 
 class UpdateForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: (this.props.activationData.id) ? true : false,
-      activationStatus: typeof this.props.activationData.activationStatus === "boolean" ? this.props.activationData.activationStatus : true,
-      calPeriodsCourse: this.props.activationData.calPeriodsCourse || '',
-      calPeriodsGrade: this.props.activationData.calPeriodsGrade || '',
-      calPeriodsWorkshop: this.props.activationData.calPeriodsWorkshop || '',
-      evaluationStructure: this.props.activationData.evaluationStructure || '',
-      freeCourses: typeof this.props.activationData.freeCourses === "boolean" ? this.props.activationData.freeCourses : true,
-      location: this.props.activationData.location || '',
-      monitoringStructure: this.props.activationData.monitoringStructure || '',
-      numberSessions: this.props.activationData.numberSessions || '',
-      responsable: this.props.activationData.responsable || '',
-      satisfactionStructure: this.props.activationData.satisfactionStructure || '',
+      isEditing: !!(this.props.activationData.id),
+      activationStatus: true,
+      calPeriodsCourse: (this.props.activationData.calPeriodsWorkshop) ? new Date(this.props.activationData.calPeriodsWorkshop) : '',
+      calPeriodsGrade: 'no data',
+      calPeriodsWorkshop: (this.props.activationData.calPeriodsWorkshop) ? new Date(this.props.activationData.calPeriodsWorkshop) : '',
+      calPeriodsDivision: 'no data',
+      evaluationStructure: 'no data',
+      freeCourses: this.props.activationData.freeCourses || false,
+      location: 1,
+      monitoringStructure: 'no data',
+      nsJan: 0,
+      nsFeb: 0,
+      nsMar: 0,
+      nsApr: 0,
+      nsMay: 0,
+      nsJun: 0,
+      nsJul: 0,
+      nsAug: 0,
+      nsSep: 0,
+      nsOct: 0,
+      nsNov: 0,
+      nsDec: 0,
+      numberSessions: 1,
+      responsable: this.props.activationData.responsable || null,
+      satisfactionStructure: 'no data',
       temporality: this.props.activationData.temporality || '',
-      year: this.props.activationData.year || '',
-      id: this.props.activationData.id || '',
-      nsJan: this.props.activationData.nsJan || 0,
-      nsFeb: this.props.activationData.nsFeb || 0,
-      nsMar: this.props.activationData.nsMar || 0,
-      nsApr: this.props.activationData.nsApr || 0,
-      nsMay: this.props.activationData.nsMay || 0,
-      nsJun: this.props.activationData.nsJun || 0,
-      nsJul: this.props.activationData.nsJul || 0,
-      nsAug: this.props.activationData.nsAug || 0,
-      nsSep: this.props.activationData.nsSep || 0,
-      nsOct: this.props.activationData.nsOct || 0,
-      nsNov: this.props.activationData.nsNov || 0,
-      nsDec: this.props.activationData.nsDec || 0,
+      year: '',
       errors: {},
-      isLoading: false
+      isLoading: false,
+      open: false, // Dialog state
+      userData: {} // Dialog state
     };
-    {/* Makes a Bind of the actions, onChange, onSummit */
-    }
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     self = this;
+  }
+
+  componentWillMount() {
+    const currentYear = (new Date).getFullYear();
+    this.props.actions.sedesGetRequest();
+    this.props.actions.usersGetRequest();
+    this.setState({
+      year: currentYear
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,40 +112,27 @@ class UpdateForm extends React.Component {
     }
   }
 
-  componentWillMount() {
-    this.props.actions.sedesGetRequest();
-  }
-
-  isValid() {
-    //local validation
-    const {errors, isValid} = programActivationValidator(this.state);
-    if (!isValid) {
-      this.setState({errors});
-      return false;
-    }
-    return true;
-  }
-
   onSubmit(e) {
     e.preventDefault();
     if (this.isValid()) {
-      //reset errros object and disable submit button
+      // reset errros object and disable submit button
       this.setState({errors: {}, isLoading: true});
-      let data = {
-        activationStatus: this.state.activationStatus,
-        calPeriodsCourse: this.state.calPeriodsCourse,
-        calPeriodsGrade: this.state.calPeriodsGrade,
-        calPeriodsWorkshop: this.state.calPeriodsWorkshop,
+      const data = {
+        activationStatus: 1,
+        id: this.props.activationData.id,
+        calPeriodsCourse: convertDateToHTMLInputDateValue(this.state.calPeriodsCourse),
+        calPeriodsGrade: convertDateToHTMLInputDateValue(this.state.calPeriodsGrade),
+        calPeriodsWorkshop: convertDateToHTMLInputDateValue(this.state.calPeriodsWorkshop),
+        calPeriodsDivision: convertDateToHTMLInputDateValue(this.state.calPeriodsDivision),
         evaluationStructure: this.state.evaluationStructure,
         freeCourses: this.state.freeCourses,
         location: this.state.location,
         monitoringStructure: this.state.monitoringStructure,
         numberSessions: this.state.numberSessions,
-        responsable: this.state.responsable,
         satisfactionStructure: this.state.satisfactionStructure,
-        temporality: this.state.temporality,
+        temporality: parseInt(this.state.temporality, 8),
+        responsable: this.state.responsable,
         year: this.state.year,
-        id: this.state.id,
         nsJan: this.state.nsJan || 0,
         nsFeb: this.state.nsFeb || 0,
         nsMar: this.state.nsMar || 0,
@@ -135,35 +148,88 @@ class UpdateForm extends React.Component {
       };
       this.props.actions.programActivationsUpdateRequest(data).then(
         (response) => {
-          //Save the default object as a provider
+          // Save the default object as a provider
           if (response) {
             this.props.changeView('VIEW_ELEMENT');
           }
         },
         (error) => {
-          //alert'fail');
-          console.log("An Error occur with the Rest API");
+          console.log('An Error occur with the Rest API');
           self.setState({errors: {...self.state.errors, apiErrors: error.error}, isLoading: false});
-        })
+        });
     } else {
       // FORM WITH ERRORS
     }
   }
 
-  onChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+  onChange(e, value) {
+    if (!e) {
+      // its a date field according datepicker component
+      console.log(value);
+      this.setState({
+        calPeriodsWorkshop: new Date(value),
+        calPeriodsDivision: new Date(value),
+        calPeriodsGrade: new Date(value),
+        calPeriodsCourse: new Date(value)
+      });
+    }
+    else {
+      this.setState({[e.target.name]: e.target.value});
+    }
+  }
+
+  // Dialog functions
+  handleOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+    this.setState({open: false});
+  };
+  handleFinish = () => {
+    this.setState({open: false});
+    this.props.actions.usersGetRequest(); // whenRefresh
+  };
+
+  isValid() {
+    // local validation
+    const {errors, isValid} = programActivationValidator(this.state);
+    if (!isValid) {
+      this.setState({errors});
+      return false;
+    }
+    return true;
   }
 
   render() {
 
+    // User for modal window
+    const actions = [
+      <FlatButton
+        label="Cancelar"
+        primary
+        onClick={this.handleClose}
+      />
+    ];
+
     const {errors} = this.state;
 
-    //Sedes || location options
-    let sedesOpt = () => {
-      let sedes = this.props.sedes.content || [];
-      return sedes.map((sede) => {
-        return <option key={sede.id} value={sede.id}>{sede.name}</option>
-      });
+    const optionsPeriods = map(evaluationPeriods, (key, value) =>
+      <option value={key} key={key}>{value}</option>
+    );
+
+    // Users options
+    const responsibleOpt = () => {
+      // console.log('this.props.users: ', this.props.users);
+      if (this.props.users.content) {
+        const users = this.props.users.content;
+        return users.map((user) => {
+          return <option key={user.id} value={user.id}> { user.firstName + ' ' + user.firstLastName}</option>;
+        });
+      }
+      else {
+        return null;
+      }
     };
 
     return (
@@ -174,183 +240,95 @@ class UpdateForm extends React.Component {
 
               <div className="box box-default">
                 <div className="box-body padding-md">
+                  <h4>{this.props.activationData.nameProgram}</h4>
                   <p className="text-info">Ingresa la siguiente información: </p>
-                  <form onSubmit={this.onSubmit} role="form">
+                  <form onSubmit={this.onSubmit} >
 
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Activation Status</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="activationStatus"
-                          name="activationStatus"
-                          value={this.state.activationStatus}
-                          onChange={this.onChange}
-                          placeholder="eje: true or false"/>
-                        {errors.activationStatus && <span className="help-block text-danger">{errors.activationStatus}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de
-                        grados</label>
-                      <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="calPeriodsGrade"
-                          name="calPeriodsGrade"
-                          value={this.state.calPeriodsGrade}
-                          onChange={this.onChange}
-                          placeholder="eje: El Progreso"/>
-                        {errors.calPeriodsGrade &&
-                        <span className="help-block text-danger">{errors.calPeriodsGrade}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de
-                        cursos</label>
-                      <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="calPeriodsCourse"
-                          name="calPeriodsCourse"
-                          value={this.state.calPeriodsCourse}
-                          onChange={this.onChange}
-                          placeholder="eje: El Progreso"/>
-                        {errors.calPeriodsCourse &&
-                        <span className="help-block text-danger">{errors.calPeriodsCourse}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización de
-                        talleres</label>
-                      <div className="col-md-9">
-                        <input
-                          type="date"
-                          className="form-control"
-                          id="calPeriodsWorkshop"
-                          name="calPeriodsWorkshop"
-                          value={this.state.calPeriodsWorkshop}
-                          onChange={this.onChange}
-                          placeholder="eje: El Progreso"/>
-                        {errors.calPeriodsWorkshop &&
-                        <span className="help-block text-danger">{errors.calPeriodsWorkshop}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Instructor responsable</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="responsable"
-                          name="responsable"
-                          value={this.state.responsable}
-                          onChange={this.onChange}
-                          placeholder="eje: Ingrese el nombre del instructor"/>
-                        {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Tipo de evaluación</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="evaluationStructure"
-                          name="evaluationStructure"
-                          value={this.state.evaluationStructure}
-                          onChange={this.onChange}
-                          placeholder="Eje: Trimestral"/>
-                        {errors.evaluationStructure &&
-                        <span className="help-block text-danger">{errors.evaluationStructure}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de satisfacción</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="satisfactionStructure"
-                          name="satisfactionStructure"
-                          value={this.state.satisfactionStructure}
-                          onChange={this.onChange}
-                          placeholder="Evaluación"/>
-                        {errors.satisfactionStructure &&
-                        <span className="help-block text-danger">{errors.satisfactionStructure}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Evaluación de monitoreo</label>
-                      <div className="col-md-9">
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="monitoringStructure"
-                          name="monitoringStructure"
-                          value={this.state.monitoringStructure}
-                          onChange={this.onChange}
-                          placeholder="Evaluación"/>
-                        {errors.monitoringStructure &&
-                        <span className="help-block text-danger">{errors.monitoringStructure}</span>}
-                      </div>
-                    </div>
-
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Location</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Si tiene director
+                        seleccione...</label>
                       <div className="col-md-9">
                         <select
-                          name="location"
-                          id="location"
+                          name="responsable"
+                          id="responsable"
                           onChange={this.onChange}
-                          value={this.state.location}
+                          value={this.state.responsable}
                           className="form-control"
                         >
-                          <option value="" disabled>Selecione la sede</option>
-                          {sedesOpt()}
+                          <option value="">Selecciona al responsable...</option>
+                          {responsibleOpt()}
                         </select>
-                        {errors.location && <span className="help-block text-danger">{errors.location}</span>}
+                        {errors.responsable && <span className="help-block text-danger">{errors.responsable}</span>}
+                        <FlatButton secondary onClick={this.handleOpen}>Agregar usuario</FlatButton>
                       </div>
                     </div>
+
+                    <Dialog
+                      title="Agregar Usuario"
+                      actions={actions}
+                      autoDetectWindowHeight
+                      autoScrollBodyContent
+                      modal={false}
+                      open={this.state.open}
+                      onRequestClose={this.handleClose}
+                    >
+                      <UserForm dialog changeView={this.handleFinish} userData={this.state.userData} />
+                    </Dialog>
 
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Ofrece cursos libres?</label>
                       <div className="col-md-9">
-                        <input
-                          type="text"
+                        <select
                           className="form-control"
                           id="freeCourses"
                           name="freeCourses"
                           value={this.state.freeCourses}
-                          onChange={this.onChange}
-                          placeholder="eje: true or false"/>
+                          onChange={this.onChange}>
+                          <option value={true}>Si</option>
+                          <option value={false}>No</option>
+                        </select>
+
                         {errors.freeCourses && <span className="help-block text-danger">{errors.freeCourses}</span>}
                       </div>
                     </div>
 
+                    <h6>Temporalidad: </h6>
+                    <hr/>
+
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Temporalidad</label>
                       <div className="col-md-9">
-                        <input
+                        <select
                           type="text"
                           className="form-control"
                           id="temporality"
                           name="temporality"
                           value={this.state.temporality}
                           onChange={this.onChange}
-                          placeholder="eje: Trimestral"/>
+                          placeholder="eje: Trimestral">
+                          <option value={null}>selecciona la opción...</option>
+                          {optionsPeriods}
+                        </select>
                         {errors.temporality && <span className="help-block text-danger">{errors.temporality}</span>}
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Inicio de calendarización</label>
+                      <div className="col-md-9">
+                        <DatePicker
+                          hintText="Ingresa fecha"
+                          DateTimeFormat={DateTimeFormat}
+                          okLabel="seleccionar"
+                          cancelLabel="cancelar"
+                          locale="es-GT"
+                          id="calPeriodsCourse"
+                          name="calPeriodsCourse"
+                          value={this.state.calPeriodsCourse}
+                          onChange={this.onChange}
+                        />
+                        {errors.nameVar &&
+                        <span className="help-block text-danger">{errors.nameVar}</span>}
                       </div>
                     </div>
 
@@ -360,234 +338,23 @@ class UpdateForm extends React.Component {
                         <input
                           type="number"
                           className="form-control"
+                          disabled
                           id="year"
                           name="year"
                           value={this.state.year}
                           onChange={this.onChange}
-                          placeholder="eje: 2017"/>
+                          placeholder="eje: 2017" />
                         {errors.year && <span className="help-block text-danger">{errors.year}</span>}
                       </div>
                     </div>
 
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Número de sesiones</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="numberSessions"
-                          name="numberSessions"
-                          value={this.state.numberSessions}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.numberSessions &&
-                        <span className="help-block text-danger">{errors.numberSessions}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Enero:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsJan"
-                          name="nsJan"
-                          value={this.state.nsJan}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsJan &&
-                        <span className="help-block text-danger">{errors.nsJan}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Febrero:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsFeb"
-                          name="nsFeb"
-                          value={this.state.nsFeb}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsFeb &&
-                        <span className="help-block text-danger">{errors.nsFeb}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Marzo:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsMar"
-                          name="nsMar"
-                          value={this.state.nsMar}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsMar &&
-                        <span className="help-block text-danger">{errors.nsMar}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Abril:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsApr"
-                          name="nsApr"
-                          value={this.state.nsApr}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsApr &&
-                        <span className="help-block text-danger">{errors.nsApr}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Mayo:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsMay"
-                          name="nsMay"
-                          value={this.state.nsMay}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsMay &&
-                        <span className="help-block text-danger">{errors.nsMay}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Junio:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsJun"
-                          name="nsJun"
-                          value={this.state.nsJun}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsJun &&
-                        <span className="help-block text-danger">{errors.nsJun}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Julio:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsJul"
-                          name="nsJul"
-                          value={this.state.nsJul}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsJul &&
-                        <span className="help-block text-danger">{errors.nsJul}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Agosto:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsAug"
-                          name="nsAug"
-                          value={this.state.nsAug}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsAug &&
-                        <span className="help-block text-danger">{errors.nsAug}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Septiembre:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsSep"
-                          name="nsSep"
-                          value={this.state.nsSep}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsSep &&
-                        <span className="help-block text-danger">{errors.nsSep}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Octubre:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsOct"
-                          name="nsOct"
-                          value={this.state.nsOct}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsOct &&
-                        <span className="help-block text-danger">{errors.nsOct}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Noviembre:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsNov"
-                          name="nsNov"
-                          value={this.state.nsNov}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsNov &&
-                        <span className="help-block text-danger">{errors.nsNov}</span>}
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Sesiones de Diciembre:</label>
-                      <div className="col-md-9">
-                        <input
-                          type="number"
-                          className="form-control"
-                          id="nsDec"
-                          name="nsDec"
-                          value={this.state.nsDec}
-                          onChange={this.onChange}
-                          placeholder="eje: 12"/>
-                        {errors.nsDec &&
-                        <span className="help-block text-danger">{errors.nsDec}</span>}
-                      </div>
-                    </div>
 
                     <div style={{marginTop: 12}}>
-                      <FlatButton disabled={this.state.isLoading}
-                                  label='Cancel'
-                                  style={{marginRight: 12}}
-                                  onTouchTap={this.props.onCancel}
-                                  secondary className="btn-w-md"/>
+
                       <RaisedButton
-                        type='submit'
-                        disabled={this.state.isLoading}
-                        label='Update'
-                        secondary
+                        type="submit"
+                        label="actualizar"
+                        primary
                       />
                     </div>
                   </form>
@@ -599,7 +366,6 @@ class UpdateForm extends React.Component {
 
           </div>
 
-
         </div>
 
       </article>
@@ -608,10 +374,11 @@ class UpdateForm extends React.Component {
 }
 
 function mapStateToProps(state) {
-  //pass the providers
+  // pass the providers
   return {
-    sedes: state.sedes
-  }
+    sedes: state.sedes,
+    users: state.users
+  };
 }
 
 /* Map Actions to Props */
@@ -619,7 +386,8 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
       programActivationsUpdateRequest,
-      sedesGetRequest
+      sedesGetRequest,
+      usersGetRequest
     }, dispatch)
   };
 }

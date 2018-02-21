@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import map from 'lodash-es/map'; // to use map in a object
 import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -8,7 +9,6 @@ import DatePicker from 'material-ui/DatePicker'; // For date Picker
 import areIntlLocalesSupported from 'intl-locales-supported'; // For Date Picker format
 import {programActivationValidator} from "../../../../../actions/formValidations"; // form validations
 import {evaluationPeriods} from "../../../../../constants/data_types";
-import map from 'lodash-es/map'; // to use map in a object
 import {
   sedesGetRequest,
   usersGetRequest
@@ -92,7 +92,7 @@ class EditForm extends React.Component {
   }
 
   isValid() {
-    //local validation
+    // local validation
     const {errors, isValid} = programActivationValidator(this.state);
     if (!isValid) {
       this.setState({errors});
@@ -196,8 +196,7 @@ class EditForm extends React.Component {
         name = "cursos";
         nameVar = "calPeriodsCourse";
         break;
-    }
-    ;
+    };
 
     // Users options
     let responsibleOpt = () => {

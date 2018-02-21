@@ -56,9 +56,9 @@ export function programActivationValidator(data) {
 
   let errors = {}; //errors star with an empty object
 
-  if (Validator.isEmpty(data.temporality)) {
+  if (Validator.isEmpty(data.temporality.toString())) {
     errors.temporality = required;
-    if (!Validator.isEmpty(data.temporality) && !Validator.isAlphanumeric(data.temporality)) {
+    if (!Validator.isEmpty(data.temporality.toString()) && !Validator.isAlphanumeric(data.temporality.toString())) {
       errors.temporality = invalidData;
     }
   }

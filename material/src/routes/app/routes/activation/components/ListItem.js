@@ -63,12 +63,12 @@ class ListItem extends React.Component {
           />
           &nbsp;
           &nbsp;
-          {/*
+
           <button
             onClick={()=>{this.props.onEdit(this.props.activationData)}}
             disabled={this.state.isDisable}
             type="submit"
-            className="btn btn-primary">{ (this.state.isDisable) ? "Activación pasada" : "Modificar"}</button> */}
+            className="btn btn-primary">{ (this.state.isDisable) ? "Activación pasada" : "Modificar"}</button>
         </td>
       </tr>
     );
