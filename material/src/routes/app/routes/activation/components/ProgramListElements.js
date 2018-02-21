@@ -2,7 +2,8 @@ import React from "react";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-  programGetRequest
+  programGetRequest,
+  programActivationsGetRequest,
 } from '../../../../../actions';
 import Pagination from '../../../../../components/Pagination';
 import FlatButton from 'material-ui/FlatButton';
@@ -42,7 +43,9 @@ class ProgramsListElements extends React.Component {
   }
 
   componentWillMount() {
-    this.props.actions.programGetRequest(number, size);
+    this.props.actions.programActivationsGetRequest(number, size).then(() => {
+      this.props.actions.programGetRequest(number, size);
+    });
   }
 
   render() {
@@ -51,14 +54,21 @@ class ProgramsListElements extends React.Component {
       programId: this.state.programId,
       programClasification: this.state.clasification
     };
+    let findMatch = '';
     for (let i = 0; i < this.props.programs.numberOfElements; i++) {
-      tableRows.push(
-        <TableRow key={i} selected={this.state.selectedRow.indexOf(i) !== -1}>
-          <TableRowColumn>{[i + 1]}</TableRowColumn>
-          <TableRowColumn>{this.props.programs.content[i].name}</TableRowColumn>
-          <TableRowColumn>{this.props.programs.content[i].description}</TableRowColumn>
-        </TableRow>
-      )
+      // logic to display number -1 index of activation
+      findMatch = this.props.programActivations.content.findIndex((element) => {
+        return element.programId === this.props.programs.content[i].id;
+      });
+      if (findMatch === -1) {
+        tableRows.push(
+          <TableRow key={i} selected={this.state.selectedRow.indexOf(i) !== -1}>
+            <TableRowColumn>{[i + 1]}</TableRowColumn>
+            <TableRowColumn>{this.props.programs.content[i].name}</TableRowColumn>
+            <TableRowColumn>{this.props.programs.content[i].description}</TableRowColumn>
+          </TableRow>
+        );
+      }
     }
     return (
       <div>
@@ -105,7 +115,8 @@ class ProgramsListElements extends React.Component {
 function mapStateToProps(state) {
   //pass the providers
   return {
-    programs: state.programs
+    programs: state.programs,
+    programActivations: state.programActivations
   }
 }
 
@@ -113,7 +124,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      programGetRequest
+      programGetRequest,
+      programActivationsGetRequest
     }, dispatch)
   };
 }
