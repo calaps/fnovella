@@ -155,7 +155,16 @@ class EvaluationStructure extends React.Component {
               <label>{cat.name}</label>
             </div>
             <div className="col-md-4">
-              <label>{cat.percentage}</label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                className="form-control"
+                id={cat}
+                name={cat}
+                value={cat.percentage}
+                onChange={this.onChange}
+                placeholder="1 - 100" />
             </div>
             <IconButton
               iconClassName="col-md-1 material-icons"

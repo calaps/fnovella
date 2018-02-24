@@ -35,6 +35,7 @@ class ProgramsListElements extends React.Component {
   }
 
   onRowSelection(key) {
+    console.log("XDXDXDXD KEY XDXDXD: "+ key);
     this.setState({
       selectedRow: key,
       programId: this.props.programs.content[key[0]].id,
@@ -56,6 +57,7 @@ class ProgramsListElements extends React.Component {
     };
     let findMatch = '';
     let sameYearActivation = false;
+    let numberRow = -1;
     const currentYear = (new Date).getFullYear();
     for (let i = 0; i < this.props.programs.numberOfElements; i++) {
       // Does it have an activation?
@@ -66,17 +68,19 @@ class ProgramsListElements extends React.Component {
         sameYearActivation = (this.props.programActivations.content[findMatch].year === currentYear);
       }
       if (findMatch === -1) {
+        numberRow = numberRow +1;
         tableRows.push(
-          <TableRow key={i} selected={this.state.selectedRow.indexOf(i) !== -1}>
-            <TableRowColumn>{[i + 1]}</TableRowColumn>
+          <TableRow key={numberRow} selected={this.state.selectedRow.indexOf(numberRow) !== -1}>
+            <TableRowColumn>key: {numberRow}</TableRowColumn>
             <TableRowColumn>{this.props.programs.content[i].name}</TableRowColumn>
             <TableRowColumn>{this.props.programs.content[i].description}</TableRowColumn>
           </TableRow>
         );
       } else if (sameYearActivation === false) {
+        numberRow = numberRow +1;
         tableRows.push(
-          <TableRow key={i} selected={this.state.selectedRow.indexOf(i) !== -1}>
-            <TableRowColumn>{[i + 1]}</TableRowColumn>
+          <TableRow key={numberRow} selected={this.state.selectedRow.indexOf(numberRow) !== -1}>
+            <TableRowColumn>key: {numberRow}</TableRowColumn>
             <TableRowColumn>{this.props.programs.content[i].name}</TableRowColumn>
             <TableRowColumn>{this.props.programs.content[i].description}</TableRowColumn>
           </TableRow>
