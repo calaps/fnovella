@@ -38,6 +38,7 @@ class EvaluationStructure extends React.Component {
       isLoading: false
     };
     this.onChange = this.onChange.bind(this);
+    this.onChangCategory = this.onChangCategory.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeEvaluateCategoryAndPercentage = this.onChangeEvaluateCategoryAndPercentage.bind(this);
     this.onAddEvaluateCategoryAndPercentage = this.onAddEvaluateCategoryAndPercentage.bind(this);
@@ -47,7 +48,7 @@ class EvaluationStructure extends React.Component {
   }
 
   isValid() {
-    //local validation
+    // local validation
 
     const {errors, isValid} = evaluationStructureValidator(this.state);
     if (!isValid) {
@@ -64,7 +65,7 @@ class EvaluationStructure extends React.Component {
       // reset errors object and disable submit button
 
       this.setState({errors: {}, isLoading: true});
-      let data = {
+      const data = {
         assistance: this.state.assistance,
         percentage: this.state.percentage,
         approvalPercentage: this.state.approvalPercentage,
@@ -92,10 +93,29 @@ class EvaluationStructure extends React.Component {
         assistance: e.target.value,
         totaltotal: (e.target.value === 'true') ? (this.state.totaltotal + this.state.percentage) : (this.state.totaltotal - this.state.percentage)
       });
-    }  else {
-      this.setState({[e.target.name]: e.target.value,
-        totaltotal: (this.state.assistance === 'true') ? (this.state.totalEvaluateCategory + parseInt(e.target.value)) : this.state.totalEvaluateCategory,});
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value,
+        totaltotal: (this.state.assistance === 'true') ? (this.state.totalEvaluateCategory + parseInt(e.target.value)) : this.state.totalEvaluateCategory,
+      });
     }
+  }
+
+  onChangCategory(e) {
+
+    const newCategoryArray = this.state.evaluateCategory; // create a copy
+    newCategoryArray[e.target.name].percentage = e.target.value; // update the new state
+    let newTotalTotal = 0; // create a new Total category
+    newCategoryArray.map((category) => {
+      newTotalTotal += parseInt(category.percentage);
+    });
+    console.log(newTotalTotal);
+
+    this.setState({
+      evaluateCategory: newCategoryArray, // update the new array
+      totalEvaluateCategory: newTotalTotal,
+      totaltotal: (this.state.assistance === 'true') ? (parseInt(this.state.percentage) + newTotalTotal) : (newTotalTotal - parseInt(this.state.percentage))
+    });
   }
 
   onChangeEvaluateCategoryAndPercentage(e) {
@@ -123,7 +143,7 @@ class EvaluationStructure extends React.Component {
   onRemoveEvaluateCategoryAndPercentage(cat) {
     for (let i = 0; i < this.state.evaluateCategory.length; i++) {
       if (this.state.evaluateCategory[i].id === cat.id) {
-        let number = this.state.totalEvaluateCategory - parseInt(cat.percentage);
+        const number = this.state.totalEvaluateCategory - parseInt(cat.percentage);
         this.setState({
           totalEvaluateCategory: number,
           totaltotal: (this.state.assistance === 'true') ? (parseInt(this.state.percentage) + number) : number,
@@ -142,15 +162,16 @@ class EvaluationStructure extends React.Component {
 
   render() {
 
-    let i = 0;
+    let i = -1;
 
     const {errors} = this.state;
 
-    let evaluateCategoryAndPercentageMapping = () => {
+    const evaluateCategoryAndPercentageMapping = () => {
       return this.state.evaluateCategory.map((cat) => {
+        i = i + 1;
         return (
-          <div className="row" key={i++}>
-            <label htmlFor="inputEmail3" className="col-md-3 control-label"> </label>
+          <div className="row" key={i}>
+            <label htmlFor="inputEmail3" className="col-md-3 control-label"/>
             <div className="col-md-4">
               <label>{cat.name}</label>
             </div>
@@ -160,10 +181,10 @@ class EvaluationStructure extends React.Component {
                 min="1"
                 max="100"
                 className="form-control"
-                id={cat}
-                name={cat}
-                value={cat.percentage}
-                onChange={this.onChange}
+                id={i}
+                name={i}
+                value={this.state.evaluateCategory[i].percentage}
+                onChange={this.onChangCategory}
                 placeholder="1 - 100" />
             </div>
             <IconButton
@@ -172,19 +193,20 @@ class EvaluationStructure extends React.Component {
             >remove
             </IconButton>
           </div>
-        )
-      })
+        );
+      });
     };
 
-    let togglePercentage = () => {
-      if (this.state.assistance === "true") {
+    const togglePercentage = () => {
+      if (this.state.assistance === 'true') {
         return (
           <div className="form-group row">
             <label htmlFor="percentage" className="col-md-3 control-label">Porcentaje</label>
             <div className="col-md-9">
               <input
                 type="number"
-                min="1" max="100"
+                min="1"
+                max="100"
                 className="form-control"
                 id="percentage"
                 name="percentage"
@@ -194,7 +216,7 @@ class EvaluationStructure extends React.Component {
               {errors.percentage && <span className="help-block text-danger">{errors.percentage}</span>}
             </div>
           </div>
-        )
+        );
       } else {
         return null;
       }
@@ -211,7 +233,8 @@ class EvaluationStructure extends React.Component {
                   <p className="text-info">Ingresa la siguiente información: </p>
                   <form onSubmit={this.onSubmit} role="form">
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Es requerida la asistencia?</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Es requerida la
+                        asistencia?</label>
                       <div className="col-md-9">
                         <select
                           name="assistance"
@@ -247,7 +270,7 @@ class EvaluationStructure extends React.Component {
                         <span className="help-block text-danger">{errors.evaluationType}</span>}
                       </div>
                     </div>
-                    { this.state.evaluationType === '3' &&
+                    {this.state.evaluationType === '3' &&
                     <div className="form-group row">
                       <label htmlFor="inputEmail3" className="col-md-3 control-label">Cantidad de evaluaciones</label>
                       <div className="col-md-9">
@@ -277,11 +300,13 @@ class EvaluationStructure extends React.Component {
                     </div>
                     }
                     <div className="form-group row">
-                      <label htmlFor="correlativo" className="col-md-3 control-label">Porcentage requerido para aprobar</label>
+                      <label htmlFor="correlativo" className="col-md-3 control-label">Porcentage requerido para
+                        aprobar</label>
                       <div className="col-md-9">
                         <input
                           type="number"
-                          min="1" max="100"
+                          min="1"
+                          max="100"
                           className="form-control"
                           id="approvalPercentage"
                           name="approvalPercentage"
@@ -293,7 +318,8 @@ class EvaluationStructure extends React.Component {
                       </div>
                     </div>
                     <div className="form-group row">
-                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresa las actividades a evaluar</label>
+                      <label htmlFor="inputEmail3" className="col-md-3 control-label">Ingresa las actividades a
+                        evaluar</label>
                       <div className="col-md-4">
                         <input
                           type="text"
@@ -309,7 +335,8 @@ class EvaluationStructure extends React.Component {
                       <div className="col-md-4">
                         <input
                           type="number"
-                          min="1" max="100"
+                          min="1"
+                          max="100"
                           className="form-control"
                           id="evaluateCategoryPercentage"
                           name="evaluateCategoryPercentage"
@@ -332,7 +359,8 @@ class EvaluationStructure extends React.Component {
                     <div className="form-group row">
                       <label
                         htmlFor="totalEvaluateCategory"
-                        className="col-md-3 offset-md-3 control-label">Total de actividades: { this.state.totaltotal }</label>
+                        className="col-md-3 offset-md-3 control-label">Total de
+                        actividades: {this.state.totaltotal}</label>
                       <div className="col-md-3">{errors.totalEvaluateCategory &&
                       <span className="help-block text-danger">{errors.totalEvaluateCategory}</span>}</div>
                     </div>
@@ -340,16 +368,17 @@ class EvaluationStructure extends React.Component {
                       <div className="offset-md-3 col-md-10">
                         <FlatButton
                           disabled={this.state.isLoading}
-                          label='Atras'
+                          label="Atras"
                           style={{marginRight: 12}}
                           onTouchTap={this.props.handlePrev}
-                          secondary className="btn-w-md" />
+                          secondary
+                          className="btn-w-md"/>
                         <RaisedButton
                           disabled={this.state.isLoading}
                           type="submit"
-                          label='Siguiente'
+                          label="Siguiente"
                           secondary
-                          className="btn-w-md" />
+                          className="btn-w-md"/>
                       </div>
                     </div>
                   </form>

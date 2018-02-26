@@ -31,6 +31,7 @@ class PerformanceStructure extends React.Component {
     {/* Makes a Bind of the actions, onChange, onSummit */
     }
     this.onChange = this.onChange.bind(this);
+    this.onChangCategory = this.onChangCategory.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onChangeEvaluateCategoryAndPercentage = this.onChangeEvaluateCategoryAndPercentage.bind(this);
     this.onAddEvaluateCategoryAndPercentage = this.onAddEvaluateCategoryAndPercentage.bind(this);
@@ -76,6 +77,23 @@ class PerformanceStructure extends React.Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
+  onChangCategory(e) {
+
+    const newCategoryArray = this.state.evaluateCategory; // create a copy
+    newCategoryArray[e.target.name].percentage = e.target.value; // update the new state
+    let newTotalTotal = 0; // create a new Total category
+    newCategoryArray.map((category) => {
+      newTotalTotal += parseInt(category.percentage);
+    });
+    console.log(newTotalTotal);
+
+    this.setState({
+      evaluateCategory: newCategoryArray, // update the new array
+      totalEvaluateCategory: newTotalTotal,
+      totaltotal: (this.state.assistance === 'true') ? (parseInt(this.state.percentage) + newTotalTotal) : (newTotalTotal - parseInt(this.state.percentage))
+    });
+  }
+
   onChangeEvaluateCategoryAndPercentage(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -116,20 +134,30 @@ class PerformanceStructure extends React.Component {
 
   render() {
 
-    let i = 0;
+    let i = -1;
 
     const {errors} = this.state;
 
-    let evaluateCategoryAndPercentageMapping = () => {
+    const evaluateCategoryAndPercentageMapping = () => {
       return this.state.evaluateCategory.map((cat) => {
+        i = i + 1;
         return (
-          <div className="row" key={i++}>
-            <label htmlFor="inputEmail3" className="col-md-3 control-label"> </label>
+          <div className="row" key={i}>
+            <label htmlFor="inputEmail3" className="col-md-3 control-label"/>
             <div className="col-md-4">
               <label>{cat.name}</label>
             </div>
             <div className="col-md-4">
-              <label>{cat.percentage}</label>
+              <input
+                type="number"
+                min="1"
+                max="100"
+                className="form-control"
+                id={i}
+                name={i}
+                value={this.state.evaluateCategory[i].percentage}
+                onChange={this.onChangCategory}
+                placeholder="1 - 100" />
             </div>
             <IconButton
               iconClassName="col-md-1 material-icons"
@@ -137,8 +165,8 @@ class PerformanceStructure extends React.Component {
             >remove
             </IconButton>
           </div>
-        )
-      })
+        );
+      });
     };
 
     return (
