@@ -20,11 +20,11 @@ import {
 } from './../constants/ActionTypes';
 import snackBarMessages from '../constants/SnackBarMessages';
 
-export function participantsGetRequestBySearch(id,firstName,appCode) {
+export function participantsGetRequestBySearch(documentValue,firstName,appCode) {
   return function (dispatch) {
       return new Promise(async function(resolve, reject){{
-        let params= {
-        id,
+        let params = {
+        documentValue,
         firstName,
         appCode
         };
