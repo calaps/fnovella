@@ -1,11 +1,10 @@
 package org.fnovella.project.program_app_user.model;
 
+import org.fnovella.project.user.model.AppUser;
+
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class ProgramAppUser {
@@ -14,6 +13,7 @@ public class ProgramAppUser {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	private Integer program;
+
 	private Integer appUser;
 
 	

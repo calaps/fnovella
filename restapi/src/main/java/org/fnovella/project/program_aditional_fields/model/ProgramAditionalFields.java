@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import org.fnovella.project.category.model.Category;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 
 @Entity
@@ -16,10 +19,21 @@ public class ProgramAditionalFields {
 	private Integer program;
 	private Integer category;
 	
-	
+	@ManyToOne()
+	@JoinColumn(name="category", updatable=false, insertable=false)
+	private Category categoryData;
 
 	public Integer getId() {
 		return id;
+	}
+
+
+	public void setCategoryData(Category categoryData) {
+		this.categoryData = categoryData;
+	}
+
+	public Category getCategoryData() {
+		return categoryData;
 	}
 
 	public void setId(Integer id) {
@@ -42,10 +56,11 @@ public class ProgramAditionalFields {
 		this.category = category;
 	}
 
-	public ProgramAditionalFields(Integer program, Integer category) {
+	public ProgramAditionalFields(Integer program, Integer category, Category categoryData) {
 		super();
 		this.program = program;
 		this.category = category;
+		this.categoryData = categoryData;
 	}
 
 	public ProgramAditionalFields() {

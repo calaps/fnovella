@@ -3,18 +3,24 @@ package org.fnovella.project.instructor.model;
 import org.fnovella.project.instructor.repository.InstructorRepository;
 import org.fnovella.project.utility.APIUtility;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public class InstructorSearch {
-	private Integer id;
+	private String documentValue;
 	private String firstName;
 	private String appCode;
-	public Integer getId() {
-		return id;
+
+	public String getDocumentValue() {
+		return documentValue;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+
+	public void setDocumentValue(String documentValue) {
+		this.documentValue = documentValue;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -29,23 +35,27 @@ public class InstructorSearch {
 	}
 	
 	public Page<Instructor> getResults(InstructorRepository instructorRepository, Pageable pageable) {
-		boolean useId = this.id != null && this.id > 0;
+		boolean useDocument = this.documentValue != null && !this.documentValue.trim().equals("");
 		boolean useName = APIUtility.isNotNullOrEmpty(this.firstName);
 		boolean useAppCode = APIUtility.isNotNullOrEmpty(this.appCode);
-		if (useName && useAppCode && useId) {
-			return instructorRepository.findByFirstNameAndAppCodeAndId(this.firstName, this.appCode, this.id, pageable);
+		if (useName && useAppCode && useDocument) {
+			List<Instructor> instructors = instructorRepository.findByFirstNameStartingWithAndAppCodeAndDocumentValue(this.firstName, this.appCode, this.documentValue);
+			return new PageImpl<>(instructors, pageable, instructors.size());
 		} else if (useName && useAppCode) {
-			return instructorRepository.findByFirstNameAndAppCode(this.firstName, this.appCode, pageable);
-		} else if (useName && useId) {
-			return instructorRepository.findByFirstNameAndId(this.firstName, this.id, pageable);
-		}  else if (useAppCode && useId) {
-			return instructorRepository.findByAppCodeAndId(this.appCode, this.id, pageable);
+			List<Instructor> instructors = instructorRepository.findByFirstNameStartingWithAndAppCode(this.firstName, this.appCode);
+			return new PageImpl<>(instructors, pageable, instructors.size());
+		} else if (useName && useDocument) {
+			List<Instructor> instructors = instructorRepository.findByFirstNameStartingWithAndDocumentValue(this.firstName, this.documentValue);
+			return new PageImpl<>(instructors, pageable, instructors.size());
+		}  else if (useAppCode && useDocument) {
+			return instructorRepository.findByAppCodeAndDocumentValue(this.appCode, this.documentValue, pageable);
 		}  else if (useName) {
-			return instructorRepository.findByFirstName(this.firstName, pageable);
+			List<Instructor> instructors = instructorRepository.findByFirstNameStartingWith(this.firstName);
+			return new PageImpl<>(instructors, pageable, instructors.size());
 		}  else if (useAppCode) {
 			return instructorRepository.findByAppCode(this.appCode, pageable);
-		}  else if (useId) {
-			return instructorRepository.findById(this.id, pageable);
+		}  else if (useDocument) {
+			return instructorRepository.findByDocumentValue(this.documentValue, pageable);
 		} else {
 			return instructorRepository.findAll(pageable);
 		}

@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository("programLocationRepository")
+@Repository
 public interface ProgramLocationRepository extends JpaRepository<ProgramLocation, Integer> {
 	Page<ProgramLocation> findByProgram(Integer program, Pageable pageable);
 	

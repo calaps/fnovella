@@ -21,11 +21,16 @@ public interface UserRepository extends JpaRepository<AppUser, Integer> {
 	List<AppUser> findByPrivilege(Integer privileId);
 	AppUser findByEmailAndPassword(String email, String password);
 	AppUser findByEmail(String email);
-	Page<AppUser> findByFirstName(String firstName, Pageable pageable);
+	AppUser findByDocumentValue(String documentValue);
+	@Query(value = "SELECT * FROM APP_USER where first_name like ?1% COLLATE Latin1_General_CI_AI", nativeQuery = true)
+	List<AppUser> findByFirstNameStartingWith(String firstName);
 	Page<AppUser> findByAppCode(String appCode, Pageable pageable);
-	Page<AppUser> findById(Integer id, Pageable pageable);
-	Page<AppUser> findByFirstNameAndId(String firstName, Integer id, Pageable pageable);
-	Page<AppUser> findByFirstNameAndAppCode(String firstName, String appCode, Pageable pageable);
-	Page<AppUser> findByFirstNameAndAppCodeAndId(String firstName, String appCode, Integer id, Pageable pageable);
-	Page<AppUser> findByAppCodeAndId(String appCode, Integer id, Pageable pageable);
+	Page<AppUser> findByDocumentValue(String documentValue, Pageable pageable);
+	@Query(value = "SELECT * FROM APP_USER where first_name like ?1% COLLATE Latin1_General_CI_AI AND document_value = ?2", nativeQuery = true)
+	List<AppUser> findByFirstNameStartingWithAndDocumentValue(String firstName, String documentValue);
+	@Query(value = "SELECT * FROM APP_USER where first_name like ?1% COLLATE Latin1_General_CI_AI AND app_code = ?2", nativeQuery = true)
+	List<AppUser> findByFirstNameStartingWithAndAppCode(String firstName, String appCode);
+	@Query(value = "SELECT * FROM APP_USER where first_name like ?1% COLLATE Latin1_General_CI_AI AND app_code = ?2 AND document_value = ?3", nativeQuery = true)
+	List<AppUser> findByFirstNameStartingWithAndAppCodeAndDocumentValue(String firstName, String appCode, String documentValue);
+	Page<AppUser> findByAppCodeAndDocumentValue(String appCode, String documentValue, Pageable pageable);
 }

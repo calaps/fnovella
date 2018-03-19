@@ -1,26 +1,30 @@
 package org.fnovella.project.evaluation.controller;
 
-import java.util.ArrayList;
-
 import org.fnovella.project.evaluation.model.Evaluation;
 import org.fnovella.project.evaluation.repository.EvaluationRepository;
+import org.fnovella.project.evaluation_subtype.model.EvaluationSubtype;
+import org.fnovella.project.evaluation_subtype.repository.EvaluationSubtypeRepository;
+import org.fnovella.project.group.model.Group;
+import org.fnovella.project.group.repository.GroupRepository;
 import org.fnovella.project.utility.model.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-//@RestController
-//@RequestMapping("/evaluation/")
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@RequestMapping("/evaluation/")
 public class EvaluationController {
 
-	/*@Autowired
+	@Autowired
 	private EvaluationRepository evaluationRepository;
-	
+	@Autowired
+	private GroupRepository groupRepository;
+	@Autowired
+	private EvaluationSubtypeRepository evaluationSubtypeRepository;
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.evaluationRepository.findAll(pageable), null);
@@ -35,16 +39,47 @@ public class EvaluationController {
 		errors.add("Evaluation doesn't exist");
 		return new APIResponse(null, errors);
 	}
-	
+
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public APIResponse get(@RequestHeader("authorization") String authorization, @RequestBody Evaluation evaluation) {
+	public APIResponse create(@RequestHeader("authorization") String authorization, @RequestBody Evaluation evaluation) {
 		ArrayList<String> errors = evaluation.validate();
 		if (errors.size() == 0) {
 			return new APIResponse(this.evaluationRepository.save(evaluation), null);
 		}
 		return new APIResponse(null, errors);
 	}
-	
+
+	@RequestMapping(value = "by-group/{groupId}", method = RequestMethod.GET)
+	public APIResponse byGroup(@RequestHeader("authorization") String authorization, @PathVariable("groupId") Integer groupId) {
+		Group group = this.groupRepository.findOne(groupId);
+		if (group == null) {
+			List<String> errors = new ArrayList<>();
+			errors.add("Group with id :" + groupId + " cannot be found");
+			return new APIResponse(null, errors);
+		}
+		List<Evaluation> evaluations = this.evaluationRepository.findByGroup(groupId);
+		return new APIResponse(evaluations, null);
+	}
+
+	@RequestMapping(value = "by-group-and-evaluation-subtype/{groupId}/{evaluationSubtypeId}", method = RequestMethod.GET)
+	public APIResponse byGroupAndEvaluationSubtype(@RequestHeader("authorization") String authorization,
+							   @PathVariable("groupId") Integer groupId, @PathVariable("evaluationSubtypeId") Integer evaluationSubtypeId) {
+		Group group = this.groupRepository.findOne(groupId);
+		EvaluationSubtype evaluationSubtype = this.evaluationSubtypeRepository.findOne(evaluationSubtypeId);
+		List<String> errors = new ArrayList<>();
+		if (group == null) {
+			errors.add("Group with id :" + groupId + " cannot be found");
+		}
+		if (evaluationSubtype == null) {
+			errors.add("Evaluation Subtype with id :" + evaluationSubtypeId + " cannot be found");
+		}
+		if (!errors.isEmpty()) {
+			return new APIResponse(null, errors);
+		}
+		List<Evaluation> evaluations = this.evaluationRepository.findByGroupAndEvaluationSubtype(groupId, evaluationSubtypeId);
+		return new APIResponse(evaluations.isEmpty() ? null : evaluations.get(0), null);
+	}
+
 	@RequestMapping(value = "{id}", method = RequestMethod.PATCH)
 	public APIResponse update(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id, 
 			@RequestBody Evaluation evaluation) {
@@ -68,5 +103,5 @@ public class EvaluationController {
 		}
 		errors.add("Evaluation doesn't exist");
 		return new APIResponse(null, errors);
-	}*/
+	}
 }

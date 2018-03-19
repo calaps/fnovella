@@ -6,11 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
+import org.fnovella.project.utility.inter.Agroupation;
 
 @Entity
-public class Grade {
+public class Grade implements Agroupation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +23,14 @@ public class Grade {
 	private Integer location;
 	private Integer programId;
 	private Integer instructorId;
-	
+	@Transient
+	private String programName;
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 	public Integer getId() {
 		return id;
 	}

@@ -10,16 +10,11 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-@Repository("programAppUserRepository")
+@Repository
 public interface ProgramAppUserRepository extends JpaRepository<ProgramAppUser, Integer> {
 	List<ProgramAppUser> findByAppUser(Integer appUser);
-	@Query("delete from ProgramAppUser where appUser = ?1")
 	@Transactional
 	void deleteByAppUser(Integer appUser);
-	
-	List<ProgramAppUser> findByProgram(Integer programId);
-	@Modifying
-    @Transactional
-    @Query("delete from ProgramAppUser where program = ?1")
+	@Transactional
 	void deleteByProgram(Integer programId);
 }

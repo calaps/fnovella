@@ -5,7 +5,7 @@ import org.fnovella.project.location.model.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository("locationRepository")
+@Repository
 public interface LocationRepository extends JpaRepository<Location, Integer> {
 
 }

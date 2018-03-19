@@ -2,13 +2,13 @@ package org.fnovella.project.user.model;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.fnovella.project.program.model.Program;
+import org.fnovella.project.program_app_user.model.ProgramAppUser;
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
 
@@ -29,7 +29,7 @@ public class AppUser {
 	@Length(max = 20)
 	@Column(name = "second_lastname")
 	private String secondLastName;
-	@Column(nullable = true)
+	@Column()
 	private Integer privilege;
 	@Length(max = 20)
 	private String documentType;
@@ -64,7 +64,8 @@ public class AppUser {
 	private String colony;
 	@Length(max = 50)
 	private String zone;
-	
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -354,7 +355,7 @@ public class AppUser {
 			this.firstLastName = appUser.firstLastName; 
 		if (APIUtility.isNotNullOrEmpty(appUser.secondLastName))
 			this.secondLastName = appUser.secondLastName;
-		if (this.privilege != null && this.privilege >= 0)
+		if (appUser.privilege != null && appUser.privilege > 0)
 			this.privilege = appUser.privilege;
 		if (APIUtility.isNotNullOrEmpty(appUser.documentType))
 			this.documentType = appUser.documentType;
@@ -376,7 +377,7 @@ public class AppUser {
 			this.municipality = appUser.municipality;
 		if (APIUtility.isNotNullOrEmpty(appUser.comunity))
 			this.comunity = appUser.comunity;
-		if (this.phone != null && this.phone >= 0)
+		if (appUser.phone != null && appUser.phone > 0)
 			this.phone= appUser.phone;
 		if (APIUtility.isNotNullOrEmpty(appUser.appCode))
 			this.appCode= appUser.appCode;
@@ -386,5 +387,22 @@ public class AppUser {
 			this.colony = appUser.colony;
 		if (APIUtility.isNotNullOrEmpty(appUser.zone))
 			this.zone = appUser.zone;
+		if (appUser.bornDate != null)
+			this.bornDate = appUser.bornDate;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		AppUser appUser = (AppUser) o;
+
+		return id.equals(appUser.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
 	}
 }

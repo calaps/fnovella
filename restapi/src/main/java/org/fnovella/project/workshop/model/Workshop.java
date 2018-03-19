@@ -6,11 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
+import org.fnovella.project.utility.inter.Agroupation;
 
 @Entity
-public class Workshop {
+public class Workshop implements Agroupation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +22,23 @@ public class Workshop {
 	private String description;
 	private Integer programId;
 	private boolean createdGroup;
+	@Transient
+	private String programName;
+	@Transient
+	private boolean groupExists;
+	
+	public boolean isGroupExists() {
+        return groupExists;
+    }
+    public void setGroupExists(boolean groupExists) {
+        this.groupExists = groupExists;
+    }
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 	public Integer getId() {
 		return id;
 	}

@@ -11,10 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository("appUserRepository")
 public interface AppUserRepository extends JpaRepository<AppUserSession, Long> {
 
-	public AppUserSession findByToken(String token);
+	AppUserSession findByToken(String token);
 	@Modifying
     @Transactional
     @Query("delete from AppUserSession where idAppUser = ?1")
-	public void deleteByIdAppUser(Integer id);
+	void deleteByIdAppUser(Integer id);
 	
 }

@@ -6,22 +6,34 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
+import org.fnovella.project.utility.inter.Agroupation;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-public class Division {
+public class Division implements Agroupation {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	@Length(max=50)
 	private String name;
+	private String description;
 	private Integer programa;
 	private Integer location;
 	private boolean createdGroup;
-
+	@Transient
+	private String programName;
+	@Transient
+	private boolean groupExists;
+	public String getProgramName() {
+		return programName;
+	}
+	public void setProgramName(String programName) {
+		this.programName = programName;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -37,6 +49,14 @@ public class Division {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 	public Integer getPrograma() {
 		return programa;
@@ -61,6 +81,14 @@ public class Division {
 	public void setCreatedGroup(boolean createdGroup) {
 		this.createdGroup = createdGroup;
 	}
+
+	public boolean isGroupExists() {
+        return groupExists;
+    }
+
+    public void setGroupExists(boolean groupExists) {
+        this.groupExists = groupExists;
+    }
 
 	public Division(String name, Integer programa, Integer location, boolean createdGroup) {
 		super();

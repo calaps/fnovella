@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import org.fnovella.project.utility.APIUtility;
 import org.hibernate.validator.constraints.Length;
@@ -24,6 +25,9 @@ public class Section {
 	@Length(max = 50)
 	private String jornada;
 	private Integer location;
+	private boolean createdGroup;
+	@Transient
+	private boolean groupExists;
 	public Integer getId() {
 		return id;
 	}
@@ -72,12 +76,29 @@ public class Section {
 		this.location = location;
 	}
 
-	public Section(Integer grade, String code, String jornada, Integer location) {
-		super();
+	public boolean isCreatedGroup() {
+		return createdGroup;
+	}
+
+	public void setCreatedGroup(boolean createdGroup) {
+		this.createdGroup = createdGroup;
+	}
+	
+	public boolean isGroupExists() {
+        return groupExists;
+    }
+
+    public void setGroupExists(boolean groupExists) {
+        this.groupExists = groupExists;
+    }
+
+	public Section(Integer grade, String name, String code, String jornada, Integer location, boolean createdGroup) {
 		this.grade = grade;
+		this.name = name;
 		this.code = code;
 		this.jornada = jornada;
 		this.location = location;
+		this.createdGroup = createdGroup;
 	}
 
 	public Section() {
@@ -100,6 +121,7 @@ public class Section {
 		if (APIUtility.isNotNullOrEmpty(section.name)) this.name = section.name;
 		if (section.grade != null && section.grade > 0) this.grade = section.grade;
 		if (section.location != null && section.location > 0) this.location = section.location;
+		this.createdGroup = section.createdGroup;
 	}
 	
 }

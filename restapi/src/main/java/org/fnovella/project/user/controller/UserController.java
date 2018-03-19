@@ -2,6 +2,7 @@ package org.fnovella.project.user.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.mail.internet.MimeMessage;
 
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user/")
 public class UserController {
 
+	public static final String LINE_START_ERROR = "Line ";
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
@@ -47,8 +49,8 @@ public class UserController {
 	private ProgramAppUserRepository programAppUserRepository;
 	@Autowired
 	public JavaMailSender emailSender;
-	
-	@RequestMapping(value="delete/{id}/check", method = RequestMethod.GET)
+
+	@RequestMapping(value = "delete/{id}/check", method = RequestMethod.GET)
 	public APIResponse checkDeletion(@RequestHeader("authorization") String authorization, @PathVariable("id") Integer id) {
 		return new APIResponse(this.delete(id, false), null);
 	}
@@ -59,7 +61,7 @@ public class UserController {
 			if (APIUtility.isNotNullOrEmpty(user.getPassword())) {
 				AppUser appUser = this.userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword()); 
 				if (appUser != null) {
-					AppUserSession session = new AppUserSession(appUser.getId(), APIUtility.generateHash(), true);
+					AppUserSession session = createAppUserSession(appUser);
 					this.appUserRepository.save(session);
 					return new LoginResponse(appUser, session.getToken(), null);	
 				} else {
@@ -83,17 +85,71 @@ public class UserController {
 		if (errors.size() == 0) {
 			AppUser appUser = this.userRepository.findByEmail(user.getEmail());
 			if (appUser == null) {
-				appUser = this.userRepository.save(user);
-				AppUserSession session = new AppUserSession(appUser.getId(), APIUtility.generateHash(), true);
-				this.appUserRepository.save(session);
-				appUser.setPassword("");
-				return new LoginResponse(appUser, session.getToken(), null);	
+				appUser = this.userRepository.findByDocumentValue(user.getDocumentValue());
+				if (appUser == null) {
+					appUser = this.userRepository.save(user);
+					AppUserSession session = createAppUserSession(appUser);
+					this.appUserRepository.save(session);
+					try {
+						this.sendCreatedUserEmail(appUser);
+					} catch (Exception ex) {
+						System.out.println("Email was not send, there is an error sending it");
+					}
+					appUser.setPassword("");
+					return new LoginResponse(appUser, session.getToken(), null);	
+				} else {
+					errors.add("Personal Document Number is already in use");
+				}
+			} else {
+				errors.add("Email is already in use");
 			}
-			errors.add("Email is already in use");
 		}
 		return new LoginResponse(null, null, errors);
 	}
-	
+
+	private AppUserSession createAppUserSession(AppUser appUser) {
+		return new AppUserSession(appUser.getId(), APIUtility.generateHash(), true);
+	}
+
+	@RequestMapping(value = "load", method = RequestMethod.POST)
+	public APIResponse loadMassive(@RequestBody List<AppUser> users, @RequestHeader("authorization") String authorization) {
+		int lineIndex[] = {1};
+		List<AppUser> appUsersToBeSaved = new ArrayList<>();
+		List<String> errors = new ArrayList<>();
+		users.forEach(user -> {
+			List<String> errorsOfCurrentUser = fetchErrors(user, lineIndex[0]);
+			if (errorsOfCurrentUser.size() == 0) {
+					appUsersToBeSaved.add(user);
+			}else {
+				errors.addAll(errorsOfCurrentUser);
+			}
+			lineIndex[0]++;
+		});
+		return new APIResponse(saveUsers(appUsersToBeSaved), errors.isEmpty()? null : errors);
+	}
+
+	private List<String> fetchErrors(AppUser user, int lineIndex) {
+		String startIndexError = LINE_START_ERROR + lineIndex + ":";
+		List<String> errors = user.validate()
+				.stream()
+				.map(error -> startIndexError + error)
+				.collect(Collectors.toList());
+
+		AppUser appUser = this.userRepository.findByEmail(user.getEmail());
+		if (appUser != null) {
+			errors.add(startIndexError + " Email is already used");
+		}
+		return errors;
+	}
+
+	private List<AppUser> saveUsers(List<AppUser> users) {
+		if(!users.isEmpty()){
+			return this.userRepository.save(users);
+		}
+		return null;
+	}
+
+
 	@RequestMapping(value = "users", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
 		return new APIResponse(this.userRepository.findAll(pageable), null);
@@ -121,10 +177,17 @@ public class UserController {
 			if (toUpdate != null) {
 				if ((toUpdate.getEmail().equals(user.getEmail())) || 
 						(!toUpdate.getEmail().equals(user.getEmail())) && this.userRepository.findByEmail(user.getEmail()) == null) {
-					toUpdate.setUpdateFields(user);
-					toUpdate = this.userRepository.saveAndFlush(toUpdate);
-					toUpdate.setPassword("");
-					return new APIResponse(toUpdate, null);	
+
+					if ((toUpdate.getDocumentValue().equals(user.getDocumentValue())) || 
+						(!toUpdate.getDocumentValue().equals(user.getDocumentValue())) && this.userRepository.findByDocumentValue(user.getDocumentValue()) == null) {
+
+						toUpdate.setUpdateFields(user);
+						toUpdate = this.userRepository.saveAndFlush(toUpdate);
+						toUpdate.setPassword("");
+						return new APIResponse(toUpdate, null);	
+					} else {
+						errors.add("Personal Document Number is already in use");
+					}
 				} else {
 					errors.add("Email is already in use");
 				}
@@ -155,7 +218,7 @@ public class UserController {
 		errors.add("Not authorizaded");
 		return new APIResponse(null, errors);
 	}
-	
+
 	private boolean delete(Integer appUserId, boolean delete) {
 		boolean toDelete = true;
 		List<?> list = this.programRepository.findByResponsable(appUserId);
@@ -178,15 +241,12 @@ public class UserController {
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public APIResponse logout(@RequestHeader("authorization") String authorization) {
 		ArrayList<String> errors = new ArrayList<String>();
-		AppUser authorizedUser = APIUtility.authorizeAppUser(authorization, this.appUserRepository, this.userRepository);
-		if (authorizedUser != null) {
-			AppUserSession session = appUserRepository.findByToken(authorization);
+		AppUserSession session = appUserRepository.findByToken(authorization);
 			if (session != null) {
 				this.appUserRepository.delete(session);
 				return new APIResponse(true, null);
 			}
-		}
-		errors.add("Not authorizaded");
+		errors.add("Not authorized");
 		return new APIResponse(null, errors);
 	}
 	
@@ -248,6 +308,16 @@ public class UserController {
 			errors.add("Email was not sent");
 		}
 		return new APIResponse(null, errors);
+	}
+
+	private void sendCreatedUserEmail(AppUser appUser) throws Exception {
+		MimeMessage message = emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+		helper.setTo(appUser.getEmail());
+		helper.setText("Hola, <br><br> Tu correo es: " + appUser.getEmail() + " <br>  Y tu contraseña es: " + appUser.getPassword() + "  <br><br> Saludos.", true);
+		helper.setSubject("Bienvenido " + appUser.getFirstName());
+		emailSender.send(message);
+		this.userRepository.saveAndFlush(appUser);
 	}
 
 	private void sendResetPasswordEmail(AppUser appUser) throws Exception {

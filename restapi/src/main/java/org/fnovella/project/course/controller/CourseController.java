@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.fnovella.project.course.model.Course;
 import org.fnovella.project.course.repository.CourseRepository;
+import org.fnovella.project.course.service.CourseService;
 import org.fnovella.project.inscriptions_inst_course.repository.InscriptionsInstCourseRepository;
 import org.fnovella.project.inscriptions_part_course.repository.InscriptionsPartCourseRepository;
 import org.fnovella.project.utility.model.APIResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.fnovella.project.program.repository.ProgramRepository;
 
 @RestController
 @RequestMapping("/course/")
@@ -27,10 +29,15 @@ public class CourseController {
 	private InscriptionsInstCourseRepository inscriptionsInstCourseRepository;
 	@Autowired
 	private InscriptionsPartCourseRepository inscriptionsPartCourseRepository;
+	@Autowired
+	private ProgramRepository programRepository;
+
+	@Autowired
+	private CourseService courseService;
 	
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public APIResponse getAll(@RequestHeader("authorization") String authorization, Pageable pageable) {
-		return new APIResponse(this.courseRepository.findAll(pageable), null);
+		return new APIResponse(this.courseService.getAllCourses(pageable), null);
 	}
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
@@ -38,7 +45,8 @@ public class CourseController {
 		ArrayList<String> errors = new ArrayList<String>();
 		Course course = this.courseRepository.findOne(id);
 		if (course != null) {
-			return new APIResponse(this.courseRepository.findOne(id), null);
+			course.setProgramName(this.programRepository.findOne(course.getProgramId()).getName());
+			return new APIResponse(course, null);
 		}
 		errors.add("Course doesn't exist");
 		return new APIResponse(null, errors);
