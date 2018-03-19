@@ -7,6 +7,9 @@ import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux';
 import reducers from './reducers';
 import thunk from "redux-thunk";
 
+import PathSelector from './routes/PathSelector';
+
+
 const middleware = routerMiddleware(hashHistory);
 const store = createStore(
   reducers,
@@ -15,19 +18,15 @@ const store = createStore(
 
 const history = syncHistoryWithStore(hashHistory, store);
 
-function scrollToTop() {
-  window.scrollTo(0, 0);
-}
-
-{/* Check for user intial #session */}
-function checKuser() {
-  return('/login');
-}
 const rootRoute = {
   childRoutes: [{
     path: '/',
     component: require('./containers/App'),
-    indexRoute: { onEnter: (nextState, replace) => replace(checKuser()) },
+    indexRoute: {
+      onEnter: (nextState, replace) => {
+        replace('/root');
+      }
+    },
     childRoutes: [
       require('./routes/app'),
       require('./routes/404'),
@@ -36,6 +35,7 @@ const rootRoute = {
       require('./routes/forgotPassword'),
       require('./routes/login'),
       require('./routes/signUp'),
+      require('./routes/root'),
       {
         path: '*',
         indexRoute: { onEnter: (nextState, replace) => replace('/404') },
@@ -45,12 +45,6 @@ const rootRoute = {
 };
 
 render(
-  <Provider store={store}>
-    <Router
-      onUpdate={scrollToTop}
-      history={history}
-      routes={rootRoute}
-    />
-  </Provider>,
+  <PathSelector history={history} rootRoute={rootRoute} store={store}/>,
   document.getElementById('app-container')
 );

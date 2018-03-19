@@ -27,3 +27,8 @@ documentation/*.html
 
 # misc
 .env
+
+#IDE
+.idea
+/.idea/
+.idea/workspace.xml

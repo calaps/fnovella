@@ -1,170 +1,192 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton'; // For Buttons
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
 import QueueAnim from 'rc-queue-anim';
+import HorizontalLinearStepper from './HorizontalLinearStepper';
+import ListElements from './ListElements';
+import UpdateForm from './UpdateForm';
+import ViewEmergencyContact from './ViewEmergencyContact';
+import ViewStudentInfo from './ViewStudentInfo';
+import FileUpload from './File';//FILE CSV Module integrated
+import { privilegesGetRequest, privilegesGetAllRequest } from '../../../../../actions';
 
 const optionsName = "Participantes";
 
-const MainOptions = () => (
-  <article className="article padding-lg-v article-bordered">
-    <div className="container-fluid with-maxwidth">
-      <div className="row">
-        <div className="col-xl-3">
+class MainOptions extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-            <div className="box-body">
-              <div className="icon-box ibox-plain ibox-center">
-                <div className="ibox-icon">
-                  <a href="javascript:;"><i className="material-icons">supervisor_account</i></a>
-                </div>
-                <h5>{optionsName}s</h5>
-              </div>
-            </div>
-
-        </div>
-        <div className="col-xl-9">
+  render() {
+    return (
+      <article className="article padding-lg-v article-bordered">
+        <div className="container-fluid with-maxwidth">
           <div className="row">
+            <div className="col-xl-3">
 
-            <div className="col-xl-4">
-              <div className="box box-default">
-                <div className="box-body">
-                  <div className="icon-box ibox-plain ibox-center">
-                    <div className="ibox-icon">
-                      <a href="javascript:;"><i className="material-icons">add</i></a>
-                    </div>
-                    <h6>Agregar {optionsName}</h6>
+              <div className="box-body">
+                <div className="icon-box ibox-plain ibox-center">
+                  <div className="ibox-icon">
+                    <a href="javascript:;"><i className="material-icons">supervisor_account</i></a>
                   </div>
+                  <h5>{optionsName}</h5>
                 </div>
               </div>
-            </div>
 
-            <div className="col-xl-4">
-              <div className="box box-default">
-                <div className="box-body">
-                  <div className="icon-box ibox-plain ibox-center">
-                    <div className="ibox-icon">
-                      <a href="javascript:;"><i className="material-icons">mode_edit</i></a>
+            </div>
+            <div className="col-xl-9">
+              <div className="row">
+
+                {this.props.permission.pinformationVisualization &&
+                <div className="col-xl-4">
+                  <div className="box box-default">
+                    <div className="box-body">
+                      <div onClick={() => this.props.changeView("VIEW_ELEMENT")} className="icon-box ibox-plain ibox-center">
+                        <div className="ibox-icon">
+                          <a href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
+                        </div>
+                        <h6>Visualizar {optionsName}</h6>
+                      </div>
                     </div>
-                    <h6>Editar {optionsName}</h6>
                   </div>
                 </div>
-              </div>
-            </div>
+                }
 
-            <div className="col-xl-4">
-              <div className="box box-default">
-                <div className="box-body">
-                  <div className="icon-box ibox-plain ibox-center">
-                    <div className="ibox-icon">
-                      <a href="javascript:;"><i className="material-icons">remove</i></a>
+                {this.props.permission.pstudentsEntry &&
+                  <div className="col-xl-4">
+                    <div className="box box-default">
+                      <div className="box-body">
+                        <div onClick={() => this.props.changeView("ADD_ELEMENT")}
+                          className="icon-box ibox-plain ibox-center">
+                          <div className="ibox-icon">
+                            <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
+                          </div>
+                          <h6>Agregar {optionsName}</h6>
+                        </div>
+                      </div>
                     </div>
-                    <h6>Eliminar {optionsName}</h6>
                   </div>
-                </div>
+                }
+                {this.props.permission.pstudentsEntry &&
+                  <div className="col-xl-4">
+                    <div className="box box-default">
+                      <div className="box-body">
+                        <div onClick={() => this.props.changeView("CSV_LOAD")}
+                          className="icon-box ibox-plain ibox-center">
+                          <div className="ibox-icon">
+                            <a href="javascript:;"><i className="material-icons">file_upload</i></a>
+                          </div>
+                          <h6>Carga masiva (CSV)</h6>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                }
               </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </article>
-);
-
-const EditOption = () => (
-  <article className="article padding-lg-v article-bordered">
-    <div className="container-fluid with-maxwidth">
-      <div className="row">
-        <div className="col-xl-9">
-
-          <div className="box box-default">
-            <div className="box-body padding-md">
-              <h5 className="text-info">Agregar usuario: </h5>
-              <p className="text-info">Ingresa la siguiente información: </p>
-              <form role="form">
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" name="first_name" placeholder="Primer nombre..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" name="sencond_name" placeholder="Segundo nombre..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" name="first_lastname" placeholder="Primer apellido..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Segundo apellido..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Prilegio..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Fecha de nacimiento..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Tipo de coumento de identificación..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Numero de documento de identificación..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Nacionalidad..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Departamento..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Profesión..." />
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <div className="col-md-12">
-                    <input type="text" className="form-control" id="inputEmail3" placeholder="Dirección..." />
-                  </div>
-                </div>
-              </form>
-
             </div>
           </div>
 
         </div>
-        <div className="col-xl-3">
-        </div>
+      </article>
+    )
+  };
+}
+
+
+class Student extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: "ADD_ELEMENT", //Hide view due to permissions
+      participantData: {},
+      participantId: '',
+      permission: ''
+    };
+    this.changeView = this.changeView.bind(this); //bind this element
+    this.onEditStudent = this.onEditStudent.bind(this); //bind this element
+    this.handleCancel = this.handleCancel.bind(this);
+    this.onEmergencyView = this.onEmergencyView.bind(this);
+    this.onViewStudent = this.onViewStudent.bind(this);
+  }
+
+  componentWillMount() {
+    console.log("running component will mount");
+
+    // API action
+    this.props.actions.privilegesGetRequest().then(data => {
+        this.setState({ permission: data.data });
+      });
+  }
+
+  changeView(data) {
+    this.setState({ active: data });
+  }
+
+  onEditStudent(participantData) {
+    this.setState({ participantData });
+    this.changeView('UPDATE_ELEMENT', false);
+  }
+
+  onEmergencyView(participantId) {
+    this.setState({ participantId });
+    this.changeView('VIEW_EMERGENCY', false);
+  }
+  onViewStudent(participantData){
+    this.setState({participantData});
+    this.changeView("READ_ONLY");
+  }
+  handleCancel() {
+    this.changeView('VIEW_ELEMENT', false);
+  }
+
+  activeView() {
+    switch (this.state.active) {
+      case 'ADD_ELEMENT':
+        return <HorizontalLinearStepper changeView={this.changeView} participantData={this.state.participantData} />;
+      case "VIEW_ELEMENT":
+        return <ListElements onEdit={this.onEditStudent} onView={this.onViewStudent} onEmergencyView={this.onEmergencyView} />;
+      case "UPDATE_ELEMENT":
+        return <UpdateForm participantData={this.state.participantData} changeView={this.changeView} onCancel={this.handleCancel} />;
+      case "VIEW_EMERGENCY":
+        return <ViewEmergencyContact participantId={this.state.participantId} />;
+      case "CSV_LOAD":
+        return <FileUpload changeView={this.changeView} />;
+      case "READ_ONLY":
+        return <ViewStudentInfo participantData={this.state.participantData} />
+      default:
+        return null;
+    }
+  }
+
+  render() {
+    return (
+      <div className="container-fluid no-breadcrumbs page-dashboard">
+
+        <QueueAnim type="bottom" className="ui-animate">
+          <div key="1"><MainOptions changeView={this.changeView} permission={this.state.permission} /></div>
+          <hr />
+          <div key="2">{this.activeView()}</div>
+        </QueueAnim>
+
       </div>
+    );
+  }
+}
 
-    </div>
-  </article>
-);
+function mapStateToProps(state) {
+  //pass the providers
+  return { permission: state.permission }
+}
 
-const Students = () => (
-  <div className="container-fluid no-breadcrumbs page-dashboard">
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      privilegesGetRequest,
+      privilegesGetAllRequest
+    }, dispatch)
+  };
+}
 
-    <QueueAnim type="bottom" className="ui-animate">
-      <div key="1"><MainOptions /></div>
-      <hr/>
-      <div key="2"><EditOption /></div>
-    </QueueAnim>
-
-  </div>
-);
-
-module.exports = Students;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Student);

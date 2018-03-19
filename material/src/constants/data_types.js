@@ -1,13 +1,27 @@
 export var data_types = {
   "Texto": "text",
   "Número": "number",
+  "Decimal": "decimal",
   "Color": "color",
   "Dirección web": "url",
   "Fecha": "date",
   "Fecha con tiempo": "datetime-local",
   "Email": "email",
-  "Rango": "range",
-  "Telefono": "tel"
+  "Rango": "range"
+};
+
+export const evaluationPeriods = {
+  "mensual": 1,
+  "bimestral": 2,
+  "trimestral": 3,
+  "semestral": 6,
+  "anual": 12
+};
+
+export var privileges = {
+  "Admin": 2,
+  "Teacher": 1,
+  "No Privilege": 0,
 };
 
 export var personal_documents = {
@@ -22,7 +36,7 @@ export var gender = {
 };
 
 export var countries = {
-  "nombre": "name",
+  "Guatemala": "Guatemala",
   "Afganistán": "Afghanistan",
   "Albania": "Albania",
   "Alemania": "Germany",
@@ -103,7 +117,6 @@ export var countries = {
   "Groenlandia": "Greenland",
   "Guadalupe": "Guadeloupe",
   "Guam": "Guam",
-  "Guatemala": "Guatemala",
   "Guayana Francesa": "French Guiana",
   "Guernsey": "Guernsey",
   "Guinea": "Guinea",
@@ -268,4 +281,11 @@ export var countries = {
   "Yibuti": "Djibouti",
   "Zambia": "Zambia",
   "Zimbabue": "Zimbabwe"
+};
+
+export var typeCategory = {
+  "division": "division",
+  "section": "section",
+  "workshop": "workshop",
+  "course": "course"
 };

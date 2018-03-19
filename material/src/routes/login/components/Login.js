@@ -4,12 +4,19 @@ import APPCONFIG from 'constants/Config'; //global variables
 import TextField from 'material-ui/TextField'; //For use text
 import QueueAnim from 'rc-queue-anim'; // admin use
 import validateinput from '../../../actions/userLogin'; //First user validator
-import { connect } from 'react-redux'; //to pass functions
-import { userSignUpRequest } from '../../../actions/loginAxios'; //for use the Rest_API
+import {connect} from 'react-redux'; //to pass functions
+import {bindActionCreators} from 'redux';
+import {loginRequest} from '../../../actions'; //for use the Rest_API
+
+import SnackBar from 'components/SnackBar';
+import ProgressBar from 'components/ProgressBar';
+
+
+let self;
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       brand: APPCONFIG.brand,
       email: '',
@@ -17,34 +24,46 @@ class Login extends React.Component {
       errors: {},
       isLoading: false
     };
-    this.onSubmit = this.onSubmit.bind(this);  {/* Makes a Bind of the actions, onChange, onSummit */}
+    this.onSubmit = this.onSubmit.bind(this);
+    {/* Makes a Bind of the actions, onChange, onSummit */
+    }
     this.onChange = this.onChange.bind(this);
+
+    self = this;
+
   }
 
-  isValid(){
+  isValid() {
     //local validation
-    const { errors, isValid } = validateinput(this.state)
-    if(!isValid){
-      this.setState({ errors });
+    const {errors, isValid} = validateinput(this.state);
+    if (!isValid) {
+      this.setState({errors});
     }
     return isValid;
   }
 
   onSubmit(e) {
     e.preventDefault();
-    if(this.isValid()){
+    if (this.isValid()) {
       //reset errros object and disable submit button
-      this.setState({ errors: {}, isLoading: true });
+      this.setState({errors: {}, isLoading: true});
+      // this.context.router.history.push('/');
 
+      let data = {
+        email: this.state.email,
+        password: this.state.password
+      };
       //we store  a function in the props
-        this.props.userSignUpRequest(this.state).then(
+      this.props.loginRequest(data).then(
         (response) => {
           //Save the default object as a provider
-          this.context.router.history.push('/');
+          if (response) {
+            self.context.router.push('/app/dashboard');
+          }
         },
         (error) => {
           console.log("An Error occur with the Rest API");
-          this.setState({ errors: error.response.data, isLoading: false });
+          self.setState({errors: {...this.state.errors, apiErrors: error.error}, isLoading: false});
         });
 
     } else {
@@ -54,11 +73,11 @@ class Login extends React.Component {
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({[e.target.name]: e.target.value});
   }
 
   render() {
-    const { errors } = this.state; //inicializate an get errors
+    const {errors} = this.state; //inicializate an get errors
 
     return (
       <div className="body-inner">
@@ -66,7 +85,7 @@ class Login extends React.Component {
           <div className="card-content">
 
             <section className="logo text-center">
-              <h1><img src="assets/images/logo.png" alt={this.state.brand} /></h1>
+              <h1><img src="assets/images/logo.png" alt={this.state.brand}/></h1>
             </section>
 
             <form onSubmit={this.onSubmit} className="form-horizontal">
@@ -91,12 +110,13 @@ class Login extends React.Component {
                     value={this.state.password}
                     type="password"
                     fullWidth
-                    />
+                  />
                   {errors.password && <span className="help-block text-danger">{errors.password}</span>}
                 </div>
               </fieldset>
               <div className="card-action no-border text-right">
-                <button disabled={this.state.isLoading} type="submit" className="btn btn-primary">Inicio de sesión</button>
+                <button disabled={this.state.isLoading} type="submit" className="btn btn-primary">Inicio de sesión
+                </button>
               </div>
             </form>
           </div>
@@ -115,18 +135,20 @@ class Page extends React.Component {
   constructor() {
     super();
   }
+
   render() {
-    const {userSignUpRequest} = this.props;
-    return(
+    return (
       <div className="page-login">
-      <div className="main-body">
-        <QueueAnim type="bottom" className="ui-animate">
-          <div key="1">
-            <Login userSignUpRequest={userSignUpRequest} />
-          </div>
-        </QueueAnim>
+        <ProgressBar/>
+        <div className="main-body">
+          <QueueAnim type="bottom" className="ui-animate">
+            <div key="2">
+              <Login loginRequest={this.props.actions.loginRequest}/>
+            </div>
+          </QueueAnim>
+        </div>
+        <SnackBar></SnackBar>
       </div>
-    </div>
     );
   }
 }
@@ -135,19 +157,28 @@ class Page extends React.Component {
 //To get the routers
 Login.contextTypes = {
   router: PropTypes.object.isRequired
-}
+};
 
 Login.propTypes = {
-  userSignUpRequest: PropTypes.func.isRequired
-}
+  loginRequest: PropTypes.func.isRequired
+};
 
 function mapStateToProps(state) {
   //pass the providers
   return {
-
+    auth: state.auth
   }
 }
 
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      loginRequest
+    }, dispatch)
+  };
+}
+
 module.exports = connect(
-  mapStateToProps, { userSignUpRequest }
-  )(Page);
+  mapStateToProps, mapDispatchToProps
+)(Page);

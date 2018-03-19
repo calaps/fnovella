@@ -2,18 +2,24 @@ import React from 'react';
 import Header from 'components/Header';
 import Sidenav from 'components/Sidenav';
 import Footer from 'components/Footer';
+import SnackBar from 'components/SnackBar';
 //import Customizer from 'components/Customizer'; // <Customizer />
 
 class MainApp extends React.Component {
+
+  constructor(props){
+    super(props);
+  }
+
   render() {
     const { children, location } = this.props;
 
     return (
       <div className="main-app-container">
-        <Sidenav />
+        <Sidenav router={this.props.router}/>
 
         <section id="page-container" className="app-page-container">
-          <Header />
+          <Header router={this.props.router}/>
 
           <div className="app-content-wrapper">
             <div className="app-content">
@@ -25,6 +31,8 @@ class MainApp extends React.Component {
             <Footer />
           </div>
         </section>
+
+        <SnackBar></SnackBar>
 
       </div>
     );

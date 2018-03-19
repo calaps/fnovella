@@ -1,0 +1,3 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (139, 'actvididad A', 151, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (140, 'actvididad A', 152, 0, 100);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation_activity (evaluation, name, range, parent_id, percentage) VALUES (141, 'actvididad A', 153, 0, 100);

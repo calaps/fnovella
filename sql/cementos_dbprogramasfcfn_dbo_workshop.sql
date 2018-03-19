@@ -1,0 +1,2 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Taller A', 1, 'Descipción de taller...', 110, null, 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.workshop (name, location, description, program_id, instructor_id, created_group) VALUES ('Taller B', 1, 'Descipción de taller...	Visualizar grupo', 110, null, 0);

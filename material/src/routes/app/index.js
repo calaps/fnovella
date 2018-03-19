@@ -16,6 +16,21 @@ module.exports = {
         require('./routes/locations'), // Calaps App Students
         require('./routes/grade'), // Calaps App Students
         require('./routes/workshop'), // Calaps App Students
+        require('./routes/division'), // Calaps App Students
+        require('./routes/activation'), // Calaps App Students
+        require('./routes/category'), // Calaps App Category
+        require('./routes/course'), // Calaps App Students
+        require('./routes/section'), // Calaps App Students
+        require('./routes/visualization'), // Calaps App Visualization
+        require('./routes/indicators'), // Calaps Indicators
+        require('./routes/inscription'), // Calaps App Inscription
+        require('./routes/inscription_approval'), // Calaps App Inscription Approval\
+        require('./routes/inscription_participant'), // Calaps App Inscription Approval\
+        require('./routes/groups'), // Calaps App Inscription Approval\
+        require('./routes/evaluation'), // Calaps App Inscription Approval\
+        require('./routes/assistance'), //assistance control
+        require('./routes/assistance_approval'), //assistance approval
+        require('./routes/search') //search
       ]);
     });
   },

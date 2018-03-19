@@ -1,0 +1,1 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.grade (name, level, location, description, program_id, instructor_id) VALUES ('Grado A', 'Primaria', 7, 'Descripción grado...', 111, null);

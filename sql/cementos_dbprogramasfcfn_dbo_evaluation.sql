@@ -1,0 +1,3 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range, approval_percentage, programActivation, status) VALUES (66, 0, 1, 1, '2018-01-19', '2018-03-08', 151, 65, null, null);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range, approval_percentage, programActivation, status) VALUES (66, 0, 2, 3, '2018-01-19', '2018-03-08', 152, 65, null, null);
+INSERT INTO cementos_dbprogramasfcfn.dbo.evaluation ([group], session, evaluation_type, evaluation_subType, date_start, date_end, range, approval_percentage, programActivation, status) VALUES (66, 0, 1, 2, '2018-01-19', '2018-03-08', 153, 66, null, null);

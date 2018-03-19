@@ -1,0 +1,1 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.participant_contacts (first_name, second_name, first_lastname, second_lastname, document_type, document_value, tellphone, cellphone, email, address, participant_id, photo) VALUES ('sin datos', 'sin datos', 'sin datos', 'sin datos', 'sin datos', '0', 502, 0, 'sin datos', 'sin datos', 46, 0);

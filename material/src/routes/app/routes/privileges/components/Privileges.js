@@ -3,7 +3,7 @@ import QueueAnim from 'rc-queue-anim';
 import EditForm from './EditForm';
 import ListElements from './ListElements';
 
-const optionsName = "Privilegios";
+const optionsName = "Privilegio";
 
 class MainOptions extends React.Component {
   constructor(props) {
@@ -32,9 +32,22 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
+                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
+                        <div className="ibox-icon">
+                          <a href="javascript:;"><i className="material-icons">remove_red_eye</i></a>
+                        </div>
+                        <h6>Visualizar {optionsName}</h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-xl-4">
+                  <div className="box box-default">
+                    <div className="box-body">
                       <div onClick={() => this.props.changeView("ADD_ELEMENT") } className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="javascript:;"><i className="material-icons">add</i></a>
+                          <a href="javascript:;"><i className="material-icons">add_circle_outline</i></a>
                         </div>
                         <h6>Agregar {optionsName}</h6>
                       </div>
@@ -45,24 +58,11 @@ class MainOptions extends React.Component {
                 <div className="col-xl-4">
                   <div className="box box-default">
                     <div className="box-body">
-                      <div onClick={() => this.props.changeView("VIEW_ELEMENT") } className="icon-box ibox-plain ibox-center">
-                        <div className="ibox-icon">
-                          <a><i className="material-icons">mode_edit</i></a>
-                        </div>
-                        <h6>Editar {optionsName}</h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-xl-4">
-                  <div className="box box-default">
-                    <div className="box-body">
                       <div className="icon-box ibox-plain ibox-center">
                         <div className="ibox-icon">
-                          <a href="javascript:;"><i className="material-icons">remove</i></a>
+                          <a href="#/app/page/faqs"><i className="material-icons">help_outline</i></a>
                         </div>
-                        <h6>Eliminar {optionsName}</h6>
+                        <h6>FAQ</h6>
                       </div>
                     </div>
                   </div>
@@ -83,21 +83,32 @@ class Privileges extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: "ADD_ELEMENT"
+      active: "VIEW_ELEMENT",
+      privilegeData: {}
     };
     this.changeView = this.changeView.bind(this); //bind this element
+    this.onEditPrivilege=this.onEditPrivilege.bind(this);
   }
 
-  changeView(data){
+  onEditPrivilege(privilegeData){
+    this.setState({privilegeData})
+
+    this.changeView('ADD_ELEMENT',false);
+  }
+
+  changeView(data,reset=true){
+    if(reset){
+      this.setState({ privilegeData: {} })
+    }
     this.setState({ active: data });
   }
 
   activeView() {
     switch(this.state.active) {
       case 'ADD_ELEMENT':
-        return <EditForm />;
+        return <EditForm changeView={this.changeView} privilegeData={this.state.privilegeData} />;
       case "VIEW_ELEMENT":
-        return <ListElements />;
+        return <ListElements onEdit={this.onEditPrivilege}  />;
       default:
         return null;
     }

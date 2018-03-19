@@ -1,0 +1,10 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('Municipalidad', 'Municipalidades para usar en las sedes.', 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('departamento', 'Departamentos de Guatemala.', 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('comunidad', 'Comunidades pertencientes al programa.', 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('Colonia', 'Colonias y ubicaciones.', 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('nivel', 'Niveles asignados a los grados.', 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('asistencia', 'Lleva el control de las asistencias posibles,', 0);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('Adicionales Taller', 'Listado de campos adicionales para taller', 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('Adicionales Curso', 'Listado de campos adicionales para Curso', 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('Adicionales División', 'Listado de campos adicionales para División', 1);
+INSERT INTO cementos_dbprogramasfcfn.dbo.category (name, description, aditional_field) VALUES ('Adicionales Grado', 'Listado de campos adicionales para Grados', 1);

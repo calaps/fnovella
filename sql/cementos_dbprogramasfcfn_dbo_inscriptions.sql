@@ -1,0 +1,1 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.inscriptions (period, year, status, [group]) VALUES (1, 2018, 0, 66);

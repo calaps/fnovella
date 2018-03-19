@@ -1,110 +1,198 @@
 import React from "react";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import IconButton from 'material-ui/IconButton';
+import Search from 'material-ui/svg-icons/action/search';
+import {educatorsGetRequest, educatorsDeleteRequest, educatorsGetRequestBySearch} from '../../../../../actions';
+import ListItem from './ListItem';
+import Pagination from '../../../../../components/Pagination'
 
 /** *
  * Fake element list render....
  * */
+let size = 10; //limit
+let number = 0; //page
 
 class ListElements extends React.Component {
   constructor(props) {
     super(props);
+    this.onDeleteButton = this
+      .onDeleteButton
+      .bind(this);
+    this.handleSearch = this
+      .handleSearch
+      .bind(this);
+    this.state = {
+      inputValue: '',
+      searchValue: 'Name'
+    }
   }
-  render() {
 
+  componentWillMount() {
+    this
+      .props
+      .actions
+      .educatorsGetRequest(number, size);
+  }
+
+  handleSearch(e) {
+    e.preventDefault();
+    switch (this.state.searchValue) {
+      case "Id":
+        this
+          .props
+          .actions
+          .educatorsGetRequestBySearch(this.state.inputValue, null, null);
+        break;
+      case "Name":
+        this
+          .props
+          .actions
+          .educatorsGetRequestBySearch(null, this.state.inputValue, null);
+        break;
+      case "Code":
+        this
+          .props
+          .actions
+          .educatorsGetRequestBySearch(null, null, this.state.inputValue);
+        break;
+      default:
+        this
+          .props
+          .actions
+          .educatorsGetRequestBySearch();
+        break;
+    }
+  }
+  onDeleteButton(id) {
+    console.log("id: ", id);
+    this
+      .props
+      .actions
+      .educatorsDeleteRequest(id);
+  }
+
+  render() {
+    let i = 0;
     return (
       <article className="article">
-        <h2 className="article-title">Lista de catalogos</h2>
+        <h2 className="article-title">Lista de educadores</h2>
         <div className="row">
-          <div className="col-xl-6">
+          <div className="col-xl-12">
             <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
+              <form onSubmit={this.handleSearch}>
+
+                <div className="row">
+                  <div className="col-xl-5">
+                    <div >Búsqueda avanzada</div>
+                  </div>
+                  <div className="col-xl-7 text-right">
+                    <input
+                      style={{
+                      margin: 5,
+                      padding: 5
+                    }}
+                      type='text'
+                      value={this.state.inputValue}
+                      onChange={(e) => {
+                      this.setState({inputValue: e.target.value})
+                    }}/>
+                    <select
+                      style={{
+                      padding: 5,
+                      margin: 5,
+                      height: 34
+                    }}
+                      onChange={(e) => {
+                      this.setState({searchValue: e.target.value})
+                    }}
+                      value={this.state.searchValue}>
+                      <option value="Name">por nombre del usuario</option>
+                      <option value="Id">por documento de identificación</option>
+                      <option value="Code">por codigo de cempro</option>
+                    </select>
+                    <IconButton
+                      iconStyle={{
+                      color: 'white'
+                    }}
+                      style={{
+                      margin: 5,
+                      height: 34,
+                      width: 34,
+                      backgroundColor: '#49a54e',
+                      padding: 5
+                    }}
+                      type="submit"
+                      className="btn btn-primary"><Search/></IconButton>
+                  </div>
+                </div>
+              </form>
+
               <div className="box-body no-padding-h">
 
                 <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
+                  <table className="mdl-data-table table-striped">
                     <thead>
-                    <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
-                    </tr>
+                      <tr>
+                        <th className="mdl-data-table__cell--non-numeric">#</th>
+                        <th className="mdl-data-table__cell--non-numeric">id</th>
+                        <th className="mdl-data-table__cell--non-numeric">Nombre</th>
+                        <th className="mdl-data-table__cell--non-numeric">Email</th>
+                        <th className="mdl-data-table__cell--non-numeric">Genero</th>
+                        <th className="mdl-data-table__cell--non-numeric">Departamento</th>
+                        <th className="mdl-data-table__cell--non-numeric">Celular</th>
+                        <th className="mdl-data-table__cell--non-numeric">App Code</th>
+                      </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
+
+                      {this.props.teachers.content
+                        ? this
+                          .props
+                          .teachers
+                          .content
+                          .map((teacher) => {
+                            return <ListItem
+                              key={teacher.id}
+                              onDelete={this.onDeleteButton}
+                              number={i++}
+                              onEdit={this.props.onEdit}
+                              teacherData={teacher}/>
+                          })
+                        : null
+}
+
                     </tbody>
                   </table>
+                  <Pagination
+                    totalPages={this.props.teachers.totalPages}
+                    totalElements={this.props.teachers.totalElements}
+                    getRequest={this.props.actions.educatorsGetRequest}/>
                 </div>
 
               </div>
             </div>
           </div>
-
-          <div className="col-xl-6">
-            <div className="box box-transparent">
-              <div className="box-header no-padding-h">Basic table</div>
-              <div className="box-body no-padding-h">
-
-                <div className="box box-default table-box mdl-shadow--2dp">
-                  <table className="mdl-data-table">
-                    <thead>
-                    <tr>
-                      <th className="mdl-data-table__cell--non-numeric">#</th>
-                      <th className="mdl-data-table__cell--non-numeric">Material</th>
-                      <th>Quantity</th>
-                      <th>Unit price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">1</td>
-                      <td className="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-                      <td>25</td>
-                      <td>$2.90</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">2</td>
-                      <td className="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-                      <td>50</td>
-                      <td>$1.25</td>
-                    </tr>
-                    <tr>
-                      <td className="mdl-data-table__cell--non-numeric">3</td>
-                      <td className="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-                      <td>10</td>
-                      <td>$2.35</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
-
         </div>
-
-
       </article>
     );
   }
 }
 
-module.exports = ListElements;
+function mapStateToProps(state) {
+  //pass the providers
+  return {teachers: state.educators}
+}
+
+/* Map Actions to Props */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({
+      educatorsGetRequest,
+      educatorsGetRequestBySearch,
+      educatorsDeleteRequest
+    }, dispatch)
+  };
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(ListElements);

@@ -1,0 +1,1 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.inscriptions_participants (inscription, participant) VALUES (53, 12);

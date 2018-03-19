@@ -1,0 +1,2 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.participant_aditional_fields_values (aditional_field_id, intial_value, final_value) VALUES (74, 'Adicional 1', 'adicional 1 value');
+INSERT INTO cementos_dbprogramasfcfn.dbo.participant_aditional_fields_values (aditional_field_id, intial_value, final_value) VALUES (74, 'Adicional 2', 'adicional 2 value');

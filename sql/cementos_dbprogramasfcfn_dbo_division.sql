@@ -1,0 +1,1 @@
+INSERT INTO cementos_dbprogramasfcfn.dbo.division (name, programa, location, created_group) VALUES ('División A', 112, 53, 0);

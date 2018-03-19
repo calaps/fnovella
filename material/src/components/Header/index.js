@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import APPCONFIG from 'constants/Config';
 import NavLeftList from './NavLeftList';
 import NavRightList from './NavRightList';
+import ProgressBar from './../ProgressBar';
 
 /**
  * #calaps //Hide until notification implementation
@@ -14,6 +15,11 @@ import NavRightList from './NavRightList';
 
  **/
 class Header extends React.Component {
+
+  constructor(props){
+    super(props);
+  }
+
   componentDidMount() {
     const sidebarToggler = this.sidebarBtn;
     const $sidebarToggler = $(sidebarToggler);
@@ -51,22 +57,25 @@ class Header extends React.Component {
           </div>
 
           <div className="top-nav-right">
-            <NavRightList />
-            <p className="nav_user_name float-right">Bienvenido, <strong>Sergio Andres Ramirez</strong></p>
+            <NavRightList router={this.props.router}/>
+            <p className="nav_user_name float-right">{(this.props.auth.user)?(this.props.auth.user.firstName + ' ' + (this.props.auth.user.firstLastName  || this.props.auth.user.firstLastname)):' '}
+            </p>
           </div>
         </div>
+        <ProgressBar/>
       </section>
     );
   }
 }
 
+/* Map state to props */
+function mapStateToProps(state){
+  return {
+    auth: state.auth,
+    colorOption: state.settings.colorOption,
+    isFixedHeader: state.settings.isFixedHeader
+  }
+}
 
-const mapStateToProps = state => ({
-  colorOption: state.settings.colorOption,
-  isFixedHeader: state.settings.isFixedHeader
-});
-
-module.exports = connect(
-  mapStateToProps
-)(Header);
-
+/* Connect Component with Redux */
+export default connect(mapStateToProps, null)(Header)

@@ -21,3 +21,34 @@ export function changeColorOption(colorOption) {
 export function changeTheme(themeOption) {
   return { type: types.CHANGE_THEME, theme: themeOption };
 }
+
+/* Custom Actions */
+export * from './auth';
+export * from './programs';
+export * from './users';
+export * from './sedes';
+export * from './privileges';
+export * from './educators';
+export * from './catalogs';
+export * from './participants';
+export * from './programActivations';
+export * from './participantContacts';
+export * from './courses';
+export * from './grades';
+export * from './workshops';
+export * from './dashboard';
+export * from './categories';
+export * from './divisions';
+export * from './sections';
+export * from './programLocations';
+export * from './programInstructors';
+export * from './snackBar';
+export * from './programAdditionalFields';
+export * from './groups';
+export * from './participantAdditionalFields';
+export * from './inscriptions';
+export * from './inscriptionParticipants';
+export * from './evaluations';
+export * from './assistance';
+export * from './assistanceParticipant';
+export * from './indicators';

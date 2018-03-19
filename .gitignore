@@ -1,25 +1,32 @@
-restapi/target/
+# Logs
+logs
+*.log
 
-#################
-## JetBrains
-#################
-.idea
-.project
-.settings
-
-############
-## Windows
-############
-
-# Windows image file caches
+# System Files
+.DS_Store
+._.DS_Store
 Thumbs.db
 
-# Folder config file
-Desktop.ini
+# Dependency directory
+node_modules
+bower_components/
 
-############
-## Mac
-############
+# Linter
+linters/
 
-# Mac crap
-.DS_Store
+# testing
+/coverage
+
+# compiled output
+/build
+/Release
+/dist
+/dll
+.tmp
+documentation/*.html
+
+# misc
+.env
+
+#IDE files
+.idea
