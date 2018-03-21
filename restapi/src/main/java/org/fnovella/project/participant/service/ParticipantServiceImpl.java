@@ -1,5 +1,7 @@
 package org.fnovella.project.participant.service;
 
+import org.fnovella.project.participant.model.Participant;
+import org.fnovella.project.participant.repository.ParticipantRepository;
 import org.fnovella.project.utility.APIUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    private ParticipantRepository participantRepository;
 
     @Override
     public Integer getActiveParticipant(Integer groupId) {
@@ -62,5 +67,11 @@ public class ParticipantServiceImpl implements ParticipantService {
     @Override
     public Integer getJustifiedParticipant(Integer groupId) {
         return APIUtility.participantOperation(em, "justified", groupId);
+    }
+    
+
+    @Override
+    public Participant getParticipantById(final Integer participantId) {
+        return this.participantRepository.findOne(participantId);
     }
 }

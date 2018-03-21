@@ -13,4 +13,6 @@ public interface EvaluationActivityParticipantService {
     List<EvaluationActivityParticipantDetail> findAll();
 
     EvaluationActivityParticipantDetail findOne(Integer id);
+
+    List<Integer> getActivityIdByParticipantId(Integer participantId);
 }

@@ -1,5 +1,7 @@
 package org.fnovella.project.section.service;
 
+import java.util.List;
+
 import org.fnovella.project.group.model.Group;
 import org.fnovella.project.section.model.Section;
 import org.springframework.data.domain.Page;
@@ -11,4 +13,6 @@ public interface SectionService {
     void deleteByGradeId(Integer gradeId);
 
     Page<Section> getAllSections(final Pageable pageable);
+
+    List<Integer> getByGradeId(Integer id);
 }

@@ -1,5 +1,8 @@
 package org.fnovella.project.workshop.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.fnovella.project.group.model.Group;
 import org.fnovella.project.group.service.GroupService;
 import org.fnovella.project.group.service.TypeCategory;
@@ -42,6 +45,16 @@ public class WorkshopServiceImpl implements WorkshopService {
             workshop.setGroupExists(this.groupService.isGroupExistsForClassification(workshop.getId(), TypeCategory.WORKSHOP));
         }
         return workshops;
+    }
+
+    @Override
+    public List<Integer> getByProgramId(final Integer programId) {
+        final List<Integer> workshopIds = new ArrayList<>();
+        final List<Workshop> workshops = this.workshopRepository.findByProgramId(programId);
+        for (final Workshop workshop : workshops) {
+            workshopIds.add(workshop.getId());
+        }
+        return workshopIds;
     }
 
 }

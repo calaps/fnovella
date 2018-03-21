@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,8 +21,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseRepository courseRepository;
+    
     @Autowired
     private InscriptionsInstCourseRepository inscriptionsInstCourseRepository;
+    
     @Autowired
     private InscriptionsPartCourseRepository inscriptionsPartCourseRepository;
 
@@ -85,5 +88,15 @@ public class CourseServiceImpl implements CourseService {
             course.setGroupExists(this.groupService.isGroupExistsForClassification(course.getId(), TypeCategory.COURSE));
         }
         return courses;
+    }
+
+    @Override
+    public List<Integer> getByProgramId(final Integer programId) {
+        final List<Integer> courseIds = new ArrayList<>();
+        final List<Course> courses = this.courseRepository.findByProgramId(programId);
+        for (final Course course : courses) {
+            courseIds.add(course.getId());
+        }
+        return courseIds;
     }
 }

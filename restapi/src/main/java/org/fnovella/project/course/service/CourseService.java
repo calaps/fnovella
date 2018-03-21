@@ -1,5 +1,7 @@
 package org.fnovella.project.course.service;
 
+import java.util.List;
+
 import org.fnovella.project.course.model.Course;
 import org.fnovella.project.group.model.Group;
 import org.springframework.data.domain.Page;
@@ -15,4 +17,6 @@ public interface CourseService {
     void deleteBySection(Integer sectionId);
 
     Page<Course> getAllCourses(final Pageable pageable);
+
+    List<Integer> getByProgramId(Integer programId);
 }

@@ -17,4 +17,6 @@ public interface ProgramActivationRepository extends JpaRepository<ProgramActiva
 	void deleteByLocation(Integer location);
 
     List<ProgramActivation> findByProgramIdAndYear(Integer programId, Integer year);
+
+    List<ProgramActivation> findByProgramId(Integer programId);
 }

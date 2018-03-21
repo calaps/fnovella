@@ -15,5 +15,7 @@ public interface EvaluationActivityParticipantRepository extends JpaRepository<E
 
     List<EvaluationActivityParticipant> findByActivity(Integer activityId);
 
-    List<EvaluationActivityParticipant>  findByActivityIn(Collection<Integer> integers);
+    List<EvaluationActivityParticipant> findByActivityIn(Collection<Integer> integers);
+
+    List<EvaluationActivityParticipant> findByParticipant(Integer participantId);
 }

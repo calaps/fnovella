@@ -1,5 +1,8 @@
 package org.fnovella.project.division.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.fnovella.project.division.model.Division;
 import org.fnovella.project.division.repository.DivisionRepository;
 import org.fnovella.project.group.model.Group;
@@ -19,7 +22,7 @@ public class DivisionServiceImpl implements DivisionService {
 
     @Autowired
     private ProgramService programService;
-    
+
     @Autowired
     private GroupService groupService;
 
@@ -40,8 +43,19 @@ public class DivisionServiceImpl implements DivisionService {
         }
         for (final Division division : divisions.getContent()) {
             division.setCreatedGroup(this.programService.isProgramActive(division.getPrograma()));
-            division.setGroupExists(this.groupService.isGroupExistsForClassification(division.getId(), TypeCategory.DIVISION));
+            division.setGroupExists(
+                    this.groupService.isGroupExistsForClassification(division.getId(), TypeCategory.DIVISION));
         }
         return divisions;
+    }
+
+    @Override
+    public List<Integer> getByProgramId(Integer programId) {
+        final List<Integer> divisionIds = new ArrayList<>();
+        final List<Division> divisions = this.divisionRepository.findByPrograma(programId);
+        for (final Division division : divisions) {
+            divisionIds.add(division.getId());
+        }
+        return divisionIds;
     }
 }

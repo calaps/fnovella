@@ -314,5 +314,37 @@ public class ProgramServiceImpl implements ProgramService {
             }
         }
         return groups;
-    }    
+    }
+
+    public Program getProgramByGroup(final Group group) {
+        Program program = null;
+        switch (group.getTypeCategory().toUpperCase()) {
+        case "COURSE":
+            program = this.programRepository.findOne(this.courseRepository.findOne(group.getCourseId()).getProgramId());
+            break;
+        case "DIVISION":
+            program = this.programRepository
+                    .findOne(this.divisionRepository.findOne(group.getDivisionId()).getPrograma());
+            break;
+        case "WORKSHOP":
+            program = this.programRepository
+                    .findOne(this.workshopRepository.findOne(group.getWorkshopId()).getProgramId());
+            break;
+        case "SECTION":
+            program = this.programRepository.findOne(this.gradeRepository
+                    .findOne(this.sectionRepository.findOne(group.getSection()).getGrade()).getProgramId());
+            break;
+        }
+        return program;
+    }
+
+    @Override
+    public Program getByProgramId(final Integer programId) {
+        return this.programRepository.findOne(programId);
+    }
+
+    @Override
+    public List<Program> getAllPrograms() {
+        return this.programRepository.findAll();
+    }
 }

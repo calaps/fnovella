@@ -15,4 +15,6 @@ public interface AssistanceParticipantRepository extends JpaRepository<Assistanc
     void deleteByAssistance(Integer assistanceId);
 
     Page<AssistanceParticipant> findByAssistanceIn(List<Integer> assistanceIds, Pageable pageable);
+
+    List<AssistanceParticipant> findByParticipant(Integer participantId);
 }

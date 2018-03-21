@@ -13,4 +13,6 @@ public interface ParticipantAditionalFieldsRepository extends JpaRepository<Part
     void deleteByGroup(Integer groupId);
 
     List<ParticipantAditionalFields> findByGroup(Integer groupId);
+
+    List<ParticipantAditionalFields> findByParticipant(Integer id);
 }

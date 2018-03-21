@@ -34,13 +34,18 @@ public class GradeServiceImpl implements GradeService {
             courseService.deleteByGradeId(grade.getId());
             sectionService.deleteByGradeId(grade.getId());
         });
-        if(!grades.isEmpty()){
+        if (!grades.isEmpty()) {
             gradeRepository.deleteByProgramId(programId);
         }
     }
 
     @Override
-    public Grade findByGradeId(Integer id) {
+    public Grade findByGradeId(final Integer id) {
         return this.gradeRepository.findOne(id);
+    }
+
+    @Override
+    public List<Grade> getByProgramId(final Integer programId) {
+        return this.gradeRepository.findByProgramId(programId);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -67,5 +68,15 @@ public class SectionServiceImpl implements SectionService {
             section.setGroupExists(this.groupService.isGroupExistsForClassification(section.getId(), TypeCategory.SECTION));
         }
         return sections;
+    }
+
+    @Override
+    public List<Integer> getByGradeId(final Integer gradeId) {
+        final List<Integer> sectionIds = new ArrayList<>();
+        final List<Section> sections = this.sectionRepository.findByGrade(gradeId);
+        for (final Section section : sections) {
+            sectionIds.add(section.getId());
+        }
+        return sectionIds;
     }
 }

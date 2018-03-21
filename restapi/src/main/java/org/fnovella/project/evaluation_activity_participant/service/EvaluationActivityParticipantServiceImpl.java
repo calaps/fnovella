@@ -15,7 +15,9 @@ import org.fnovella.project.participant.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -28,7 +30,6 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
 
     @Autowired
     private EvaluationActivityParticipantRepository eapRepository;
-
     @Autowired
     private EvaluationActivityRepository eaRepository;
     @Autowired
@@ -38,8 +39,7 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
 
     @Override
     public List<EvaluationActivityParticipantData> getByActivityId(Integer activityId) {
-        List<EvaluationActivityParticipant> evaluationActivityParticipants =
-                eapRepository.findByActivity(activityId);
+        List<EvaluationActivityParticipant> evaluationActivityParticipants = eapRepository.findByActivity(activityId);
         List<EvaluationActivityParticipantData> preparedList = convert(evaluationActivityParticipants);
         return preparedList;
     }
@@ -47,16 +47,13 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
     @Override
     public List<EvaluationActivityParticipantDetail> getBySession(Integer session) {
         List<Evaluation> evaluationList = evaluationRepository.findBySession(session);
-        List<Integer> evaluationIds = evaluationList.stream()
-                .map(evaluation -> evaluation.getId())
+        List<Integer> evaluationIds = evaluationList.stream().map(evaluation -> evaluation.getId())
                 .collect(Collectors.toList());
         List<EvaluationActivity> activities = eaRepository.findByEvaluationIn(evaluationIds);
-        List<Integer> activityIds = activities.stream()
-                .map(evaluationActivity -> evaluationActivity.getId())
+        List<Integer> activityIds = activities.stream().map(evaluationActivity -> evaluationActivity.getId())
                 .collect(Collectors.toList());
         List<EvaluationActivityParticipant> bySession = eapRepository.findByActivityIn(activityIds);
-        return bySession.stream()
-                .map(eap -> convertDetail(eap, evaluationList, activities))
+        return bySession.stream().map(eap -> convertDetail(eap, evaluationList, activities))
                 .collect(Collectors.toList());
     }
 
@@ -64,20 +61,16 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
     public List<EvaluationActivityParticipantDetail> findAll() {
         List<Evaluation> evaluations = evaluationRepository.findAll();
         List<EvaluationActivity> evaluationActivities = eaRepository.findAll();
-        List<EvaluationActivityParticipantDetail> eapList =
-                eapRepository.findAll()
-                        .stream()
-                        .map(eap -> convertDetail(eap, evaluations, evaluationActivities))
-                        .collect(Collectors.toList());
+        List<EvaluationActivityParticipantDetail> eapList = eapRepository.findAll().stream()
+                .map(eap -> convertDetail(eap, evaluations, evaluationActivities)).collect(Collectors.toList());
         return eapList;
     }
 
-    private EvaluationActivityParticipantDetail convertDetail(EvaluationActivityParticipant eap, List<Evaluation> evaluations, List<EvaluationActivity> evaluationActivities) {
-        Map<Integer, Evaluation> evaluationMap = evaluations
-                .stream()
+    private EvaluationActivityParticipantDetail convertDetail(EvaluationActivityParticipant eap,
+            List<Evaluation> evaluations, List<EvaluationActivity> evaluationActivities) {
+        Map<Integer, Evaluation> evaluationMap = evaluations.stream()
                 .collect(Collectors.toMap(Evaluation::getId, Function.identity()));
-        Map<Integer, EvaluationActivity> activityMap = evaluationActivities
-                .stream()
+        Map<Integer, EvaluationActivity> activityMap = evaluationActivities.stream()
                 .collect(Collectors.toMap(EvaluationActivity::getId, Function.identity()));
         Integer activityId = eap.getActivity();
         EvaluationActivity activity = activityMap.get(activityId);
@@ -108,11 +101,10 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
         }
     }
 
-    private List<EvaluationActivityParticipantData> convert(List<EvaluationActivityParticipant> evaluationActivityParticipants) {
+    private List<EvaluationActivityParticipantData> convert(
+            List<EvaluationActivityParticipant> evaluationActivityParticipants) {
         EvaluationActivityParticipantDataConverter converter = new EvaluationActivityParticipantDataConverter();
-        return evaluationActivityParticipants.stream()
-                .map(eap -> converter.convert(eap))
-                .collect(Collectors.toList());
+        return evaluationActivityParticipants.stream().map(eap -> converter.convert(eap)).collect(Collectors.toList());
     }
 
     private class EvaluationActivityParticipantDataConverter {
@@ -127,18 +119,24 @@ public class EvaluationActivityParticipantServiceImpl implements EvaluationActiv
         }
 
         private ParticipantData convert(Participant participant) {
-            return new ParticipantData(
-                    participant.getId(),
-                    participant.getFirstName()
-                            + SPACE + participant.getSecondName(),
-                    participant.getEmail(),
+            return new ParticipantData(participant.getId(),
+                    participant.getFirstName() + SPACE + participant.getSecondName(), participant.getEmail(),
                     participant.getGender());
         }
 
         private ActivityData convert(EvaluationActivity activity) {
-            return new ActivityData(
-                    activity.getId(),
-                    activity.getName());
+            return new ActivityData(activity.getId(), activity.getName());
         }
+    }
+
+    @Override
+    public List<Integer> getActivityIdByParticipantId(final Integer participantId) {
+        final List<Integer> activityIdList = new ArrayList<>();
+        final List<EvaluationActivityParticipant> evaluationActivityParticipantList = this.eapRepository
+                .findByParticipant(participantId);
+        for (final EvaluationActivityParticipant evaluationActivityParticipant : evaluationActivityParticipantList) {
+            activityIdList.add(evaluationActivityParticipant.getActivity());
+        }
+        return activityIdList;
     }
 }

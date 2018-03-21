@@ -29,4 +29,9 @@ public class EvaluationServiceImpl implements EvaluationService {
             evaluationRepository.deleteByGroup(groupId);
         }
     }
+
+    @Override
+    public Integer getGroupIdByEvaluationId(final Integer evaluationId) {
+        return this.evaluationRepository.findOne(evaluationId).getGroup();
+    }
 }

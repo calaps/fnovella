@@ -1,5 +1,7 @@
 package org.fnovella.project.workshop.service;
 
+import java.util.List;
+
 import org.fnovella.project.group.model.Group;
 import org.fnovella.project.workshop.model.Workshop;
 import org.springframework.data.domain.Page;
@@ -9,4 +11,6 @@ public interface WorkshopService {
     void updateCreatedGroup(Group group, boolean createdGroup);
 
     Page<Workshop> getAllWorkshops(final Pageable pageable);
+
+    List<Integer> getByProgramId(Integer programId);
 }
